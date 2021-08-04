@@ -6,6 +6,7 @@ import Seo from "../components/Seo"
 import { getLocaleName, getLocales, isUndefined } from "../util"
 import { useTranslation } from "react-i18next"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
+import styled from "styled-components"
 
 interface MdxNode {
   id: string
@@ -19,7 +20,6 @@ interface MdxNode {
 }
 
 interface SitePageNode {
-  id: string
   path: string
   context: {
     locale: string
@@ -42,6 +42,10 @@ interface PageLink {
   title: string
 }
 
+const StyledLink = styled(LocalizedLink)`
+  color: #00b140;
+`
+
 const IndexPage: React.FC<PageProps<Data>> = ({
   data: { allMdx, allSitePage },
 }) => {
@@ -53,15 +57,15 @@ const IndexPage: React.FC<PageProps<Data>> = ({
       node => slugs?.includes(node.slug) && locale === node.fields.locale
     )
 
-  const pagelinks = allSitePage.nodes.reduce((prev, page) => {
+  const pageLinks = allSitePage.nodes.reduce((prev, page, index) => {
     const mdx = getPageMdx(page)
-    const { id, path } = page
+    const { path } = page
 
     return isUndefined(mdx)
       ? prev
       : [
           ...prev,
-          { id: `${id}__${mdx.id}`, path, title: mdx.frontmatter.title },
+          { id: `${index}__${mdx.id}`, path, title: mdx.frontmatter.title },
         ]
   }, [] as PageLink[])
 
@@ -80,26 +84,22 @@ const IndexPage: React.FC<PageProps<Data>> = ({
         style={{ marginBottom: `1.45rem`, marginLeft: -20 }}
       />
       <p>
-        <LocalizedLink
-          to="/page-two/"
-          language={locale}
-          style={{ color: "#00b140" }}
-        >
+        <StyledLink to="/page-two/" language={locale}>
           {t("common:go-to", { number: 2 })}
-        </LocalizedLink>
+        </StyledLink>
       </p>
       {getLocales()
         .filter(l => l !== locale)
         .map(l => (
-          <p>
-            <LocalizedLink to="/" language={l} style={{ color: "#00b140" }}>
+          <p key={l}>
+            <StyledLink to="/" language={l}>
               {t("home:change-lang", { lang: getLocaleName(l) })}
-            </LocalizedLink>
+            </StyledLink>
           </p>
         ))}
       <h2>{t("home:chapters")}</h2>
       <ul>
-        {pagelinks.map(link => (
+        {pageLinks.map(link => (
           <li key={link.id}>
             <Link to={link.path} style={{ color: "#00b140" }}>
               {link.title}
