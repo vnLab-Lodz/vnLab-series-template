@@ -1,0 +1,4 @@
+{
+  "not-found": "404: Not Found",
+  "route-invalid": "You just hit a route that doesn't exist."
+}
