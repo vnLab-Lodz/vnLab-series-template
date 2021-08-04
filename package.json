@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-starter-paaw-i18n",
+  "name": "vnlab-series-template",
   "private": true,
-  "description": "Starter for multilingual PaaW projects.",
+  "description": "Graphical template for publications in vnLab series.",
   "version": "0.1.0",
   "author": "Piotr Karczewski <p.karczewsk@gmail.com>",
   "dependencies": {
