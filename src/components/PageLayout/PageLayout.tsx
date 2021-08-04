@@ -4,6 +4,7 @@ import { graphql, useStaticQuery } from "gatsby"
 import { SiteMetadata } from "../../types/config"
 import "./globals.css"
 import "./PageLayout.scss"
+import { motion } from "framer-motion"
 
 interface Query {
   site: {
@@ -29,7 +30,12 @@ const PageLayout: React.FC = ({ children }) => {
   return (
     <>
       <Header siteTitle={title} />
-      <div className="layout">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="layout"
+      >
         <main>{children}</main>
         <footer className="layout__footer">
           © {date}, Built with
@@ -42,7 +48,7 @@ const PageLayout: React.FC = ({ children }) => {
             Gatsby
           </a>
         </footer>
-      </div>
+      </motion.div>
     </>
   )
 }
