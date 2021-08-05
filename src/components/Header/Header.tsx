@@ -1,8 +1,8 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import "./Header.scss"
 import { StaticImage } from "gatsby-plugin-image"
 import { useTranslation } from "react-i18next"
+import * as Styled from "./style"
 
 interface Props {
   siteTitle: string
@@ -12,8 +12,8 @@ const Header: React.FC<Props> = ({ siteTitle }) => {
   const { t } = useTranslation("common")
 
   return (
-    <header className="header">
-      <div className="header__container">
+    <Styled.Header>
+      <Styled.Container className="header__container">
         <Link to="/" className="header__link">
           <StaticImage
             src="../../images/vnLab-icon.png"
@@ -24,9 +24,11 @@ const Header: React.FC<Props> = ({ siteTitle }) => {
             style={{ marginRight: "1.5rem" }}
           />
         </Link>
-        <h1 className="header__title">{t("title", siteTitle)}</h1>
-      </div>
-    </header>
+        <Styled.Title className="header__title">
+          {t("title", siteTitle)}
+        </Styled.Title>
+      </Styled.Container>
+    </Styled.Header>
   )
 }
 
