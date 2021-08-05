@@ -1,7 +1,7 @@
 import * as React from "react"
 import Header from "../Header"
 import { graphql, useStaticQuery } from "gatsby"
-import { SiteMetadata } from "../../types/config"
+import { SiteMetadata } from "../../types"
 import "./globals.css"
 import "./PageLayout.scss"
 import { motion } from "framer-motion"

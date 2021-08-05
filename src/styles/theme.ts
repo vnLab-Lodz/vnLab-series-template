@@ -1,3 +1,6 @@
+import spacing from "./spacing"
+import typography from "./typography"
+
 const theme = {
   palette: {
     black: "#222222",
@@ -16,30 +19,9 @@ const theme = {
       primary: "'HK-Grotesk', sans-serif",
       secondary: "'CrimsonPro', serif",
     },
-    desktop: {
-      xl: "60px",
-      lg: "25px",
-      md: "20px",
-      sm: "13px",
-    },
-    mobile: {
-      xxl: "48px",
-      xl: "32px",
-      lg: "22px",
-      md: "18px",
-      sm: "13px",
-    },
+    ...typography,
   },
-  spacing: {
-    xxxl: "calc(var(--unit-base) * 6)",
-    xxl: "calc(var(--unit-base) * 4)",
-    xl: "calc(var(--unit-base) * 3.5)",
-    lg: "calc(var(--unit-base) * 3)",
-    md: "calc(var(--unit-base) * 2)",
-    sm: "calc(var(--unit-base) * 1.2)",
-    xs: "var(--unit-base)",
-    xxs: "calc(var(--unit-base) * 0.5)",
-  },
+  spacing,
 } as const
 
 export type Theme = typeof theme

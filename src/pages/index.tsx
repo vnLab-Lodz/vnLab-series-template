@@ -48,20 +48,20 @@ const StyledLink = styled(LocalizedLink)`
 
 const StyledH1 = styled.h1`
   font-family: "HK-Grotesk";
-  font-size: ${({ theme }) => theme.typography.desktop.xl};
+  font-size: ${({ theme }) => theme.typography.xl};
   margin-bottom: ${({ theme }) => theme.spacing.md};
   color: ${({ theme }) => theme.palette.black};
 `
 const StyledH2 = styled.h2`
   font-family: "HK-Grotesk";
-  font-size: ${({ theme }) => theme.typography.desktop.lg};
+  font-size: ${({ theme }) => theme.typography.lg};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.palette.black};
 `
 
 const StyledParagraph = styled.p`
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
-  font-size: ${({ theme }) => theme.typography.desktop.md};
+  font-size: ${({ theme }) => theme.typography.md};
   line-height: 1.5;
   margin: ${({ theme }) => theme.spacing.xxs} 0px;
 `

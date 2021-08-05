@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components"
+import { devices } from "./breakpoints"
 
 export const Globals = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -24,9 +25,8 @@ export const Globals = createGlobalStyle`
     border: 0;
     font: inherit;
     vertical-align: baseline;
-    font-size: ${({ theme }) => theme.typography.desktop.md};
-    font-family: ${({ theme: { typography } }) =>
-      `${typography.fonts.primary}, ${typography.fonts.secondary}`};
+    font-size: ${({ theme }) => theme.typography.md};
+    font-family: ${({ theme: { typography } }) => typography.fonts.primary};
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure, 
@@ -53,13 +53,33 @@ export const Globals = createGlobalStyle`
   }
 
   :root {
-    --unit-base: 1.25rem;
+    /* spacing */
+    --space-unit: 1.125rem;
+    --space-xxs: calc(0.5 * var(--space-unit));
+    --space-xs: var(--space-unit); 
+    --space-sm: calc(1.2 * var(--space-unit));
+    --space-md: calc(2 * var(--space-unit));
+    --space-lg: calc(3 * var(--space-unit));
+    --space-xl: calc(3.5 * var(--space-unit));
+    --space-xxl: calc(4 * var(--space-unit));
+    --space-xxxl: calc(6 * var(--space-unit));
+
+    /* typography */
+    --text-xxl: 48px;
+    --text-xl: 32px;
+    --text-lg: 22px;
+    --text-md: 18px;
+    --text-sm: 13px;
     
-  }
+    @media ${devices.tablet} {
+        --unit-base: 1.25rem;
   
-  @media (max-width: 756px) {
-    :root {
-      --unit-base: 1.125rem;
+        --text-xxl: 60px;
+        --text-xl: 60px;
+        --text-lg: 25px;
+        --text-md: 20px;
+        --text-sm: 13px;
     }
   }
+  
 `
