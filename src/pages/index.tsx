@@ -48,11 +48,22 @@ const StyledLink = styled(LocalizedLink)`
 
 const StyledH1 = styled.h1`
   font-family: "HK-Grotesk";
+  font-size: ${({ theme }) => theme.typography.desktop.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.palette.black};
+`
+const StyledH2 = styled.h2`
+  font-family: "HK-Grotesk";
+  font-size: ${({ theme }) => theme.typography.desktop.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.palette.black};
 `
 
 const StyledParagraph = styled.p`
-  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
+  font-size: ${({ theme }) => theme.typography.desktop.md};
+  line-height: 1.5;
+  margin: ${({ theme }) => theme.spacing.xxs} 0px;
 `
 
 const IndexPage: React.FC<PageProps<Data>> = ({
@@ -82,45 +93,31 @@ const IndexPage: React.FC<PageProps<Data>> = ({
     <Layout>
       <Seo title={t("home:title")} />
       <StyledH1>{t("home:congratulations")}</StyledH1>
-      <StyledParagraph>
-        We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest dla
-        bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
-        absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym piękno i
-        miłość to synonimy życia. Śmierć jawi się jako coś w ścisłym sensie nie
-        do pomyślenia czy wyobrażenia, nawet jeśli bohaterki muszą się z nią –
-        zresztą tylko pozornie – skonfrontować w indywidualnym doświadczeniu. W
-        Szczęściu (Le bonheur, 1965) śmierć (być może samobójcza) jednej z
-        głównych bohaterek to jedyny moment, w którym celowo sztuczna,
-        nadmiernie pogodna i beztroska tonacja filmu zostaje na krótką chwilę
-        zawieszona – widzimy zwłoki młodej, pięknej kobiety, której odejście
-        pozwala zrealizować męską fantazję o niemal bezbolesnym zastąpieniu
-        jednej kobiety przez inną, żony przez kochankę.
-      </StyledParagraph>
-      <p>{t("home:successfull-creation")}</p>
-      <p>{t("home:create-sth-great")}</p>
+      <StyledParagraph>{t("home:successfull-creation")}</StyledParagraph>
+      <StyledParagraph>{t("home:create-sth-great")}</StyledParagraph>
       <StaticImage
         src="../images/gatsby-love.png"
         width={450}
         quality={100}
         formats={["auto", "webp", "avif"]}
         alt="A Gatsby astronaut"
-        style={{ marginBottom: `1.45rem`, marginLeft: -20 }}
+        style={{ marginLeft: -20 }}
       />
-      <p>
+      <StyledParagraph>
         <StyledLink to="/page-two/" language={locale}>
           {t("common:go-to", { number: 2 })}
         </StyledLink>
-      </p>
+      </StyledParagraph>
       {getLocales()
         .filter(l => l !== locale)
         .map(l => (
-          <p key={l}>
+          <StyledParagraph key={l}>
             <StyledLink to="/" language={l}>
               {t("home:change-lang", { lang: getLocaleName(l) })}
             </StyledLink>
-          </p>
+          </StyledParagraph>
         ))}
-      <h2>{t("home:chapters")}</h2>
+      <StyledH2>{t("home:chapters")}</StyledH2>
       <ul>
         {pageLinks.map(link => (
           <li key={link.id}>

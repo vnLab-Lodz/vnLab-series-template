@@ -30,6 +30,16 @@ const theme = {
       sm: "13px",
     },
   },
+  spacing: {
+    xxxl: "calc(var(--unit-base) * 6)",
+    xxl: "calc(var(--unit-base) * 4)",
+    xl: "calc(var(--unit-base) * 3.5)",
+    lg: "calc(var(--unit-base) * 3)",
+    md: "calc(var(--unit-base) * 2)",
+    sm: "calc(var(--unit-base) * 1.2)",
+    xs: "var(--unit-base)",
+    xxs: "calc(var(--unit-base) * 0.5)",
+  },
 } as const
 
 export type Theme = typeof theme

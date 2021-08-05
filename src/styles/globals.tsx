@@ -22,14 +22,11 @@ export const Globals = createGlobalStyle`
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-    font-family: ${({
-      theme: {
-        typography: { fonts },
-      },
-    }) => `${fonts.primary}, ${fonts.secondary}`};
+    font-size: ${({ theme }) => theme.typography.desktop.md};
+    font-family: ${({ theme: { typography } }) =>
+      `${typography.fonts.primary}, ${typography.fonts.secondary}`};
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure, 
@@ -53,5 +50,16 @@ export const Globals = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+
+  :root {
+    --unit-base: 1.25rem;
+    
+  }
+  
+  @media (max-width: 756px) {
+    :root {
+      --unit-base: 1.125rem;
+    }
   }
 `
