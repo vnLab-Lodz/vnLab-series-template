@@ -43,6 +43,18 @@ export default {
       },
     },
     {
+      resolve: "gatsby-plugin-web-font-loader",
+      options: {
+        custom: {
+          families: [`HK-Grotesk:n3,n4,n5,n7`],
+          urls: [`/fonts/fonts.css`],
+        },
+        google: {
+          families: [`Crimson Pro:300,400,500,600,700,800,900`],
+        },
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `Default vnLab Publication-as-a-Website starter`,

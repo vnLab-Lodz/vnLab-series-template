@@ -43,7 +43,16 @@ interface PageLink {
 }
 
 const StyledLink = styled(LocalizedLink)`
-  color: #00b140;
+  color: ${({ theme }) => theme.palette.accentDark};
+`
+
+const StyledH1 = styled.h1`
+  font-family: "HK-Grotesk";
+  color: ${({ theme }) => theme.palette.black};
+`
+
+const StyledParagraph = styled.p`
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
 `
 
 const IndexPage: React.FC<PageProps<Data>> = ({
@@ -72,7 +81,21 @@ const IndexPage: React.FC<PageProps<Data>> = ({
   return (
     <Layout>
       <Seo title={t("home:title")} />
-      <h1>{t("home:congratulations")}</h1>
+      <StyledH1>{t("home:congratulations")}</StyledH1>
+      <StyledParagraph>
+        We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest dla
+        bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
+        absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym piękno i
+        miłość to synonimy życia. Śmierć jawi się jako coś w ścisłym sensie nie
+        do pomyślenia czy wyobrażenia, nawet jeśli bohaterki muszą się z nią –
+        zresztą tylko pozornie – skonfrontować w indywidualnym doświadczeniu. W
+        Szczęściu (Le bonheur, 1965) śmierć (być może samobójcza) jednej z
+        głównych bohaterek to jedyny moment, w którym celowo sztuczna,
+        nadmiernie pogodna i beztroska tonacja filmu zostaje na krótką chwilę
+        zawieszona – widzimy zwłoki młodej, pięknej kobiety, której odejście
+        pozwala zrealizować męską fantazję o niemal bezbolesnym zastąpieniu
+        jednej kobiety przez inną, żony przez kochankę.
+      </StyledParagraph>
       <p>{t("home:successfull-creation")}</p>
       <p>{t("home:create-sth-great")}</p>
       <StaticImage
