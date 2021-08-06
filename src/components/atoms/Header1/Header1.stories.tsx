@@ -4,7 +4,7 @@ import { H1 } from "./Header1"
 
 export default {
   component: H1,
-  title: "Atoms/Header 1",
+  title: "Atoms/Typography/Header 1",
 } as Meta
 
 const H1Story: Story = args => <H1 {...args} />

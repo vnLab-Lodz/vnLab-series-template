@@ -4,7 +4,7 @@ import { Title } from "./Title"
 
 export default {
   component: Title,
-  title: "Atoms/Title",
+  title: "Atoms/Typography/Title",
 } as Meta
 
 const TitleStory: Story = args => <Title {...args} />

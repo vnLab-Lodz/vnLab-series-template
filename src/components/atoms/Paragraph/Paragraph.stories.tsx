@@ -4,7 +4,7 @@ import { Paragraph } from "./Paragraph"
 
 export default {
   component: Paragraph,
-  title: "Atoms/Paragraph",
+  title: "Atoms/Typography/Paragraph",
 } as Meta
 
 const ParagraphStory: Story = args => <Paragraph {...args} />
