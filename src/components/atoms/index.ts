@@ -4,6 +4,7 @@ import { h2 } from "./h2"
 import { h3 } from "./h3"
 import { p } from "./p"
 import { ol } from "./ol"
+import { ul } from "./ul"
 
 export default {
   title,
@@ -12,4 +13,5 @@ export default {
   h3,
   p,
   ol,
+  ul,
 }
