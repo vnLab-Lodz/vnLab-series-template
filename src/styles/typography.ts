@@ -1,6 +1,6 @@
 import { ElementType } from "../types"
 
-const keys = ["xs", "sm", "md", "lg", "xl", "xxl"] as const
+const keys = ["sm", "md", "lg", "xl", "xxl"] as const
 
 type Key = ElementType<typeof keys>
 type Typography = { [Property in Key]: `var(--text-${Property})` } & {

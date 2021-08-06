@@ -5,6 +5,7 @@ import { h3 } from "./h3"
 import { p } from "./p"
 import { ol } from "./ol"
 import { ul } from "./ul"
+import { button } from "./button"
 
 export default {
   title,
@@ -14,4 +15,5 @@ export default {
   p,
   ol,
   ul,
+  button,
 }

@@ -99,10 +99,12 @@ const IndexPage: React.FC<PageProps<Data>> = ({
       {getLocales()
         .filter(l => l !== locale)
         .map(l => (
-          <atoms.p key={l}>
-            <StyledLink to="/" language={l}>
-              {t("home:change-lang", { lang: getLocaleName(l) })}
-            </StyledLink>
+          <atoms.p key={l} style={{ margin: "1rem 0px" }}>
+            <LocalizedLink to="/" language={l}>
+              <atoms.button>
+                {t("home:change-lang", { lang: getLocaleName(l) })}
+              </atoms.button>
+            </LocalizedLink>
           </atoms.p>
         ))}
       <StyledH2>{t("home:chapters")}</StyledH2>
