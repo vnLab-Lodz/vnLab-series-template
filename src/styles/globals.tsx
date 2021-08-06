@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components"
 import { devices } from "./breakpoints"
+import { Theme } from "./theme"
 
 export const Globals = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -25,8 +26,9 @@ export const Globals = createGlobalStyle`
     border: 0;
     font: inherit;
     vertical-align: baseline;
-    font-size: ${({ theme }) => theme.typography.md};
-    font-family: ${({ theme: { typography } }) => typography.fonts.primary};
+    font-size: ${({ theme }: { theme: Theme }) => theme.typography.md};
+    font-family: ${({ theme: { typography } }: { theme: Theme }) =>
+      typography.fonts.primary};
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure, 
