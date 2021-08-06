@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
 import { devices } from "../../../styles/breakpoints"
 
-export const Paragraph = styled.p`
+export const p = styled.p`
   ${({ theme: { typography, palette } }) => css`
     font-family: ${typography.fonts.secondary};
     font-size: ${typography.md};

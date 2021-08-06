@@ -1,13 +1,13 @@
 import React from "react"
 import { Story, Meta } from "@storybook/react"
-import { H2 } from "./Header2"
+import atoms from "~components/atoms"
 
 export default {
-  component: H2,
+  component: atoms.h2,
   title: "Atoms/Typography/Header 2",
 } as Meta
 
-const H2Story: Story = args => <H2 {...args} />
+const H2Story: Story = args => <atoms.h2 {...args} />
 
 export const Default = H2Story.bind({})
 Default.args = {

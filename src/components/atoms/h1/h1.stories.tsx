@@ -1,26 +1,26 @@
 import React from "react"
 import { Story, Meta } from "@storybook/react"
-import { H1 } from "./Header1"
+import atoms from "~components/atoms"
 
 export default {
-  component: H1,
+  component: atoms.h1,
   title: "Atoms/Typography/Header 1",
 } as Meta
 
-const H1Story: Story = args => <H1 {...args} />
+const AtomStory: Story = args => <atoms.h1 {...args} />
 
-export const Default = H1Story.bind({})
+export const Default = AtomStory.bind({})
 Default.args = {
   children: "Example Header",
 }
 
-export const CrimsonPro = H1Story.bind({})
+export const CrimsonPro = AtomStory.bind({})
 CrimsonPro.args = {
   children: "Crimson Pro Header",
   type: "secondary",
 }
 
-export const HKGrotesk = H1Story.bind({})
+export const HKGrotesk = AtomStory.bind({})
 HKGrotesk.args = {
   children: "HK-Grotesk Header",
   type: "primary",

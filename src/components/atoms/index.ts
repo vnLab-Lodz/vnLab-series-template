@@ -1,6 +1,15 @@
-export { Title } from "./Title/Title"
-export { H1 } from "./Header1/Header1"
-export { H2 } from "./Header2/Header2"
-export { H3 } from "./Header3/Header3"
-export { Paragraph } from "./Paragraph/Paragraph"
-export { ol } from "./ol/ol"
+import { title } from "./title"
+import { h1 } from "./h1"
+import { h2 } from "./h2"
+import { h3 } from "./h3"
+import { p } from "./p"
+import { ol } from "./ol"
+
+export default {
+  title,
+  h1,
+  h2,
+  h3,
+  p,
+  ol,
+}

@@ -1,9 +1,10 @@
 import * as React from "react"
 import { graphql, Link, PageProps } from "gatsby"
 import { StaticImage } from "gatsby-plugin-image"
-import Layout from "../components/PageLayout"
-import Seo from "../components/Seo"
-import { getLocaleName, getLocales, isUndefined } from "../util"
+import Layout from "~components/layout"
+import SeoMeta from "~components/meta"
+import atoms from "~components/atoms"
+import { getLocaleName, getLocales, isUndefined } from "~util"
 import { useTranslation } from "react-i18next"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import styled from "styled-components"
@@ -46,24 +47,11 @@ const StyledLink = styled(LocalizedLink)`
   color: ${({ theme }) => theme.palette.accentDark};
 `
 
-const StyledH1 = styled.h1`
-  font-family: "HK-Grotesk";
-  font-size: ${({ theme }) => theme.typography.xl};
+const StyledH1 = styled(atoms.h1)`
   margin-bottom: ${({ theme }) => theme.spacing.md};
-  color: ${({ theme }) => theme.palette.black};
 `
-const StyledH2 = styled.h2`
-  font-family: "HK-Grotesk";
-  font-size: ${({ theme }) => theme.typography.lg};
+const StyledH2 = styled(atoms.h2)`
   margin-bottom: ${({ theme }) => theme.spacing.xs};
-  color: ${({ theme }) => theme.palette.black};
-`
-
-const StyledParagraph = styled.p`
-  font-family: ${({ theme }) => theme.typography.fonts.secondary};
-  font-size: ${({ theme }) => theme.typography.md};
-  line-height: 1.5;
-  margin: ${({ theme }) => theme.spacing.xxs} 0px;
 `
 
 const IndexPage: React.FC<PageProps<Data>> = ({
@@ -91,10 +79,10 @@ const IndexPage: React.FC<PageProps<Data>> = ({
 
   return (
     <Layout>
-      <Seo title={t("home:title")} />
+      <SeoMeta title={t("home:title")} />
       <StyledH1>{t("home:congratulations")}</StyledH1>
-      <StyledParagraph>{t("home:successfull-creation")}</StyledParagraph>
-      <StyledParagraph>{t("home:create-sth-great")}</StyledParagraph>
+      <atoms.p>{t("home:successfull-creation")}</atoms.p>
+      <atoms.p>{t("home:create-sth-great")}</atoms.p>
       <StaticImage
         src="../images/gatsby-love.png"
         width={450}
@@ -103,19 +91,19 @@ const IndexPage: React.FC<PageProps<Data>> = ({
         alt="A Gatsby astronaut"
         style={{ marginLeft: -20 }}
       />
-      <StyledParagraph>
+      <atoms.p>
         <StyledLink to="/page-two/" language={locale}>
           {t("common:go-to", { number: 2 })}
         </StyledLink>
-      </StyledParagraph>
+      </atoms.p>
       {getLocales()
         .filter(l => l !== locale)
         .map(l => (
-          <StyledParagraph key={l}>
+          <atoms.p key={l}>
             <StyledLink to="/" language={l}>
               {t("home:change-lang", { lang: getLocaleName(l) })}
             </StyledLink>
-          </StyledParagraph>
+          </atoms.p>
         ))}
       <StyledH2>{t("home:chapters")}</StyledH2>
       <ul>

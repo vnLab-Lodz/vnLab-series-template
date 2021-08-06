@@ -1,13 +1,13 @@
 import React from "react"
 import { Story, Meta } from "@storybook/react"
-import { Paragraph } from "./Paragraph"
+import atoms from "~components/atoms"
 
 export default {
-  component: Paragraph,
+  component: atoms.p,
   title: "Atoms/Typography/Paragraph",
 } as Meta
 
-const ParagraphStory: Story = args => <Paragraph {...args} />
+const ParagraphStory: Story = args => <atoms.p {...args} />
 
 export const Default = ParagraphStory.bind({})
 Default.args = {

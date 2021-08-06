@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
 import { StyledTypeProps } from "../../../types"
 
-export const Title = styled.h1<StyledTypeProps>`
+export const title = styled.h1<StyledTypeProps>`
   ${({ type, theme: { typography, palette } }) => css`
     font-family: ${typography.fonts[type ?? "secondary"]};
     font-size: ${typography.xxl};

@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components"
 import { devices } from "../../../styles/breakpoints"
-import { isPrimary, StyledTypeProps } from "../../../types"
+import { StyledTypeProps } from "../../../types"
 
-export const H3 = styled.h3<StyledTypeProps>`
+export const h2 = styled.h2<StyledTypeProps>`
   ${({ type, theme: { typography, palette } }) => css`
-    font-weight: ${type && isPrimary(type) ? "bold" : 500};
     font-family: ${typography.fonts[type ?? "secondary"]};
-    font-size: ${typography.md};
+    font-size: ${typography.lg};
     font-style: normal;
-    line-height: 139%;
+    font-weight: 500;
+    line-height: 114%;
     color: ${palette.black};
 
     @media ${devices.tablet} {

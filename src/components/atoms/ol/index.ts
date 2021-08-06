@@ -9,7 +9,6 @@ export const ol = styled.ol`
     line-height: 139%;
     color: ${palette.black};
     counter-reset: number;
-    counter-reset: number2;
 
     li {
       font-family: inherit;

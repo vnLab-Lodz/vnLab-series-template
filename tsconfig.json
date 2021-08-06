@@ -13,7 +13,16 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "removeComments": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "~components/*": ["src/components/*"],
+      "~types/*": ["src/types/*"],
+      "~types": ["src/types/index.ts"],
+      "~styles/*": ["src/styles/*"],
+      "~util/*": ["src/util/*"],
+      "~util": ["src/util/index.ts"]
+    }
   },
   "include": ["./src/**/*", "./config/**/*"]
 }

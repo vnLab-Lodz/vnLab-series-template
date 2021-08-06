@@ -14,6 +14,7 @@ export default {
     `gatsby-plugin-sass`,
     `gatsby-plugin-image`,
     `gatsby-plugin-styled-components`,
+    `gatsby-plugin-tsconfig-paths`,
     {
       resolve: `gatsby-plugin-mdx`,
       options: {

@@ -1,9 +1,8 @@
 import * as React from "react"
-import Header from "../Header"
+import Header from "../header"
 import { graphql, useStaticQuery } from "gatsby"
 import { SiteMetadata } from "../../types"
-import "./globals.css"
-import "./PageLayout.scss"
+import "./layout.scss"
 import { motion } from "framer-motion"
 
 interface Query {
@@ -22,7 +21,7 @@ const query = graphql`
   }
 `
 
-const PageLayout: React.FC = ({ children }) => {
+const Layout: React.FC = ({ children }) => {
   const { site } = useStaticQuery<Query>(query)
   const title = site.siteMetadata.title || "Title"
   const date = new Date().getFullYear()
@@ -53,4 +52,4 @@ const PageLayout: React.FC = ({ children }) => {
   )
 }
 
-export default PageLayout
+export default Layout

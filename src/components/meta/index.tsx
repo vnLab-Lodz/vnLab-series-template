@@ -35,7 +35,12 @@ const query = graphql`
   }
 `
 
-const Seo: React.FC<Props> = ({ description, meta, title, lang = "en" }) => {
+const SeoMeta: React.FC<Props> = ({
+  description,
+  meta,
+  title,
+  lang = "en",
+}) => {
   const { t } = useTranslation("common")
   const { site } = useStaticQuery<Query>(query)
   const defaultTitle = t("title", site.siteMetadata.title)
@@ -91,4 +96,4 @@ const Seo: React.FC<Props> = ({ description, meta, title, lang = "en" }) => {
   )
 }
 
-export default Seo
+export default SeoMeta

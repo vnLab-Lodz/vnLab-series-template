@@ -3,9 +3,8 @@ import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MdxLink } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Layout from "../components/PageLayout"
-import Seo from "../components/Seo"
-import styled from "styled-components"
+import Layout from "~components/layout"
+import SeoMeta from "~components/meta"
 
 const components = {
   Link: MdxLink,
@@ -24,7 +23,7 @@ interface Data {
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
   <Layout>
     <MDXProvider components={components}>
-      <Seo title={mdx.frontmatter.title} />
+      <SeoMeta title={mdx.frontmatter.title} />
       <MDXRenderer frontmatter={mdx.frontmatter}>{mdx.body}</MDXRenderer>
     </MDXProvider>
   </Layout>

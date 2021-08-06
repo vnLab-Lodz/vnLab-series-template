@@ -1,6 +1,6 @@
 import React from "react"
 import { Story, Meta } from "@storybook/react"
-import * as atoms from ".."
+import atoms from ".."
 
 export default {
   component: atoms.ol,
@@ -27,7 +27,10 @@ Multilevel.args = {
       <li>Element 2</li>
       <atoms.ol>
         <li>Nested element</li>
+        <li>Nested element</li>
         <atoms.ol>
+          <li>More deeply nested element</li>
+          <li>More deeply nested element</li>
           <li>More deeply nested element</li>
         </atoms.ol>
       </atoms.ol>
