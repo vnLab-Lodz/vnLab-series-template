@@ -16,12 +16,12 @@ Default.args = {
 
 export const CrimsonPro = TitleStory.bind({})
 CrimsonPro.args = {
-  children: "Example Title in Crimson Pro",
+  children: "Crimson Pro Title",
   type: "secondary",
 }
 
 export const HKGrotesk = TitleStory.bind({})
 HKGrotesk.args = {
-  children: "Example Title in HK-Grotesk",
+  children: "HK-Grotesk Title",
   type: "primary",
 }
