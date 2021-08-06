@@ -7,20 +7,20 @@ export default {
   title: "Atoms/Header 1",
 } as Meta
 
-const Header1Story: Story = args => <H1 {...args} />
+const H1Story: Story = args => <H1 {...args} />
 
-export const Default = Header1Story.bind({})
+export const Default = H1Story.bind({})
 Default.args = {
   children: "Example Header",
 }
 
-export const CrimsonPro = Header1Story.bind({})
+export const CrimsonPro = H1Story.bind({})
 CrimsonPro.args = {
   children: "Crimson Pro Header",
   type: "secondary",
 }
 
-export const HKGrotesk = Header1Story.bind({})
+export const HKGrotesk = H1Story.bind({})
 HKGrotesk.args = {
   children: "HK-Grotesk Header",
   type: "primary",
