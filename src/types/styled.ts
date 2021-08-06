@@ -1,3 +1,3 @@
 export interface StyledTypeProps {
-  type: "primary" | "secondary"
+  type?: "primary" | "secondary"
 }
