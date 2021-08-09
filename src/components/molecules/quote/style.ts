@@ -16,6 +16,7 @@ export const QuoteText = styled(atoms.p)`
     font-family: ${typography.fonts.secondary};
     font-size: ${typography.lg};
     color: ${palette.black};
+    line-height: 1.2;
   `}
 `
 

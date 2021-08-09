@@ -8,6 +8,8 @@ import { getLocaleName, getLocales, isUndefined } from "~util"
 import { useTranslation } from "react-i18next"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import styled from "styled-components"
+import Abstract from "~components/molecules/abstract"
+import Quote from "~components/molecules/quote"
 
 interface MdxNode {
   id: string
@@ -91,6 +93,19 @@ const IndexPage: React.FC<PageProps<Data>> = ({
         alt="A Gatsby astronaut"
         style={{ marginLeft: -20 }}
       />
+      <Abstract>
+        We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest dla
+        bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
+        absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym piękno i
+        miłość to synonimy życia.
+      </Abstract>
+      <Quote author="Agnes Wardy">
+        We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest dla
+        bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
+        absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym piękno i
+        miłość to synonimy życia.
+      </Quote>
+
       <atoms.p>
         <StyledLink to="/page-two/" language={locale}>
           {t("common:go-to", { number: 2 })}
