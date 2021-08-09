@@ -16,7 +16,7 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       "~components": path.resolve(__dirname, "../src/components"),
-      "~declarations": path.resolve(__dirname, "../src/types"),
+      "~types": path.resolve(__dirname, "../src/types"),
       "~styles": path.resolve(__dirname, "../src/styles"),
       "~util": path.resolve(__dirname, "../src/util"),
     }
