@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
+import { GridContainer } from "~styles/grid"
 
 export const AnnotationTarget = styled.span`
   font-family: ${({ theme: { typography } }) => typography.fonts.secondary};
@@ -15,8 +16,9 @@ export const AnnotationIndex = styled.span`
   `}
 `
 
-export const AnnotationContent = styled.article`
+export const AnnotationContent = styled(GridContainer)`
   ${({ theme: { palette, typography, spacing } }) => css`
+    grid-template-rows: auto auto;
     background: ${palette.secondary};
     border-top: solid 1px ${palette.dark};
     border-bottom: solid 1px ${palette.dark};
@@ -26,10 +28,6 @@ export const AnnotationContent = styled.article`
     position: absolute;
     left: 0px;
     right: 0px;
-
-    display: grid;
-    grid-template-columns: repeat(32, 1fr);
-    grid-template-rows: auto auto;
   `}
 `
 

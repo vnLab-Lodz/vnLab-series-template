@@ -20,7 +20,7 @@ const AnnotationPortal: React.FC<PortalProps> = ({
   toggle,
 }) => {
   return ReactDOM.createPortal(
-    <Styled.AnnotationContent style={{ top: `${position}px` }}>
+    <Styled.AnnotationContent as="article" style={{ top: `${position}px` }}>
       <Styled.CloseBtn onClick={toggle}>
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
