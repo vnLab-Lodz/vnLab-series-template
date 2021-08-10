@@ -22,3 +22,16 @@ export const GridConstraint = styled.div`
     grid-column: 9 / 25;
   }
 `
+
+export const InnerGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(30, 1fr);
+
+  @media ${devices.tablet} {
+    grid-template-columns: repeat(23, 1fr);
+  }
+
+  @media ${devices.laptop} {
+    grid-template-columns: repeat(16, 1fr);
+  }
+`

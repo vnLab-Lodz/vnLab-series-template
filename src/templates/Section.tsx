@@ -10,12 +10,14 @@ import Annotation from "~components/molecules/annotation"
 import Quote from "~components/molecules/quote"
 import atoms from "~components/atoms"
 import Author from "~components/molecules/author"
+import Edition from "~components/molecules/edition"
 
 const components = {
   Link: MdxLink,
   Author: Author,
   Abstract: Abstract,
   Annotation: Annotation,
+  Edition: Edition,
   Quote: Quote,
   h1: atoms.h1,
   h2: atoms.h2,

@@ -1,5 +1,7 @@
 {
   "title": "Starter i18n Publication-as-a-Website",
   "go-to": "Nawiguj do {{number}} strony",
-  "go-back": "Wróć do {{page}}"
+  "go-back": "Wróć do {{page}}",
+  "edition": "Wydanie {{vol}}",
+  "changes": "Co się zmieniło?"
 }

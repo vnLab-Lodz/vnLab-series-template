@@ -7,6 +7,7 @@ export const QuoteContainer = styled.article`
     border-bottom: 1px solid ${palette.medium};
     padding: ${spacing.md} 0px;
     width: 100%;
+    margin: ${spacing.xl} 0px;
     }
   `}
 `
