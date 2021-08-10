@@ -3,11 +3,24 @@ import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MdxLink } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Layout from "~components/layout"
 import SeoMeta from "~components/meta"
+import Layout from "~components/organisms/layout"
+import Abstract from "~components/molecules/abstract"
+import Annotation from "~components/molecules/annotation"
+import Quote from "~components/molecules/quote"
+import atoms from "~components/atoms"
+import Author from "~components/molecules/author"
 
 const components = {
   Link: MdxLink,
+  Author: Author,
+  Abstract: Abstract,
+  Annotation: Annotation,
+  Quote: Quote,
+  h1: atoms.h1,
+  h2: atoms.h2,
+  h3: atoms.h3,
+  p: atoms.p,
 }
 
 interface Data {

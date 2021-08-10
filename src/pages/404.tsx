@@ -1,6 +1,5 @@
 import * as React from "react"
 import { useTranslation } from "react-i18next"
-import Layout from "~components/layout"
 import SeoMeta from "~components/meta"
 import { GridConstraint, GridContainer } from "~styles/grid"
 
