@@ -23,6 +23,7 @@ const components = {
   h2: atoms.h2,
   h3: atoms.h3,
   p: atoms.p,
+  strong: atoms.strong,
 }
 
 interface Data {
