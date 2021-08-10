@@ -10,6 +10,7 @@ import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import styled from "styled-components"
 import Abstract from "~components/molecules/abstract"
 import Quote from "~components/molecules/quote"
+import Annotation from "~components/molecules/annotation"
 
 interface MdxNode {
   id: string
@@ -105,6 +106,23 @@ const IndexPage: React.FC<PageProps<Data>> = ({
         absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym piękno i
         miłość to synonimy życia.
       </Quote>
+      <atoms.p style={{ maxWidth: "800px" }}>
+        We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest dla
+        bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest{" "}
+        <Annotation target="absurdalna">
+          Po raz pierwszy Varda użyła tego określenia w odniesieniu do swojego
+          wczesnego filmu eksperymentalnego L’Opéra-Mouffe (1958) i posługuje
+          się nim konsekwentnie do dziś, doskonaląc stopniowo ten autorski
+          gatunek z pogranicza dokumentu intymnego, filmowego dziennika i
+          awangardowego kolażu. Por. Dominique Bluher, La miroitière. À propos
+          de quelques films et installations d’Agnès Varda, w: Agnès Varda: le
+          cinéma et au-delà, red. A. Fiant, R. Hamery, É. Thouvenel, Presses
+          Universitaires de Rennes, Rennes 2009, s. 177; Alison Smith, Agnès
+          Varda, Manchester University Press, Manchester–New York 2005, s. 94.
+        </Annotation>
+        , pozbawiona sensu i uzasadnienia w świecie, w którym piękno i miłość to
+        synonimy życia.
+      </atoms.p>
 
       <atoms.p>
         <StyledLink to="/page-two/" language={locale}>
