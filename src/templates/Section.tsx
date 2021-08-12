@@ -13,6 +13,7 @@ import Author from "~components/molecules/author"
 import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
 import styled from "styled-components"
+import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 
 const components = {
   Link: MdxLink,
@@ -43,7 +44,7 @@ const StyledLayout = styled(Layout)`
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
-  <>
+  <AnnotationProvider>
     <ArticleMenu />
     <StyledLayout>
       <MDXProvider components={components}>
@@ -51,7 +52,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
         <MDXRenderer frontmatter={mdx.frontmatter}>{mdx.body}</MDXRenderer>
       </MDXProvider>
     </StyledLayout>
-  </>
+  </AnnotationProvider>
 )
 
 export const query = graphql`

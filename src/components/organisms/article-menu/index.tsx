@@ -55,8 +55,6 @@ const ArticleMenu = () => {
     }
   }, [ref])
 
-  console.log(shouldStick)
-
   useEffect(() => {
     controls.start(
       {

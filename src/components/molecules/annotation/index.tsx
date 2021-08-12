@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useContext } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
+import { AnnotationContext } from "./annotation-context"
 
 interface Props {
   target: string
@@ -35,6 +36,8 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLSpanElement | null>(null)
+  const { annotations, addAnnotation } = useContext(AnnotationContext)
+  const annotation = annotations.find(a => a.target === target)
 
   const calculatePosition = () => {
     if (!ref || !ref.current) return
@@ -51,6 +54,10 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
     calculatePosition()
   }, [ref])
 
+  useEffect(() => {
+    if (children) addAnnotation(target, children.toString())
+  }, [])
+
   const toggleAnnotation = () => setOpen(prev => !prev)
 
   const handleIndexClick = () => {
@@ -62,7 +69,7 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
     <Styled.AnnotationTarget>
       {target}
       <Styled.AnnotationIndex ref={ref} onClick={handleIndexClick}>
-        1
+        {annotation?.index}
       </Styled.AnnotationIndex>
       {open && (
         <AnnotationPortal position={position} toggle={toggleAnnotation}>
