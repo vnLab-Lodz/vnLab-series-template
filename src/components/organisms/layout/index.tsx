@@ -1,9 +1,13 @@
 import React from "react"
 import { GridConstraint, GridContainer } from "~styles/grid"
 
-const Layout: React.FC = ({ children }) => {
+interface Props {
+  className?: string
+}
+
+const Layout: React.FC<Props> = ({ children, className }) => {
   return (
-    <GridContainer>
+    <GridContainer className={className}>
       <GridConstraint>{children}</GridConstraint>
     </GridContainer>
   )

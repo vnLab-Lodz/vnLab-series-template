@@ -12,6 +12,7 @@ import atoms from "~components/atoms"
 import Author from "~components/molecules/author"
 import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
+import styled from "styled-components"
 
 const components = {
   Link: MdxLink,
@@ -37,14 +38,20 @@ interface Data {
   }
 }
 
+const StyledLayout = styled(Layout)`
+  background: ${({ theme: { palette } }) => palette.light};
+`
+
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
-  <Layout>
+  <>
     <ArticleMenu />
-    <MDXProvider components={components}>
-      <SeoMeta title={mdx.frontmatter.title} />
-      <MDXRenderer frontmatter={mdx.frontmatter}>{mdx.body}</MDXRenderer>
-    </MDXProvider>
-  </Layout>
+    <StyledLayout>
+      <MDXProvider components={components}>
+        <SeoMeta title={mdx.frontmatter.title} />
+        <MDXRenderer frontmatter={mdx.frontmatter}>{mdx.body}</MDXRenderer>
+      </MDXProvider>
+    </StyledLayout>
+  </>
 )
 
 export const query = graphql`

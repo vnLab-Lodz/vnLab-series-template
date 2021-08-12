@@ -3,16 +3,18 @@ import typography from "./typography"
 
 const theme = {
   palette: {
-    black: "#222222",
-    dark: "#707070",
-    medium: "#BCBCBC",
-    light: "F8F8F8",
-    white: "#FFFFFF",
-    primary: "#EBF8EA",
-    secondary: "#EAF8F8",
-    tertiary: "#ECEAF8",
-    accent: "#F8EAEB",
-    accentDark: "#6B4905",
+    black: "rgba(34, 34, 34, 1)",
+    dark: "rgba(112, 112, 112, 1)",
+    medium: "rgba(188, 188, 188, 1)",
+    light: "rgba(248, 248, 248, 1)",
+    white: "rgba(255, 255, 255, 1)",
+    primary: "rgba(235, 248, 234, 1)",
+    secondary: "rgba(234, 248, 248, 1)",
+    tertiary: "rgba(236, 234, 248, 1)",
+    accent: "rgba(248, 234, 235, 1)",
+    accentDark: "rgba(107, 73, 5, 1)",
+    transparentBlack: "rgba(0, 0, 0, 0)",
+    transparentWhite: "rgba(255, 255, 255, 0)",
   },
   typography: {
     fonts: {

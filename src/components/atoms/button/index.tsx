@@ -29,7 +29,7 @@ export const button: React.FC<Props> = props => {
   return (
     <StyledButton
       style={{
-        background: `${palette.black}00`,
+        background: `${palette.transparentBlack}`,
         borderColor: palette.black,
         color: palette.black,
       }}

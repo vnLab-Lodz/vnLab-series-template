@@ -3,5 +3,9 @@
   "go-to": "Nawiguj do {{number}} strony",
   "go-back": "Wróć do {{page}}",
   "edition": "Wydanie {{vol}}",
-  "changes": "Co się zmieniło?"
+  "changes": "Co się zmieniło?",
+  "content": "Treść",
+  "illustrations": "Ilustracje",
+  "annotattions": "Przypisy",
+  "bibligraphy": "Bibliografia"
 }
