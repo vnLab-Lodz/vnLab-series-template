@@ -4,10 +4,18 @@ import Layout from "../layout"
 
 export const ArticleMenuContainer = styled.div`
   position: relative;
+  height: 250px;
+  background: ${({ theme: { palette } }) => palette.light};
 `
 
-export const NavLayout = styled(Layout)`
+export const StickyWrapper = styled.div<{ sticky?: boolean }>`
   background: ${({ theme: { palette } }) => palette.light};
+  ${({ sticky }) =>
+    sticky &&
+    css`
+      position: fixed;
+      top: 0px;
+    `}
 `
 
 export const MenuNav = styled.nav`
@@ -17,10 +25,8 @@ export const MenuNav = styled.nav`
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: ${palette.dark};
-    margin-bottom: ${spacing.xxxl};
     padding: ${spacing.sm};
     position: relative;
-    top: 0px;
     z-index: 3;
   `}
 `
