@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components"
+import spacing from "~styles/spacing"
 import { devices } from "../../../styles/breakpoints"
 import { StyledTypeProps } from "../../../types"
 
@@ -10,6 +11,9 @@ export const h2 = styled.h2<StyledTypeProps>`
     font-weight: 500;
     line-height: 114%;
     color: ${palette.black};
+    text-align: center;
+    margin-top: calc(${spacing.xxl} * 1.2);
+    margin-bottom: ${spacing.lg};
 
     @media ${devices.tablet} {
       line-height: 125%;

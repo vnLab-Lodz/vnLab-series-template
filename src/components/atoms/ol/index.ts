@@ -8,15 +8,19 @@ export const ol = styled.ol`
     font-style: normal;
     line-height: 139%;
     color: ${palette.black};
+    margin: ${spacing.lg} 0px;
+    padding-left: ${spacing.sm};
+    position: relative;
     counter-reset: number;
 
     li {
       font-family: inherit;
 
       &::before {
+        position: absolute;
+        left: 0px;
         counter-increment: number;
         content: counter(number);
-        margin-right: ${spacing.xs};
       }
     }
 

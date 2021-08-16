@@ -9,10 +9,11 @@ export const ul = styled.ul`
     line-height: 139%;
     color: ${palette.black};
     list-style: disc;
+    margin: ${spacing.lg} 0px;
+    margin-left: 1em;
 
     li {
       font-family: inherit;
-      padding-left: ${spacing.xs};
     }
 
     // Indent multilevel lists

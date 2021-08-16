@@ -15,6 +15,9 @@ export const StickyWrapper = styled.div<{ sticky?: boolean }>`
     css`
       position: fixed;
       top: 0px;
+      left: 0px;
+      right: 0px;
+      z-index: 3;
     `}
 `
 

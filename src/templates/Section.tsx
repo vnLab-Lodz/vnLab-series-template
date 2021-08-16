@@ -26,6 +26,8 @@ const components = {
   h2: atoms.h2,
   h3: atoms.h3,
   p: atoms.p,
+  ul: atoms.ul,
+  ol: atoms.ol,
   strong: atoms.strong,
 }
 
