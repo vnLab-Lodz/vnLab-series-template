@@ -24,4 +24,5 @@ export const QuoteText = styled(atoms.p)`
 export const Author = styled(atoms.h3)`
   margin-top: ${({ theme: { spacing } }) => spacing.sm};
   text-align: end;
+  margin-bottom: 0px;
 `
