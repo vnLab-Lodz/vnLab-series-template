@@ -11,11 +11,13 @@ interface Props {
 }
 
 interface PortalProps {
+  index: number
   position: number | undefined
   toggle: () => void
 }
 
 const AnnotationPortal: React.FC<PortalProps> = ({
+  index,
   children,
   position,
   toggle,
@@ -25,7 +27,7 @@ const AnnotationPortal: React.FC<PortalProps> = ({
       <Styled.CloseBtn onClick={toggle}>
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
-      <Styled.AnnotationNumber>1</Styled.AnnotationNumber>
+      <Styled.AnnotationNumber>{index}</Styled.AnnotationNumber>
       <Styled.AnnotationParagraph>{children}</Styled.AnnotationParagraph>
     </Styled.AnnotationContent>,
     document.body
@@ -72,7 +74,11 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
         {annotation?.index}
       </Styled.AnnotationIndex>
       {open && (
-        <AnnotationPortal position={position} toggle={toggleAnnotation}>
+        <AnnotationPortal
+          index={annotation?.index ?? 0}
+          position={position}
+          toggle={toggleAnnotation}
+        >
           {children}
         </AnnotationPortal>
       )}
