@@ -10,7 +10,7 @@ import { ThemeContext } from "styled-components"
 import atoms from "~components/atoms"
 import Arrow from "~components/molecules/arrow"
 import Layout from "../layout"
-import Content from "./menus/content/content"
+import Content from "./menus/content"
 import * as Styled from "./style"
 
 enum MENU_STATE {
