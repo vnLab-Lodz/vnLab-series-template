@@ -12,8 +12,16 @@ import atoms from "~components/atoms"
 import Author from "~components/molecules/author"
 import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
-import styled from "styled-components"
+import styled, { StyledComponent } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
+
+const addClass =
+  (
+    Component: React.FC<{ className: string }> | StyledComponent<any, any>,
+    className: string
+  ): React.FC =>
+  ({ children }) =>
+    <Component className={className}>{children}</Component>
 
 const components = {
   Link: MdxLink,
@@ -22,13 +30,13 @@ const components = {
   Annotation: Annotation,
   Edition: Edition,
   Quote: Quote,
-  h1: atoms.h1,
-  h2: atoms.h2,
-  h3: atoms.h3,
   p: atoms.p,
   ul: atoms.ul,
   ol: atoms.ol,
   strong: atoms.strong,
+  h1: addClass(atoms.h1, "mdx-heading"),
+  h2: addClass(atoms.h2, "mdx-heading"),
+  h3: addClass(atoms.h3, "mdx-heading"),
 }
 
 interface Data {
@@ -48,7 +56,7 @@ const StyledLayout = styled(Layout)`
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
   <AnnotationProvider>
     <ArticleMenu />
-    <StyledLayout>
+    <StyledLayout className="mdx-section">
       <MDXProvider components={components}>
         <SeoMeta title={mdx.frontmatter.title} />
         <MDXRenderer frontmatter={mdx.frontmatter}>{mdx.body}</MDXRenderer>
