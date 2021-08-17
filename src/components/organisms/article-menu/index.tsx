@@ -10,6 +10,7 @@ import { ThemeContext } from "styled-components"
 import atoms from "~components/atoms"
 import Arrow from "~components/molecules/arrow"
 import Layout from "../layout"
+import Annotations from "./menus/annotations"
 import Content from "./menus/content"
 import * as Styled from "./style"
 
@@ -95,6 +96,27 @@ const ArticleMenu = () => {
           </atoms.p>
         )
         break
+      case MENU_STATE.ANNOTATIONS:
+        content = <Annotations />
+        break
+      case MENU_STATE.BIBLIOGRAPHY:
+        content = (
+          <atoms.p>
+            We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest
+            dla bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
+            absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym
+            piękno i miłość to synonimy życia. We wczesnych, zwłaszcza
+            fabularnych filmach Agnès Vardy śmierć jest dla bohaterek
+            egzystencjalnym skandalem – przychodzi znikąd, jest absurdalna,
+            pozbawiona sensu i uzasadnienia w świecie, w którym piękno i miłość
+            to synonimy życia. Śmierć jawi się jako coś w ścisłym sensie nie do
+            pomyślenia czy wyobrażenia, nawet jeśli bohaterki muszą się z nią –
+            zresztą tylko pozornie – skonfrontować w indywidualnym
+            doświadczeniu. W Szczęściu (Le bonheur, 1965) śmierć (być może
+            samobójcza) jednej z głównych bohaterek to jedyny moment, w którym
+          </atoms.p>
+        )
+        break
       default:
         break
     }
@@ -105,6 +127,7 @@ const ArticleMenu = () => {
         initial={{ height: 0, opacity: 0 }}
         animate={{ height: "fit-content", opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
+        transition={{ duration: 0.4, ease: "easeInOut" }}
       >
         {content}
       </motion.div>
