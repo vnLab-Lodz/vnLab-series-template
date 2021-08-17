@@ -37,6 +37,9 @@ export const Globals = createGlobalStyle`
   body {
     line-height: 1;
   }
+  html, body {
+    min-height: 100vh;
+  }
   ol, ul {
     list-style: none;
   }

@@ -60,7 +60,10 @@ const ArticleMenu = () => {
       : setShouldStick(false)
 
     currentScrollPos >= navPosition + 300
-      ? setIsHidden(scrollRef.current < currentScrollPos)
+      ? setIsHidden(
+          scrollRef.current < currentScrollPos &&
+            menuState === MENU_STATE.CLOSED
+        )
       : setIsHidden(false)
 
     scrollRef.current = currentScrollPos
@@ -139,11 +142,7 @@ const ArticleMenu = () => {
     return () => {
       window.removeEventListener("scroll", onScroll)
     }
-  }, [ref])
-
-  useEffect(() => {
-    if (isHidden) setMenuState(MENU_STATE.CLOSED)
-  }, [isHidden])
+  }, [ref, menuState])
 
   useEffect(() => {
     controls.start(

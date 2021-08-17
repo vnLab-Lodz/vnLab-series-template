@@ -29,17 +29,17 @@ export const button: React.FC<Props> = props => {
   return (
     <StyledButton
       style={{
-        background: `${palette.transparentBlack}`,
+        backgroundColor: `${palette.transparentBlack}`,
         borderColor: palette.black,
         color: palette.black,
       }}
       whileHover={{
-        background: palette.black,
+        backgroundColor: palette.black,
         borderColor: palette.black,
         color: palette.white,
       }}
       whileTap={{
-        background: palette.dark,
+        backgroundColor: palette.dark,
         borderColor: palette.dark,
       }}
       {...props}
