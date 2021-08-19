@@ -1,15 +1,11 @@
 import * as React from "react"
 import { graphql, Link, PageProps } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
 import SeoMeta from "~components/meta"
 import atoms from "~components/atoms"
 import { getLocaleName, getLocales, isUndefined } from "~util"
 import { useTranslation } from "react-i18next"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import styled from "styled-components"
-import Abstract from "~components/molecules/abstract"
-import Quote from "~components/molecules/quote"
-import Annotation from "~components/molecules/annotation"
 import { GridContainer, GridConstraint } from "~styles/grid"
 
 interface MdxNode {
@@ -45,10 +41,6 @@ interface PageLink {
   path: string
   title: string
 }
-
-const StyledLink = styled(LocalizedLink)`
-  color: ${({ theme }) => theme.palette.accentDark};
-`
 
 const IndexPage: React.FC<PageProps<Data>> = ({
   data: { allMdx, allSitePage },

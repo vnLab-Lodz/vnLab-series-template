@@ -1,4 +1,4 @@
-import { CreatePagesArgs } from "gatsby"
+import { CreatePagesArgs, CreateSchemaCustomizationArgs } from "gatsby"
 import { delocalizeSlug, localizeSlug } from "../src/util"
 
 const path = require(`path`)
@@ -56,4 +56,21 @@ export const createPages = async ({
       },
     })
   })
+}
+
+export const createSchemaCustomization = ({
+  actions,
+}: CreateSchemaCustomizationArgs) => {
+  const { createTypes } = actions
+
+  createTypes(`
+    type Mdx implements Node {
+      frontmatter: Frontmatter
+    }
+    type Frontmatter @dontInfer {
+      title: String!
+      date: Date
+      embeddedImagesLocal: [File] @fileByRelativePath
+    }
+    `)
 }

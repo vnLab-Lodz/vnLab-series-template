@@ -10,11 +10,20 @@ export default {
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     `gatsby-plugin-sass`,
     `gatsby-plugin-image`,
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-tsconfig-paths`,
+    {
+      resolve: `gatsby-plugin-sharp`,
+      options: {
+        defaults: {
+          quality: 90,
+          formats: ["auto", "webp", "avif"],
+          placeholder: "blurred",
+        },
+      },
+    },
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
@@ -22,7 +31,6 @@ export default {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 500,
               disableBgImageOnAlpha: true,
             },
           },

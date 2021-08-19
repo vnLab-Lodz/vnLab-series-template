@@ -9,6 +9,7 @@ interface ContainerProps {
 export const GridContainer = styled.div<ContainerProps>`
   display: grid;
   grid-template-columns: repeat(32, 1fr);
+  overflow: hidden;
 `
 
 export const GridConstraint = styled.div`

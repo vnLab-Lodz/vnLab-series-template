@@ -14,6 +14,7 @@ import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
 import styled, { StyledComponent } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
+import ViewportImage from "~components/molecules/viewport-image"
 
 const addClass =
   (
@@ -30,6 +31,7 @@ const components = {
   Annotation: Annotation,
   Edition: Edition,
   Quote: Quote,
+  ViewportImage: ViewportImage,
   p: atoms.p,
   ul: atoms.ul,
   ol: atoms.ol,
@@ -45,6 +47,7 @@ interface Data {
     body: string & React.ReactNode
     frontmatter: {
       title: string
+      embeddedImagesLocal: any[]
     }
   }
 }
@@ -59,7 +62,12 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
     <StyledLayout className="mdx-section">
       <MDXProvider components={components}>
         <SeoMeta title={mdx.frontmatter.title} />
-        <MDXRenderer frontmatter={mdx.frontmatter}>{mdx.body}</MDXRenderer>
+        <MDXRenderer
+          frontmatter={mdx.frontmatter}
+          localImages={mdx.frontmatter.embeddedImagesLocal}
+        >
+          {mdx.body}
+        </MDXRenderer>
       </MDXProvider>
     </StyledLayout>
   </AnnotationProvider>
@@ -72,6 +80,11 @@ export const query = graphql`
       body
       frontmatter {
         title
+        embeddedImagesLocal {
+          childImageSharp {
+            gatsbyImageData(layout: CONSTRAINED)
+          }
+        }
       }
     }
   }
