@@ -9,7 +9,7 @@ export interface Contents {
 export default function (): Contents[] {
   const [contents, setContents] = useState<Contents[]>([])
 
-  useEffect(() => {
+  const getContents = () => {
     const mdx = document.querySelector(".mdx-section")
     const elements: NodeListOf<HTMLElement> | undefined = mdx?.querySelectorAll(
       "h1.mdx-heading, h2.mdx-heading, h3.mdx-heading"
@@ -26,6 +26,15 @@ export default function (): Contents[] {
             } as Contents)
         )
       )
+  }
+
+  useEffect(() => {
+    getContents()
+    window.addEventListener("resize", getContents)
+
+    return () => {
+      window.removeEventListener("resize", getContents)
+    }
   }, [])
 
   return contents
