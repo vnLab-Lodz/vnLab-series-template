@@ -15,6 +15,7 @@ import ArticleMenu from "~components/organisms/article-menu"
 import styled, { StyledComponent } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import ViewportImage from "~components/molecules/viewport-image"
+import HeaderImage from "~components/molecules/header-image"
 
 const addClass =
   (
@@ -48,6 +49,7 @@ interface Data {
     frontmatter: {
       title: string
       embeddedImagesLocal: any[]
+      headerImage?: any
     }
   }
 }
@@ -56,22 +58,27 @@ const StyledLayout = styled(Layout)`
   background: ${({ theme: { palette } }) => palette.light};
 `
 
-const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => (
-  <AnnotationProvider>
-    <ArticleMenu />
-    <StyledLayout className="mdx-section">
-      <MDXProvider components={components}>
-        <SeoMeta title={mdx.frontmatter.title} />
-        <MDXRenderer
-          frontmatter={mdx.frontmatter}
-          localImages={mdx.frontmatter.embeddedImagesLocal}
-        >
-          {mdx.body}
-        </MDXRenderer>
-      </MDXProvider>
-    </StyledLayout>
-  </AnnotationProvider>
-)
+const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => {
+  return (
+    <AnnotationProvider>
+      {mdx.frontmatter.headerImage && (
+        <HeaderImage image={mdx.frontmatter.headerImage} />
+      )}
+      <ArticleMenu />
+      <StyledLayout className="mdx-section">
+        <MDXProvider components={components}>
+          <SeoMeta title={mdx.frontmatter.title} />
+          <MDXRenderer
+            frontmatter={mdx.frontmatter}
+            localImages={mdx.frontmatter.embeddedImagesLocal}
+          >
+            {mdx.body}
+          </MDXRenderer>
+        </MDXProvider>
+      </StyledLayout>
+    </AnnotationProvider>
+  )
+}
 
 export const query = graphql`
   query ($locale: String!, $slugs: [String]) {
@@ -80,6 +87,11 @@ export const query = graphql`
       body
       frontmatter {
         title
+        headerImage {
+          childImageSharp {
+            gatsbyImageData(layout: FULL_WIDTH)
+          }
+        }
         embeddedImagesLocal {
           childImageSharp {
             gatsbyImageData(layout: CONSTRAINED)

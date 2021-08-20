@@ -70,6 +70,7 @@ export const createSchemaCustomization = ({
     type Frontmatter @dontInfer {
       title: String!
       date: Date
+      headerImage: File @fileByRelativePath
       embeddedImagesLocal: [File] @fileByRelativePath
     }
     `)
