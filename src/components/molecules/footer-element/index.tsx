@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion"
+import { LocalizedLink } from "gatsby-theme-i18n"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import atoms from "~components/atoms"
@@ -7,11 +8,13 @@ import * as Styled from "./style"
 
 interface Props {
   variant: "left" | "right"
+  id: string
   header: string
   title: string
-  author: string
-  summary: string
-  number: number
+  author?: string
+  summary?: string
+  number?: number
+  path: string
 }
 
 const FooterElement: React.FC<Props> = ({
@@ -21,38 +24,51 @@ const FooterElement: React.FC<Props> = ({
   summary,
   number,
   title,
+  path,
+  id,
 }) => {
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { t } = useTranslation("common")
 
   const toggleSummary = () => setIsSummaryExpanded(prev => !prev)
 
-  const getFormattedNumber = () => (number >= 10 ? number : `0${number}`)
+  const getFormattedNumber = () => ((number ?? 0) >= 10 ? number : `0${number}`)
 
   return (
-    <Styled.ElementWrapper variant={variant}>
-      <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
-      <Styled.ArticleNumber>{getFormattedNumber()}</Styled.ArticleNumber>
-      <atoms.p>{title}</atoms.p>
-      <Styled.ArticleAuthor type="primary">{author}</Styled.ArticleAuthor>
-      <Styled.SummaryButton onClick={toggleSummary}>
-        <span>{t("expand_summary")}</span>
-        <Arrow inverted={isSummaryExpanded} />
-      </Styled.SummaryButton>
-      <AnimatePresence exitBeforeEnter>
-        {isSummaryExpanded && (
-          <atoms.p
-            as={motion.p}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "fit-content" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          >
-            {summary}
-          </atoms.p>
-        )}
-      </AnimatePresence>
-    </Styled.ElementWrapper>
+    <AnimatePresence initial={false} exitBeforeEnter>
+      <Styled.ElementWrapper
+        key={id}
+        as={motion.article}
+        variant={variant}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
+        <Styled.ArticleNumber>{getFormattedNumber()}</Styled.ArticleNumber>
+        <Styled.ArticlTitle to={path}>
+          <atoms.p>{title}</atoms.p>
+        </Styled.ArticlTitle>
+        <Styled.ArticleAuthor type="primary">{author}</Styled.ArticleAuthor>
+        <Styled.SummaryButton onClick={toggleSummary}>
+          <span>{t("expand_summary")}</span>
+          <Arrow inverted={isSummaryExpanded} />
+        </Styled.SummaryButton>
+        <AnimatePresence initial={false} exitBeforeEnter>
+          {isSummaryExpanded && (
+            <atoms.p
+              as={motion.p}
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "fit-content" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            >
+              {summary}
+            </atoms.p>
+          )}
+        </AnimatePresence>
+      </Styled.ElementWrapper>
+    </AnimatePresence>
   )
 }
 

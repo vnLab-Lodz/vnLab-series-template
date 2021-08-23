@@ -1,3 +1,4 @@
+import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
@@ -42,6 +43,10 @@ export const VariantHeader = styled(atoms.h3)`
     font-size: ${typography.sm};
     font-weight: normal;
   `}
+`
+
+export const ArticlTitle = styled(LocalizedLink)`
+  text-decoration: none;
 `
 
 export const ArticleNumber = styled(atoms.p)`
