@@ -53,6 +53,7 @@ export const createPages = async ({
       component: path.resolve("./src/templates/section.tsx"),
       context: {
         slugs: localizeSlug(slug),
+        publication: true,
       },
     })
   })
@@ -69,6 +70,9 @@ export const createSchemaCustomization = ({
     }
     type Frontmatter @dontInfer {
       title: String!
+      author: String
+      summary: String
+      index: Float
       date: Date
       headerImage: File @fileByRelativePath
       embeddedImagesLocal: [File] @fileByRelativePath

@@ -1,10 +1,17 @@
 import React from "react"
 import { useTranslation } from "react-i18next"
+import usePublication from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
 import * as Styled from "./style"
 
-const ArticleFooter = () => {
+interface Props {
+  currentPath: string
+}
+
+const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
   const { t } = useTranslation("common")
+
+  const publicationPages = usePublication()
 
   return (
     <Styled.FooterSpacer>

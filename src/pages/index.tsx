@@ -7,63 +7,13 @@ import { useTranslation } from "react-i18next"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import styled from "styled-components"
 import { GridContainer, GridConstraint } from "~styles/grid"
+import usePublication from "src/hooks/usePublication"
 
-interface MdxNode {
-  id: string
-  slug: string
-  fields: {
-    locale: string
-  }
-  frontmatter: {
-    title: string
-  }
-}
-
-interface SitePageNode {
-  path: string
-  context: {
-    locale: string
-    slugs: string[]
-  }
-}
-
-interface Data {
-  allMdx: {
-    nodes: MdxNode[]
-  }
-  allSitePage: {
-    nodes: SitePageNode[]
-  }
-}
-
-interface PageLink {
-  id: string
-  path: string
-  title: string
-}
-
-const IndexPage: React.FC<PageProps<Data>> = ({
-  data: { allMdx, allSitePage },
-}) => {
+const IndexPage: React.FC = () => {
   const { locale } = useLocalization()
   const { t } = useTranslation(["common", "home"])
 
-  const getPageMdx = ({ context: { slugs, locale } }: SitePageNode) =>
-    allMdx.nodes.find(
-      node => slugs?.includes(node.slug) && locale === node.fields.locale
-    )
-
-  const pageLinks = allSitePage.nodes.reduce((prev, page, index) => {
-    const mdx = getPageMdx(page)
-    const { path } = page
-
-    return isUndefined(mdx)
-      ? prev
-      : [
-          ...prev,
-          { id: `${index}__${mdx.id}`, path, title: mdx.frontmatter.title },
-        ]
-  }, [] as PageLink[])
+  const publication = usePublication()
 
   return (
     <GridContainer>
@@ -82,7 +32,7 @@ const IndexPage: React.FC<PageProps<Data>> = ({
           ))}
         <atoms.h2>{t("home:chapters")}</atoms.h2>
         <ul>
-          {pageLinks.map(link => (
+          {publication.map(link => (
             <li key={link.id}>
               <Link to={link.path} style={{ color: "#00b140" }}>
                 {link.title}
@@ -94,31 +44,5 @@ const IndexPage: React.FC<PageProps<Data>> = ({
     </GridContainer>
   )
 }
-
-export const query = graphql`
-  query ($locale: String!) {
-    allSitePage(filter: { context: { locale: { eq: $locale } } }) {
-      nodes {
-        path
-        context {
-          locale
-          slugs
-        }
-      }
-    }
-    allMdx {
-      nodes {
-        id
-        slug
-        fields {
-          locale
-        }
-        frontmatter {
-          title
-        }
-      }
-    }
-  }
-`
 
 export default IndexPage
