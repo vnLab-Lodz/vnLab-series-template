@@ -5,6 +5,11 @@ import usePublication, { PublicationPage } from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
 import * as Styled from "./style"
 
+//@ts-ignore
+import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
+//@ts-ignore
+import RightArrowSVG from "../../../images/icons/arrow_right.svg"
+
 interface Props {
   currentPath: string
 }
@@ -89,7 +94,7 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
       <Styled.FooterGrid>
         <Styled.FooterContainer>
           <Styled.ArrowButton side="left" onClick={rewindIndex}>
-            {"<"}
+            <img src={LeftArrowSVG} alt="Left arrow" />
           </Styled.ArrowButton>
           <FooterElement
             id={left.id}
@@ -112,7 +117,7 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
             variant="right"
           />
           <Styled.ArrowButton side="right" onClick={forwardIndex}>
-            {">"}
+            <img src={RightArrowSVG} alt="Right arrow" />
           </Styled.ArrowButton>
         </Styled.FooterContainer>
       </Styled.FooterGrid>
