@@ -16,6 +16,7 @@ import styled, { StyledComponent } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
+import ArticleFooter from "~components/organisms/article-footer"
 
 const addClass =
   (
@@ -76,6 +77,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx } }) => {
           </MDXRenderer>
         </MDXProvider>
       </StyledLayout>
+      <ArticleFooter />
     </AnnotationProvider>
   )
 }

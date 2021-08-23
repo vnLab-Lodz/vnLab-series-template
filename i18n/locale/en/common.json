@@ -9,5 +9,8 @@
   "annotattions": "Annotations",
   "bibligraphy": "Bibliography",
   "introduction": "Introduction",
-  "expand": "Expand"
+  "expand": "Expand",
+  "previous_article": "Previous article",
+  "next_article": "Next article",
+  "expand_summary": "expand summary"
 }
