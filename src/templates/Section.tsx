@@ -17,6 +17,8 @@ import AnnotationProvider from "~components/molecules/annotation/annotation-cont
 import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
 import ArticleFooter from "~components/organisms/article-footer"
+import { ImageDataLike } from "gatsby-plugin-image"
+import { isUndefined } from "~util"
 
 const addClass =
   (
@@ -49,8 +51,8 @@ interface Data {
     body: string & React.ReactNode
     frontmatter: {
       title: string
-      embeddedImagesLocal: any[]
-      headerImage?: any
+      embeddedImagesLocal: ImageDataLike[]
+      headerImage?: ImageDataLike
     }
   }
 }
@@ -59,26 +61,36 @@ const StyledLayout = styled(Layout)`
   background: ${({ theme: { palette } }) => palette.light};
 `
 
-const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => (
-  <AnnotationProvider>
-    {mdx.frontmatter.headerImage && (
-      <HeaderImage image={mdx.frontmatter.headerImage} />
-    )}
-    <ArticleMenu />
-    <StyledLayout className="mdx-section">
-      <MDXProvider components={components}>
-        <SeoMeta title={mdx.frontmatter.title} />
-        <MDXRenderer
-          frontmatter={mdx.frontmatter}
-          localImages={mdx.frontmatter.embeddedImagesLocal}
-        >
-          {mdx.body}
-        </MDXRenderer>
-      </MDXProvider>
-    </StyledLayout>
-    <ArticleFooter currentPath={location.pathname} />
-  </AnnotationProvider>
-)
+const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
+  const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
+
+  const getImages = (): ImageDataLike[] => {
+    let images = [...embeddedImagesLocal]
+
+    return isUndefined(headerImage)
+      ? images
+      : [...images, headerImage as ImageDataLike]
+  }
+
+  return (
+    <AnnotationProvider>
+      {headerImage && <HeaderImage image={headerImage} />}
+      <ArticleMenu images={getImages()} />
+      <StyledLayout className="mdx-section">
+        <MDXProvider components={components}>
+          <SeoMeta title={title} />
+          <MDXRenderer
+            frontmatter={mdx.frontmatter}
+            localImages={embeddedImagesLocal}
+          >
+            {mdx.body}
+          </MDXRenderer>
+        </MDXProvider>
+      </StyledLayout>
+      <ArticleFooter currentPath={location.pathname} />
+    </AnnotationProvider>
+  )
+}
 
 export const query = graphql`
   query ($locale: String!, $slugs: [String]) {

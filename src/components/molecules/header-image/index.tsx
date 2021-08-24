@@ -1,9 +1,14 @@
 import React from "react"
 import * as Styled from "./style"
-import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
+import {
+  GatsbyImage,
+  getImage,
+  IGatsbyImageData,
+  ImageDataLike,
+} from "gatsby-plugin-image"
 
 interface Props {
-  image: any
+  image: ImageDataLike
   alt?: string
 }
 

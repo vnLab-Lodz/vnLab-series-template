@@ -1,4 +1,5 @@
 import { AnimatePresence, motion, useAnimation } from "framer-motion"
+import { ImageDataLike } from "gatsby-plugin-image"
 import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -12,6 +13,7 @@ import Arrow from "~components/molecules/arrow"
 import Layout from "../layout"
 import Annotations from "./menus/annotations"
 import Content from "./menus/content"
+import Illustrations from "./menus/illustrations"
 import * as Styled from "./style"
 
 enum MENU_STATE {
@@ -22,7 +24,11 @@ enum MENU_STATE {
   BIBLIOGRAPHY,
 }
 
-const ArticleMenu = () => {
+interface Props {
+  images: ImageDataLike[]
+}
+
+const ArticleMenu: React.FC<Props> = ({ images }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
@@ -82,22 +88,7 @@ const ArticleMenu = () => {
         )
         break
       case MENU_STATE.ILLUSTRATIONS:
-        content = (
-          <atoms.p>
-            We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest
-            dla bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
-            absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym
-            piękno i miłość to synonimy życia. We wczesnych, zwłaszcza
-            fabularnych filmach Agnès Vardy śmierć jest dla bohaterek
-            egzystencjalnym skandalem – przychodzi znikąd, jest absurdalna,
-            pozbawiona sensu i uzasadnienia w świecie, w którym piękno i miłość
-            to synonimy życia. Śmierć jawi się jako coś w ścisłym sensie nie do
-            pomyślenia czy wyobrażenia, nawet jeśli bohaterki muszą się z nią –
-            zresztą tylko pozornie – skonfrontować w indywidualnym
-            doświadczeniu. W Szczęściu (Le bonheur, 1965) śmierć (być może
-            samobójcza) jednej z głównych bohaterek to jedyny moment, w którym
-          </atoms.p>
-        )
+        content = <Illustrations images={images} />
         break
       case MENU_STATE.ANNOTATIONS:
         content = <Annotations />
