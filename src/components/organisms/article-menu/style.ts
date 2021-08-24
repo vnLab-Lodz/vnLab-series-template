@@ -1,5 +1,6 @@
 import { motion } from "framer-motion"
 import styled, { css } from "styled-components"
+import { devices } from "~styles/breakpoints"
 import Layout from "../layout"
 
 export const ArticleMenuContainer = styled.div`
@@ -24,13 +25,19 @@ export const StickyWrapper = styled.div<{ sticky?: boolean }>`
 export const MenuNav = styled.nav`
   ${({ theme: { spacing, palette } }) => css`
     display: flex;
-    justify-content: center;
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: ${palette.dark};
     padding: ${spacing.sm};
     position: relative;
     z-index: 3;
+
+    overflow-x: auto;
+
+    @media ${devices.tablet} {
+      justify-content: center;
+      overflow-x: hidden;
+    }
   `}
 `
 
