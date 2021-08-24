@@ -19,6 +19,7 @@ import HeaderImage from "~components/molecules/header-image"
 import ArticleFooter from "~components/organisms/article-footer"
 import { ImageDataLike } from "gatsby-plugin-image"
 import { isUndefined } from "~util"
+import Carousel from "~components/organisms/carousel"
 
 const addClass =
   (
@@ -36,6 +37,7 @@ const components = {
   Edition: Edition,
   Quote: Quote,
   ViewportImage: ViewportImage,
+  Carousel: Carousel,
   p: atoms.p,
   ul: atoms.ul,
   ol: atoms.ol,

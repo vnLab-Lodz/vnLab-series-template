@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion"
-import { LocalizedLink } from "gatsby-theme-i18n"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import atoms from "~components/atoms"
