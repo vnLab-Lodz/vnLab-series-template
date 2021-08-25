@@ -1,6 +1,5 @@
 import { createGlobalStyle } from "styled-components"
 import { devices } from "./breakpoints"
-import { Theme } from "./theme"
 
 export const Globals = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -54,6 +53,10 @@ export const Globals = createGlobalStyle`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+
+  .no-scroll {
+    overflow: hidden;
   }
 
   :root {

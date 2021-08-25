@@ -11,7 +11,7 @@ export const p = styled.p`
     color: ${palette.black};
 
     @media ${devices.tablet} {
-      line-height: 150 %;
+      line-height: 150%;
     }
   `}
 `

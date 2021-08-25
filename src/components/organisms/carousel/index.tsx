@@ -9,6 +9,8 @@ import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import * as Styled from "./style"
 import { GridConstraint, GridContainer, InnerGrid } from "~styles/grid"
 import { GatsbyImage } from "gatsby-plugin-image"
+import { motion, useSpring } from "framer-motion"
+import FullscreenPortal from "./fullscreen"
 import { v4 as uuid } from "uuid"
 
 //@ts-ignore
@@ -17,7 +19,6 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
-import { motion, useSpring } from "framer-motion"
 
 interface Props {
   images: ImageDataLike[]
@@ -30,6 +31,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const [viewportOffset, setViewportOffset] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
   const carouselUid = useMemo(() => uuid(), [images])
+  const [fullscreen, setFullscreen] = useState(false)
 
   const translateX = useSpring(0)
 
@@ -83,52 +85,65 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const width = getSliderImageWidth()
 
   return (
-    <Styled.ViewportConstraint
-      ref={ref}
-      style={{ transform: `translatex(-${viewportOffset}px)` }}
-    >
-      <GridContainer>
-        <Styled.Slider as={motion.div} style={{ translateX }}>
-          {images.map((image, index) => {
-            const uid = `carousel-${carouselUid}__image--${index}`
+    <>
+      <Styled.ViewportConstraint
+        ref={ref}
+        style={{ transform: `translatex(-${viewportOffset}px)` }}
+      >
+        <GridContainer>
+          <Styled.Slider as={motion.div} style={{ translateX }}>
+            {images.map((image, index) => {
+              const uid = `carousel-${carouselUid}__image--${index}`
 
-            return (
-              <Styled.SliderImage
-                key={uid}
-                id={uid}
-                marginStart={start}
-                marginEnd={end}
-                style={{ width }}
-              >
-                <GatsbyImage
-                  image={getImage(image) as IGatsbyImageData}
-                  alt={`Carousel image ${index}`}
-                />
-                <Styled.ImageCaption>{captions[index]}</Styled.ImageCaption>
-              </Styled.SliderImage>
-            )
-          })}
-        </Styled.Slider>
-        <GridConstraint ref={constraintRef} style={{ gridRow: 2 }}>
-          <Styled.CarouselNav>
-            <InnerGrid>
-              <Styled.Arrow side="left" onClick={previousImage}>
-                <img src={LeftArrowSVG} alt="Left arrow" />
-              </Styled.Arrow>
-              <Styled.ImageCount>
-                {currentImage + 1}/{images.length}
-              </Styled.ImageCount>
-              <Styled.Arrow side="right" onClick={nextImage}>
-                <img src={RightArrowSVG} alt="Right arrow" />
-              </Styled.Arrow>
-              <Styled.Expand>
-                <img src={ExpandArrow} alt="Exapnd arrow" />
-              </Styled.Expand>
-            </InnerGrid>
-          </Styled.CarouselNav>
-        </GridConstraint>
-      </GridContainer>
-    </Styled.ViewportConstraint>
+              return (
+                <Styled.SliderImage
+                  key={uid}
+                  id={uid}
+                  marginStart={start}
+                  marginEnd={end}
+                  style={{ width }}
+                >
+                  <GatsbyImage
+                    image={getImage(image) as IGatsbyImageData}
+                    alt={`Carousel image ${index}`}
+                  />
+                  <Styled.ImageCaption>{captions[index]}</Styled.ImageCaption>
+                </Styled.SliderImage>
+              )
+            })}
+          </Styled.Slider>
+          <GridConstraint ref={constraintRef} style={{ gridRow: 2 }}>
+            <Styled.CarouselNav>
+              <InnerGrid>
+                <Styled.Arrow side="left" onClick={previousImage}>
+                  <img src={LeftArrowSVG} alt="Left arrow" />
+                </Styled.Arrow>
+                <Styled.ImageCount>
+                  {currentImage + 1}/{images.length}
+                </Styled.ImageCount>
+                <Styled.Arrow side="right" onClick={nextImage}>
+                  <img src={RightArrowSVG} alt="Right arrow" />
+                </Styled.Arrow>
+                <Styled.Expand onClick={() => setFullscreen(true)}>
+                  <img src={ExpandArrow} alt="Exapnd arrow" />
+                </Styled.Expand>
+              </InnerGrid>
+            </Styled.CarouselNav>
+          </GridConstraint>
+        </GridContainer>
+      </Styled.ViewportConstraint>
+      {fullscreen && (
+        <FullscreenPortal
+          carouselUid={carouselUid}
+          images={images}
+          captions={captions}
+          currentImage={currentImage}
+          nextImage={nextImage}
+          previousImage={previousImage}
+          exitFullscreen={() => setFullscreen(false)}
+        />
+      )}
+    </>
   )
 }
 
