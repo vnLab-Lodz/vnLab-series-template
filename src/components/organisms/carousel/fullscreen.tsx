@@ -5,9 +5,10 @@ import {
   IGatsbyImageData,
   ImageDataLike,
 } from "gatsby-plugin-image"
-import React, { useLayoutEffect } from "react"
+import React, { useEffect, useLayoutEffect } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
+import useHypothesis from "src/hooks/useHypothesis"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -35,12 +36,22 @@ const FullscreenPortal: React.FC<Props> = ({
   previousImage,
   exitFullscreen,
 }) => {
+  const hypothesis = useHypothesis()
+
   useLayoutEffect(() => {
     document.body.classList.add("no-scroll")
     return () => {
       document.body.classList.remove("no-scroll")
     }
   }, [])
+
+  useEffect(() => {
+    hypothesis?.classList.add("invisible")
+
+    return () => {
+      hypothesis?.classList.remove("invisible")
+    }
+  }, [hypothesis])
 
   const uid = `fullscreen-carousel-${carouselUid}__image--${currentImage}`
 

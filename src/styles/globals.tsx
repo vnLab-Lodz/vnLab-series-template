@@ -59,6 +59,10 @@ export const Globals = createGlobalStyle`
     overflow: hidden;
   }
 
+  .invisible {
+    display: none;
+  }
+
   :root {
     /* spacing */
     --space-unit: 1.125rem;
