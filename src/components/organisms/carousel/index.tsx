@@ -1,8 +1,15 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react"
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import * as Styled from "./style"
 import { GridConstraint, GridContainer, InnerGrid } from "~styles/grid"
 import { GatsbyImage } from "gatsby-plugin-image"
+import { v4 as uuid } from "uuid"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -14,13 +21,15 @@ import { motion, useSpring } from "framer-motion"
 
 interface Props {
   images: ImageDataLike[]
+  captions: string[]
 }
 
-const Carousel: React.FC<Props> = ({ images }) => {
+const Carousel: React.FC<Props> = ({ images, captions }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const constraintRef = useRef<HTMLDivElement | null>(null)
   const [viewportOffset, setViewportOffset] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
+  const carouselUid = useMemo(() => uuid(), [images])
 
   const translateX = useSpring(0)
 
@@ -41,7 +50,7 @@ const Carousel: React.FC<Props> = ({ images }) => {
 
   useEffect(() => {
     const img = document.querySelector<HTMLDivElement>(
-      `#carousel__image--${currentImage}`
+      `#carousel-${carouselUid}__image--${currentImage}`
     )
 
     img && translateX.set((img.offsetLeft - viewportOffset) * -1)
@@ -80,21 +89,25 @@ const Carousel: React.FC<Props> = ({ images }) => {
     >
       <GridContainer>
         <Styled.Slider as={motion.div} style={{ translateX }}>
-          {images.map((image, index) => (
-            <Styled.SliderImage
-              // TODO: Make key/id unique when multiple instances of Carousel are present
-              key={`carousel__image--${index}`}
-              id={`carousel__image--${index}`}
-              marginStart={start}
-              marginEnd={end}
-              style={{ width }}
-            >
-              <GatsbyImage
-                image={getImage(image) as IGatsbyImageData}
-                alt={`Carousel image ${index}`}
-              />
-            </Styled.SliderImage>
-          ))}
+          {images.map((image, index) => {
+            const uid = `carousel-${carouselUid}__image--${index}`
+
+            return (
+              <Styled.SliderImage
+                key={uid}
+                id={uid}
+                marginStart={start}
+                marginEnd={end}
+                style={{ width }}
+              >
+                <GatsbyImage
+                  image={getImage(image) as IGatsbyImageData}
+                  alt={`Carousel image ${index}`}
+                />
+                <Styled.ImageCaption>{captions[index]}</Styled.ImageCaption>
+              </Styled.SliderImage>
+            )
+          })}
         </Styled.Slider>
         <GridConstraint ref={constraintRef} style={{ gridRow: 2 }}>
           <Styled.CarouselNav>

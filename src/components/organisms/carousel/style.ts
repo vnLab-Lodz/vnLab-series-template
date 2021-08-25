@@ -22,6 +22,7 @@ export const SliderImage = styled.div<{
   marginEnd: number
 }>`
   display: inline-block;
+  vertical-align: top;
   margin: 0px 16px;
 
   ${Slider} & {
@@ -33,6 +34,14 @@ export const SliderImage = styled.div<{
       margin-right: ${({ marginEnd }) => `${marginEnd}px`};
     }
   }
+`
+
+export const ImageCaption = styled(atoms.p)`
+  ${({ theme: { spacing } }) => css`
+    margin-top: ${spacing.xs};
+    width: 100%;
+    white-space: break-spaces;
+  `}
 `
 
 export const CarouselNav = styled.nav`

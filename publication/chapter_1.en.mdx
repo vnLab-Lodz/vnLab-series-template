@@ -29,7 +29,13 @@ In Agnès Vardy's early, especially fictional films, death is an existential sca
 
 <br />
 
-<Carousel images={props.localImages} />
+<Carousel
+  images={props.localImages}
+  captions={props.localImages.map(
+    _ =>
+      "possible description of the photo with information such as title, author's name, etc."
+  )}
+/>
 
 <br />
 
