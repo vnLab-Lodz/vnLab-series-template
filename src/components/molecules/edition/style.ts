@@ -9,10 +9,18 @@ export const EdtitionWrapper = styled(InnerGrid)`
 
 export const Text = styled(atoms.p)`
   grid-row: 1;
-  grid-column: 1 / 6;
+  grid-column: 1 / 10;
+
+  @media ${devices.tablet} {
+    grid-column: 1 / 6;
+  }
 
   @media ${devices.laptop} {
     grid-column: 1 / 4;
+  }
+
+  @media ${devices.laptopL} {
+    grid-column: 1 / 3;
   }
 `
 
@@ -24,9 +32,17 @@ export const Button = styled(atoms.button)`
   vertical-align: middle;
   width: fit-content;
   grid-row: 1;
-  grid-column: 6 / -1;
+  grid-column: 10 / last-col;
+
+  @media ${devices.tablet} {
+    grid-column: 6 / last-col;
+  }
 
   @media ${devices.laptop} {
-    grid-column: 4 / -1;
+    grid-column: 4 / last-col;
+  }
+
+  @media ${devices.laptop} {
+    grid-column: 3 / last-col;
   }
 `
