@@ -7,28 +7,35 @@ import { NAV_MODES } from "./nav-menu-context"
 export const Aside = styled(GridContainer)`
   position: fixed;
   top: 0;
-  bottom: 0;
   left: 0;
   right: 0;
   z-index: 8;
   pointer-events: none;
+
+  @media ${devices.tablet} {
+    bottom: 0;
+  }
 `
 
 export const Nav = styled.nav<{ mode: NAV_MODES }>`
   ${({ mode, theme: { spacing, palette } }) => css`
     background: ${mode === NAV_MODES.LIGHT ? palette.white : palette.black};
-    border-right: solid 1px
-      ${mode === NAV_MODES.LIGHT ? palette.dark : palette.white};
-    padding: ${spacing.md} 0px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     pointer-events: all;
     transition: all 0.3s ease-in-out;
+    grid-column: 1 / last-col;
+    padding: ${spacing.xs} 0px;
+    border-bottom: solid 1px ${palette.black};
 
     @media ${devices.tablet} {
+      border-bottom: none;
+      border-right: solid 1px
+        ${mode === NAV_MODES.LIGHT ? palette.dark : palette.white};
+      padding: ${spacing.md} 0px;
       grid-column: 1 / 4;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     @media ${devices.laptop} {
@@ -45,12 +52,27 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
 `
 
 export const Title = styled(atoms.p)`
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
+  @media ${devices.tablet} {
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+  }
 `
 
 export const HamburgerBtn = styled.button`
   background: none;
   border: none;
   cursor: pointer;
+  margin: 0px ${({ theme }) => theme.spacing.sm};
+
+  @media ${devices.tablet} {
+    margin: 0px;
+  }
+`
+
+export const Logo = styled.img`
+  display: none;
+
+  @media ${devices.tablet} {
+    display: block;
+  }
 `

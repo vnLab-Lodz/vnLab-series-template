@@ -15,10 +15,14 @@ export const StickyWrapper = styled.div<{ sticky?: boolean }>`
     sticky &&
     css`
       position: fixed;
-      top: 0px;
+      top: 68px;
       left: 0px;
       right: 0px;
       z-index: 3;
+
+      @media ${devices.tablet} {
+        top: 0px;
+      }
     `}
 `
 

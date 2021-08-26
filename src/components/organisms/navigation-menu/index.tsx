@@ -21,7 +21,7 @@ const NavigationMenu: React.FC<Props> = () => {
           <img src={HamburgerSVG} alt="Hamburger Button" />
         </Styled.HamburgerBtn>
         <Styled.Title>{t("title")}</Styled.Title>
-        <img src={VnlabLogo} alt="vnLab logo" />
+        <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
       </Styled.Nav>
     </Styled.Aside>
   )
