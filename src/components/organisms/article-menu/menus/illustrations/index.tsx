@@ -16,6 +16,7 @@ const Illustrations: React.FC<Props> = ({ images }) => {
     <Styled.IllustrationsWrapper>
       {images.map((image, index) => (
         <GatsbyImage
+          key={`article-menu__illustartion--${index}`}
           image={getImage(image) as IGatsbyImageData}
           alt={`Article image ${index}`}
         />
