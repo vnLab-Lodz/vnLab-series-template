@@ -20,6 +20,8 @@ import ArticleFooter from "~components/organisms/article-footer"
 import { ImageDataLike } from "gatsby-plugin-image"
 import { isUndefined } from "~util"
 import Carousel from "~components/organisms/carousel"
+import NavigationMenu from "~components/organisms/navigation-menu"
+import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 
 const addClass =
   (
@@ -75,22 +77,25 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   }
 
   return (
-    <AnnotationProvider>
-      {headerImage && <HeaderImage image={headerImage} />}
-      <ArticleMenu images={getImages()} />
-      <StyledLayout className="mdx-section">
-        <MDXProvider components={components}>
-          <SeoMeta title={title} />
-          <MDXRenderer
-            frontmatter={mdx.frontmatter}
-            localImages={embeddedImagesLocal}
-          >
-            {mdx.body}
-          </MDXRenderer>
-        </MDXProvider>
-      </StyledLayout>
-      <ArticleFooter currentPath={location.pathname} />
-    </AnnotationProvider>
+    <NavMenuProvider>
+      <NavigationMenu />
+      <AnnotationProvider>
+        {headerImage && <HeaderImage image={headerImage} />}
+        <ArticleMenu images={getImages()} />
+        <StyledLayout className="mdx-section">
+          <MDXProvider components={components}>
+            <SeoMeta title={title} />
+            <MDXRenderer
+              frontmatter={mdx.frontmatter}
+              localImages={embeddedImagesLocal}
+            >
+              {mdx.body}
+            </MDXRenderer>
+          </MDXProvider>
+        </StyledLayout>
+        <ArticleFooter currentPath={location.pathname} />
+      </AnnotationProvider>
+    </NavMenuProvider>
   )
 }
 

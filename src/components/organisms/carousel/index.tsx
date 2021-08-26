@@ -104,6 +104,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                   style={{ width }}
                 >
                   <GatsbyImage
+                    style={{ width: "100%" }}
                     image={getImage(image) as IGatsbyImageData}
                     alt={`Carousel image ${index}`}
                   />
