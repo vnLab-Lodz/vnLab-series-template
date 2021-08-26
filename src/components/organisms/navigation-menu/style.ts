@@ -1,6 +1,7 @@
+import { motion } from "framer-motion"
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
-import { devices } from "~styles/breakpoints"
+import { breakpoints, devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 import { NAV_MODES } from "./nav-menu-context"
 
@@ -27,6 +28,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
     grid-column: 1 / last-col;
     padding: ${spacing.xs} 0px;
     border-bottom: solid 1px ${palette.black};
+    position: relative;
 
     @media ${devices.tablet} {
       border-bottom: none;
@@ -49,6 +51,27 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
       }
     `}
   `}
+`
+
+export const Progress = styled(motion.div)`
+  background: ${({ theme }) => theme.palette.black};
+  position: absolute;
+
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
+    top: 0px;
+    left: 0px;
+    height: 2px !important;
+  }
+
+  @media ${devices.tablet} {
+    top: 0px;
+    right: -1.5px;
+    width: 2px !important;
+  }
+
+  @media ${devices.laptopL} {
+    right: -2px;
+  }
 `
 
 export const Title = styled(atoms.p)`
