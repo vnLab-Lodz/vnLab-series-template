@@ -26,15 +26,15 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
     pointer-events: all;
     transition: all 0.3s ease-in-out;
     grid-column: 1 / last-col;
-    padding: ${spacing.xs} 0px;
     border-bottom: solid 1px ${palette.black};
     position: relative;
+    width: 100%;
 
     @media ${devices.tablet} {
       border-bottom: none;
       border-right: solid 1px
         ${mode === NAV_MODES.LIGHT ? palette.dark : palette.white};
-      padding: ${spacing.md} 0px;
+      padding: 0px 0px ${spacing.md} 0px;
       grid-column: 1 / 4;
       flex-direction: column;
       justify-content: space-between;
@@ -75,20 +75,42 @@ export const Progress = styled(motion.div)`
 `
 
 export const Title = styled(atoms.p)`
+  margin-left: ${({ theme }) => theme.spacing.xs};
+
   @media ${devices.tablet} {
+    margin-left: 0px;
     writing-mode: vertical-lr;
     transform: rotate(180deg);
   }
 `
 
-export const HamburgerBtn = styled.button`
-  background: none;
+export const ToggleBtn = styled.button<{ open: boolean }>`
+  background: ${({ open, theme }) => (!open ? "none" : theme.palette.black)};
+  transition: background 0.2s ease-in;
   border: none;
   cursor: pointer;
-  margin: 0px ${({ theme }) => theme.spacing.sm};
+  height: 100%;
+  border-radius: 0px;
+
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
+    padding: ${({ theme: { spacing } }) => `${spacing.xs} ${spacing.sm}`};
+    min-width: ${({ theme: { spacing } }) => `calc(${spacing.sm} * 2 + 31px)`};
+    min-height: ${({ theme: { spacing } }) => `calc(${spacing.xs} * 2 + 25px)`};
+  }
+
+  ${({ open }) =>
+    open &&
+    css`
+      & > * {
+        filter: brightness(10);
+      }
+    `}
 
   @media ${devices.tablet} {
+    height: fit-content;
+    padding: ${({ theme }) => theme.spacing.sm} 0px;
     margin: 0px;
+    width: 100%;
   }
 `
 
