@@ -3,6 +3,7 @@ import { NavMenuContext } from "./nav-menu-context"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
 import {
+  AnimatePresence,
   useMotionTemplate,
   useTransform,
   useViewportScroll,
@@ -36,9 +37,18 @@ const NavigationMenu: React.FC = () => {
         <Styled.Title>{t("title")}</Styled.Title>
         <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
       </Styled.Nav>
-      <Styled.NavMenuContent>
-        <Styled.Tabs></Styled.Tabs>
-      </Styled.NavMenuContent>
+      <AnimatePresence>
+        {open && (
+          <Styled.NavMenuContent
+            initial={{ translateX: -1500 }}
+            animate={{ translateX: 0 }}
+            exit={{ translateX: -1500 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <Styled.Tabs></Styled.Tabs>
+          </Styled.NavMenuContent>
+        )}
+      </AnimatePresence>
     </Styled.Aside>
   )
 }

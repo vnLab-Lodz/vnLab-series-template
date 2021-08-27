@@ -29,6 +29,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
     border-bottom: solid 1px ${palette.black};
     position: relative;
     width: 100%;
+    z-index: 9;
 
     @media ${devices.tablet} {
       border-bottom: none;
@@ -124,22 +125,26 @@ export const Logo = styled.img`
   }
 `
 
-export const NavMenuContent = styled.div`
-  pointer-events: all;
-  background: green;
-  display: grid;
-  grid-column: 1 / last-col;
-  height: 100%;
+export const NavMenuContent = styled(motion.div)`
+  ${({ theme: { palette } }) => css`
+    pointer-events: all;
+    background: ${palette.white};
+    border-right: solid 1px ${palette.dark};
+    display: grid;
+    grid-column: 1 / last-col;
+    height: 100%;
+    z-index: 8;
 
-  @media ${devices.tablet} {
-    grid-column: 4 / -2;
-    grid-template-columns: repeat(27, 1fr);
-  }
+    @media ${devices.tablet} {
+      grid-column: 4 / -2;
+      grid-template-columns: repeat(27, 1fr);
+    }
 
-  @media ${devices.laptop} {
-    grid-template-columns: repeat(14, 1fr);
-    grid-column: 3 / 17;
-  }
+    @media ${devices.laptop} {
+      grid-template-columns: repeat(14, 1fr);
+      grid-column: 3 / 17;
+    }
+  `}
 `
 
 export const Tabs = styled.header`
