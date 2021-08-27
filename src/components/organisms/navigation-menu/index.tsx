@@ -19,6 +19,12 @@ import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
 import { useLocalization } from "gatsby-theme-i18n"
 
+enum NAV_MENU_STATES {
+  TOC,
+  INDEXES,
+  ABOUT,
+}
+
 function getLocalesString(config: Array<{ code: string }>) {
   return config.reduce((prev: string, { code }, index) => {
     if (index === 0) return code.toUpperCase()
@@ -30,6 +36,7 @@ function getLocalesString(config: Array<{ code: string }>) {
 const NavigationMenu: React.FC = () => {
   const { navMode } = useContext(NavMenuContext)
   const [open, setOpen] = useState(false)
+  const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { t } = useTranslation(["common", "nav-menu"])
 
   const { config } = useLocalization()
@@ -61,18 +68,30 @@ const NavigationMenu: React.FC = () => {
           >
             <Styled.Tabs>
               <Styled.TabItems>
-                <Styled.TabButton>
-                  <Styled.TabButtonText active>
+                <Styled.TabButton
+                  onClick={() => setNavState(NAV_MENU_STATES.TOC)}
+                >
+                  <Styled.TabButtonText
+                    active={navState === NAV_MENU_STATES.TOC}
+                  >
                     {t("nav-menu:tabs.toc")}
                   </Styled.TabButtonText>
                 </Styled.TabButton>
-                <Styled.TabButton>
-                  <Styled.TabButtonText>
+                <Styled.TabButton
+                  onClick={() => setNavState(NAV_MENU_STATES.INDEXES)}
+                >
+                  <Styled.TabButtonText
+                    active={navState === NAV_MENU_STATES.INDEXES}
+                  >
                     {t("nav-menu:tabs.indexes")}
                   </Styled.TabButtonText>
                 </Styled.TabButton>
-                <Styled.TabButton>
-                  <Styled.TabButtonText>
+                <Styled.TabButton
+                  onClick={() => setNavState(NAV_MENU_STATES.ABOUT)}
+                >
+                  <Styled.TabButtonText
+                    active={navState === NAV_MENU_STATES.ABOUT}
+                  >
                     {t("nav-menu:tabs.about")}
                   </Styled.TabButtonText>
                 </Styled.TabButton>

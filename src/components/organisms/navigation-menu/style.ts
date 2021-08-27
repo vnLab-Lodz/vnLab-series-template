@@ -149,37 +149,61 @@ export const NavMenuContent = styled(motion.div)`
 
 export const Tabs = styled.header`
   ${({ theme: { spacing, palette } }) => css`
-    padding: 0px ${spacing.xs};
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: ${palette.black};
     grid-column: 1 / last-col;
+    padding: ${spacing.xs} ${spacing.xxs};
 
     @media ${devices.tablet} {
+      padding: 0px ${spacing.xs};
       height: 106px;
     }
   `}
 `
 
 export const TabItems = styled.div<{ noFlex?: boolean }>`
-  display: flex;
-  height: 100%;
+  ${({ noFlex, theme: { spacing } }) => css`
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: start;
 
-  ${({ noFlex }) =>
-    !noFlex &&
+    @media ${devices.tablet} {
+      flex-direction: row;
+    }
+
+    ${!noFlex &&
     css`
-      flex: 1;
       justify-content: space-evenly;
+
+      @media ${devices.tablet} {
+        flex: 1;
+      }
     `}
+
+    ${noFlex &&
+    css`
+      align-items: flex-start;
+      flex-direction: row;
+      justify-content: end;
+    `}
+  `}
 `
 
 export const TabButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  height: 100%;
-  padding: ${({ theme: { spacing } }) => spacing.xxs};
+  text-align: start;
+  padding: ${({ theme: { spacing } }) => `${spacing.xs} ${spacing.xxs}`};
+
+  @media ${devices.tablet} {
+    padding: ${({ theme: { spacing } }) => spacing.xxs};
+    height: 100%;
+    text-align: center;
+  }
 `
 
 export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
