@@ -107,8 +107,8 @@ export const ToggleBtn = styled.button<{ open: boolean }>`
     `}
 
   @media ${devices.tablet} {
-    height: fit-content;
     padding: ${({ theme }) => theme.spacing.sm} 0px;
+    height: 105px;
     margin: 0px;
     width: 100%;
   }
@@ -119,5 +119,22 @@ export const Logo = styled.img`
 
   @media ${devices.tablet} {
     display: block;
+  }
+`
+
+export const NavMenuContent = styled.div`
+  background: green;
+  display: grid;
+  grid-column: 1 / last-col;
+  height: 100%;
+
+  @media ${devices.tablet} {
+    grid-column: 4 / -2;
+    grid-template-columns: repeat(27, 1fr);
+  }
+
+  @media ${devices.laptop} {
+    grid-template-columns: repeat(14, 1fr);
+    grid-column: 3 / 17;
   }
 `
