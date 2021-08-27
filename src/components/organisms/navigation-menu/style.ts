@@ -33,7 +33,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
     @media ${devices.tablet} {
       border-bottom: none;
       border-right: solid 1px
-        ${mode === NAV_MODES.LIGHT ? palette.dark : palette.white};
+        ${mode === NAV_MODES.LIGHT ? palette.black : palette.white};
       padding: 0px 0px ${spacing.md} 0px;
       grid-column: 1 / 4;
       flex-direction: column;
@@ -108,9 +108,11 @@ export const ToggleBtn = styled.button<{ open: boolean }>`
 
   @media ${devices.tablet} {
     padding: ${({ theme }) => theme.spacing.sm} 0px;
-    height: 105px;
+    height: 106px;
     margin: 0px;
-    width: 100%;
+    // 1px offsets the scaling of 1px borders on devices with pixel scaling of 1.5
+    // that makes them 2px leaving a white gap between button and tabs
+    width: calc(100% + 1px);
   }
 `
 
@@ -123,6 +125,7 @@ export const Logo = styled.img`
 `
 
 export const NavMenuContent = styled.div`
+  pointer-events: all;
   background: green;
   display: grid;
   grid-column: 1 / last-col;
@@ -137,4 +140,19 @@ export const NavMenuContent = styled.div`
     grid-template-columns: repeat(14, 1fr);
     grid-column: 3 / 17;
   }
+`
+
+export const Tabs = styled.header`
+  ${({ theme: { spacing, palette } }) => css`
+    padding: 0px ${spacing.xxs};
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: ${palette.black};
+    grid-column: 1 / last-col;
+
+    @media ${devices.tablet} {
+      height: 106px;
+    }
+  `}
 `

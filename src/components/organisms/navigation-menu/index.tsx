@@ -36,7 +36,9 @@ const NavigationMenu: React.FC = () => {
         <Styled.Title>{t("title")}</Styled.Title>
         <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
       </Styled.Nav>
-      <Styled.NavMenuContent />
+      <Styled.NavMenuContent>
+        <Styled.Tabs></Styled.Tabs>
+      </Styled.NavMenuContent>
     </Styled.Aside>
   )
 }
