@@ -149,7 +149,7 @@ export const NavMenuContent = styled(motion.div)`
 
 export const Tabs = styled.header`
   ${({ theme: { spacing, palette } }) => css`
-    padding: 0px ${spacing.xxs};
+    padding: 0px ${spacing.xs};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -160,4 +160,44 @@ export const Tabs = styled.header`
       height: 106px;
     }
   `}
+`
+
+export const TabItems = styled.div<{ noFlex?: boolean }>`
+  display: flex;
+  height: 100%;
+
+  ${({ noFlex }) =>
+    !noFlex &&
+    css`
+      flex: 1;
+      justify-content: space-evenly;
+    `}
+`
+
+export const TabButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 100%;
+  padding: ${({ theme: { spacing } }) => spacing.xxs};
+`
+
+export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
+  ${({ active, theme: { palette, typography } }) => css`
+    text-underline-offset: 10px;
+    color: ${palette.white};
+    text-transform: uppercase;
+    font-family: ${typography.fonts.primary};
+    font-size: ${typography.sm};
+    font-weight: bold;
+
+    ${active &&
+    css`
+      text-decoration: underline;
+    `}
+  `}
+`
+
+export const SearchImg = styled.img`
+  filter: brightness(10);
 `

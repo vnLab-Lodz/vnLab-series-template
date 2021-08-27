@@ -102,7 +102,7 @@ export default {
       options: {
         locales: `./i18n/locale`,
         i18nextOptions: {
-          ns: ["common", "404", "home"],
+          ns: ["common", "404", "home", "nav-menu"],
         },
       },
     },
