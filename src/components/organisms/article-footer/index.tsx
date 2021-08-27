@@ -1,8 +1,9 @@
 import React, { useState } from "react"
 import { useLayoutEffect } from "react"
 import { useTranslation } from "react-i18next"
-import usePublication, { PublicationPage } from "src/hooks/usePublication"
+import usePublication from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
+import { getCurrentPathIndex } from "~util"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -12,10 +13,6 @@ import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 interface Props {
   currentPath: string
-}
-
-function getCurrentPathIndex(pages: PublicationPage[], currentPath: string) {
-  return pages.findIndex(p => p.path == currentPath)
 }
 
 const ArticleFooter: React.FC<Props> = ({ currentPath }) => {

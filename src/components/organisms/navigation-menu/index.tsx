@@ -18,6 +18,7 @@ import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
 import { useLocalization } from "gatsby-theme-i18n"
+import TableOfContents from "./tabs/toc"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -47,6 +48,24 @@ const NavigationMenu: React.FC = () => {
   const progress = useMotionTemplate`${scrollPercent}%`
 
   const toggleMenu = () => setOpen(prev => !prev)
+
+  const getActiveTab = () => {
+    let tab = <></>
+
+    switch (navState) {
+      case NAV_MENU_STATES.TOC:
+        tab = <TableOfContents />
+        break
+      case NAV_MENU_STATES.INDEXES:
+        break
+      case NAV_MENU_STATES.ABOUT:
+        break
+      default:
+        break
+    }
+
+    return tab
+  }
 
   return (
     <Styled.Aside>
@@ -105,6 +124,7 @@ const NavigationMenu: React.FC = () => {
                 </Styled.TabButton>
               </Styled.TabItems>
             </Styled.Tabs>
+            {getActiveTab()}
           </Styled.NavMenuContent>
         )}
       </AnimatePresence>

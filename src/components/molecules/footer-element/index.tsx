@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import atoms from "~components/atoms"
+import { getChapterFromIndex } from "~util/indexes"
 import Arrow from "../arrow"
 import * as Styled from "./style"
 
@@ -31,8 +32,6 @@ const FooterElement: React.FC<Props> = ({
 
   const toggleSummary = () => setIsSummaryExpanded(prev => !prev)
 
-  const getFormattedNumber = () => ((number ?? 0) >= 10 ? number : `0${number}`)
-
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
       <Styled.ElementWrapper
@@ -44,7 +43,9 @@ const FooterElement: React.FC<Props> = ({
         exit={{ opacity: 0 }}
       >
         <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
-        <Styled.ArticleNumber>{getFormattedNumber()}</Styled.ArticleNumber>
+        <Styled.ArticleNumber>
+          {getChapterFromIndex(number ?? 0)}
+        </Styled.ArticleNumber>
         <Styled.ArticlTitle to={path}>
           <atoms.p>{title}</atoms.p>
         </Styled.ArticlTitle>

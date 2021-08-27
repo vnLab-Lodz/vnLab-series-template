@@ -5,6 +5,8 @@ import { breakpoints, devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 import { NAV_MODES } from "./nav-menu-context"
 
+//#region  Menu base
+
 export const Aside = styled(GridContainer)`
   position: fixed;
   top: 0;
@@ -130,10 +132,12 @@ export const NavMenuContent = styled(motion.div)`
     pointer-events: all;
     background: ${palette.white};
     border-right: solid 1px ${palette.dark};
-    display: grid;
-    grid-column: 1 / last-col;
     height: 100%;
     z-index: 8;
+    display: grid;
+    grid-column: 1 / last-col;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
 
     @media ${devices.tablet} {
       grid-column: 4 / -2;
@@ -164,7 +168,7 @@ export const Tabs = styled.header`
 `
 
 export const TabItems = styled.div<{ noFlex?: boolean }>`
-  ${({ noFlex, theme: { spacing } }) => css`
+  ${({ noFlex }) => css`
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -225,3 +229,43 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
 export const SearchImg = styled.img`
   filter: brightness(10);
 `
+
+//#endregion
+
+//#region Table of contents tab
+
+export const TocGrid = styled.section`
+  overflow-y: scroll;
+  display: grid;
+  grid-column: 1 / last-col;
+  grid-auto-rows: min-content;
+  grid-row: 2;
+
+  @media ${devices.tablet} {
+    grid-template-columns: repeat(27, 1fr);
+  }
+
+  @media ${devices.laptop} {
+    grid-template-columns: repeat(14, 1fr);
+  }
+`
+
+export const TocHeader = styled(atoms.h3)`
+  ${({ theme: { spacing, palette, typography } }) => css`
+    font-size: ${typography.sm};
+    font-weight: normal;
+    color: ${palette.dark}
+    text-transform: uppercase;
+    text-align: start;
+    grid-column: 3 / -2;
+    margin: ${spacing.md} 0px
+  `}
+`
+
+export const Part = styled(atoms.h3)`
+  margin: 0px 0px ${({ theme }) => theme.spacing.md} 0px;
+  text-align: start;
+  grid-column: 3 / last-col;
+`
+
+//#endregion
