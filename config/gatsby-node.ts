@@ -27,7 +27,7 @@ export const createPages = async ({
 
   const { data, errors } = await graphql<Data>(`
     query {
-      allMdx {
+      allMdx(filter: { frontmatter: { meta: { ne: true } } }) {
         nodes {
           id
           frontmatter {
@@ -74,6 +74,7 @@ export const createSchemaCustomization = ({
       summary: String
       index: Float
       date: Date
+      meta: Boolean
       headerImage: File @fileByRelativePath
       embeddedImagesLocal: [File] @fileByRelativePath
     }

@@ -6,7 +6,7 @@ import { breakpoints, devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 import { NAV_MODES } from "./nav-menu-context"
 
-//#region  Menu base
+//#region Menu base
 
 export const Aside = styled(GridContainer)`
   position: fixed;
@@ -142,6 +142,7 @@ export const NavMenuContent = styled(motion.div)`
     z-index: 8;
     display: grid;
     grid-column: 1 / last-col;
+    grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     overflow: hidden;
 
@@ -320,3 +321,31 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: boolean }>`
 `
 
 //#endregion
+
+//#region About
+
+export const AboutWrapper = styled.div`
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  grid-column: 1 / last-col;
+  overflow-y: scroll;
+
+  @media ${devices.tablet} {
+    grid-template-columns: repeat(27, 1fr);
+  }
+
+  @media ${devices.laptop} {
+    grid-template-columns: repeat(14, 1fr);
+  }
+`
+
+export const AboutContent = styled.article`
+  padding-bottom: ${({ theme }) => theme.spacing.md};
+  grid-column: 2 / -2;
+
+  @media ${devices.tablet} {
+    grid-column: 3 / -2;
+  }
+`
+
+//#enregion

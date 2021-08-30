@@ -31,7 +31,7 @@ const addClass =
   ({ children }) =>
     <Component className={className}>{children}</Component>
 
-const components = {
+export const mdxComponents = {
   Link: MdxLink,
   Author: Author,
   Abstract: Abstract,
@@ -83,7 +83,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
         {headerImage && <HeaderImage image={headerImage} />}
         <ArticleMenu images={getImages()} />
         <StyledLayout className="mdx-section">
-          <MDXProvider components={components}>
+          <MDXProvider components={mdxComponents}>
             <SeoMeta title={title} />
             <MDXRenderer
               frontmatter={mdx.frontmatter}

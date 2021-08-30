@@ -19,6 +19,7 @@ import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import TableOfContents from "./tabs/toc"
+import About from "./tabs/about"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -73,6 +74,7 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
       case NAV_MENU_STATES.INDEXES:
         break
       case NAV_MENU_STATES.ABOUT:
+        tab = <About />
         break
       default:
         break
