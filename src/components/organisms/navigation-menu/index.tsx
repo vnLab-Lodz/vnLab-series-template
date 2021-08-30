@@ -17,7 +17,7 @@ import CloseSVG from "../../../images/icons/x.svg"
 import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
-import { useLocalization } from "gatsby-theme-i18n"
+import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import TableOfContents from "./tabs/toc"
 
 enum NAV_MENU_STATES {
@@ -34,14 +34,28 @@ function getLocalesString(config: Array<{ code: string }>) {
   }, "")
 }
 
-const NavigationMenu: React.FC = () => {
+interface Props {
+  currentPath: string
+}
+
+interface Language {
+  code: string
+  name: string
+}
+
+const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
   const { navMode } = useContext(NavMenuContext)
   const [open, setOpen] = useState(false)
+  const [langPickerOpen, setLangPickerOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { t } = useTranslation(["common", "nav-menu"])
 
-  const { config } = useLocalization()
+  const { config, locale } = useLocalization()
   const locales = getLocalesString(config)
+  const languages: Language[] = config.map(({ code, name }: Language) => ({
+    code,
+    name,
+  }))
 
   const { scrollYProgress } = useViewportScroll()
   const scrollPercent = useTransform(scrollYProgress, [0, 1], [0, 100])
@@ -124,8 +138,23 @@ const NavigationMenu: React.FC = () => {
                 </Styled.TabButton>
               </Styled.TabItems>
               <Styled.TabItems noFlex>
-                <Styled.TabButton>
+                <Styled.TabButton
+                  onClick={() => setLangPickerOpen(prev => !prev)}
+                >
                   <Styled.TabButtonText>{locales}</Styled.TabButtonText>
+                  {langPickerOpen && (
+                    <Styled.LanguagePopUp>
+                      {languages.map((lang: Language) => (
+                        <Styled.LangLink
+                          inactive={lang.code === locale}
+                          to={currentPath.replace(`/${locale}/`, "/")}
+                          language={lang.code}
+                        >
+                          {lang.name}
+                        </Styled.LangLink>
+                      ))}
+                    </Styled.LanguagePopUp>
+                  )}
                 </Styled.TabButton>
                 <Styled.TabButton>
                   <Styled.SearchImg src={SearchSVG} alt="Magnifying glass" />

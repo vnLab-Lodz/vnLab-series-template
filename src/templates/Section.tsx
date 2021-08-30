@@ -78,7 +78,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
-      <NavigationMenu />
+      <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
         {headerImage && <HeaderImage image={headerImage} />}
         <ArticleMenu images={getImages()} />

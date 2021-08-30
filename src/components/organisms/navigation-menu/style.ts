@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { breakpoints, devices } from "~styles/breakpoints"
@@ -207,6 +208,7 @@ export const TabButton = styled.button`
   cursor: pointer;
   text-align: start;
   padding: ${({ theme: { spacing } }) => `${spacing.xs} ${spacing.xxs}`};
+  position: relative;
 
   @media ${devices.tablet} {
     padding: ${({ theme: { spacing } }) => spacing.xxs};
@@ -280,6 +282,41 @@ export const Part = styled(atoms.h3)`
   @media ${devices.tablet} {
     grid-column: 3 / last-col;
   }
+`
+
+//#endregion
+
+//#region Langauge switch
+
+export const LanguagePopUp = styled.div`
+  ${({ theme: { spacing, palette } }) => css`
+    position: absolute;
+    top: 60%;
+    right: 0px;
+    background: ${palette.white};
+    border: solid 1px ${palette.dark};
+    padding: ${spacing.xxs};
+    display: flex;
+    flex-direction: column;
+  `}
+`
+
+export const LangLink = styled(LocalizedLink)<{ inactive?: boolean }>`
+  ${({ inactive, theme: { spacing, typography, palette } }) => css`
+    text-align: left;
+    text-decoration: none;
+    padding: ${spacing.xxs};
+    color: ${palette.black};
+    font-size: calc(${typography.md} * 0.9);
+    font-weight: 500;
+
+    ${inactive &&
+    css`
+      pointer-events: none;
+      cursor: normal;
+      color: ${palette.dark};
+    `};
+  `}
 `
 
 //#endregion
