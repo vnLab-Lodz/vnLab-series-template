@@ -10,6 +10,7 @@ export const TocContainer = styled.article`
   grid-template-rows: repeat(4, min-content);
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   padding-bottom: ${({ theme }) => theme.spacing.xs};
+  grid-template-columns: repeat(16, 1fr);
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
@@ -22,18 +23,22 @@ export const TocContainer = styled.article`
 
 export const ArticlTitle = styled(LocalizedLink)`
   text-decoration: none;
-  grid-column: 6 / -2;
   grid-row: 1;
+  grid-column: 6 / -2;
 `
 
 export const ArticleNumber = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     align-self: center;
-    grid-column: 3;
     grid-row: 1;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     font-weight: bold;
+    grid-column: 2;
+
+    @media ${devices.tablet} {
+      grid-column: 3;
+    }
   `}
 `
 export const ArticleAuthor = styled(atoms.h3)`
@@ -78,7 +83,11 @@ export const Divider = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  grid-column: 3 / -2;
   height: 1px;
   background: ${({ theme }) => theme.palette.dark};
+  grid-column: 2 / -2;
+
+  @media ${devices.tablet} {
+    grid-column: 3 / -2;
+  }
 `

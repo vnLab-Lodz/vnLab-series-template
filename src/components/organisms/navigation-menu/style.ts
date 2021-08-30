@@ -14,9 +14,11 @@ export const Aside = styled(GridContainer)`
   right: 0;
   z-index: 8;
   pointer-events: none;
+  bottom: 0;
+  grid-template-rows: auto 1fr;
 
   @media ${devices.tablet} {
-    bottom: 0;
+    grid-template-rows: 1fr;
   }
 `
 
@@ -31,13 +33,15 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
     border-bottom: solid 1px ${palette.black};
     position: relative;
     width: 100%;
+    height: fit-content;
     z-index: 9;
 
     @media ${devices.tablet} {
+      height: 100%;
       border-bottom: none;
       border-right: solid 1px
         ${mode === NAV_MODES.LIGHT ? palette.black : palette.white};
-      padding: 0px 0px ${spacing.md} 0px;
+      padding: 0px;
       grid-column: 1 / 4;
       flex-direction: column;
       justify-content: space-between;
@@ -124,6 +128,7 @@ export const Logo = styled.img`
 
   @media ${devices.tablet} {
     display: block;
+    margin-bottom: ${({ theme }) => theme.spacing.md};
   }
 `
 
@@ -240,6 +245,7 @@ export const TocGrid = styled.section`
   grid-column: 1 / last-col;
   grid-auto-rows: min-content;
   grid-row: 2;
+  grid-template-columns: repeat(16, 1fr);
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
@@ -254,18 +260,26 @@ export const TocHeader = styled(atoms.h3)`
   ${({ theme: { spacing, palette, typography } }) => css`
     font-size: ${typography.sm};
     font-weight: normal;
-    color: ${palette.dark}
+    color: ${palette.dark};
     text-transform: uppercase;
     text-align: start;
-    grid-column: 3 / -2;
-    margin: ${spacing.md} 0px
+    margin: ${spacing.md} 0px;
+    grid-column: 2 / -2;
+
+    @media ${devices.tablet} {
+      grid-column: 3 / -2;
+    }
   `}
 `
 
 export const Part = styled(atoms.h3)`
   margin: 0px 0px ${({ theme }) => theme.spacing.md} 0px;
   text-align: start;
-  grid-column: 3 / last-col;
+  grid-column: 2 / last-col;
+
+  @media ${devices.tablet} {
+    grid-column: 3 / last-col;
+  }
 `
 
 //#endregion

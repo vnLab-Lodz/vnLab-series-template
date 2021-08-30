@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react"
+import React, { useContext, useState, useLayoutEffect } from "react"
 import { NavMenuContext } from "./nav-menu-context"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
@@ -66,6 +66,14 @@ const NavigationMenu: React.FC = () => {
 
     return tab
   }
+
+  useLayoutEffect(() => {
+    if (open) document.body.classList.add("no-scroll")
+
+    return () => {
+      document.body.classList.remove("no-scroll")
+    }
+  }, [open])
 
   return (
     <Styled.Aside>
