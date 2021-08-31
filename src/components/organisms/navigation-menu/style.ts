@@ -302,7 +302,7 @@ export const LanguagePopUp = styled.div`
   `}
 `
 
-export const LangLink = styled(LocalizedLink)<{ inactive?: boolean }>`
+export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
   ${({ inactive, theme: { spacing, typography, palette } }) => css`
     text-align: left;
     text-decoration: none;
@@ -311,7 +311,7 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: boolean }>`
     font-size: calc(${typography.md} * 0.9);
     font-weight: 500;
 
-    ${inactive &&
+    ${inactive === "true" &&
     css`
       pointer-events: none;
       cursor: normal;

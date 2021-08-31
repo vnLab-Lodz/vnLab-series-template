@@ -2,6 +2,9 @@ import React, { useContext, useState, useLayoutEffect } from "react"
 import { NavMenuContext } from "./nav-menu-context"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
+import { useLocalization } from "gatsby-theme-i18n"
+import TableOfContents from "./tabs/toc"
+import About from "./tabs/about"
 import {
   AnimatePresence,
   useMotionTemplate,
@@ -17,9 +20,6 @@ import CloseSVG from "../../../images/icons/x.svg"
 import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
-import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
-import TableOfContents from "./tabs/toc"
-import About from "./tabs/about"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -146,9 +146,10 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
                   <Styled.TabButtonText>{locales}</Styled.TabButtonText>
                   {langPickerOpen && (
                     <Styled.LanguagePopUp>
-                      {languages.map((lang: Language) => (
+                      {languages.map((lang: Language, i) => (
                         <Styled.LangLink
-                          inactive={lang.code === locale}
+                          key={`nav-menu__lang-link--${i}`}
+                          inactive={(lang.code === locale).toString()}
                           to={currentPath.replace(`/${locale}/`, "/")}
                           language={lang.code}
                         >

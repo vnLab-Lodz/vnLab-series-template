@@ -74,9 +74,10 @@ export const createSchemaCustomization = ({
       summary: String
       index: Float
       date: Date
-      meta: Boolean
       headerImage: File @fileByRelativePath
       embeddedImagesLocal: [File] @fileByRelativePath
+      meta: Boolean
+      locale: String
     }
     `)
 }
