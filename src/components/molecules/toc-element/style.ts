@@ -76,6 +76,7 @@ export const Summary = styled(atoms.p)`
   margin-top: ${({ theme }) => theme.spacing.xxs};
   grid-row: 4;
   grid-column: 6 / -2;
+  overflow: hidden;
 `
 
 export const Divider = styled.div`
