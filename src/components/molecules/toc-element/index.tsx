@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion"
+import { useLocalization } from "gatsby-theme-i18n"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PublicationPage } from "src/hooks/usePublication"
-import atoms from "~components/atoms"
 import { getChapterFromIndex } from "~util"
 import Arrow from "../arrow"
 import * as Styled from "./style"
@@ -14,6 +14,7 @@ interface Props {
 const TocElement: React.FC<Props> = ({ page }) => {
   const { t } = useTranslation("common")
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
+  const { locale } = useLocalization()
 
   const toggleSummary = () => setIsSummaryExpanded(prev => !prev)
 
@@ -23,7 +24,9 @@ const TocElement: React.FC<Props> = ({ page }) => {
         {getChapterFromIndex(page.index ?? 0)}
       </Styled.ArticleNumber>
       <Styled.ArticlTitle to={page.path}>
-        <atoms.p>{page.title}</atoms.p>
+        <Styled.TitleLink to={page.path} language={locale}>
+          {page.title}
+        </Styled.TitleLink>
       </Styled.ArticlTitle>
       <Styled.ArticleAuthor type="primary">{page.author}</Styled.ArticleAuthor>
       <Styled.SummaryButton onClick={toggleSummary}>
