@@ -42,7 +42,7 @@ export const Button = styled(atoms.button)`
     grid-column: 4 / last-col;
   }
 
-  @media ${devices.laptop} {
+  @media ${devices.laptopL} {
     grid-column: 3 / last-col;
   }
 `
