@@ -3,5 +3,11 @@
     "toc": "Table of contents",
     "indexes": "Indexes",
     "about": "About"
+  },
+  "index_tabs": {
+    "authors": "Authors",
+    "illustrations": "Illustrations",
+    "places": "Places",
+    "people": "People"
   }
 }

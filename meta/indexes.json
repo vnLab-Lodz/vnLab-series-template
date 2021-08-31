@@ -1,0 +1,55 @@
+{
+  "authors": {
+    "A": [
+      "Andrzejewski Emanuel",
+      "Andrzejewska Celina",
+      "Andrzejewski Emanuel",
+      "Andrzejewska Celina",
+      "Andrzejewski Emanuel",
+      "Andrzejewska Celina"
+    ],
+    "B": [
+      "Biały Emanuel",
+      "Błaszczyk Celina",
+      "Biały Emanuel",
+      "Błaszczyk Celina"
+    ],
+    "K": [
+      "Kowalska Anna",
+      "Kozłowska Aniela",
+      "Kaczmarek Jan",
+      "Kowalska Anna",
+      "Kozłowska Aniela",
+      "Kaczmarek Jan"
+    ]
+  },
+  "illustrations": {},
+  "places": {
+    "A": ["Adamki", "Adamowice", "Adamowe Łączki", "Adamowa Góra"],
+    "B": ["Bujenka", "Bujne", "Bujniczki", "Bujny"]
+  },
+  "people": {
+    "A": [
+      "Andrzejewski Emanuel",
+      "Andrzejewska Celina",
+      "Andrzejewski Emanuel",
+      "Andrzejewska Celina",
+      "Andrzejewski Emanuel",
+      "Andrzejewska Celina"
+    ],
+    "B": [
+      "Biały Emanuel",
+      "Błaszczyk Celina",
+      "Biały Emanuel",
+      "Błaszczyk Celina"
+    ],
+    "K": [
+      "Kowalska Anna",
+      "Kozłowska Aniela",
+      "Kaczmarek Jan",
+      "Kowalska Anna",
+      "Kozłowska Aniela",
+      "Kaczmarek Jan"
+    ]
+  }
+}

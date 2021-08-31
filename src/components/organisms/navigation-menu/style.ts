@@ -24,7 +24,7 @@ export const Aside = styled(GridContainer)`
 `
 
 export const Nav = styled.nav<{ mode: NAV_MODES }>`
-  ${({ mode, theme: { spacing, palette } }) => css`
+  ${({ mode, theme: { palette } }) => css`
     background: ${mode === NAV_MODES.LIGHT ? palette.white : palette.black};
     display: flex;
     align-items: center;
@@ -246,8 +246,8 @@ export const TocGrid = styled.section`
   overflow-y: scroll;
   display: grid;
   grid-column: 1 / last-col;
-  grid-auto-rows: min-content;
   grid-row: 2;
+  grid-auto-rows: min-content;
   grid-template-columns: repeat(16, 1fr);
 
   @media ${devices.tablet} {
@@ -349,3 +349,64 @@ export const AboutContent = styled.article`
 `
 
 //#enregion
+
+//#region Indexes tab
+
+export const IndexesWrapper = styled.article`
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / last-col;
+  overflow-y: scroll;
+
+  @media ${devices.tablet} {
+    overflow-y: hidden;
+  }
+`
+
+export const IndexesTabs = styled(Tabs)`
+  background: ${({ theme }) => theme.palette.dark};
+  border-top: solid 1px ${({ theme }) => theme.palette.white};
+`
+
+export const ActiveTabWrapper = styled.article`
+  flex-grow: 1;
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-columns: repeat(16, 1fr);
+
+  @media ${devices.tablet} {
+    grid-template-columns: repeat(27, 1fr);
+    overflow-y: scroll;
+  }
+
+  @media ${devices.laptop} {
+    grid-template-columns: repeat(14, 1fr);
+  }
+`
+
+export const IndexLetter = styled(atoms.p)`
+  ${({ theme: { typography, spacing } }) => css`
+    align-self: center;
+    font-family: ${typography.fonts.primary};
+    font-size: ${typography.sm};
+    font-weight: bold;
+    grid-column: 2;
+    margin-top: ${spacing.md};
+
+    @media ${devices.tablet} {
+      grid-column: 3;
+    }
+  `}
+`
+
+export const IndexText = styled(atoms.p)`
+  grid-column: 6 / -2;
+  height: fit-content;
+  align-self: end;
+
+  @media ${devices.tablet} {
+    grid-column: 5 / -2;
+  }
+`
+
+//#endregion

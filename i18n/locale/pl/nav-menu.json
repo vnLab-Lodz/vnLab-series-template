@@ -3,5 +3,11 @@
     "toc": "Spis treści",
     "indexes": "Indeksy",
     "about": "O projekcie"
+  },
+  "index_tabs": {
+    "authors": "Autorzy",
+    "illustrations": "Ilustracje",
+    "places": "Miejsca",
+    "people": "Osoby"
   }
 }

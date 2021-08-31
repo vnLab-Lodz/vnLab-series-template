@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
 import { useLocalization } from "gatsby-theme-i18n"
 import TableOfContents from "./tabs/toc"
+import Indexes from "./tabs/indexes"
 import About from "./tabs/about"
 import {
   AnimatePresence,
@@ -27,6 +28,15 @@ enum NAV_MENU_STATES {
   ABOUT,
 }
 
+interface Props {
+  currentPath: string
+}
+
+interface Language {
+  code: string
+  name: string
+}
+
 function getLocalesString(config: Array<{ code: string }>) {
   return config.reduce((prev: string, { code }, index) => {
     if (index === 0) return code.toUpperCase()
@@ -35,13 +45,17 @@ function getLocalesString(config: Array<{ code: string }>) {
   }, "")
 }
 
-interface Props {
-  currentPath: string
-}
-
-interface Language {
-  code: string
-  name: string
+const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
+  switch (navState) {
+    case NAV_MENU_STATES.TOC:
+      return <TableOfContents />
+    case NAV_MENU_STATES.INDEXES:
+      return <Indexes />
+    case NAV_MENU_STATES.ABOUT:
+      return <About />
+    default:
+      return <></>
+  }
 }
 
 const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
@@ -63,25 +77,6 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
   const progress = useMotionTemplate`${scrollPercent}%`
 
   const toggleMenu = () => setOpen(prev => !prev)
-
-  const getActiveTab = () => {
-    let tab = <></>
-
-    switch (navState) {
-      case NAV_MENU_STATES.TOC:
-        tab = <TableOfContents />
-        break
-      case NAV_MENU_STATES.INDEXES:
-        break
-      case NAV_MENU_STATES.ABOUT:
-        tab = <About />
-        break
-      default:
-        break
-    }
-
-    return tab
-  }
 
   useLayoutEffect(() => {
     if (open) document.body.classList.add("no-scroll")
@@ -164,7 +159,7 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
                 </Styled.TabButton>
               </Styled.TabItems>
             </Styled.Tabs>
-            {getActiveTab()}
+            <ActiveTab navState={navState} />
           </Styled.NavMenuContent>
         )}
       </AnimatePresence>
