@@ -2,7 +2,7 @@ import React, { useContext, useState, useLayoutEffect } from "react"
 import { NavMenuContext } from "./nav-menu-context"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
-import { useLocalization } from "gatsby-theme-i18n"
+import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import TableOfContents from "./tabs/toc"
 import Indexes from "./tabs/indexes"
 import About from "./tabs/about"
@@ -155,7 +155,9 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
                   )}
                 </Styled.TabButton>
                 <Styled.TabButton>
-                  <Styled.SearchImg src={SearchSVG} alt="Magnifying glass" />
+                  <LocalizedLink to="/search" language={locale}>
+                    <Styled.SearchImg src={SearchSVG} alt="Magnifying glass" />
+                  </LocalizedLink>
                 </Styled.TabButton>
               </Styled.TabItems>
             </Styled.Tabs>
