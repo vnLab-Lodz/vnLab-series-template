@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
@@ -23,7 +24,7 @@ margin-top: 66.5px;
 export const Input = styled.input`
   ${({ theme: { spacing, palette, typography } }) => css`
     background: none;
-    border: solid 1px ${palette.black};
+    border: solid 1px ${palette.dark};
     padding: 0px 0px 0px ${spacing.sm};
     border-radius: 0;
     height: 100px;
@@ -55,7 +56,7 @@ export const SubmitBtn = styled.button`
   ${({ theme: { palette } }) => css`
     background: none;
     border-radius: 0;
-    border: solid 1px ${palette.black};
+    border: solid 1px ${palette.dark};
     border-left: none;
     cursor: pointer;
     grid-column: -3 / last-col;
@@ -66,5 +67,40 @@ export const SubmitBtn = styled.button`
     @media ${devices.laptop} {
       grid-column: -3 / last-col;
     }
+  `}
+`
+
+export const Tabs = styled.div`
+display: flex;
+margin-top: ${({ theme }) => theme.spacing.sm};
+grid-column: 2 /last-col;
+position: relative;
+
+@media ${devices.tablet} {
+  grid-column 7 / -3;
+}
+
+@media ${devices.laptop} {
+  grid-column 5 / 13;
+  }
+`
+
+export const SearchInBtn = styled.button`
+  ${({ theme: { palette, spacing } }) => css`
+    flex: 1;
+    background: none;
+    border: none;
+    border-bottom: solid 1px ${palette.dark};
+    padding: ${spacing.xs};
+    cursor: pointer;
+  `}
+`
+
+export const Underline = styled(motion.div)`
+  ${({ theme: { palette } }) => css`
+    background: ${palette.black};
+    height: 2px;
+    position: absolute;
+    bottom: 0px;
   `}
 `

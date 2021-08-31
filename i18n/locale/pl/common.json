@@ -13,5 +13,8 @@
   "previous_article": "Poprzedni artykuł",
   "next_article": "Następny artykuł",
   "current_article": "Obecny artykuł",
-  "expand_summary": "pokaż streszczenie"
+  "expand_summary": "pokaż streszczenie",
+  "search_phrase": "napisz czego szukasz",
+  "search_titles": "szukaj w tytułach",
+  "search_everywhere": "szukaj wszędzie"
 }

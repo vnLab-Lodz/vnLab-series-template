@@ -10,6 +10,7 @@ const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.primary};
   height: 100vh;
   overflow-y: scroll;
+  grid-auto-rows: min-content;
 `
 
 const Search: React.FC<PageProps> = () => {

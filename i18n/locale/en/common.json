@@ -13,5 +13,8 @@
   "previous_article": "Previous article",
   "next_article": "Next article",
   "current_article": "Current article",
-  "expand_summary": "expand summary"
+  "expand_summary": "expand summary",
+  "search_phrase": "type in the search phrase",
+  "search_titles": "search in titles",
+  "search_everywhere": "search everywhere"
 }
