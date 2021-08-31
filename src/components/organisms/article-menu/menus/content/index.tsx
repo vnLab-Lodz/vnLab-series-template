@@ -24,6 +24,7 @@ const Content: React.FC<Props> = ({ contents, closeMenu }) => {
 
         return (
           <Component
+            tabIndex={0}
             last={index === array.length - 1}
             key={index}
             onClick={() => {

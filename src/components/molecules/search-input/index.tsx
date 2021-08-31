@@ -5,12 +5,25 @@ import { useTranslation } from "react-i18next"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
 
-const SearchInput = () => {
+interface Props {
+  setQuery: React.Dispatch<React.SetStateAction<string>>
+  onSubmit: () => void
+}
+
+const SearchInput: React.FC<Props> = ({ setQuery, onSubmit }) => {
   const { t } = useTranslation("common")
 
   return (
-    <Styled.Form>
-      <Styled.Input placeholder={t("search_phrase")} />
+    <Styled.Form
+      onSubmit={e => {
+        e.preventDefault()
+        onSubmit()
+      }}
+    >
+      <Styled.Input
+        placeholder={t("search_phrase")}
+        onChange={e => setQuery(e.target.value)}
+      />
       <Styled.SubmitBtn>
         <img src={SearchSVG} alt="Magnifying glass" />
       </Styled.SubmitBtn>
