@@ -91,11 +91,3 @@ export const Divider = styled.div`
     grid-column: 3 / -2;
   }
 `
-
-export const TitleLink = styled(LocalizedLink)`
-  ${({ theme: { typography, palette } }) => css`
-    text-decoration: none;
-    color: ${palette.black};
-    font-family: ${typography.fonts.secondary};
-  `}
-`

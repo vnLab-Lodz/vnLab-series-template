@@ -3,6 +3,7 @@ import { useLocalization } from "gatsby-theme-i18n"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PublicationPage } from "src/hooks/usePublication"
+import atoms from "~components/atoms"
 import { getChapterFromIndex } from "~util"
 import Arrow from "../arrow"
 import * as Styled from "./style"
@@ -23,10 +24,8 @@ const TocElement: React.FC<Props> = ({ page }) => {
       <Styled.ArticleNumber>
         {getChapterFromIndex(page.index ?? 0)}
       </Styled.ArticleNumber>
-      <Styled.ArticlTitle to={page.path}>
-        <Styled.TitleLink to={page.path} language={locale}>
-          {page.title}
-        </Styled.TitleLink>
+      <Styled.ArticlTitle to={page.path} language={locale}>
+        <atoms.p>{page.title}</atoms.p>
       </Styled.ArticlTitle>
       <Styled.ArticleAuthor type="primary">{page.author}</Styled.ArticleAuthor>
       <Styled.SummaryButton onClick={toggleSummary}>
