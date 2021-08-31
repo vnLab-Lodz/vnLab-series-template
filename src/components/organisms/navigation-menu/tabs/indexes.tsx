@@ -25,6 +25,8 @@ enum TAB_STATES {
   PEOPLE = "people",
 }
 
+const IndexGroup: React.FC = ({ children }) => <>{children}</>
+
 const Indexes: React.FC = () => {
   const [tabState, setTabState] = useState<TAB_STATES>(TAB_STATES.AUTHORS)
   const { t } = useTranslation("nav-menu")
@@ -62,14 +64,16 @@ const Indexes: React.FC = () => {
         </Styled.TabItems>
       </Styled.IndexesTabs>
       <Styled.ActiveTabWrapper>
-        {Object.keys(sortedIndexes).map(key => {
+        {Object.keys(sortedIndexes).map((key, i) => {
           return (
-            <>
+            <IndexGroup key={`index-group__${i}--${key}`}>
               <Styled.IndexLetter>{key.toUpperCase()}</Styled.IndexLetter>
-              {sortedIndexes[key].map(o => (
-                <Styled.IndexText>{o}</Styled.IndexText>
+              {sortedIndexes[key].map((text, j) => (
+                <Styled.IndexText key={`index-group__${i}--${key}-${j}`}>
+                  {text}
+                </Styled.IndexText>
               ))}
-            </>
+            </IndexGroup>
           )
         })}
       </Styled.ActiveTabWrapper>
