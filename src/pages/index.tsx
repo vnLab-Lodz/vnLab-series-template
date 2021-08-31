@@ -1,11 +1,10 @@
 import * as React from "react"
-import { graphql, Link, PageProps } from "gatsby"
+import { Link } from "gatsby"
 import SeoMeta from "~components/meta"
 import atoms from "~components/atoms"
-import { getLocaleName, getLocales, isUndefined } from "~util"
+import { getLocaleName, getLocales } from "~util"
 import { useTranslation } from "react-i18next"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
-import styled from "styled-components"
 import { GridContainer, GridConstraint } from "~styles/grid"
 import usePublication from "src/hooks/usePublication"
 
