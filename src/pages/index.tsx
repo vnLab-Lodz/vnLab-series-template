@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useRef } from "react"
 import SeoMeta from "~components/meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
@@ -19,6 +19,7 @@ import Logo from "../images/icons/vnlab_logo.svg"
 import ArrowDownSVG from "../images/icons/arrow_down.svg"
 //@ts-ignore
 import SearchSVG from "../images/icons/magnifying_glass.svg"
+import TableOfContents from "~components/organisms/navigation-menu/tabs/toc"
 
 const ImageWrapper = styled.div`
   position: fixed;
@@ -151,9 +152,26 @@ const ArrowDownImg = styled.img`
   }
 `
 
+const TocWrapper = styled.div`
+  @media ${devices.laptop} {
+    grid-column: 3 / 17;
+  }
+`
+
+const StyledTableOfContents = styled(TableOfContents)`
+  overflow: hidden;
+`
+
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
+  const ref = useRef<HTMLDivElement | null>(null)
+
+  const scorllToToC = () => {
+    if (!ref || !ref.current) return
+
+    scrollTo({ top: ref.current.offsetTop, behavior: "smooth" })
+  }
 
   return (
     <NavMenuProvider>
@@ -184,11 +202,14 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           <Editorship>pod redakcją</Editorship>
           <Author type="primary">Krzysztofa Pijarskiego</Author>
           <WrappedEdition />
-          <TocButton>
+          <TocButton onClick={scorllToToC}>
             <TocBtnText>Spis treści</TocBtnText>
             <ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
           </TocButton>
         </ContentWrapper>
+        <TocWrapper ref={ref}>
+          <StyledTableOfContents />
+        </TocWrapper>
       </GridContainer>
     </NavMenuProvider>
   )

@@ -7,6 +7,10 @@ import { v4 as uuid } from "uuid"
 
 type GroupedPages = PublicationPage[][]
 
+interface Props {
+  className?: string
+}
+
 function groupPages(pages: PublicationPage[]): GroupedPages {
   return pages.reduce((prev, page) => {
     const part = getPartFromIndex(page.index ?? 0)
@@ -20,13 +24,13 @@ function groupPages(pages: PublicationPage[]): GroupedPages {
 
 const Part: React.FC = ({ children }) => <>{children}</>
 
-const TableOfContents: React.FC = () => {
+const TableOfContents: React.FC<Props> = ({ className }) => {
   const pages = usePublication()
   const groupedPages = groupPages(pages)
   const uid = uuid()
 
   return (
-    <Styled.TocGrid>
+    <Styled.TocGrid className={className}>
       <Styled.TocHeader type="primary">SPIS TREŚCI:</Styled.TocHeader>
       {groupedPages.map((group, i) => (
         <Part key={`toc-part__${uid}--${i}`}>
