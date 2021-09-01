@@ -20,6 +20,8 @@ import ArrowDownSVG from "../images/icons/arrow_down.svg"
 //@ts-ignore
 import SearchSVG from "../images/icons/magnifying_glass.svg"
 import TableOfContents from "~components/organisms/navigation-menu/tabs/toc"
+import useHypothesis from "src/hooks/useHypothesis"
+import { useEffect } from "react"
 
 const ImageWrapper = styled.div`
   position: fixed;
@@ -263,6 +265,7 @@ const StyledTableOfContents = styled(TableOfContents)`
 `
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
+  const hypothesis = useHypothesis()
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
   const ref = useRef<HTMLDivElement | null>(null)
@@ -272,6 +275,13 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
 
     scrollTo({ top: ref.current.offsetTop, behavior: "smooth" })
   }
+
+  useEffect(() => {
+    hypothesis?.classList.add("invisible")
+    return () => {
+      hypothesis?.classList.remove("invisible")
+    }
+  }, [hypothesis])
 
   return (
     <NavMenuProvider>
