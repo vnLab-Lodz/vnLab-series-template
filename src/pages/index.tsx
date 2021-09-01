@@ -290,7 +290,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         <SeoMeta title={t("home:title")} />
         <ImageWrapper>
           <StaticImage
-            style={{ height: "100%" }}
+            style={{ height: "100%", width: "100%" }}
             src="../images/home.png"
             alt="Figures on mirror"
             placeholder="blurred"
@@ -309,11 +309,11 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           </SearchBtn>
           <LogoImg src={Logo} alt="vnlab logo" />
           <Title>{t("common:title")}</Title>
-          <Editorship>pod redakcją</Editorship>
+          <Editorship>{t("home:editorship")}</Editorship>
           <Author type="primary">Krzysztofa Pijarskiego</Author>
           <WrappedEdition />
           <TocButton onClick={scorllToToC}>
-            <TocBtnText>Spis treści</TocBtnText>
+            <TocBtnText>{t("home:toc")}</TocBtnText>
             <ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
           </TocButton>
         </ContentWrapper>

@@ -1,8 +1,5 @@
 {
   "title": "Home",
-  "congratulations": "Congratulations!",
-  "successfull-creation": "You have successfully created your first PaaW project.",
-  "create-sth-great": "Use this Gatsby starter to create something great!",
-  "change-lang": "Change language to {{lang}}",
-  "chapters": "Chapters"
+  "toc": "Table of contents",
+  "editorship": "edited by"
 }
