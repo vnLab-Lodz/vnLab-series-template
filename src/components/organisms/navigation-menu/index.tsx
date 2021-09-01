@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import LanguagePicker from "~components/molecules/language-picker"
+import useHypothesis from "src/hooks/useHypothesis"
 import TableOfContents from "./tabs/toc"
 import Indexes from "./tabs/indexes"
 import About from "./tabs/about"
@@ -22,7 +23,6 @@ import CloseSVG from "../../../images/icons/x.svg"
 import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
-import useHypothesis from "src/hooks/useHypothesis"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -77,7 +77,7 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
     <Styled.Aside>
       <Styled.Nav mode={navMode}>
         <Styled.Progress style={{ height: progress, width: progress }} />
-        <Styled.ToggleBtn open={open} onClick={toggleMenu}>
+        <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
           <img src={open ? CloseSVG : HamburgerSVG} alt="Toggle Menu Button" />
         </Styled.ToggleBtn>
         <Styled.Title to="/" language={locale}>

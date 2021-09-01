@@ -95,7 +95,7 @@ export const Title = styled(LocalizedLink)`
   }
 `
 
-export const ToggleBtn = styled.button<{ open: boolean }>`
+export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
   background: ${({ open, theme }) => (!open ? "none" : theme.palette.black)};
   transition: background 0.2s ease-in;
   border: none;
@@ -109,11 +109,11 @@ export const ToggleBtn = styled.button<{ open: boolean }>`
     min-height: ${({ theme: { spacing } }) => `calc(${spacing.xs} * 2 + 25px)`};
   }
 
-  ${({ open }) =>
+  ${({ open, mode }) =>
     open &&
     css`
       & > * {
-        filter: brightness(10);
+        filter: brightness(${mode === NAV_MODES.DARK ? 0 : 10});
       }
     `}
 
