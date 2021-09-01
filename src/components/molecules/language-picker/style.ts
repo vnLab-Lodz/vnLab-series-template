@@ -30,6 +30,14 @@ export const LangButtonText = styled(atoms.p)<{ dark?: boolean }>`
     ${dark &&
     css`
       color: ${palette.black};
+
+      @media ${devices.tablet} {
+        color: ${palette.white};
+      }
+
+      @media ${devices.laptop} {
+        color: ${palette.black};
+      }
     `}
   `}
 `

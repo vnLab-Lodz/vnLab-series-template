@@ -27,8 +27,12 @@ const ImageWrapper = styled.div`
   bottom: 0;
   right: 0;
   width: 100vw;
+  // display: none;
+  filter: brightness(0.6);
+  z-index: -1;
 
   @media ${devices.laptop} {
+    display: block;
     width: 50vw;
   }
 `
@@ -38,6 +42,13 @@ const ContentWrapper = styled.aside`
   display: grid;
   grid-template-rows: 1fr repeat(5, min-content) 1fr;
   align-content: end;
+  grid-column: 1 / last-col;
+  background-image: "";
+
+  @media ${devices.tablet} {
+    grid-column: 1 / last-col;
+    grid-template-columns: repeat(32, 1fr);
+  }
 
   @media ${devices.laptop} {
     grid-column: 1 / 17;
@@ -47,9 +58,16 @@ const ContentWrapper = styled.aside`
 
 const StyledLanguagePicker = styled(LanguagePicker)`
   grid-row: 1;
-  grid-column: -4;
-  height: fit-content;
+  height: fit-content !important;
   margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
+
+  @media ${devices.tablet} {
+    grid-column: -6 / -3;
+  }
+
+  @media ${devices.laptop} {
+    grid-column: -4;
+  }
 `
 
 const SearchBtn = styled.button`
@@ -61,24 +79,45 @@ const SearchBtn = styled.button`
   height: fit-content;
   padding-top: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.8)`};
   margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
+
+  @media ${devices.tablet} {
+    filter: brightness(10);
+  }
+
+  @media ${devices.laptop} {
+    filter: none;
+  }
 `
 
 const LogoImg = styled.img`
   transform: rotate(90deg) translateY(-35%);
+  grid-row: 2;
+
+  @media ${devices.tablet} {
+    grid-column: 7 / last-col;
+    filter: brightness(10);
+  }
 
   @media ${devices.laptop} {
+    filter: none;
     grid-column: 5 / 7;
-    grid-row: 2;
   }
 `
 
 const Title = styled(atoms.h1)`
   margin-bottom: ${({ theme }) => theme.spacing.md};
-  
-} @media ${devices.laptop} {
-  grid-column: 5 / 9;
-  grid-row: 3;
-}
+
+  @media ${devices.tablet} {
+    filter: brightness(10);
+    grid-column: 7 / 16;
+    grid-row: 3;
+  }
+
+  @media ${devices.laptop} {
+    grid-column: 5 / 9;
+    filter: none;
+    grid-row: 3;
+  }
 `
 
 const Editorship = styled(atoms.p)`
@@ -86,8 +125,16 @@ const Editorship = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
 
+    @media ${devices.tablet} {
+      filter: brightness(10);
+      grid-column: 7 / -2;
+      font-weight: bold;
+      grid-row: 4;
+    }
+
     @media ${devices.laptop} {
       grid-column: 5 / 9;
+      filter: none;
       grid-row: 4;
     }
   `}
@@ -98,7 +145,14 @@ const Author = styled(atoms.h3)`
   margin-top: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.5)`};
   text-align: left;
 
+  @media ${devices.tablet} {
+    filter: brightness(10);
+    grid-column: 7 / -2;
+    grid-row: 5;
+  }
+
   @media ${devices.laptop} {
+    filter: none;
     grid-column: 5 / 14;
     grid-row: 5;
   }
@@ -108,7 +162,14 @@ const WrappedEdition = styled(Edition)`
   margin-top: ${({ theme }) => theme.spacing.xl};
   grid-template-columns: repeat(10, 1fr);
 
+  @media ${devices.tablet} {
+    filter: brightness(10);
+    grid-column: 7 / 20;
+    grid-row: 6;
+  }
+
   @media ${devices.laptop} {
+    filter: none;
     grid-column: 5 / 16;
     grid-row: 6;
   }
@@ -123,6 +184,12 @@ const TocButton = styled.button`
     display: grid;
     margin-top: calc(${spacing.xxl} * 2);
     cursor: pointer;
+
+    @media ${devices.tablet} {
+      grid-template-columns: repeat(32, 1fr);
+      grid-column: 1 / last-col;
+      grid-row: 7;
+    }
 
     @media ${devices.laptop} {
       grid-template-columns: repeat(16, 1fr);
@@ -140,6 +207,10 @@ const TocBtnText = styled(atoms.p)`
     text-transform: uppercase;
     text-align: left;
 
+    @media ${devices.tablet} {
+      grid-column: 7 / 12;
+    }
+
     @media ${devices.laptop} {
       grid-column: 5 / 8;
     }
@@ -147,13 +218,24 @@ const TocBtnText = styled(atoms.p)`
 `
 
 const ArrowDownImg = styled.img`
+  @media ${devices.tablet} {
+    grid-column: 12;
+  }
+
   @media ${devices.laptop} {
     grid-column: 8;
   }
 `
 
 const TocWrapper = styled.div`
+  background: ${({ theme }) => theme.palette.white};
+
+  @media ${devices.tablet} {
+    grid-column: 4 / last-col;
+  }
+
   @media ${devices.laptop} {
+    background: none;
     grid-column: 3 / 17;
   }
 `
