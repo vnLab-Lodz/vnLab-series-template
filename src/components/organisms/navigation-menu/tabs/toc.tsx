@@ -4,6 +4,7 @@ import TocElement from "~components/molecules/toc-element"
 import { getPartFromIndex } from "~util/indexes"
 import * as Styled from "../style"
 import { v4 as uuid } from "uuid"
+import { useTranslation } from "react-i18next"
 
 type GroupedPages = PublicationPage[][]
 
@@ -28,13 +29,14 @@ const TableOfContents: React.FC<Props> = ({ className }) => {
   const pages = usePublication()
   const groupedPages = groupPages(pages)
   const uid = uuid()
+  const { t } = useTranslation("common")
 
   return (
     <Styled.TocGrid className={className}>
-      <Styled.TocHeader type="primary">SPIS TREŚCI:</Styled.TocHeader>
+      <Styled.TocHeader type="primary">{`${t("toc")}:`}</Styled.TocHeader>
       {groupedPages.map((group, i) => (
         <Part key={`toc-part__${uid}--${i}`}>
-          <Styled.Part type="primary">Część {i + 1}</Styled.Part>
+          <Styled.Part type="primary">{`${t("part")} ${i + 1}`}</Styled.Part>
           {group.map((page, j) => (
             <TocElement key={`toc-element__${uid}--${j}`} page={page} />
           ))}

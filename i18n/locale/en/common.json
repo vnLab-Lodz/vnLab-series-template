@@ -16,5 +16,7 @@
   "expand_summary": "expand summary",
   "search_phrase": "type in the search phrase",
   "search_titles": "search in titles",
-  "search_everywhere": "search everywhere"
+  "search_everywhere": "search everywhere",
+  "toc": "Table of contents",
+  "part": "Part"
 }
