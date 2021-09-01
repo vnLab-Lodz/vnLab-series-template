@@ -22,6 +22,7 @@ import CloseSVG from "../../../images/icons/x.svg"
 import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
+import useHypothesis from "src/hooks/useHypothesis"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -51,6 +52,7 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
   const [open, setOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { locale } = useLocalization()
+  const hypothesis = useHypothesis()
   const { t } = useTranslation(["common", "nav-menu"])
 
   const { scrollYProgress } = useViewportScroll()
@@ -60,10 +62,14 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
   const toggleMenu = () => setOpen(prev => !prev)
 
   useLayoutEffect(() => {
-    if (open) document.body.classList.add("no-scroll")
+    if (open) {
+      document.body.classList.add("no-scroll")
+      hypothesis?.classList.add("invisible")
+    }
 
     return () => {
       document.body.classList.remove("no-scroll")
+      hypothesis?.classList.remove("invisible")
     }
   }, [open])
 
