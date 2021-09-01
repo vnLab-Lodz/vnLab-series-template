@@ -3,6 +3,7 @@ import { NavMenuContext } from "./nav-menu-context"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
+import LanguagePicker from "~components/molecules/language-picker"
 import TableOfContents from "./tabs/toc"
 import Indexes from "./tabs/indexes"
 import About from "./tabs/about"
@@ -32,19 +33,6 @@ interface Props {
   currentPath: string
 }
 
-interface Language {
-  code: string
-  name: string
-}
-
-function getLocalesString(config: Array<{ code: string }>) {
-  return config.reduce((prev: string, { code }, index) => {
-    if (index === 0) return code.toUpperCase()
-
-    return (prev += `/${code.toUpperCase()}`)
-  }, "")
-}
-
 const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
   switch (navState) {
     case NAV_MENU_STATES.TOC:
@@ -61,16 +49,9 @@ const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
 const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
   const { navMode } = useContext(NavMenuContext)
   const [open, setOpen] = useState(false)
-  const [langPickerOpen, setLangPickerOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
+  const { locale } = useLocalization()
   const { t } = useTranslation(["common", "nav-menu"])
-
-  const { config, locale } = useLocalization()
-  const locales = getLocalesString(config)
-  const languages: Language[] = config.map(({ code, name }: Language) => ({
-    code,
-    name,
-  }))
 
   const { scrollYProgress } = useViewportScroll()
   const scrollPercent = useTransform(scrollYProgress, [0, 1], [0, 100])
@@ -135,25 +116,7 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
                 </Styled.TabButton>
               </Styled.TabItems>
               <Styled.TabItems noFlex>
-                <Styled.TabButton
-                  onClick={() => setLangPickerOpen(prev => !prev)}
-                >
-                  <Styled.TabButtonText>{locales}</Styled.TabButtonText>
-                  {langPickerOpen && (
-                    <Styled.LanguagePopUp>
-                      {languages.map((lang: Language, i) => (
-                        <Styled.LangLink
-                          key={`nav-menu__lang-link--${i}`}
-                          inactive={(lang.code === locale).toString()}
-                          to={currentPath.replace(`/${locale}/`, "/")}
-                          language={lang.code}
-                        >
-                          {lang.name}
-                        </Styled.LangLink>
-                      ))}
-                    </Styled.LanguagePopUp>
-                  )}
-                </Styled.TabButton>
+                <LanguagePicker currentPath={currentPath} />
                 <Styled.TabButton>
                   <LocalizedLink to="/search" language={locale}>
                     <Styled.SearchImg src={SearchSVG} alt="Magnifying glass" />

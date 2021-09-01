@@ -287,41 +287,6 @@ export const Part = styled(atoms.h3)`
 
 //#endregion
 
-//#region Langauge switch
-
-export const LanguagePopUp = styled.div`
-  ${({ theme: { spacing, palette } }) => css`
-    position: absolute;
-    top: 60%;
-    right: 0px;
-    background: ${palette.white};
-    border: solid 1px ${palette.dark};
-    padding: ${spacing.xxs};
-    display: flex;
-    flex-direction: column;
-  `}
-`
-
-export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
-  ${({ inactive, theme: { spacing, typography, palette } }) => css`
-    text-align: left;
-    text-decoration: none;
-    padding: ${spacing.xxs};
-    color: ${palette.black};
-    font-size: calc(${typography.md} * 0.9);
-    font-weight: 500;
-
-    ${inactive === "true" &&
-    css`
-      pointer-events: none;
-      cursor: normal;
-      color: ${palette.dark};
-    `};
-  `}
-`
-
-//#endregion
-
 //#region About
 
 export const AboutWrapper = styled.div`

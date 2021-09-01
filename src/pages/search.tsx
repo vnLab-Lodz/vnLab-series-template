@@ -48,7 +48,7 @@ const StyledFoundItems = styled(atoms.p)`
   `}
 `
 
-const Search: React.FC<PageProps> = () => {
+const Search: React.FC<PageProps> = ({ location }) => {
   const [tab, setTab] = useState(SEARCH_TABS.TITLES)
   const [query, setQuery] = useState<string>("")
   const [results, setResults] = useState<PublicationPage[]>([])

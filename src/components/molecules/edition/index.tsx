@@ -2,11 +2,15 @@ import React from "react"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
 
-const Edition = () => {
+interface Props {
+  className?: string
+}
+
+const Edition: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation("common")
 
   return (
-    <Styled.EdtitionWrapper>
+    <Styled.EdtitionWrapper className={className}>
       <Styled.Text>{t("edition", { vol: 1 })}</Styled.Text>
       <Styled.Button>{t("changes")}</Styled.Button>
     </Styled.EdtitionWrapper>
