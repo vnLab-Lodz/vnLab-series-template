@@ -52,6 +52,7 @@
     "@types/uuid": "^8.3.1",
     "babel-loader": "^8.2.2",
     "gatsby-plugin-tsconfig-paths": "^1.0.3",
+    "gh-pages": "^3.2.3",
     "prettier": "2.3.2",
     "typescript": "^4.3.5"
   },
@@ -71,7 +72,8 @@
     "clean": "gatsby clean",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
   },
   "repository": {
     "type": "git",
