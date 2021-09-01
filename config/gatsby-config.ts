@@ -1,7 +1,6 @@
 import { GatsbyConfig } from "gatsby"
 
 export default {
-  pathPrefix: `/vnLab-series-template`,
   siteMetadata: {
     title: `Publication-as-a-Website i18n Starter`,
     description: `Kick off your next PaaW project with this basic starter.`,
