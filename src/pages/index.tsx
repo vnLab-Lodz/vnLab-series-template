@@ -40,15 +40,12 @@ const ImageWrapper = styled.div`
 const ContentWrapper = styled.aside`
   height: 100vh;
   display: grid;
-  grid-template-rows: 1fr repeat(5, min-content) 1fr;
+  grid-template-rows: 1fr repeat(6, min-content);
   align-content: end;
   grid-column: 1 / last-col;
-  background-image: "";
+  // padding-top: 67px;
 
-  @media ${devices.tablet} {
-    grid-column: 1 / last-col;
-    grid-template-columns: repeat(32, 1fr);
-  }
+  grid-template-columns: repeat(32, 1fr);
 
   @media ${devices.laptop} {
     grid-column: 1 / 17;
@@ -59,9 +56,12 @@ const ContentWrapper = styled.aside`
 const StyledLanguagePicker = styled(LanguagePicker)`
   grid-row: 1;
   height: fit-content !important;
-  margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
+  margin-top: ${({ theme }) => `calc(67px + ${theme.spacing.sm} * 1.3)`};
+
+  grid-column: -8 / -3;
 
   @media ${devices.tablet} {
+    margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
     grid-column: -6 / -3;
   }
 
@@ -77,11 +77,13 @@ const SearchBtn = styled.button`
   grid-row: 1;
   grid-column: -3;
   height: fit-content;
-  padding-top: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.8)`};
-  margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
+  padding-top: ${({ theme }) => `calc(${theme.spacing.xs} * 0.8)`};
+  margin-top: ${({ theme }) => `calc(67px + ${theme.spacing.sm} * 1.3)`};
+  filter: brightness(10);
 
   @media ${devices.tablet} {
-    filter: brightness(10);
+    padding-top: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.8)`};
+    margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
   }
 
   @media ${devices.laptop} {
@@ -92,10 +94,11 @@ const SearchBtn = styled.button`
 const LogoImg = styled.img`
   transform: rotate(90deg) translateY(-35%);
   grid-row: 2;
+  filter: brightness(10);
+  grid-column: 2 / last-col;
 
   @media ${devices.tablet} {
     grid-column: 7 / last-col;
-    filter: brightness(10);
   }
 
   @media ${devices.laptop} {
@@ -104,13 +107,15 @@ const LogoImg = styled.img`
   }
 `
 
-const Title = styled(atoms.h1)`
+const Title = styled(atoms.title)`
   margin-bottom: ${({ theme }) => theme.spacing.md};
 
+  grid-row: 3;
+  grid-column: 2 / 16;
+  filter: brightness(10);
+
   @media ${devices.tablet} {
-    filter: brightness(10);
     grid-column: 7 / 16;
-    grid-row: 3;
   }
 
   @media ${devices.laptop} {
@@ -125,8 +130,10 @@ const Editorship = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
 
+    grid-column: 2 / -2;
+    filter: brightness(10);
+
     @media ${devices.tablet} {
-      filter: brightness(10);
       grid-column: 7 / -2;
       font-weight: bold;
       grid-row: 4;
@@ -145,8 +152,10 @@ const Author = styled(atoms.h3)`
   margin-top: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.5)`};
   text-align: left;
 
+  filter: brightness(10);
+  grid-column: 2 / -2;
+
   @media ${devices.tablet} {
-    filter: brightness(10);
     grid-column: 7 / -2;
     grid-row: 5;
   }
@@ -161,6 +170,9 @@ const Author = styled(atoms.h3)`
 const WrappedEdition = styled(Edition)`
   margin-top: ${({ theme }) => theme.spacing.xl};
   grid-template-columns: repeat(10, 1fr);
+
+  filter: brightness(10);
+  grid-column: 2 / 11;
 
   @media ${devices.tablet} {
     filter: brightness(10);
@@ -180,13 +192,17 @@ const TocButton = styled.button`
     border: none;
     background: ${palette.black};
     color: ${palette.white};
-    padding: ${spacing.md} 0px;
+    padding: ${spacing.sm} 0px;
     display: grid;
-    margin-top: calc(${spacing.xxl} * 2);
     cursor: pointer;
+    margin-top: calc(${spacing.lg});
+
+    grid-template-columns: repeat(32, 1fr);
+    grid-column: 1 / last-col;
 
     @media ${devices.tablet} {
-      grid-template-columns: repeat(32, 1fr);
+      margin-top: calc(${spacing.xxl} * 2);
+      padding: ${spacing.md} 0px;
       grid-column: 1 / last-col;
       grid-row: 7;
     }
@@ -206,6 +222,7 @@ const TocBtnText = styled(atoms.p)`
     color: ${palette.white};
     text-transform: uppercase;
     text-align: left;
+    grid-column: 2 / 11;
 
     @media ${devices.tablet} {
       grid-column: 7 / 12;
@@ -229,6 +246,7 @@ const ArrowDownImg = styled.img`
 
 const TocWrapper = styled.div`
   background: ${({ theme }) => theme.palette.white};
+  grid-column: 1 / last-col;
 
   @media ${devices.tablet} {
     grid-column: 4 / last-col;
