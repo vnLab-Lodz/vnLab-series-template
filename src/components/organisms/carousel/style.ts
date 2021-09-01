@@ -193,6 +193,7 @@ export const FullscreenCaption = styled(atoms.p)`
 export const FullscreenSlider = styled(Slider)`
   display: flex;
   align-items: center;
+  justify-content: center;
   grid-row: 1 / 3;
   position: relative;
 
