@@ -26,8 +26,9 @@ export const StickyWrapper = styled.div<{ sticky?: boolean }>`
     `}
 `
 
-export const MenuNav = styled.nav`
-  ${({ theme: { spacing, palette } }) => css`
+export const MenuNav = styled.nav<{ open: boolean }>`
+  ${({ open, theme: { spacing, palette } }) => css`
+    background: ${open ? palette.white : "none"};
     display: flex;
     border-bottom-style: solid;
     border-bottom-width: 1px;
@@ -35,6 +36,7 @@ export const MenuNav = styled.nav`
     padding: ${spacing.sm};
     position: relative;
     z-index: 3;
+    transition: background 0.5s ease-in-out;
 
     overflow-x: auto;
 

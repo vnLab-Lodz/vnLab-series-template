@@ -164,7 +164,11 @@ const ArticleMenu: React.FC<Props> = ({ images }) => {
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
             <Layout>
-              <Styled.MenuNav as={motion.nav} animate={controls}>
+              <Styled.MenuNav
+                open={menuState !== MENU_STATE.CLOSED}
+                as={motion.nav}
+                animate={controls}
+              >
                 <Styled.Button onClick={() => setState(MENU_STATE.CONTENT)}>
                   <Styled.ButtonText>{t("content")}</Styled.ButtonText>{" "}
                   <Arrow inverted={menuState === MENU_STATE.CONTENT} />
