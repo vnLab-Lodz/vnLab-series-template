@@ -10,8 +10,11 @@ interface Props {
 const SearchResults: React.FC<Props> = ({ results }) => {
   return (
     <Styled.ResultsWrapper>
-      {results.map(res => (
-        <TocElement page={res} />
+      {results.map((res, i) => (
+        <TocElement
+          key={`search-result__${i}--${res.id}-${res.index}`}
+          page={res}
+        />
       ))}
     </Styled.ResultsWrapper>
   )
