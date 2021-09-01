@@ -74,7 +74,9 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
         <Styled.ToggleBtn open={open} onClick={toggleMenu}>
           <img src={open ? CloseSVG : HamburgerSVG} alt="Toggle Menu Button" />
         </Styled.ToggleBtn>
-        <Styled.Title>{t("common:title")}</Styled.Title>
+        <Styled.Title to="/" language={locale}>
+          {t("common:title")}
+        </Styled.Title>
         <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
       </Styled.Nav>
       <AnimatePresence>

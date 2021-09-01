@@ -82,8 +82,11 @@ export const Progress = styled(motion.div)`
   }
 `
 
-export const Title = styled(atoms.p)`
+export const Title = styled(LocalizedLink)`
+  text-decoration: none;
   margin-left: ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.palette.black};
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
 
   @media ${devices.tablet} {
     margin-left: 0px;
