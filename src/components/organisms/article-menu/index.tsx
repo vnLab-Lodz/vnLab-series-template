@@ -33,8 +33,12 @@ const ArticleMenu: React.FC<Props> = ({ images }) => {
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
 
-  const scrollRef = useRef<number>(window?.pageYOffset ?? 0)
+  const scrollRef = useRef<number>(0)
   const ref = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    scrollRef.current = window.pageYOffset
+  }, [])
 
   const { palette } = useContext(ThemeContext)
   const { t } = useTranslation("common")
