@@ -34,6 +34,7 @@ const ImageWrapper = styled.div`
   z-index: -1;
 
   @media ${devices.laptop} {
+    z-index: 0;
     display: block;
     width: 50vw;
   }
