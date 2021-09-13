@@ -3,7 +3,7 @@ import { graphql, useStaticQuery } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import { useLocalization } from "gatsby-theme-i18n"
 import React from "react"
-import { mdxComponents } from "src/templates/section"
+import { mdxComponents } from "src/templates/chapter"
 import * as Styled from "../style"
 
 interface Data {

@@ -50,7 +50,7 @@ export const createPages = async ({
 
     createPage({
       path: slug.replace("index", ""),
-      component: path.resolve("./src/templates/section.tsx"),
+      component: path.resolve("./src/templates/chapter.tsx"),
       context: {
         slugs: localizeSlug(slug),
         publication: true,
