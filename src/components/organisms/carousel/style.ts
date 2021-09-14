@@ -32,6 +32,7 @@ export const SliderImage = styled.div<{
   display: inline-block;
   vertical-align: top;
   margin: 0px 16px;
+  height: 100%;
 
   ${({ fullscreen }) => (fullscreen ? FullscreenSlider : Slider)} & {
     &:first-child {
