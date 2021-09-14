@@ -47,7 +47,8 @@ export const SliderImage = styled.div<{
   ${({ fullscreen }) =>
     fullscreen &&
     css`
-      margin: 0px;
+      display: flex;
+      margin: 0px !important;
       position: absolute;
     `}
 `
@@ -197,6 +198,7 @@ export const FullscreenSlider = styled(Slider)`
   justify-content: center;
   grid-row: 1 / 3;
   position: relative;
+  margin: ${({ theme }) => theme.spacing.xxs} 0px;
 
   @media ${devices.tablet} {
     grid-column: 5 / -3;

@@ -86,7 +86,6 @@ const FullscreenPortal: React.FC<Props> = ({
               image={getImage(images[currentImage]) as IGatsbyImageData}
               alt={`Carousel image ${currentImage}`}
             />
-            <Styled.ImageCaption>{captions[currentImage]}</Styled.ImageCaption>
           </Styled.SliderImage>
         </AnimatePresence>
       </Styled.FullscreenSlider>
