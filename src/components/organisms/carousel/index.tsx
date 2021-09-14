@@ -56,7 +56,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     )
 
     img && translateX.set((img.offsetLeft - viewportOffset) * -1)
-  }, [currentImage])
+  }, [currentImage, viewportOffset])
 
   const getSliderMargins = () => {
     if (!ref || !ref.current || !constraintRef || !constraintRef.current)
