@@ -1,9 +1,9 @@
 import React, { useState } from "react"
 import { useLayoutEffect } from "react"
 import { useTranslation } from "react-i18next"
-import usePublication from "src/hooks/usePublication"
+import usePublication, { PublicationPage } from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
-import { getCurrentPathIndex } from "~util"
+import { getChapterNumberFromIndex, getCurrentPathIndex } from "~util"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -13,6 +13,10 @@ import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 interface Props {
   currentPath: string
+}
+
+function getIndex(page: PublicationPage, fallback: number) {
+  return getChapterNumberFromIndex(page.index ?? Number(`0.${fallback + 1}`))
 }
 
 const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
@@ -51,19 +55,21 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
 
     const leftPage = footerPages[prevIndex]
     const rightPage = footerPages[nextIndex]
+    const leftPageChapterIndex = getIndex(leftPage, prevIndex)
+    const rightPageChapterIndex = getIndex(rightPage, nextIndex)
 
     return {
       left: {
         ...leftPage,
         header:
-          (leftPage?.index ?? prevIndex) < currentPathIndex + 1
+          leftPageChapterIndex < currentPathIndex + 1
             ? t("previous_article")
             : t("next_article"),
       },
       right: {
-        ...footerPages[nextIndex],
+        ...rightPage,
         header:
-          (rightPage?.index ?? nextIndex) > currentPathIndex + 1
+          rightPageChapterIndex > currentPathIndex + 1
             ? t("next_article")
             : t("previous_article"),
       },
