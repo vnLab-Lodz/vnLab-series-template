@@ -24,6 +24,7 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
   const { t } = useTranslation("common")
 
   const currentPathIndex = getCurrentPathIndex(pages, currentPath)
+
   const [index, setIndex] = useState(currentPathIndex)
   const [layoutMode, setLayoutMode] = useState<"base" | "compact">("base")
 
