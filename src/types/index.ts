@@ -15,3 +15,5 @@ export type ExtendStyledProps<
   as?: string | React.ComponentType<any>
   forwardedAs?: string | React.ComponentType<any>
 }
+
+export type PanEvent = MouseEvent | TouchEvent | PointerEvent

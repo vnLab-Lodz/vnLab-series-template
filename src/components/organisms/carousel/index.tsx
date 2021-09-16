@@ -9,8 +9,9 @@ import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import * as Styled from "./style"
 import { GridConstraint, GridContainer, InnerGrid } from "~styles/grid"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { motion, PanInfo, useDragControls, useSpring } from "framer-motion"
+import { motion, PanInfo, useSpring } from "framer-motion"
 import FullscreenPortal from "./fullscreen"
+import { PanEvent } from "~types"
 import { v4 as uuid } from "uuid"
 
 //@ts-ignore
@@ -25,10 +26,9 @@ interface Props {
   captions: string[]
 }
 
-type PanEvent = MouseEvent | TouchEvent | PointerEvent
-
 const Carousel: React.FC<Props> = ({ images, captions }) => {
   const ref = useRef<HTMLDivElement | null>(null)
+  const imagesClickable = useRef<boolean>(true)
   const constraintRef = useRef<HTMLDivElement | null>(null)
   const [viewportOffset, setViewportOffset] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
@@ -83,6 +83,10 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const previousImage = () =>
     setCurrentImage(prev => (prev <= 0 ? prev : prev - 1))
 
+  const onPanStart = () => {
+    imagesClickable.current = false
+  }
+
   const onPan = (_: PanEvent, point: PanInfo) => {
     translateX.stop()
     const offsetX = point.offset.x
@@ -100,7 +104,13 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
     if (point.offset.x > 0) previousImage()
     else nextImage()
+
+    setTimeout(() => {
+      imagesClickable.current = true
+    }, 500)
   }
+
+  const onImgClick = () => imagesClickable.current && setFullscreen(true)
 
   const { start, end } = getSliderMargins()
   const width = getSliderImageWidth()
@@ -115,6 +125,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
           <Styled.Slider
             as={motion.div}
             style={{ translateX }}
+            onPanStart={onPanStart}
             onPan={onPan}
             onPanEnd={onPanEnd}
           >
@@ -128,7 +139,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                   marginStart={start}
                   marginEnd={end}
                   style={{ width }}
-                  onClick={() => setFullscreen(true)}
+                  onClick={onImgClick}
                 >
                   <GatsbyImage
                     style={{ width: "100%", height: "100%" }}
