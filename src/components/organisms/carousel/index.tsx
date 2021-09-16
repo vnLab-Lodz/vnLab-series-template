@@ -9,7 +9,7 @@ import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import * as Styled from "./style"
 import { GridConstraint, GridContainer, InnerGrid } from "~styles/grid"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { motion, useSpring } from "framer-motion"
+import { motion, PanInfo, useDragControls, useSpring } from "framer-motion"
 import FullscreenPortal from "./fullscreen"
 import { v4 as uuid } from "uuid"
 
@@ -24,6 +24,8 @@ interface Props {
   images: ImageDataLike[]
   captions: string[]
 }
+
+type PanEvent = MouseEvent | TouchEvent | PointerEvent
 
 const Carousel: React.FC<Props> = ({ images, captions }) => {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -81,6 +83,25 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const previousImage = () =>
     setCurrentImage(prev => (prev <= 0 ? prev : prev - 1))
 
+  const onPan = (_: PanEvent, point: PanInfo) => {
+    translateX.stop()
+    const offsetX = point.offset.x
+
+    if (currentImage === 0 && offsetX > 0) return
+
+    if (currentImage === images.length - 1) return
+
+    const currentTranslation = translateX.get()
+    translateX.set(currentTranslation + offsetX)
+  }
+
+  const onPanEnd = (_: PanEvent, point: PanInfo) => {
+    translateX.stop()
+
+    if (point.offset.x > 0) previousImage()
+    else nextImage()
+  }
+
   const { start, end } = getSliderMargins()
   const width = getSliderImageWidth()
 
@@ -91,7 +112,12 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
         style={{ transform: `translatex(-${viewportOffset}px)` }}
       >
         <GridContainer>
-          <Styled.Slider as={motion.div} style={{ translateX }}>
+          <Styled.Slider
+            as={motion.div}
+            style={{ translateX }}
+            onPan={onPan}
+            onPanEnd={onPanEnd}
+          >
             {images.map((image, index) => {
               const uid = `carousel-${carouselUid}__image--${index}`
 

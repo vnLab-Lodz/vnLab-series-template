@@ -22,6 +22,7 @@ export const Slider = styled.div`
   grid-row: 1;
   grid-column: 1 / last-col;
   white-space: nowrap;
+  touch-action: none;
 `
 
 export const SliderImage = styled.div<{
@@ -58,6 +59,14 @@ export const SliderImage = styled.div<{
       position: absolute;
       cursor: default;
     `}
+
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
 `
 
 export const ImageCaption = styled(atoms.p)`
