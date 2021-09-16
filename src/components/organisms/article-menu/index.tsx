@@ -10,6 +10,7 @@ import ArrowDown from "src/images/icons/arrow_down.svg"
 import { ThemeContext } from "styled-components"
 import atoms from "~components/atoms"
 import Arrow from "~components/molecules/arrow"
+import { getSupportedFitContent } from "~util"
 import Layout from "../layout"
 import Annotations from "./menus/annotations"
 import Content from "./menus/content"
@@ -123,7 +124,7 @@ const ArticleMenu: React.FC<Props> = ({ images }) => {
       <motion.div
         key={menuState}
         initial={{ height: 0, opacity: 0 }}
-        animate={{ height: "fit-content", opacity: 1 }}
+        animate={{ height: getSupportedFitContent(), opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
@@ -199,7 +200,7 @@ const ArticleMenu: React.FC<Props> = ({ images }) => {
               {menuState !== MENU_STATE.CLOSED && (
                 <Styled.MenuContet
                   initial={{ height: 0 }}
-                  animate={{ height: "fit-content" }}
+                  animate={{ height: getSupportedFitContent() }}
                   exit={{ height: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
                 >

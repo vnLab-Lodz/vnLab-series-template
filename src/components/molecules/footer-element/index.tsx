@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import atoms from "~components/atoms"
+import { getSupportedFitContent } from "~util"
 import { getChapterFromIndex } from "~util/indexes"
 import Arrow from "../arrow"
 import * as Styled from "./style"
@@ -59,7 +60,7 @@ const FooterElement: React.FC<Props> = ({
             <atoms.p
               as={motion.p}
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "fit-content" }}
+              animate={{ opacity: 1, height: getSupportedFitContent() }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             >
