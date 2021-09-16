@@ -13,6 +13,7 @@ export const GridContainer = styled.div<ContainerProps>`
 `
 
 export const GridConstraint = styled.div`
+  max-width: -moz-available;
   grid-column: 2 / 32;
 
   @media ${devices.tablet} {
