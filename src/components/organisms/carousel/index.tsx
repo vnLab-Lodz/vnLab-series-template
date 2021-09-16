@@ -102,6 +102,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                   marginStart={start}
                   marginEnd={end}
                   style={{ width }}
+                  onClick={() => setFullscreen(true)}
                 >
                   <GatsbyImage
                     style={{ width: "100%", height: "100%" }}

@@ -33,6 +33,12 @@ export const SliderImage = styled.div<{
   vertical-align: top;
   margin: 0px 16px;
   height: 100%;
+  pointer-events: none;
+
+  @media ${devices.tablet} {
+    cursor: pointer;
+    pointer-events: all;
+  }
 
   ${({ fullscreen }) => (fullscreen ? FullscreenSlider : Slider)} & {
     &:first-child {
@@ -50,6 +56,7 @@ export const SliderImage = styled.div<{
       display: flex;
       margin: 0px !important;
       position: absolute;
+      cursor: default;
     `}
 `
 
