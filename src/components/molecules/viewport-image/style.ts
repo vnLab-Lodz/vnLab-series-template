@@ -7,10 +7,19 @@ import atoms from "~components/atoms"
 export const ViewportConstraint = styled.div`
   position: relative;
   height: 100vh;
+
+  margin: ${({ theme: { spacing } }) => spacing.xxxl} 0px;
+`
+
+export const Absolute = styled.div`
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: ${({ theme: { spacing } }) => spacing.xxxl} 0px;
 `
 
 export const ImageWrapper = styled.div`

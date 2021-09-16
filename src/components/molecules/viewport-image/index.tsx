@@ -68,24 +68,26 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
 
   return (
     <Styled.ViewportConstraint ref={ref}>
-      <Styled.ImageWrapper>
-        <Styled.Image image={getImage(image) as IGatsbyImageData} alt="" />
-      </Styled.ImageWrapper>
-      <Styled.Caption>
-        <Styled.CaptionText>{caption}</Styled.CaptionText>
-        <Styled.ExpandCaptionBtn onClick={handleClick}>
-          {t("expand")}
-        </Styled.ExpandCaptionBtn>
-      </Styled.Caption>
-      {open && position && (
-        <CaptionPortal
-          caption={caption}
-          toggle={() => setOpen(false)}
-          position={position}
-        >
-          {children}
-        </CaptionPortal>
-      )}
+      <Styled.Absolute>
+        <Styled.ImageWrapper>
+          <Styled.Image image={getImage(image) as IGatsbyImageData} alt="" />
+        </Styled.ImageWrapper>
+        <Styled.Caption>
+          <Styled.CaptionText>{caption}</Styled.CaptionText>
+          <Styled.ExpandCaptionBtn onClick={handleClick}>
+            {t("expand")}
+          </Styled.ExpandCaptionBtn>
+        </Styled.Caption>
+        {open && position && (
+          <CaptionPortal
+            caption={caption}
+            toggle={() => setOpen(false)}
+            position={position}
+          >
+            {children}
+          </CaptionPortal>
+        )}
+      </Styled.Absolute>
     </Styled.ViewportConstraint>
   )
 }
