@@ -43,7 +43,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     setViewportOffset(ref.current.offsetLeft)
   }
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     determineViewportOffset()
     window.addEventListener("resize", determineViewportOffset)
 
@@ -107,7 +107,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
     setTimeout(() => {
       imagesClickable.current = true
-    }, 500)
+    }, 600)
   }
 
   const onImgClick = () => imagesClickable.current && setFullscreen(true)
