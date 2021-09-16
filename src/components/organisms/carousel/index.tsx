@@ -14,6 +14,7 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
+import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   images: ImageDataLike[]
@@ -28,6 +29,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const [currentImage, setCurrentImage] = useState(0)
   const carouselUid = useMemo(() => uuid(), [images])
   const [fullscreen, setFullscreen] = useState(false)
+  const { key } = useIsClient()
 
   const translateX = useSpring(0)
 
@@ -110,7 +112,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const width = getSliderImageWidth()
 
   return (
-    <>
+    <React.Fragment key={key}>
       <Styled.ViewportConstraint
         ref={ref}
         style={{ transform: `translatex(-${viewportOffset}px)` }}
@@ -175,7 +177,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
           exitFullscreen={() => setFullscreen(false)}
         />
       )}
-    </>
+    </React.Fragment>
   )
 }
 
