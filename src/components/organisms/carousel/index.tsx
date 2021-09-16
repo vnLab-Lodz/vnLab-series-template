@@ -1,13 +1,7 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import * as Styled from "./style"
-import { GridConstraint, GridContainer, InnerGrid } from "~styles/grid"
+import { GridConstraint, InnerGrid } from "~styles/grid"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { motion, PanInfo, useSpring } from "framer-motion"
 import FullscreenPortal from "./fullscreen"
@@ -121,14 +115,13 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
         ref={ref}
         style={{ transform: `translatex(-${viewportOffset}px)` }}
       >
-        <GridContainer>
-          <Styled.Slider
-            as={motion.div}
-            style={{ translateX }}
-            onPanStart={onPanStart}
-            onPan={onPan}
-            onPanEnd={onPanEnd}
-          >
+        <Styled.PanableGrid
+          as={motion.div}
+          onPanStart={onPanStart}
+          onPan={onPan}
+          onPanEnd={onPanEnd}
+        >
+          <Styled.Slider as={motion.div} style={{ translateX }}>
             {images.map((image, index) => {
               const uid = `carousel-${carouselUid}__image--${index}`
 
@@ -169,7 +162,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
               </InnerGrid>
             </Styled.CarouselNav>
           </GridConstraint>
-        </GridContainer>
+        </Styled.PanableGrid>
       </Styled.ViewportConstraint>
       {fullscreen && (
         <FullscreenPortal

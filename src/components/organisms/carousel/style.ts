@@ -18,6 +18,10 @@ export const ViewportConstraint = styled.div`
   }
 `
 
+export const PanableGrid = styled(GridContainer)`
+  touch-action: none;
+`
+
 export const Slider = styled.div`
   grid-row: 1;
   grid-column: 1 / last-col;
