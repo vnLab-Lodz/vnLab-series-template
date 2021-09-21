@@ -211,11 +211,11 @@ export const TabButton = styled.button`
   border: none;
   cursor: pointer;
   text-align: start;
-  padding: ${({ theme: { spacing } }) => `${spacing.xs} ${spacing.xxs}`};
+  padding: ${({ theme: { spacing } }) => `${spacing.md} ${spacing.xxs}`};
   position: relative;
 
   @media ${devices.tablet} {
-    padding: ${({ theme: { spacing } }) => spacing.xxs};
+    // padding: ${({ theme: { spacing } }) => spacing.xxs};
     height: 100%;
     text-align: center;
   }
@@ -325,10 +325,6 @@ export const IndexesWrapper = styled.article`
   flex-direction: column;
   grid-column: 1 / last-col;
   overflow-y: scroll;
-
-  @media ${devices.tablet} {
-    overflow-y: hidden;
-  }
 `
 
 export const IndexesTabs = styled(Tabs)`
@@ -344,7 +340,6 @@ export const ActiveTabWrapper = styled.article`
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
-    overflow-y: scroll;
   }
 
   @media ${devices.laptop} {
