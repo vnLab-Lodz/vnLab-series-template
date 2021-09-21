@@ -57,8 +57,16 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
   }, [ref])
 
   useEffect(() => {
-    if (children) addAnnotation(target, children.toString())
-  }, [])
+    if (
+      children &&
+      ref &&
+      typeof position === "number" &&
+      !annotations.find(
+        a => a.target === target && a.content === children.toString()
+      )
+    )
+      addAnnotation(target, children.toString(), position as number)
+  }, [ref, position])
 
   const toggleAnnotation = () => setOpen(prev => !prev)
 

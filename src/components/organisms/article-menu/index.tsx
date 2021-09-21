@@ -96,7 +96,7 @@ const ArticleMenu: React.FC<Props> = ({ images }) => {
         content = <Illustrations images={images} />
         break
       case MENU_STATE.ANNOTATIONS:
-        content = <Annotations />
+        content = <Annotations closeMenu={() => setState(MENU_STATE.CLOSED)} />
         break
       case MENU_STATE.BIBLIOGRAPHY:
         content = (
