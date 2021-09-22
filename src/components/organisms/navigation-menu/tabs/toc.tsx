@@ -10,6 +10,7 @@ type GroupedPages = PublicationPage[][]
 
 interface Props {
   className?: string
+  headless?: boolean
 }
 
 function groupPages(pages: PublicationPage[]): GroupedPages {
@@ -25,7 +26,7 @@ function groupPages(pages: PublicationPage[]): GroupedPages {
 
 const Part: React.FC = ({ children }) => <>{children}</>
 
-const TableOfContents: React.FC<Props> = ({ className }) => {
+const TableOfContents: React.FC<Props> = ({ className, headless }) => {
   const pages = usePublication()
   const groupedPages = groupPages(pages)
   const uid = uuid()
@@ -33,7 +34,9 @@ const TableOfContents: React.FC<Props> = ({ className }) => {
 
   return (
     <Styled.TocGrid className={className}>
-      <Styled.TocHeader type="primary">{`${t("toc")}:`}</Styled.TocHeader>
+      {!headless && (
+        <Styled.TocHeader type="primary">{`${t("toc")}:`}</Styled.TocHeader>
+      )}
       {groupedPages.map((group, i) => (
         <Part key={`toc-part__${uid}--${i}`}>
           <Styled.Part type="primary">{`${t("part")} ${i + 1}`}</Styled.Part>

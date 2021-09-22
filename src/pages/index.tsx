@@ -263,6 +263,7 @@ const TocWrapper = styled.div`
 
 const StyledTableOfContents = styled(TableOfContents)`
   overflow: hidden;
+  margin-top: ${({ theme }) => theme.spacing.xxl};
 `
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
@@ -319,7 +320,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           </TocButton>
         </ContentWrapper>
         <TocWrapper ref={ref}>
-          <StyledTableOfContents />
+          <StyledTableOfContents headless />
         </TocWrapper>
       </GridContainer>
     </NavMenuProvider>
