@@ -14,7 +14,7 @@ export const ViewportConstraint = styled.div`
   max-height: 100vh;
 
   @media (max-height: 800px) {
-    max-height: 700px;
+    max-height: calc(100vh - 70px);
   }
 `
 
@@ -27,6 +27,10 @@ export const Slider = styled.div`
   grid-column: 1 / last-col;
   white-space: nowrap;
   touch-action: none;
+
+  @media (max-height: 800px) {
+    max-height: calc(100vh - 160px);
+  }
 `
 
 export const SliderImage = styled.div<{
