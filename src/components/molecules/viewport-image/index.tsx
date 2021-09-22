@@ -1,8 +1,16 @@
-import React, { useState, useRef, useEffect, useContext } from "react"
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  CSSProperties,
+} from "react"
 import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import { useTranslation } from "react-i18next"
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 import * as Styled from "./style"
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
@@ -48,6 +56,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLDivElement | null>(null)
   const { t } = useTranslation("common")
+  const [inViewRef, isInView] = useInView({ threshold: 0.97 })
 
   const calculatePosition = () => {
     if (!ref || !ref.current) return
@@ -73,11 +82,28 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   useEffect(() => {
     calculatePosition()
     addImage(image, calculateScrollPosition())
+    inViewRef(ref.current)
   }, [ref])
 
+  const getFixedPositions = () => {
+    if (!ref || !ref.current) return { left: 0, right: 0 }
+
+    const { offsetLeft, offsetWidth } = ref.current
+
+    const left = offsetLeft
+    const right = document.body.clientWidth - offsetLeft - offsetWidth
+
+    return { left, right }
+  }
+
+  const getStickyStyle = (): CSSProperties =>
+    isInView
+      ? { position: "fixed", ...getFixedPositions() }
+      : { position: "absolute", left: "0px", right: "0px" }
+
   return (
-    <Styled.ViewportConstraint ref={ref}>
-      <Styled.Absolute>
+    <Styled.ViewportConstraint as={motion.div} ref={ref}>
+      <Styled.Absolute style={getStickyStyle()}>
         <Styled.ImageWrapper>
           <Styled.Image image={getImage(image) as IGatsbyImageData} alt="" />
         </Styled.ImageWrapper>
