@@ -53,7 +53,7 @@ export const createPages = async ({
       component: path.resolve("./src/templates/chapter.tsx"),
       context: {
         slugs: localizeSlug(slug),
-        publication: true,
+        publication: !slug.includes("bibliography"),
       },
     })
   })
