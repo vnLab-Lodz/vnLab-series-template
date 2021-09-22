@@ -11,6 +11,8 @@ import Annotations from "./menus/annotations"
 import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
 import Illustrations from "./menus/illustrations"
+import { useLocalization } from "gatsby-theme-i18n"
+import { SINGLE_AUTHOR_MODE } from "~util/constatnts"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -32,6 +34,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
+  const { locale } = useLocalization()
 
   const scrollRef = useRef<number>(0)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -114,6 +117,21 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
     )
   }
 
+  const getBibliographyButton = () => {
+    return SINGLE_AUTHOR_MODE ? (
+      <Styled.BibliographyLink language={locale} to="/bibliography">
+        <Styled.Button onClick={() => {}}>
+          <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
+        </Styled.Button>
+      </Styled.BibliographyLink>
+    ) : (
+      <Styled.Button onClick={() => setState(MENU_STATE.BIBLIOGRAPHY)}>
+        <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
+        <Arrow inverted={menuState === MENU_STATE.BIBLIOGRAPHY} />
+      </Styled.Button>
+    )
+  }
+
   useEffect(() => {
     window.addEventListener("scroll", onScroll)
     return () => {
@@ -169,12 +187,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
                   <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
                   <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
                 </Styled.Button>
-                <Styled.Button
-                  onClick={() => setState(MENU_STATE.BIBLIOGRAPHY)}
-                >
-                  <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
-                  <Arrow inverted={menuState === MENU_STATE.BIBLIOGRAPHY} />
-                </Styled.Button>
+                {getBibliographyButton()}
               </Styled.MenuNav>
             </Layout>
             <AnimatePresence initial={false} exitBeforeEnter>

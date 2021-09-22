@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 import Layout from "../layout"
@@ -86,4 +87,8 @@ export const MenuContet = styled(motion.div)`
 export const MenuLayout = styled(Layout)`
   margin-top: ${({ theme: { spacing } }) => spacing.xxxl};
   margin-bottom: ${({ theme: { spacing } }) => spacing.sm};
+`
+
+export const BibliographyLink = styled(LocalizedLink)`
+  text-decoration: none;
 `
