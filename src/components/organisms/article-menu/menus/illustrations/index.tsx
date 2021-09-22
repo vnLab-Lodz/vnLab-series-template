@@ -1,24 +1,29 @@
-import React from "react"
-import {
-  GatsbyImage,
-  IGatsbyImageData,
-  getImage,
-  ImageDataLike,
-} from "gatsby-plugin-image"
+import React, { useContext } from "react"
+import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image"
 import * as Styled from "./style"
+import { ImagesContext } from "src/context/illustrations-context"
 
 interface Props {
-  images: ImageDataLike[]
+  closeMenu: () => void
 }
 
-const Illustrations: React.FC<Props> = ({ images }) => {
+const Illustrations: React.FC<Props> = ({ closeMenu }) => {
+  const { images } = useContext(ImagesContext)
+
+  const scrollToImage = (position: number) => {
+    closeMenu()
+    window.scrollTo({ top: position, behavior: "smooth" })
+  }
+
   return (
     <Styled.IllustrationsWrapper>
-      {images.map((image, index) => (
+      {images.map(({ imageData, position }, index) => (
         <GatsbyImage
+          style={{ cursor: "pointer" }}
           key={`article-menu__illustartion--${index}`}
-          image={getImage(image) as IGatsbyImageData}
+          image={getImage(imageData) as IGatsbyImageData}
           alt={`Article image ${index}`}
+          onClick={() => scrollToImage(position)}
         />
       ))}
     </Styled.IllustrationsWrapper>

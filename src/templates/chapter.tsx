@@ -17,11 +17,12 @@ import AnnotationProvider from "~components/molecules/annotation/annotation-cont
 import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
 import ArticleFooter from "~components/organisms/article-footer"
-import { ImageDataLike } from "gatsby-plugin-image"
+import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import { isUndefined } from "~util"
 import Carousel from "~components/organisms/carousel"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
+import ImagesProvider, { Image } from "src/context/illustrations-context"
 
 const addClass =
   (
@@ -68,32 +69,32 @@ const StyledLayout = styled(Layout)`
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
 
-  const getImages = (): ImageDataLike[] => {
-    let images = [...embeddedImagesLocal]
-
-    return isUndefined(headerImage)
-      ? images
-      : [...images, headerImage as ImageDataLike]
+  const getInitialImages = (): Image[] => {
+    return !isUndefined(headerImage)
+      ? [{ imageData: headerImage as IGatsbyImageData, position: 0 }]
+      : []
   }
 
   return (
     <NavMenuProvider>
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
-        {headerImage && <HeaderImage image={headerImage} />}
-        <ArticleMenu images={getImages()} />
-        <StyledLayout className="mdx-section">
-          <MDXProvider components={mdxComponents}>
-            <SeoMeta title={title} />
-            <MDXRenderer
-              frontmatter={mdx.frontmatter}
-              localImages={embeddedImagesLocal}
-            >
-              {mdx.body}
-            </MDXRenderer>
-          </MDXProvider>
-        </StyledLayout>
-        <ArticleFooter currentPath={location.pathname} />
+        <ImagesProvider initialImages={getInitialImages()}>
+          {headerImage && <HeaderImage image={headerImage} />}
+          <ArticleMenu />
+          <StyledLayout className="mdx-section">
+            <MDXProvider components={mdxComponents}>
+              <SeoMeta title={title} />
+              <MDXRenderer
+                frontmatter={mdx.frontmatter}
+                localImages={embeddedImagesLocal}
+              >
+                {mdx.body}
+              </MDXRenderer>
+            </MDXProvider>
+          </StyledLayout>
+          <ArticleFooter currentPath={location.pathname} />
+        </ImagesProvider>
       </AnnotationProvider>
     </NavMenuProvider>
   )

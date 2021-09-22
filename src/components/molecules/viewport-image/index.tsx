@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useContext } from "react"
+import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import { useTranslation } from "react-i18next"
@@ -43,6 +44,7 @@ const CaptionPortal: React.FC<PortalProps> = ({
 
 const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const [open, setOpen] = useState<boolean>(false)
+  const { addImage } = useContext(ImagesContext)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLDivElement | null>(null)
   const { t } = useTranslation("common")
@@ -57,6 +59,12 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     setPosition(doc.clientHeight - offset)
   }
 
+  const calculateScrollPosition = () => {
+    if (!ref || !ref.current) return 0
+
+    return ref.current.offsetTop - 130
+  }
+
   const handleClick = () => {
     calculatePosition()
     setOpen(true)
@@ -64,6 +72,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
 
   useEffect(() => {
     calculatePosition()
+    addImage(image, calculateScrollPosition())
   }, [ref])
 
   return (

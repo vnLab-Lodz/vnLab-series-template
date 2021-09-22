@@ -1,5 +1,4 @@
 import { AnimatePresence, motion, useAnimation } from "framer-motion"
-import { ImageDataLike } from "gatsby-plugin-image"
 import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -25,11 +24,7 @@ enum MENU_STATE {
   BIBLIOGRAPHY,
 }
 
-interface Props {
-  images: ImageDataLike[]
-}
-
-const ArticleMenu: React.FC<Props> = ({ images }) => {
+const ArticleMenu: React.FC = () => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
@@ -80,23 +75,20 @@ const ArticleMenu: React.FC<Props> = ({ images }) => {
     scrollRef.current = currentScrollPos
   }
 
+  const closeMenu = () => setState(MENU_STATE.CLOSED)
+
   const getMenuContent = () => {
     let content = <></>
 
     switch (menuState) {
       case MENU_STATE.CONTENT:
-        content = (
-          <Content
-            contents={pageContent}
-            closeMenu={() => setState(MENU_STATE.CLOSED)}
-          />
-        )
+        content = <Content contents={pageContent} closeMenu={closeMenu} />
         break
       case MENU_STATE.ILLUSTRATIONS:
-        content = <Illustrations images={images} />
+        content = <Illustrations closeMenu={closeMenu} />
         break
       case MENU_STATE.ANNOTATIONS:
-        content = <Annotations closeMenu={() => setState(MENU_STATE.CLOSED)} />
+        content = <Annotations closeMenu={closeMenu} />
         break
       case MENU_STATE.BIBLIOGRAPHY:
         content = (

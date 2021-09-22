@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
 import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
+import { ImagesContext } from "src/context/illustrations-context"
 import * as Styled from "./style"
 import { GridConstraint, InnerGrid } from "~styles/grid"
 import { GatsbyImage } from "gatsby-plugin-image"
@@ -30,6 +31,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const carouselUid = useMemo(() => uuid(), [images])
   const [fullscreen, setFullscreen] = useState(false)
   const { key } = useIsClient()
+  const { addImage } = useContext(ImagesContext)
 
   const translateX = useSpring(0)
 
@@ -39,8 +41,15 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     setViewportOffset(ref.current.offsetLeft)
   }
 
+  const calcScrollPos = () => {
+    if (!ref || !ref.current) return 0
+
+    return ref.current.offsetTop - 130
+  }
+
   useEffect(() => {
     determineViewportOffset()
+    images.forEach(img => addImage(img as IGatsbyImageData, calcScrollPos()))
     window.addEventListener("resize", determineViewportOffset)
 
     return () => {
