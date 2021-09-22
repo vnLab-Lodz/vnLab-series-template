@@ -81,7 +81,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
-          <ArticleMenu />
+          <ArticleMenu currentPath={location.pathname} />
           <StyledLayout className="mdx-section">
             <MDXProvider components={mdxComponents}>
               <SeoMeta title={title} />

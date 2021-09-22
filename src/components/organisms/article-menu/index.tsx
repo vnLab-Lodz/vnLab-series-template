@@ -3,18 +3,22 @@ import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import usePageContent from "src/hooks/usePageContent"
-
-//@ts-ignore
-import ArrowDown from "src/images/icons/arrow_down.svg"
 import { ThemeContext } from "styled-components"
-import atoms from "~components/atoms"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent } from "~util"
 import Layout from "../layout"
 import Annotations from "./menus/annotations"
+import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
 import Illustrations from "./menus/illustrations"
 import * as Styled from "./style"
+
+//@ts-ignore
+import ArrowDown from "src/images/icons/arrow_down.svg"
+
+interface Props {
+  currentPath: string
+}
 
 enum MENU_STATE {
   CLOSED,
@@ -24,7 +28,7 @@ enum MENU_STATE {
   BIBLIOGRAPHY,
 }
 
-const ArticleMenu: React.FC = () => {
+const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
@@ -91,22 +95,7 @@ const ArticleMenu: React.FC = () => {
         content = <Annotations closeMenu={closeMenu} />
         break
       case MENU_STATE.BIBLIOGRAPHY:
-        content = (
-          <atoms.p>
-            We wczesnych, zwłaszcza fabularnych filmach Agnès Vardy śmierć jest
-            dla bohaterek egzystencjalnym skandalem – przychodzi znikąd, jest
-            absurdalna, pozbawiona sensu i uzasadnienia w świecie, w którym
-            piękno i miłość to synonimy życia. We wczesnych, zwłaszcza
-            fabularnych filmach Agnès Vardy śmierć jest dla bohaterek
-            egzystencjalnym skandalem – przychodzi znikąd, jest absurdalna,
-            pozbawiona sensu i uzasadnienia w świecie, w którym piękno i miłość
-            to synonimy życia. Śmierć jawi się jako coś w ścisłym sensie nie do
-            pomyślenia czy wyobrażenia, nawet jeśli bohaterki muszą się z nią –
-            zresztą tylko pozornie – skonfrontować w indywidualnym
-            doświadczeniu. W Szczęściu (Le bonheur, 1965) śmierć (być może
-            samobójcza) jednej z głównych bohaterek to jedyny moment, w którym
-          </atoms.p>
-        )
+        content = <Bibliography currentPath={currentPath} />
         break
       default:
         break
