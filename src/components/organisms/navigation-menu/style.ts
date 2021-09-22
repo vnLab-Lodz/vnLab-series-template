@@ -39,6 +39,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
 
     @media ${devices.tablet} {
       height: 100%;
+      height: -webkit-fill-available;
       border-bottom: none;
       border-right: solid 1px
         ${mode === NAV_MODES.LIGHT ? palette.black : palette.white};
