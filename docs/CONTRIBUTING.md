@@ -112,7 +112,7 @@ locale: [language of the file ("en" | "pl")]
 ---
 ```
 
-### Single author biblipgraphy
+### Single author bibliopgraphy
 
 The bibliography is stored in the root of the `/publication` folder named `bibliography.[locale].mdx`. It is possible to use all the same components that are available in the chapter/article files.
 
@@ -122,8 +122,166 @@ The developer needs to set the `SINGLE_AUTHOR_MODE` flag to `true`.
 
 Thei bibliography is stored in the chapter/article folders named `bibliography.[locale].mdx`. It is possible to use all the same components that are available in the chapter/article file. The effect may not always be right for things like carousels etc. since they are not rendered in the article/chapter view.
 
-## WIP: Components
+## Components
 
-.  
-.  
-.
+### Edition
+
+It's a self contained component that can be put in the article in case support for versioning is in place.
+
+#### **Preview**
+
+![Edition component](edition.png "Edition")
+
+#### **Usage snippet**
+
+```mdx
+<Edition />
+```
+
+### Author
+
+Can be used to display the author in a formatted way.
+
+#### **Preview**
+
+![Author component](author.png "Author")
+
+#### **Usage snippet**
+
+```mdx
+<Author>Name of the author</Author>
+```
+
+### Abstract
+
+Can be used to display the abstract of a chapter/artcile in a standout way.
+
+#### **Preview**
+
+![Abstract component](abstract.png "Abstract")
+
+#### **Usage snippet**
+
+```mdx
+<Author>Name of the author</Author>
+```
+
+### Annotation
+
+Used to place an annotation in the text.
+
+#### **Preview**
+
+![Annotationo component](annotation.png "Annotation")
+
+#### **Usage snippet**
+
+Given the text
+
+```
+Part of text that I want to annotate.
+```
+
+and a desired annotation of **annotate** with **This is an example annotation content.**
+
+The component should be used like so.
+
+```mdx
+Part of text I want to <Annotation target="annotate">This is an example annotation content.</Annotation>
+```
+
+### Quote
+
+Used to place quotes in the text.
+
+#### **Preview**
+
+![Quote component](quote.png "Quote")
+
+#### **Usage snippet**
+
+Given the qauthor **Agnes Vardy** and a quote **This is an example quote.** the compnent should be used like so:
+
+````mdx
+<Quote author="Agnes Vardy">This is an example quote.</Quote>
+```
+````
+
+### ViewportImage
+
+A picture that will span the eniterty of the viewport height. It is possible to give it a caption and a longer one to be shown after expansion.
+
+#### **Preview**
+
+![ViewportImage component](viewportImage.png "ViewportImage")
+
+![ViewportImage component](viewportImageExp.png "ViewportImage")
+
+#### **Usage snippet**
+
+Given the frontmatter from below
+
+```mdx
+---
+embeddedImagesLocal:
+  - images/image1.png
+---
+```
+
+and short caption of **An example fig caption.** with the expanded version of **An example expanded caption** the usage sould look like the following.
+
+````mdx
+<ViewportImage image={props.localImages[0]} caption="An example fig caption">
+  An example expanded caption.
+</ViewportImage>
+```
+````
+
+In order to pick the image from the list of images in frontmatter count the position in the list from 0.
+
+### Carousel
+
+A picture that will span the eniterty of the viewport height. It is possible to give it a caption and a longer one to be shown after expansion.
+
+#### **Preview**
+
+![Carousel component](carousel.png "Carousel")
+
+#### **Usage snippet**
+
+Given the frontmatter from below
+
+```mdx
+---
+embeddedImagesLocal:
+  - images/image_1.png
+  - images/image_2.jpg
+  - images/image_3.png
+---
+```
+
+the usage sould look like the following.
+
+````mdx
+<Carousel
+  images={[props.localImages[0], props.localImages[1], props.localImages[2]]}
+  captions={[
+    "Caption for image 1",
+    "Caption for image 2",
+    "Caption for image 3",
+  ]}
+/>
+```
+````
+
+Pick images from the list of images by counting indexes from 0 and place them in the square brackets one after the other separated by commas. Captions can be added by placing them in square brackets within quotation marks and separated by commas. The captions and images are matched by the order.
+
+### Header image
+
+In order to add a header image to the chapter/article place a path to it in the frontmatter like so:
+
+```
+---
+headerImage: images/example.png
+---
+```
