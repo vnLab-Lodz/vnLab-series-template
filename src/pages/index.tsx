@@ -46,7 +46,6 @@ const ContentWrapper = styled.aside`
   grid-template-rows: 1fr repeat(6, min-content);
   align-content: end;
   grid-column: 1 / last-col;
-  // padding-top: 67px;
 
   grid-template-columns: repeat(32, 1fr);
 
@@ -214,6 +213,14 @@ const TocButton = styled.button`
       grid-template-columns: repeat(16, 1fr);
       grid-column: 1 / 17;
       grid-row: 7;
+    }
+
+    @media (min-height: 1100px) {
+      margin-top: 30vh;
+    }
+
+    @media (max-height: 650px) {
+      margin-top: 0;
     }
   `}
 `
