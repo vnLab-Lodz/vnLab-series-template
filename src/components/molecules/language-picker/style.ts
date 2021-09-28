@@ -16,6 +16,10 @@ export const LangButton = styled.button`
     height: 100%;
     text-align: center;
   }
+
+  @media ${devices.desktop} {
+    padding: ${({ theme: { spacing } }) => spacing.xs};
+  }
 `
 
 export const LangButtonText = styled(atoms.p)<{ dark?: boolean }>`

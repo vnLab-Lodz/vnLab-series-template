@@ -28,6 +28,10 @@ export const AnnotationContent = styled(GridContainer)`
     position: absolute;
     left: 0px;
     right: 0px;
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
   `}
 `
 

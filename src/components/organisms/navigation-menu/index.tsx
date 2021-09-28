@@ -78,7 +78,11 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
       <Styled.Nav mode={navMode}>
         <Styled.Progress style={{ height: progress, width: progress }} />
         <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
-          <img src={open ? CloseSVG : HamburgerSVG} alt="Toggle Menu Button" />
+          <img
+            className="sizeable-icon"
+            src={open ? CloseSVG : HamburgerSVG}
+            alt="Toggle Menu Button"
+          />
         </Styled.ToggleBtn>
         <Styled.Title to="/" language={locale}>
           {t("common:title")}
@@ -127,7 +131,11 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
                 <LanguagePicker currentPath={currentPath} />
                 <Styled.TabButton>
                   <LocalizedLink to="/search" language={locale}>
-                    <Styled.SearchImg src={SearchSVG} alt="Magnifying glass" />
+                    <Styled.SearchImg
+                      className="sizeable-icon"
+                      src={SearchSVG}
+                      alt="Magnifying glass"
+                    />
                   </LocalizedLink>
                 </Styled.TabButton>
               </Styled.TabItems>

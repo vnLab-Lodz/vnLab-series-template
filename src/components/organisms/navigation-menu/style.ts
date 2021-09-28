@@ -135,6 +135,11 @@ export const Logo = styled.img`
     display: block;
     margin-bottom: ${({ theme }) => theme.spacing.md};
   }
+
+  @media ${devices.desktop} {
+    height: 128px;
+    width: auto;
+  }
 `
 
 export const NavMenuContent = styled(motion.div)`
@@ -219,6 +224,10 @@ export const TabButton = styled.button`
     // padding: ${({ theme: { spacing } }) => spacing.xxs};
     height: 100%;
     text-align: center;
+  }
+
+  @media ${devices.desktop} {
+    padding: 0px;
   }
 `
 

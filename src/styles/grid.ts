@@ -4,12 +4,21 @@ import { devices } from "~styles/breakpoints"
 interface ContainerProps {
   columns?: number | string
   rows?: number | string
+  noConstraint?: boolean
 }
 
 export const GridContainer = styled.div<ContainerProps>`
   display: grid;
   grid-template-columns: repeat(32, 1fr);
   overflow: hidden;
+
+  ${({ noConstraint }) =>
+    !noConstraint &&
+    css`
+      @media ${devices.desktop} {
+        grid-template-columns: repeat(32, max(3.125rem));
+      }
+    `}
 `
 
 export const GridConstraint = styled.div`

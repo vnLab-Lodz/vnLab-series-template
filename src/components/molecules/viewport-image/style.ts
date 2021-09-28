@@ -37,6 +37,9 @@ export const ImageWrapper = styled.div`
   @media ${devices.laptop} {
     transform: translateX(-25%);
   }
+  // @media ${devices.desktop} {
+  //   transform: translateX(-30%);
+  // }
 `
 
 export const Image = styled(GatsbyImage)`
@@ -89,6 +92,10 @@ export const CaptionContent = styled(GridContainer)`
     right: 0px;
     max-height: 60vh;
     row-gap: ${spacing.xs};
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
   `}
 `
 

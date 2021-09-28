@@ -23,6 +23,7 @@ import Carousel from "~components/organisms/carousel"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
+import { devices } from "~styles/breakpoints"
 
 const addClass =
   (
@@ -64,6 +65,11 @@ interface Data {
 
 const StyledLayout = styled(Layout)`
   background: ${({ theme: { palette } }) => palette.light};
+
+  @media ${devices.desktop} {
+    grid-template-columns: repeat(32, max(3.125rem));
+    justify-content: center;
+  }
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {

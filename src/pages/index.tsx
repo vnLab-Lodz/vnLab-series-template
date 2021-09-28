@@ -222,6 +222,10 @@ const TocButton = styled.button`
     @media (max-height: 650px) {
       margin-top: 0;
     }
+
+    @media ${devices.desktop} {
+      margin-top: calc(${spacing.xxl} * 2);
+    }
   `}
 `
 
@@ -295,7 +299,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   return (
     <NavMenuProvider>
       <NavigationMenu currentPath={location.pathname} />
-      <GridContainer style={{ minHeight: "100vh" }}>
+      <GridContainer style={{ minHeight: "100vh" }} noConstraint>
         <SeoMeta title={t("home:title")} />
         <ImageWrapper>
           <StaticImage
@@ -310,6 +314,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           <SearchBtn>
             <LocalizedLink to="/search" language={locale}>
               <img
+                className="sizeable-icon"
                 src={SearchSVG}
                 alt="Magnifying glass"
                 style={{ verticalAlign: "middle" }}

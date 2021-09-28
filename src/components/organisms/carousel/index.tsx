@@ -24,9 +24,11 @@ interface Props {
 
 const Carousel: React.FC<Props> = ({ images, captions }) => {
   const ref = useRef<HTMLDivElement | null>(null)
+  const navRef = useRef<HTMLElement | null>(null)
   const imagesClickable = useRef<boolean>(true)
   const constraintRef = useRef<HTMLDivElement | null>(null)
   const [viewportOffset, setViewportOffset] = useState(0)
+  const [navOffset, setNavOffset] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
   const carouselUid = useMemo(() => uuid(), [images])
   const [fullscreen, setFullscreen] = useState(false)
@@ -64,6 +66,11 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
     img && translateX.set((img.offsetLeft - viewportOffset) * -1)
   }, [currentImage, viewportOffset])
+
+  useEffect(() => {
+    navRef.current &&
+      setNavOffset((navRef.current.offsetLeft - viewportOffset) * -1)
+  }, [viewportOffset])
 
   const getSliderMargins = () => {
     if (!ref || !ref.current || !constraintRef || !constraintRef.current)
@@ -156,7 +163,10 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
             })}
           </Styled.Slider>
           <GridConstraint ref={constraintRef} style={{ gridRow: 2 }}>
-            <Styled.CarouselNav>
+            <Styled.CarouselNav
+              ref={navRef}
+              style={{ transform: `translateX(${navOffset}px)` }}
+            >
               <InnerGrid>
                 <Styled.Arrow side="left" onClick={previousImage}>
                   <img src={LeftArrowSVG} alt="Left arrow" />
