@@ -28,18 +28,6 @@ export const ImageWrapper = styled.div`
   display: flex;
   width: 100vw;
   flex: 1;
-
-  transform: translateX(-5%);
-
-  @media ${devices.tablet} {
-    transform: translateX(-20%);
-  }
-  @media ${devices.laptop} {
-    transform: translateX(-25%);
-  }
-  // @media ${devices.desktop} {
-  //   transform: translateX(-30%);
-  // }
 `
 
 export const Image = styled(GatsbyImage)`
