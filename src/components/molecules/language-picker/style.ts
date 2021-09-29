@@ -49,7 +49,7 @@ export const LangButtonText = styled(atoms.p)<{
     css`
       color: ${palette.white};
 
-      @media ${devices.laptop} {
+      @media ${devices.tablet} {
         color: ${palette.black};
       }
     `}

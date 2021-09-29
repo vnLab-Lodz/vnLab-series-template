@@ -1,4 +1,4 @@
-import React, { useContext, useState, useLayoutEffect } from "react"
+import React, { useContext, useState, useLayoutEffect, useEffect } from "react"
 import { NavMenuContext } from "./nav-menu-context"
 import { useTranslation } from "react-i18next"
 import * as Styled from "./style"
@@ -82,7 +82,7 @@ const NavigationMenu: React.FC<Props> = ({
   reduced = false,
   ignoreHypothesis = false,
 }) => {
-  const { navMode } = useContext(NavMenuContext)
+  const { navMode, setToggleNav } = useContext(NavMenuContext)
   const [open, setOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { locale } = useLocalization()
@@ -94,6 +94,8 @@ const NavigationMenu: React.FC<Props> = ({
   const progress = useMotionTemplate`${scrollPercent}%`
 
   const toggleMenu = () => setOpen(prev => !prev)
+
+  useEffect(() => setToggleNav(() => () => toggleMenu()), [])
 
   useLayoutEffect(() => {
     if (open) {
@@ -108,7 +110,7 @@ const NavigationMenu: React.FC<Props> = ({
   }, [open])
 
   return (
-    <Styled.Aside>
+    <Styled.Aside open={open}>
       <Styled.Nav mode={navMode}>
         <Styled.Progress style={{ height: progress, width: progress }} />
         <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>

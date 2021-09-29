@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react"
+import React, { useContext, useLayoutEffect, useRef, useState } from "react"
 import SeoMeta from "~components/meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
@@ -7,11 +7,16 @@ import { StaticImage } from "gatsby-plugin-image"
 import { devices } from "~styles/breakpoints"
 import Edition from "~components/molecules/edition"
 import atoms from "~components/atoms"
-import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
+import NavMenuProvider, {
+  NavMenuContext,
+} from "~components/organisms/navigation-menu/nav-menu-context"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import { PageProps } from "gatsby"
 import LanguagePicker from "~components/molecules/language-picker"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
+import TableOfContents from "~components/organisms/navigation-menu/tabs/toc"
+import useHypothesis from "src/hooks/useHypothesis"
+import { useEffect } from "react"
 
 //@ts-ignore
 import Logo from "../images/icons/vnlab_logo.svg"
@@ -19,9 +24,8 @@ import Logo from "../images/icons/vnlab_logo.svg"
 import ArrowDownSVG from "../images/icons/arrow_down.svg"
 //@ts-ignore
 import SearchSVG from "../images/icons/magnifying_glass.svg"
-import TableOfContents from "~components/organisms/navigation-menu/tabs/toc"
-import useHypothesis from "src/hooks/useHypothesis"
-import { useEffect } from "react"
+//@ts-ignore
+import HamburgerSVG from "../images/icons/hamburger.svg"
 
 const ImageWrapper = styled.div`
   position: absolute;
@@ -30,7 +34,6 @@ const ImageWrapper = styled.div`
   right: 0;
   width: 100vw;
   filter: brightness(0.6);
-  /* z-index: 10; */
 
   @media ${devices.tablet} {
     z-index: 10;
@@ -66,7 +69,7 @@ const ContentWrapper = styled.aside`
   }
 `
 
-const StyledLanguagePicker = styled(LanguagePicker)`
+const StyledLanguagePicker = styled(LanguagePicker)<{ flex?: boolean }>`
   grid-row: 1;
   height: fit-content !important;
   margin-top: ${({ theme }) => `calc(67px + ${theme.spacing.sm} * 1.3)`};
@@ -81,9 +84,20 @@ const StyledLanguagePicker = styled(LanguagePicker)`
   @media ${devices.laptop} {
     grid-column: -4;
   }
+
+  @media ${devices.desktop} {
+    margin-top: ${({ theme }) => theme.spacing.sm};
+  }
+
+  ${({ flex }) =>
+    flex &&
+    css`
+      margin-top: 0px !important;
+      margin-left: auto; ;
+    `};
 `
 
-const SearchBtn = styled.button`
+const SearchBtn = styled.button<{ flex?: boolean }>`
   cursor: pointer;
   border: none;
   background: none;
@@ -97,11 +111,19 @@ const SearchBtn = styled.button`
   @media ${devices.tablet} {
     padding-top: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.8)`};
     margin-top: ${({ theme }) => `calc(${theme.spacing.sm} * 1.3)`};
+    filter: brightness(0);
   }
 
   @media ${devices.laptop} {
     filter: none;
   }
+
+  ${({ flex }) =>
+    flex &&
+    css`
+      margin-top: 0px !important;
+      padding-top: 0px !important;
+    `};
 `
 
 const LogoImg = styled.img`
@@ -289,6 +311,47 @@ const StyledTableOfContents = styled(TableOfContents)`
   margin-top: ${({ theme }) => theme.spacing.xxl};
 `
 
+const StyledNavBtn = styled.button`
+  border: none;
+  cursor: pointer;
+  border-radius: 0px;
+  background: none;
+  /* margin-top: ${({ theme: { spacing } }) => spacing.sm}; */
+  padding: ${({ theme: { spacing } }) => spacing.xs};
+  height: fit-content;
+  grid-row: 1;
+  grid-column: 1;
+`
+
+const StyledHeader = styled.div`
+  grid-row: 1;
+  grid-column: 1 / last-col;
+  background: ${({ theme }) => theme.palette.white};
+  height: 100px;
+  display: flex;
+  align-items: center;
+  padding-right: ${({ theme }) => theme.spacing.xs};
+`
+
+const NavMenuToggle: React.FC = () => {
+  const { toggleNav } = useContext(NavMenuContext)
+
+  return (
+    <StyledNavBtn
+      onClick={() => {
+        // scrollToToC()
+        setTimeout(() => toggleNav(), 180)
+      }}
+    >
+      <img
+        className="sizeable-icon"
+        src={HamburgerSVG}
+        alt="Toggle Menu Button"
+      />
+    </StyledNavBtn>
+  )
+}
+
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const [isMobile, setIsMobile] = useState(false)
   const hypothesis = useHypothesis()
@@ -316,6 +379,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   useLayoutEffect(() => {
     determineDevice()
     window.addEventListener("resize", determineDevice)
+
     return () => {
       window.removeEventListener("resize", determineDevice)
     }
@@ -341,21 +405,25 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         <ContentWrapper>
           {!isMobile && (
             <>
-              <StyledLanguagePicker
-                dark
-                standalone
-                currentPath={location.pathname}
-              />
-              <SearchBtn>
-                <LocalizedLink to="/search" language={locale}>
-                  <img
-                    className="sizeable-icon"
-                    src={SearchSVG}
-                    alt="Magnifying glass"
-                    style={{ verticalAlign: "middle" }}
-                  />
-                </LocalizedLink>
-              </SearchBtn>
+              <StyledHeader>
+                <NavMenuToggle />
+                <StyledLanguagePicker
+                  flex
+                  dark
+                  standalone
+                  currentPath={location.pathname}
+                />
+                <SearchBtn flex>
+                  <LocalizedLink to="/search" language={locale}>
+                    <img
+                      className="sizeable-icon"
+                      src={SearchSVG}
+                      alt="Magnifying glass"
+                      style={{ verticalAlign: "middle" }}
+                    />
+                  </LocalizedLink>
+                </SearchBtn>
+              </StyledHeader>
             </>
           )}
           <LogoImg src={Logo} alt="vnlab logo" />

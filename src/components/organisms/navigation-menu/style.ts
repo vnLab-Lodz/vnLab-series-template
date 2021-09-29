@@ -8,12 +8,12 @@ import { NAV_MODES } from "./nav-menu-context"
 
 //#region Menu base
 
-export const Aside = styled(GridContainer)`
+export const Aside = styled(GridContainer)<{ open?: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 8;
+  z-index: ${({ open }) => (open ? 12 : 8)};
   pointer-events: none;
   bottom: 0;
   grid-template-rows: auto 1fr;
