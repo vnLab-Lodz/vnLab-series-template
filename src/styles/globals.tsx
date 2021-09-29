@@ -67,12 +67,13 @@ export const Globals = createGlobalStyle`
     @media ${devices.desktop} {
       width: auto;
       height: 32px;
+      
+      &--small {
+        height: 20px;
+  
+      }
     }
     
-    &--small {
-      height: 20px;
-
-    }
   }
 
   :root {
