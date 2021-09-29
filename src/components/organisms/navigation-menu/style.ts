@@ -89,6 +89,10 @@ export const Title = styled(LocalizedLink)`
   color: ${({ theme }) => theme.palette.black};
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
   @media ${devices.tablet} {
     margin-left: 0px;
     writing-mode: vertical-lr;
@@ -212,16 +216,22 @@ export const TabItems = styled.div<{ noFlex?: boolean }>`
   `}
 `
 
-export const TabButton = styled.button`
+export const TabButton = styled.button<{ small?: boolean }>`
   background: none;
   border: none;
   cursor: pointer;
   text-align: start;
-  padding: ${({ theme: { spacing } }) => `${spacing.md} ${spacing.xxs}`};
+  padding: ${({ theme: { spacing }, small }) =>
+    !small ? `${spacing.md} ${spacing.xxs}` : `0px ${spacing.xxs}`};
   position: relative;
 
+  ${({ small, theme }) =>
+    small &&
+    css`
+      margin-right: ${theme.spacing.xxs};
+    `};
+
   @media ${devices.tablet} {
-    // padding: ${({ theme: { spacing } }) => spacing.xxs};
     height: 100%;
     text-align: center;
   }

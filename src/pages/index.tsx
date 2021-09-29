@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useLayoutEffect, useRef, useState } from "react"
 import SeoMeta from "~components/meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
@@ -24,16 +24,20 @@ import useHypothesis from "src/hooks/useHypothesis"
 import { useEffect } from "react"
 
 const ImageWrapper = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
   width: 100vw;
-  // display: none;
   filter: brightness(0.6);
-  z-index: -1;
+  /* z-index: 10; */
+
+  @media ${devices.tablet} {
+    z-index: 10;
+  }
 
   @media ${devices.laptop} {
+    position: fixed;
     z-index: 0;
     display: block;
     width: 50vw;
@@ -49,7 +53,14 @@ const ContentWrapper = styled.aside`
 
   grid-template-columns: repeat(32, 1fr);
 
+  z-index: 7;
+
+  @media ${devices.tablet} {
+    z-index: 11;
+  }
+
   @media ${devices.laptop} {
+    background-color: ${({ theme }) => theme.palette.white};
     grid-column: 1 / 17;
     grid-template-columns: repeat(16, 1fr);
   }
@@ -261,6 +272,7 @@ const ArrowDownImg = styled.img`
 const TocWrapper = styled.div`
   background: ${({ theme }) => theme.palette.white};
   grid-column: 1 / last-col;
+  min-height: 100vh;
 
   @media ${devices.tablet} {
     grid-column: 4 / last-col;
@@ -278,6 +290,7 @@ const StyledTableOfContents = styled(TableOfContents)`
 `
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
+  const [isMobile, setIsMobile] = useState(false)
   const hypothesis = useHypothesis()
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
@@ -296,9 +309,25 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
     }
   }, [hypothesis])
 
+  const determineDevice = () => {
+    setIsMobile(window.innerWidth < 768)
+  }
+
+  useLayoutEffect(() => {
+    determineDevice()
+    window.addEventListener("resize", determineDevice)
+    return () => {
+      window.removeEventListener("resize", determineDevice)
+    }
+  }, [])
+
   return (
     <NavMenuProvider>
-      <NavigationMenu currentPath={location.pathname} />
+      <NavigationMenu
+        reduced={isMobile}
+        ignoreHypothesis
+        currentPath={location.pathname}
+      />
       <GridContainer style={{ minHeight: "100vh" }} noConstraint>
         <SeoMeta title={t("home:title")} />
         <ImageWrapper>
@@ -310,17 +339,25 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           />
         </ImageWrapper>
         <ContentWrapper>
-          <StyledLanguagePicker dark currentPath={location.pathname} />
-          <SearchBtn>
-            <LocalizedLink to="/search" language={locale}>
-              <img
-                className="sizeable-icon"
-                src={SearchSVG}
-                alt="Magnifying glass"
-                style={{ verticalAlign: "middle" }}
+          {!isMobile && (
+            <>
+              <StyledLanguagePicker
+                dark
+                standalone
+                currentPath={location.pathname}
               />
-            </LocalizedLink>
-          </SearchBtn>
+              <SearchBtn>
+                <LocalizedLink to="/search" language={locale}>
+                  <img
+                    className="sizeable-icon"
+                    src={SearchSVG}
+                    alt="Magnifying glass"
+                    style={{ verticalAlign: "middle" }}
+                  />
+                </LocalizedLink>
+              </SearchBtn>
+            </>
+          )}
           <LogoImg src={Logo} alt="vnlab logo" />
           <Title>{t("common:title")}</Title>
           <Editorship>{t("home:editorship")}</Editorship>

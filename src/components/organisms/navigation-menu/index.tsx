@@ -32,6 +32,36 @@ enum NAV_MENU_STATES {
 
 interface Props {
   currentPath: string
+  reduced?: boolean
+  ignoreHypothesis?: boolean
+}
+
+interface MiscProps {
+  currentPath: string
+  locale: string
+  aside?: boolean
+}
+
+const MiscTabs: React.FC<MiscProps> = ({ currentPath, locale, aside }) => {
+  return (
+    <>
+      <LanguagePicker
+        alwaysDark={aside}
+        currentPath={currentPath}
+        compact={aside}
+      />
+      <Styled.TabButton small={aside}>
+        <LocalizedLink to="/search" language={locale}>
+          <Styled.SearchImg
+            style={aside ? { filter: "brightness(0)" } : undefined}
+            className="sizeable-icon"
+            src={SearchSVG}
+            alt="Magnifying glass"
+          />
+        </LocalizedLink>
+      </Styled.TabButton>
+    </>
+  )
 }
 
 const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
@@ -47,7 +77,11 @@ const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
   }
 }
 
-const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
+const NavigationMenu: React.FC<Props> = ({
+  currentPath,
+  reduced = false,
+  ignoreHypothesis = false,
+}) => {
   const { navMode } = useContext(NavMenuContext)
   const [open, setOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
@@ -64,12 +98,12 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
   useLayoutEffect(() => {
     if (open) {
       document.body.classList.add("no-scroll")
-      hypothesis?.classList.add("invisible")
+      if (!ignoreHypothesis) hypothesis?.classList.add("invisible")
     }
 
     return () => {
       document.body.classList.remove("no-scroll")
-      hypothesis?.classList.remove("invisible")
+      if (!ignoreHypothesis) hypothesis?.classList.remove("invisible")
     }
   }, [open])
 
@@ -84,9 +118,14 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
             alt="Toggle Menu Button"
           />
         </Styled.ToggleBtn>
-        <Styled.Title to="/" language={locale}>
-          {t("common:title")}
-        </Styled.Title>
+        {!reduced ? (
+          <Styled.Title to="/" language={locale}>
+            {t("common:title")}
+          </Styled.Title>
+        ) : (
+          <MiscTabs currentPath={currentPath} locale={locale} aside={reduced} />
+        )}
+
         <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
       </Styled.Nav>
       <AnimatePresence>
@@ -128,16 +167,7 @@ const NavigationMenu: React.FC<Props> = ({ currentPath }) => {
                 </Styled.TabButton>
               </Styled.TabItems>
               <Styled.TabItems noFlex>
-                <LanguagePicker currentPath={currentPath} />
-                <Styled.TabButton>
-                  <LocalizedLink to="/search" language={locale}>
-                    <Styled.SearchImg
-                      className="sizeable-icon"
-                      src={SearchSVG}
-                      alt="Magnifying glass"
-                    />
-                  </LocalizedLink>
-                </Styled.TabButton>
+                <MiscTabs currentPath={currentPath} locale={locale} />
               </Styled.TabItems>
             </Styled.Tabs>
             <ActiveTab navState={navState} />

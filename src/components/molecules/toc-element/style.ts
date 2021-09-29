@@ -56,7 +56,6 @@ export const SummaryButton = styled.button`
     background: none;
     padding: 0;
     cursor: pointer;
-    /* margin-bottom: ${spacing.sm}; */
     grid-row: 3;
     grid-column: 4 / -2;
     text-align: left;
