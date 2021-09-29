@@ -24,7 +24,7 @@ export const TocContainer = styled.article`
 export const ArticlTitle = styled(LocalizedLink)`
   text-decoration: none;
   grid-row: 1;
-  grid-column: 6 / -2;
+  grid-column: 4 / -2;
 `
 
 export const ArticleNumber = styled(atoms.p)`
@@ -44,7 +44,7 @@ export const ArticleNumber = styled(atoms.p)`
 export const ArticleAuthor = styled(atoms.h3)`
   ${({ theme: { spacing } }) => css`
     grid-row: 2;
-    grid-column: 6 / -2;
+    grid-column: 4 / -2;
     margin: ${spacing.xxs} 0px;
     text-align: left;
   `}
@@ -58,7 +58,7 @@ export const SummaryButton = styled.button`
     cursor: pointer;
     /* margin-bottom: ${spacing.sm}; */
     grid-row: 3;
-    grid-column: 6 / -2;
+    grid-column: 4 / -2;
     text-align: left;
 
     span {
@@ -75,7 +75,7 @@ export const SummaryButton = styled.button`
 export const Summary = styled(atoms.p)`
   margin-top: ${({ theme }) => theme.spacing.xxs};
   grid-row: 4;
-  grid-column: 6 / -2;
+  grid-column: 4 / -2;
   overflow: hidden;
 `
 
