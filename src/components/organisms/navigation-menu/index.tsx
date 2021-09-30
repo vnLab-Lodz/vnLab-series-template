@@ -67,7 +67,7 @@ const MiscTabs: React.FC<MiscProps> = ({ currentPath, locale, aside }) => {
 const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
   switch (navState) {
     case NAV_MENU_STATES.TOC:
-      return <TableOfContents />
+      return <Styled.TableOfContents headless />
     case NAV_MENU_STATES.INDEXES:
       return <Indexes />
     case NAV_MENU_STATES.ABOUT:

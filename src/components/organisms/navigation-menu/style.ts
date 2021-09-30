@@ -5,6 +5,7 @@ import atoms from "~components/atoms"
 import { breakpoints, devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 import { NAV_MODES } from "./nav-menu-context"
+import ToC from "./tabs/toc"
 
 //#region Menu base
 
@@ -306,6 +307,10 @@ export const Part = styled(atoms.h3)`
   @media ${devices.tablet} {
     grid-column: 3 / last-col;
   }
+`
+
+export const TableOfContents = styled(ToC)`
+  margin-top: ${({ theme }) => theme.spacing.md};
 `
 
 //#endregion
