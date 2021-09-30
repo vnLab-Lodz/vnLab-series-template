@@ -4,7 +4,7 @@ import typography from "./typography"
 const theme = {
   palette: {
     black: "rgba(34, 34, 34, 1)",
-    dark: "rgba(112, 112, 112, 1)",
+    dark: "rgba(51, 51, 51, 1)",
     medium: "rgba(188, 188, 188, 1)",
     light: "rgba(248, 248, 248, 1)",
     white: "rgba(255, 255, 255, 1)",
