@@ -11,6 +11,7 @@ const theme = {
     primary: "rgba(235, 248, 234, 1)",
     secondary: "rgba(234, 248, 248, 1)",
     tertiary: "rgba(236, 234, 248, 1)",
+    quaternary: "rgba(248, 247, 234, 1)",
     accent: "rgba(248, 234, 235, 1)",
     accentDark: "rgba(107, 73, 5, 1)",
     transparentBlack: "rgba(0, 0, 0, 0)",

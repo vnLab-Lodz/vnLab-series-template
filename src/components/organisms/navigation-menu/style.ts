@@ -158,7 +158,8 @@ export const NavMenuContent = styled(motion.div)`
     grid-column: 1 / last-col;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     @media ${devices.tablet} {
       grid-column: 4 / -2;
@@ -172,7 +173,7 @@ export const NavMenuContent = styled(motion.div)`
   `}
 `
 
-export const Tabs = styled.header`
+export const Tabs = styled.header<{ sticky?: boolean }>`
   ${({ theme: { spacing, palette } }) => css`
     display: flex;
     justify-content: space-between;
@@ -184,6 +185,15 @@ export const Tabs = styled.header`
     @media ${devices.tablet} {
       padding: 0px ${spacing.xs};
       height: 106px;
+
+      ${props =>
+        //@ts-ignore
+        props.sticky &&
+        css`
+          position: sticky;
+          top: 0px;
+          z-index: 7;
+        `};
     }
   `}
 `
@@ -267,8 +277,9 @@ export const SearchImg = styled.img`
 //#region Table of contents tab
 
 export const TocGrid = styled.section`
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   display: grid;
+  height: 100%;
   grid-column: 1 / last-col;
   grid-row: 2;
   grid-auto-rows: min-content;
@@ -310,7 +321,7 @@ export const Part = styled(atoms.h3)`
 `
 
 export const TableOfContents = styled(ToC)`
-  margin-top: ${({ theme }) => theme.spacing.md};
+  padding-top: ${({ theme }) => theme.spacing.md};
 `
 
 //#endregion
@@ -321,7 +332,6 @@ export const AboutWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   grid-column: 1 / last-col;
-  overflow-y: scroll;
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
@@ -341,7 +351,7 @@ export const AboutContent = styled.article`
   }
 `
 
-//#enregion
+//#endregion
 
 //#region Indexes tab
 
@@ -349,7 +359,6 @@ export const IndexesWrapper = styled.article`
   display: flex;
   flex-direction: column;
   grid-column: 1 / last-col;
-  overflow-y: scroll;
 `
 
 export const IndexesTabs = styled(Tabs)`
@@ -398,3 +407,30 @@ export const IndexText = styled(atoms.p)`
 `
 
 //#endregion
+
+export const AnnotationsButton = styled.button`
+  background: ${({ theme }) => theme.palette.quaternary};
+  border: none;
+  text-transform: uppercase;
+  padding: ${({ theme }) => theme.spacing.md};
+  grid-column: 1 / last-col;
+  font-size: ${({ theme }) => theme.typography.sm};
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-weight: bold;
+  color: ${({ theme }) => theme.palette.black};
+  cursor: pointer;
+`
+
+export const NextTabButton = styled.button`
+  background: ${({ theme }) => theme.palette.dark};
+  border: none;
+  text-transform: uppercase;
+  padding: ${({ theme }) => theme.spacing.md};
+  grid-column: 1 / last-col;
+  margin-top: ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.typography.sm};
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-weight: bold;
+  color: ${({ theme }) => theme.palette.white};
+  cursor: pointer;
+`

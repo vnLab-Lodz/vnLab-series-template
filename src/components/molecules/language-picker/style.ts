@@ -71,6 +71,7 @@ export const LanguagePopUp = styled.div`
     padding: ${spacing.xxs};
     display: flex;
     flex-direction: column;
+    z-index: 8;
   `}
 `
 

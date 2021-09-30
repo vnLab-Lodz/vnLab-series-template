@@ -1,11 +1,10 @@
 import React, { useContext, useState, useLayoutEffect, useEffect } from "react"
 import { NavMenuContext } from "./nav-menu-context"
-import { useTranslation } from "react-i18next"
+import { TFunction, useTranslation } from "react-i18next"
 import * as Styled from "./style"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import LanguagePicker from "~components/molecules/language-picker"
 import useHypothesis from "src/hooks/useHypothesis"
-import TableOfContents from "./tabs/toc"
 import Indexes from "./tabs/indexes"
 import About from "./tabs/about"
 import {
@@ -23,6 +22,7 @@ import CloseSVG from "../../../images/icons/x.svg"
 import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
+import { navigate } from "gatsby-link"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -77,6 +77,34 @@ const ActiveTab: React.FC<{ navState: NAV_MENU_STATES }> = ({ navState }) => {
   }
 }
 
+const nextTabNames = (t: TFunction<"nav-menu">) => ({
+  [NAV_MENU_STATES.TOC]: t("tabs.indexes"),
+  [NAV_MENU_STATES.INDEXES]: t("tabs.about"),
+  [NAV_MENU_STATES.ABOUT]: t("tabs.toc"),
+})
+
+const nextTabNavState = {
+  [NAV_MENU_STATES.TOC]: NAV_MENU_STATES.INDEXES,
+  [NAV_MENU_STATES.INDEXES]: NAV_MENU_STATES.ABOUT,
+  [NAV_MENU_STATES.ABOUT]: NAV_MENU_STATES.TOC,
+}
+
+const NextTab: React.FC<{
+  navState: NAV_MENU_STATES
+  setNavState: React.Dispatch<React.SetStateAction<NAV_MENU_STATES>>
+}> = ({ navState, setNavState }) => {
+  const { t } = useTranslation("nav-menu")
+  const tabName = nextTabNames(t)[navState]
+
+  const setNextNavState = () => setNavState(nextTabNavState[navState])
+
+  return (
+    <Styled.NextTabButton onClick={setNextNavState}>
+      {tabName}
+    </Styled.NextTabButton>
+  )
+}
+
 const NavigationMenu: React.FC<Props> = ({
   currentPath,
   reduced = false,
@@ -85,7 +113,8 @@ const NavigationMenu: React.FC<Props> = ({
   const { navMode, setToggleNav } = useContext(NavMenuContext)
   const [open, setOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
-  const { locale } = useLocalization()
+  const { locale, localizedPath, defaultLang, prefixDefault } =
+    useLocalization()
   const hypothesis = useHypothesis()
   const { t } = useTranslation(["common", "nav-menu"])
 
@@ -138,7 +167,7 @@ const NavigationMenu: React.FC<Props> = ({
             exit={{ translateX: -1500 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
           >
-            <Styled.Tabs>
+            <Styled.Tabs sticky>
               <Styled.TabItems>
                 <Styled.TabButton
                   onClick={() => setNavState(NAV_MENU_STATES.TOC)}
@@ -173,6 +202,21 @@ const NavigationMenu: React.FC<Props> = ({
               </Styled.TabItems>
             </Styled.Tabs>
             <ActiveTab navState={navState} />
+            <NextTab navState={navState} setNavState={setNavState} />
+            <Styled.AnnotationsButton
+              onClick={() =>
+                navigate(
+                  localizedPath({
+                    locale,
+                    prefixDefault,
+                    defaultLang,
+                    path: "#",
+                  })
+                )
+              }
+            >
+              {t("nav-menu:how_to_annotate")}
+            </Styled.AnnotationsButton>
           </Styled.NavMenuContent>
         )}
       </AnimatePresence>
