@@ -72,6 +72,7 @@ export const LanguagePopUp = styled.div`
     display: flex;
     flex-direction: column;
     z-index: 8;
+    cursor: default;
   `}
 `
 
@@ -87,8 +88,8 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
     ${inactive === "true" &&
     css`
       pointer-events: none;
-      cursor: normal;
-      color: ${palette.dark};
+      cursor: default;
+      color: ${palette.medium};
     `};
   `}
 `
