@@ -6,7 +6,7 @@ export const ol = styled.ol`
     font-size: ${typography.md};
     font-weight: normal;
     font-style: normal;
-    line-height: 139%;
+    line-height: 150%;
     color: ${palette.black};
     margin: ${spacing.lg} 0px;
     padding-left: ${spacing.sm};
