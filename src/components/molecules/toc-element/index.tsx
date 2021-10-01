@@ -28,26 +28,30 @@ const TocElement: React.FC<Props> = ({ page }) => {
         <atoms.p>{page.title}</atoms.p>
       </Styled.ArticlTitle>
       <Styled.ArticleAuthor type="primary">{page.author}</Styled.ArticleAuthor>
-      <Styled.SummaryButton onClick={toggleSummary}>
-        <span>{t("expand_summary")}</span>
-        <Arrow inverted={isSummaryExpanded} />
-      </Styled.SummaryButton>
-      <AnimatePresence initial={false} exitBeforeEnter>
-        {isSummaryExpanded && (
-          <Styled.Summary
-            as={motion.p}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{
-              opacity: 1,
-              height: getSupportedFitContent(),
-            }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          >
-            {page.summary}
-          </Styled.Summary>
-        )}
-      </AnimatePresence>
+      {page.summary && (
+        <>
+          <Styled.SummaryButton onClick={toggleSummary}>
+            <span>{t("expand_summary")}</span>
+            <Arrow inverted={isSummaryExpanded} />
+          </Styled.SummaryButton>
+          <AnimatePresence initial={false} exitBeforeEnter>
+            {isSummaryExpanded && (
+              <Styled.Summary
+                as={motion.p}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{
+                  opacity: 1,
+                  height: getSupportedFitContent(),
+                }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                {page.summary}
+              </Styled.Summary>
+            )}
+          </AnimatePresence>
+        </>
+      )}
       <Styled.Divider />
     </Styled.TocContainer>
   )
