@@ -19,10 +19,11 @@ export const ImageWrapper = styled.div`
   }
 
   @media ${devices.laptop} {
+    filter: brightness(1);
     position: fixed;
     z-index: 0;
     display: block;
-    width: 50vw;
+    width: calc(50vw - (var(--scrollbarWidth) / 2));
   }
 `
 

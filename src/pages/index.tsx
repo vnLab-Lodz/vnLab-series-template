@@ -63,6 +63,12 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
 
   const determineDevice = () => {
     setIsMobile(window.innerWidth < 768)
+
+    const scrollbarWidth = window.innerWidth - document.body.clientWidth
+    document.documentElement.style.setProperty(
+      "--scrollbarWidth",
+      `${scrollbarWidth}px`
+    )
   }
 
   useLayoutEffect(() => {
