@@ -24,6 +24,7 @@ export const ViewportConstraint = styled.div`
 
 export const PanableGrid = styled(GridContainer)`
   touch-action: none;
+  grid-template-rows: max(85vh) max(15vh);
 `
 
 export const Slider = styled.div`
