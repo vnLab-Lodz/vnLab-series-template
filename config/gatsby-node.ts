@@ -24,12 +24,28 @@ function chaptersFilter(node: Node) {
   return !slug.includes("bibliography") && !slug.includes("biograms")
 }
 
-function bibliographyFilter(node: Node) {
+function bibliographiesFilter(node: Node) {
   return node.slug.includes("bibliography")
 }
 
 function biogramsFilter(node: Node) {
   return node.slug.includes("biograms")
+}
+
+function composePageOptions(
+  node: Node,
+  options: { isPublication: boolean; template: string }
+) {
+  const slug = delocalizeSlug(node.slug)
+
+  return {
+    path: slug.replace("index", ""),
+    component: path.resolve(`./src/templates/${options.template}.tsx`),
+    context: {
+      slugs: localizeSlug(slug),
+      publication: options.isPublication,
+    },
+  }
 }
 
 export const createPages = async ({
@@ -59,44 +75,34 @@ export const createPages = async ({
     return
   }
 
-  data?.allMdx.nodes.filter(chaptersFilter).forEach(node => {
-    const slug = delocalizeSlug(node.slug)
+  if (!!!data) return
 
-    createPage({
-      path: slug.replace("index", ""),
-      component: path.resolve("./src/templates/chapter.tsx"),
-      context: {
-        slugs: localizeSlug(slug),
-        publication: true,
-      },
-    })
-  })
+  const { nodes } = data.allMdx
 
-  data?.allMdx.nodes.filter(bibliographyFilter).forEach(node => {
-    const slug = delocalizeSlug(node.slug)
+  nodes
+    .filter(chaptersFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "chapter", isPublication: true })
+      )
+    )
 
-    createPage({
-      path: slug.replace("index", ""),
-      component: path.resolve("./src/templates/bibliography.tsx"),
-      context: {
-        slugs: localizeSlug(slug),
-        publication: false,
-      },
-    })
-  })
+  nodes.filter(bibliographiesFilter).forEach(node =>
+    createPage(
+      composePageOptions(node, {
+        template: "bibliography",
+        isPublication: false,
+      })
+    )
+  )
 
-  data?.allMdx.nodes.filter(biogramsFilter).forEach(node => {
-    const slug = delocalizeSlug(node.slug)
-
-    createPage({
-      path: slug.replace("index", ""),
-      component: path.resolve("./src/templates/biogram.tsx"),
-      context: {
-        slugs: localizeSlug(slug),
-        publication: false,
-      },
-    })
-  })
+  nodes
+    .filter(biogramsFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "biogram", isPublication: false })
+      )
+    )
 }
 
 export const createSchemaCustomization = ({
