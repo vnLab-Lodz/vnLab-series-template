@@ -1,1 +1,1 @@
-export const SINGLE_AUTHOR_MODE = true as const
+export const SINGLE_AUTHOR_MODE = false as const
