@@ -1,53 +1,19 @@
 import React from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
-import { MdxLink } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
 import Layout from "~components/organisms/layout"
-import Abstract from "~components/molecules/abstract"
-import Annotation from "~components/molecules/annotation"
-import Quote from "~components/molecules/quote"
-import atoms from "~components/atoms"
-import Author from "~components/molecules/author"
-import Edition from "~components/molecules/edition"
-import styled, { StyledComponent } from "styled-components"
+import styled from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
-import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import { isUndefined } from "~util"
-import Carousel from "~components/organisms/carousel"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
-
-const addClass =
-  (
-    Component: React.FC<{ className: string }> | StyledComponent<any, any>,
-    className: string
-  ): React.FC =>
-  ({ children }) =>
-    <Component className={className}>{children}</Component>
-
-export const mdxComponents = {
-  Link: MdxLink,
-  Author: Author,
-  Abstract: Abstract,
-  Annotation: Annotation,
-  Edition: Edition,
-  Quote: Quote,
-  ViewportImage: ViewportImage,
-  Carousel: Carousel,
-  p: atoms.p,
-  ul: atoms.ul,
-  ol: atoms.ol,
-  strong: atoms.strong,
-  h1: addClass(atoms.h1, "mdx-heading"),
-  h2: addClass(atoms.h2, "mdx-heading"),
-  h3: addClass(atoms.h3, "mdx-heading"),
-}
+import { mdxComponents } from "./chapter"
 
 interface Data {
   mdx: {

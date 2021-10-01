@@ -1,55 +1,21 @@
 import React from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
-import { MdxLink } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
 import Layout from "~components/organisms/layout"
-import Abstract from "~components/molecules/abstract"
-import Annotation from "~components/molecules/annotation"
-import Quote from "~components/molecules/quote"
 import atoms from "~components/atoms"
-import Author from "~components/molecules/author"
-import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
-import styled, { StyledComponent } from "styled-components"
+import styled, { css } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
-import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
-import ArticleFooter from "~components/organisms/article-footer"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import { isUndefined } from "~util"
-import Carousel from "~components/organisms/carousel"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
-
-export const addClass =
-  (
-    Component: React.FC<{ className: string }> | StyledComponent<any, any>,
-    className: string
-  ): React.FC =>
-  ({ children }) =>
-    <Component className={className}>{children}</Component>
-
-export const mdxComponents = {
-  Link: MdxLink,
-  Author: Author,
-  Abstract: Abstract,
-  Annotation: Annotation,
-  Edition: Edition,
-  Quote: Quote,
-  ViewportImage: ViewportImage,
-  Carousel: Carousel,
-  p: atoms.p,
-  ul: atoms.ul,
-  ol: atoms.ol,
-  strong: atoms.strong,
-  h1: addClass(atoms.h1, "mdx-heading"),
-  h2: addClass(atoms.h2, "mdx-heading"),
-  h3: addClass(atoms.h3, "mdx-heading"),
-}
+import { addClass, mdxComponents } from "./chapter"
 
 interface Data {
   mdx: {
@@ -65,12 +31,39 @@ interface Data {
 
 const StyledLayout = styled(Layout)`
   background: ${({ theme: { palette } }) => palette.light};
+  padding-bottom: ${({ theme }) => theme.spacing.xxxl};
+  min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
+
+  @media ${devices.tablet} {
+    padding-bottom: ${({ theme }) => theme.spacing.xxl};
+    min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxl})`};
+  }
 
   @media ${devices.desktop} {
     grid-template-columns: repeat(32, max(3.125rem));
     justify-content: center;
   }
 `
+
+const StyledH1 = styled(atoms.h1)`
+  ${({ theme: { typography } }) => css`
+    font-family: ${typography.fonts.primary};
+    text-align: center;
+    font-weight: bold;
+
+    font-size: 32px;
+
+    @media ${devices.tablet} {
+      font-size: 45px;
+    }
+
+    @media ${devices.desktop} {
+      font-size: 80px;
+    }
+  `};
+`
+
+const components = { ...mdxComponents, h1: addClass(StyledH1, "mdx-heading") }
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
@@ -89,7 +82,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           {headerImage && <HeaderImage image={headerImage} />}
           <ArticleMenu currentPath={location.pathname} />
           <StyledLayout className="mdx-section">
-            <MDXProvider components={mdxComponents}>
+            <MDXProvider components={components}>
               <SeoMeta title={title} />
               <MDXRenderer
                 frontmatter={mdx.frontmatter}
@@ -99,7 +92,6 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
               </MDXRenderer>
             </MDXProvider>
           </StyledLayout>
-          <ArticleFooter currentPath={location.pathname} />
         </ImagesProvider>
       </AnnotationProvider>
     </NavMenuProvider>

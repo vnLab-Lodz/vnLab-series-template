@@ -3,14 +3,24 @@ import { useTranslation } from "react-i18next"
 import * as Styled from "../style"
 
 import indexes from "../../../../../meta/indexes.json"
+import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 
-interface IndexeType {
-  [key: string]: string[]
+interface IndexWithUID {
+  label: string
+  uid: string
 }
 
-const alphabetSort = (a: string, b: string) => a.localeCompare(b)
+interface IndexType {
+  [key: string]: Array<string | IndexWithUID>
+}
 
-function sortIndexes(indexes: IndexeType): IndexeType {
+const alphabetSort = (a: string | IndexWithUID, b: string | IndexWithUID) => {
+  if (typeof a === "string" && typeof b === "string") return a.localeCompare(b)
+
+  return (a as IndexWithUID).label.localeCompare((b as IndexWithUID).label)
+}
+
+function sortIndexes(indexes: IndexType): IndexType {
   const sortedKeys = Object.keys(indexes).sort(alphabetSort)
 
   return sortedKeys.reduce((prev, key) => {
@@ -29,6 +39,7 @@ const IndexGroup: React.FC = ({ children }) => <>{children}</>
 
 const Indexes: React.FC = () => {
   const [tabState, setTabState] = useState<TAB_STATES>(TAB_STATES.AUTHORS)
+  const { locale } = useLocalization()
   const { t } = useTranslation("nav-menu")
 
   const sortedIndexes = sortIndexes(indexes[tabState])
@@ -68,11 +79,22 @@ const Indexes: React.FC = () => {
           return (
             <IndexGroup key={`index-group__${i}--${key}`}>
               <Styled.IndexLetter>{key.toUpperCase()}</Styled.IndexLetter>
-              {sortedIndexes[key].map((text, j) => (
-                <Styled.IndexText key={`index-group__${i}--${key}-${j}`}>
-                  {text}
-                </Styled.IndexText>
-              ))}
+              {sortedIndexes[key].map((index, j) => {
+                return (
+                  <Styled.IndexText key={`index-group__${i}--${key}-${j}`}>
+                    {typeof index === "string" ? (
+                      index
+                    ) : (
+                      <Styled.BiogramLink
+                        to={`/biograms/${(index as IndexWithUID).uid}`}
+                        language={locale}
+                      >
+                        {(index as IndexWithUID).label}
+                      </Styled.BiogramLink>
+                    )}
+                  </Styled.IndexText>
+                )
+              })}
             </IndexGroup>
           )
         })}

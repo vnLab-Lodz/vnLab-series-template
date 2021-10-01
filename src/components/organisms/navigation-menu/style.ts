@@ -406,6 +406,18 @@ export const IndexText = styled(atoms.p)`
   }
 `
 
+export const BiogramLink = styled(LocalizedLink)`
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+
+  @media ${devices.tablet} {
+    grid-column: 5 / -2;
+  }
+`
+
 //#endregion
 
 export const AnnotationsButton = styled.button`

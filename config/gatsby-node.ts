@@ -19,11 +19,17 @@ interface Data {
 }
 
 function chaptersFilter(node: Node) {
-  return !node.slug.includes("bibliography")
+  const { slug } = node
+
+  return !slug.includes("bibliography") && !slug.includes("biograms")
 }
 
 function bibliographyFilter(node: Node) {
   return node.slug.includes("bibliography")
+}
+
+function biogramsFilter(node: Node) {
+  return node.slug.includes("biograms")
 }
 
 export const createPages = async ({
@@ -72,6 +78,19 @@ export const createPages = async ({
     createPage({
       path: slug.replace("index", ""),
       component: path.resolve("./src/templates/bibliography.tsx"),
+      context: {
+        slugs: localizeSlug(slug),
+        publication: false,
+      },
+    })
+  })
+
+  data?.allMdx.nodes.filter(biogramsFilter).forEach(node => {
+    const slug = delocalizeSlug(node.slug)
+
+    createPage({
+      path: slug.replace("index", ""),
+      component: path.resolve("./src/templates/biogram.tsx"),
       context: {
         slugs: localizeSlug(slug),
         publication: false,
