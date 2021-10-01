@@ -28,15 +28,6 @@ export const ImageWrapper = styled.div`
   display: flex;
   width: 100vw;
   flex: 1;
-
-  transform: translateX(-5%);
-
-  @media ${devices.tablet} {
-    transform: translateX(-20%);
-  }
-  @media ${devices.laptop} {
-    transform: translateX(-25%);
-  }
 `
 
 export const Image = styled(GatsbyImage)`
@@ -89,6 +80,10 @@ export const CaptionContent = styled(GridContainer)`
     right: 0px;
     max-height: 60vh;
     row-gap: ${spacing.xs};
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
   `}
 `
 

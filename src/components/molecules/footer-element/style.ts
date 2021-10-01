@@ -15,11 +15,11 @@ export const ElementWrapper = styled.article<{
       grid-column: 4 / -4;
 
       @media ${devices.tablet} {
-        grid-column: 10 / 20;
+        grid-column: 6 / 25;
       }
 
       @media ${devices.laptop} {
-        grid-column: 18 / 25;
+        grid-column: 18 / 27;
       }
     `}
 
@@ -29,7 +29,7 @@ export const ElementWrapper = styled.article<{
 
       @media ${devices.laptop} {
         display: block;
-        grid-column: 7 / 14;
+        grid-column: 5 / 14;
       }
     `}
   `}

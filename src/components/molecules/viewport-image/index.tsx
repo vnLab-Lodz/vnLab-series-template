@@ -55,6 +55,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const { addImage } = useContext(ImagesContext)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLDivElement | null>(null)
+  const [wrapperOffset, setWrapperOffset] = useState(0)
   const { t } = useTranslation("common")
   const [inViewRef, isInView] = useInView({ threshold: 0.97 })
 
@@ -74,6 +75,13 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     return ref.current.offsetTop - 130
   }
 
+  const calculateWrapperOffset = () => {
+    if (!ref || !ref.current) return
+
+    const { offsetLeft } = ref.current
+    setWrapperOffset(-offsetLeft)
+  }
+
   const handleClick = () => {
     calculatePosition()
     setOpen(true)
@@ -83,6 +91,12 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     calculatePosition()
     addImage(image, calculateScrollPosition())
     inViewRef(ref.current)
+    calculateWrapperOffset()
+    window.addEventListener("resize", calculateWrapperOffset)
+
+    return () => {
+      window.removeEventListener("resize", calculateWrapperOffset)
+    }
   }, [ref])
 
   const getFixedPositions = () => {
@@ -104,7 +118,9 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   return (
     <Styled.ViewportConstraint as={motion.div} ref={ref}>
       <Styled.Absolute style={getStickyStyle()}>
-        <Styled.ImageWrapper>
+        <Styled.ImageWrapper
+          style={{ transform: `translateX(${wrapperOffset}px)` }}
+        >
           <Styled.Image image={getImage(image) as IGatsbyImageData} alt="" />
         </Styled.ImageWrapper>
         <Styled.Caption>

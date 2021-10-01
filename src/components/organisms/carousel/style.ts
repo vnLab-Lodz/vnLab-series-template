@@ -16,6 +16,10 @@ export const ViewportConstraint = styled.div`
   @media (max-height: 800px) {
     max-height: calc(100vh - 70px);
   }
+
+  @media ${devices.desktop} {
+    // align-items: center;
+  }
 `
 
 export const PanableGrid = styled(GridContainer)`
@@ -157,6 +161,10 @@ export const Fullscreen = styled(GridContainer)`
     z-index: 4;
     grid-template-rows: auto 1fr auto;
     padding-bottom: ${spacing.sm};
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
   `}
 `
 

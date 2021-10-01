@@ -6,7 +6,6 @@ import usePageContent from "src/hooks/usePageContent"
 import { ThemeContext } from "styled-components"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent } from "~util"
-import Layout from "../layout"
 import Annotations from "./menus/annotations"
 import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
@@ -167,7 +166,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
             exit={{ translateY: -125, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <Layout>
+            <Styled.Layout>
               <Styled.MenuNav
                 open={menuState !== MENU_STATE.CLOSED}
                 as={motion.nav}
@@ -189,7 +188,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
                 </Styled.Button>
                 {getBibliographyButton()}
               </Styled.MenuNav>
-            </Layout>
+            </Styled.Layout>
             <AnimatePresence initial={false} exitBeforeEnter>
               {menuState !== MENU_STATE.CLOSED && (
                 <Styled.MenuContet

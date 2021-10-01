@@ -63,6 +63,19 @@ export const Globals = createGlobalStyle`
     display: none;
   }
 
+  .sizeable-icon {
+    @media ${devices.desktop} {
+      width: auto;
+      height: 32px;
+      
+      &--small {
+        height: 20px;
+  
+      }
+    }
+    
+  }
+
   :root {
     /* spacing */
     --space-unit: 1.125rem;
@@ -90,6 +103,18 @@ export const Globals = createGlobalStyle`
         --text-lg: 25px;
         --text-md: 20px;
         --text-sm: 13px;
+    }
+
+    @media ${devices.desktop} {
+        --unit-base: 1.5rem;
+        --space-unit: 1.25rem;
+
+  
+        --text-xxl: 6rem;
+        --text-xl: 6rem;
+        --text-lg: 2.5rem;
+        --text-md: 1.55rem;
+        --text-sm: 1.1rem;
     }
   }
   

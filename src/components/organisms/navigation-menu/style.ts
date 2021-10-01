@@ -5,15 +5,16 @@ import atoms from "~components/atoms"
 import { breakpoints, devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 import { NAV_MODES } from "./nav-menu-context"
+import ToC from "./tabs/toc"
 
 //#region Menu base
 
-export const Aside = styled(GridContainer)`
+export const Aside = styled(GridContainer)<{ open?: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 8;
+  z-index: ${({ open }) => (open ? 12 : 8)};
   pointer-events: none;
   bottom: 0;
   grid-template-rows: auto 1fr;
@@ -89,6 +90,10 @@ export const Title = styled(LocalizedLink)`
   color: ${({ theme }) => theme.palette.black};
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
   @media ${devices.tablet} {
     margin-left: 0px;
     writing-mode: vertical-lr;
@@ -135,6 +140,11 @@ export const Logo = styled.img`
     display: block;
     margin-bottom: ${({ theme }) => theme.spacing.md};
   }
+
+  @media ${devices.desktop} {
+    height: 128px;
+    width: auto;
+  }
 `
 
 export const NavMenuContent = styled(motion.div)`
@@ -148,7 +158,8 @@ export const NavMenuContent = styled(motion.div)`
     grid-column: 1 / last-col;
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
     @media ${devices.tablet} {
       grid-column: 4 / -2;
@@ -162,7 +173,7 @@ export const NavMenuContent = styled(motion.div)`
   `}
 `
 
-export const Tabs = styled.header`
+export const Tabs = styled.header<{ sticky?: boolean }>`
   ${({ theme: { spacing, palette } }) => css`
     display: flex;
     justify-content: space-between;
@@ -174,6 +185,15 @@ export const Tabs = styled.header`
     @media ${devices.tablet} {
       padding: 0px ${spacing.xs};
       height: 106px;
+
+      ${props =>
+        //@ts-ignore
+        props.sticky &&
+        css`
+          position: sticky;
+          top: 0px;
+          z-index: 7;
+        `};
     }
   `}
 `
@@ -207,18 +227,28 @@ export const TabItems = styled.div<{ noFlex?: boolean }>`
   `}
 `
 
-export const TabButton = styled.button`
+export const TabButton = styled.button<{ small?: boolean }>`
   background: none;
   border: none;
   cursor: pointer;
   text-align: start;
-  padding: ${({ theme: { spacing } }) => `${spacing.md} ${spacing.xxs}`};
+  padding: ${({ theme: { spacing }, small }) =>
+    !small ? `${spacing.md} ${spacing.xxs}` : `0px ${spacing.xxs}`};
   position: relative;
 
+  ${({ small, theme }) =>
+    small &&
+    css`
+      margin-right: ${theme.spacing.xxs};
+    `};
+
   @media ${devices.tablet} {
-    // padding: ${({ theme: { spacing } }) => spacing.xxs};
     height: 100%;
     text-align: center;
+  }
+
+  @media ${devices.desktop} {
+    padding: 0px;
   }
 `
 
@@ -247,8 +277,9 @@ export const SearchImg = styled.img`
 //#region Table of contents tab
 
 export const TocGrid = styled.section`
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   display: grid;
+  height: 100%;
   grid-column: 1 / last-col;
   grid-row: 2;
   grid-auto-rows: min-content;
@@ -289,6 +320,10 @@ export const Part = styled(atoms.h3)`
   }
 `
 
+export const TableOfContents = styled(ToC)`
+  padding-top: ${({ theme }) => theme.spacing.md};
+`
+
 //#endregion
 
 //#region About
@@ -297,7 +332,6 @@ export const AboutWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   grid-column: 1 / last-col;
-  overflow-y: scroll;
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
@@ -317,7 +351,7 @@ export const AboutContent = styled.article`
   }
 `
 
-//#enregion
+//#endregion
 
 //#region Indexes tab
 
@@ -325,7 +359,6 @@ export const IndexesWrapper = styled.article`
   display: flex;
   flex-direction: column;
   grid-column: 1 / last-col;
-  overflow-y: scroll;
 `
 
 export const IndexesTabs = styled(Tabs)`
@@ -373,4 +406,39 @@ export const IndexText = styled(atoms.p)`
   }
 `
 
+export const BiogramLink = styled(LocalizedLink)`
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+`
+
 //#endregion
+
+export const AnnotationsButton = styled.button`
+  background: ${({ theme }) => theme.palette.quaternary};
+  border: none;
+  text-transform: uppercase;
+  padding: ${({ theme }) => theme.spacing.md};
+  grid-column: 1 / last-col;
+  font-size: ${({ theme }) => theme.typography.sm};
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-weight: bold;
+  color: ${({ theme }) => theme.palette.black};
+  cursor: pointer;
+`
+
+export const NextTabButton = styled.button`
+  background: ${({ theme }) => theme.palette.dark};
+  border: none;
+  text-transform: uppercase;
+  padding: ${({ theme }) => theme.spacing.md};
+  grid-column: 1 / last-col;
+  margin-top: ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.typography.sm};
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-weight: bold;
+  color: ${({ theme }) => theme.palette.white};
+  cursor: pointer;
+`

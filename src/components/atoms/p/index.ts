@@ -7,11 +7,7 @@ export const p = styled.p`
     font-size: ${typography.md};
     font-weight: normal;
     font-style: normal;
-    line-height: 139%;
+    line-height: 150%;
     color: ${palette.black};
-
-    @media ${devices.tablet} {
-      line-height: 150%;
-    }
   `}
 `
