@@ -4,7 +4,8 @@ import { devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 
 export const AnnotationTarget = styled.span`
-  font-family: ${({ theme: { typography } }) => typography.fonts.secondary};
+  font-family: inherit;
+  font-size: inherit;
 `
 
 export const AnnotationIndex = styled.span`
