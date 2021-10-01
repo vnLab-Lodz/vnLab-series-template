@@ -18,6 +18,14 @@ interface Data {
   }
 }
 
+function chaptersFilter(node: Node) {
+  return !node.slug.includes("bibliography")
+}
+
+function bibliographyFilter(node: Node) {
+  return node.slug.includes("bibliography")
+}
+
 export const createPages = async ({
   graphql,
   actions,
@@ -45,7 +53,7 @@ export const createPages = async ({
     return
   }
 
-  data?.allMdx.nodes.forEach(node => {
+  data?.allMdx.nodes.filter(chaptersFilter).forEach(node => {
     const slug = delocalizeSlug(node.slug)
 
     createPage({
@@ -53,7 +61,20 @@ export const createPages = async ({
       component: path.resolve("./src/templates/chapter.tsx"),
       context: {
         slugs: localizeSlug(slug),
-        publication: !slug.includes("bibliography"),
+        publication: true,
+      },
+    })
+  })
+
+  data?.allMdx.nodes.filter(bibliographyFilter).forEach(node => {
+    const slug = delocalizeSlug(node.slug)
+
+    createPage({
+      path: slug.replace("index", ""),
+      component: path.resolve("./src/templates/bibliography.tsx"),
+      context: {
+        slugs: localizeSlug(slug),
+        publication: false,
       },
     })
   })
