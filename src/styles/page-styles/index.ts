@@ -4,6 +4,7 @@ import Edition from "~components/molecules/edition"
 import atoms from "~components/atoms"
 import ToC from "~components/organisms/navigation-menu/tabs/toc"
 import LP from "~components/molecules/language-picker"
+import { LocalizedLink } from "gatsby-theme-i18n"
 
 export const ImageWrapper = styled.div`
   position: absolute;
@@ -178,6 +179,14 @@ export const Author = styled(atoms.h3)`
     grid-column: 5 / 14;
     grid-row: 5;
   }
+`
+
+export const BiogramLink = styled(LocalizedLink)`
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
 `
 
 export const WrappedEdition = styled(Edition)`
