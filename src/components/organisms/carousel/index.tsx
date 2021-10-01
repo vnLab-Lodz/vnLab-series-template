@@ -8,6 +8,7 @@ import { motion, PanInfo, useSpring } from "framer-motion"
 import FullscreenPortal from "./fullscreen"
 import { PanEvent } from "~types"
 import { v4 as uuid } from "uuid"
+import useIsClient from "src/hooks/useIsClient"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -15,7 +16,6 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
-import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   images: ImageDataLike[]
@@ -103,6 +103,10 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     translateX.stop()
     const offsetX = point.offset.x
 
+    if (point.offset.y > 50 || point.offset.y < -50) {
+      return
+    }
+
     if (currentImage === 0 && offsetX > 0) return
 
     if (currentImage === images.length - 1) return
@@ -113,6 +117,14 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
   const onPanEnd = (_: PanEvent, point: PanInfo) => {
     translateX.stop()
+
+    if (point.offset.y > 50 || point.offset.y < -50) {
+      window.scrollTo({
+        top: document.documentElement.scrollTop - 3 * point.offset.y,
+        behavior: "smooth",
+      })
+      return
+    }
 
     if (point.offset.x > 0) previousImage()
     else nextImage()
