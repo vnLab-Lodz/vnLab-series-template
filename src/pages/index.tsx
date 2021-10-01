@@ -117,10 +117,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           <Styled.Title>{t("common:title")}</Styled.Title>
           <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
           <Styled.Author type="primary">
-            <Styled.BiogramLink
-              to="/biograms/paulina_kwiatkowska"
-              lang={locale}
-            >
+            <Styled.BiogramLink to="/biograms/krzysztof_pijarski" lang={locale}>
               {t("home:author")}
             </Styled.BiogramLink>
           </Styled.Author>

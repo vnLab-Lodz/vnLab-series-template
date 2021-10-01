@@ -133,7 +133,7 @@ export const Title = styled(atoms.title)`
   }
 
   @media ${devices.laptop} {
-    grid-column: 5 / 9;
+    grid-column: 5 / 10;
     filter: none;
     grid-row: 3;
   }
