@@ -43,7 +43,7 @@ const NavMenuToggle: React.FC = () => {
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const [isMobile, setIsMobile] = useState(false)
-  const hypothesis = useHypothesis()
+  const { hypothesis, showHypothesis, hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
   const ref = useRef<HTMLDivElement | null>(null)
@@ -55,9 +55,9 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   }
 
   useEffect(() => {
-    hypothesis?.classList.add("invisible")
+    hideHypothesis()
     return () => {
-      hypothesis?.classList.remove("invisible")
+      showHypothesis()
     }
   }, [hypothesis])
 

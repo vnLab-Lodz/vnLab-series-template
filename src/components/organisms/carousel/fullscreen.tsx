@@ -37,7 +37,7 @@ const FullscreenPortal: React.FC<Props> = ({
   previousImage,
   exitFullscreen,
 }) => {
-  const hypothesis = useHypothesis()
+  const { hypothesis, showHypothesis, hideHypothesis } = useHypothesis()
   const { setNavMode } = useContext(NavMenuContext)
 
   useLayoutEffect(() => {
@@ -50,10 +50,9 @@ const FullscreenPortal: React.FC<Props> = ({
   }, [])
 
   useEffect(() => {
-    hypothesis?.classList.add("invisible")
-
+    hideHypothesis()
     return () => {
-      hypothesis?.classList.remove("invisible")
+      showHypothesis()
     }
   }, [hypothesis])
 
