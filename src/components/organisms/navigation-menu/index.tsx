@@ -115,7 +115,7 @@ const NavigationMenu: React.FC<Props> = ({
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { locale, localizedPath, defaultLang, prefixDefault } =
     useLocalization()
-  const { showHypothesis, hideHypothesis } = useHypothesis()
+  const { hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "nav-menu"])
 
   const { scrollYProgress } = useViewportScroll()
@@ -134,7 +134,6 @@ const NavigationMenu: React.FC<Props> = ({
 
     return () => {
       document.body.classList.remove("no-scroll")
-      if (!ignoreHypothesis) showHypothesis()
     }
   }, [open])
 

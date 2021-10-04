@@ -37,7 +37,7 @@ const FullscreenPortal: React.FC<Props> = ({
   previousImage,
   exitFullscreen,
 }) => {
-  const { hypothesis, showHypothesis, hideHypothesis } = useHypothesis()
+  const { hypothesis, hideHypothesis } = useHypothesis()
   const { setNavMode } = useContext(NavMenuContext)
 
   useLayoutEffect(() => {
@@ -51,9 +51,6 @@ const FullscreenPortal: React.FC<Props> = ({
 
   useEffect(() => {
     hideHypothesis()
-    return () => {
-      showHypothesis()
-    }
   }, [hypothesis])
 
   const uid = `fullscreen-carousel-${carouselUid}__image--${currentImage}`

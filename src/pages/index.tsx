@@ -43,7 +43,7 @@ const NavMenuToggle: React.FC = () => {
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const [isMobile, setIsMobile] = useState(false)
-  const { hypothesis, showHypothesis, hideHypothesis } = useHypothesis()
+  const { hypothesis, hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
   const ref = useRef<HTMLDivElement | null>(null)
@@ -56,9 +56,6 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
 
   useEffect(() => {
     hideHypothesis()
-    return () => {
-      showHypothesis()
-    }
   }, [hypothesis])
 
   const determineDevice = () => {

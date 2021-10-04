@@ -24,6 +24,7 @@ import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
+import HypothesisBtn from "~components/molecules/hypothesis-btn"
 
 export const addClass =
   (
@@ -84,6 +85,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
+      <HypothesisBtn />
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>

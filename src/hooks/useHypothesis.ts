@@ -26,5 +26,5 @@ export default function useHypothesis() {
     hypothesis.classList.remove("invisible")
   }
 
-  return { hypothesis, showHypothesis, hideHypothesis }
+  return { hypothesis, showHypothesis, hideHypothesis, isHidden }
 }
