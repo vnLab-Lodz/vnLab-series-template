@@ -21,7 +21,11 @@ interface Data {
 function chaptersFilter(node: Node) {
   const { slug } = node
 
-  return !slug.includes("bibliography") && !slug.includes("biograms")
+  return (
+    !slug.includes("bibliography") &&
+    !slug.includes("biograms") &&
+    !slug.includes("hypothesis_tutorial")
+  )
 }
 
 function bibliographiesFilter(node: Node) {
@@ -30,6 +34,10 @@ function bibliographiesFilter(node: Node) {
 
 function biogramsFilter(node: Node) {
   return node.slug.includes("biograms")
+}
+
+function hypothesisFilter(node: Node) {
+  return node.slug.includes("hypothesis_tutorial")
 }
 
 function composePageOptions(
@@ -101,6 +109,14 @@ export const createPages = async ({
     .forEach(node =>
       createPage(
         composePageOptions(node, { template: "biogram", isPublication: false })
+      )
+    )
+
+  nodes
+    .filter(hypothesisFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "tutorial", isPublication: false })
       )
     )
 }

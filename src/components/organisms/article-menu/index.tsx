@@ -19,6 +19,8 @@ import ArrowDown from "src/images/icons/arrow_down.svg"
 
 interface Props {
   currentPath: string
+  noBibliography?: boolean
+  className?: string
 }
 
 enum MENU_STATE {
@@ -29,7 +31,11 @@ enum MENU_STATE {
   BIBLIOGRAPHY,
 }
 
-const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
+const ArticleMenu: React.FC<Props> = ({
+  currentPath,
+  noBibliography,
+  className,
+}) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
@@ -155,7 +161,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
   }, [menuState])
 
   return (
-    <Styled.ArticleMenuContainer ref={ref}>
+    <Styled.ArticleMenuContainer ref={ref} className={className}>
       <AnimatePresence initial={false} exitBeforeEnter>
         {!isHidden && (
           <Styled.StickyWrapper
@@ -165,6 +171,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
             animate={{ translateY: 0, opacity: 1 }}
             exit={{ translateY: -125, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
+            className={className}
           >
             <Styled.Layout>
               <Styled.MenuNav
@@ -186,7 +193,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
                   <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
                   <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
                 </Styled.Button>
-                {getBibliographyButton()}
+                {!noBibliography && getBibliographyButton()}
               </Styled.MenuNav>
             </Styled.Layout>
             <AnimatePresence initial={false} exitBeforeEnter>

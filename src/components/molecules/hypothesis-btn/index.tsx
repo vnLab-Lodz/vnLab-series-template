@@ -27,17 +27,15 @@ const HypothesisBtn = () => {
       setHypothesisTutorialViewed(true)
     }
 
-    // disabled till the view is available
-    false &&
-      navigate(
-        localizedPath({
-          defaultLang,
-          prefixDefault,
-          locale,
-          path: "/hypothesis-tutorial",
-        }),
-        {}
-      )
+    navigate(
+      localizedPath({
+        defaultLang,
+        prefixDefault,
+        locale,
+        path: "/hypothesis_tutorial",
+      }),
+      {}
+    )
   }
 
   const handleIconBtnClick = () => {

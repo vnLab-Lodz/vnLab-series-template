@@ -209,7 +209,7 @@ const NavigationMenu: React.FC<Props> = ({
                     locale,
                     prefixDefault,
                     defaultLang,
-                    path: "#",
+                    path: "/hypothesis_tutorial",
                   })
                 )
               }
