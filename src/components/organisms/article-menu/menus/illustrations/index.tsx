@@ -19,8 +19,8 @@ const Illustrations: React.FC<Props> = ({ closeMenu }) => {
     <Styled.IllustrationsWrapper>
       {images.map(({ imageData, position }, index) => (
         <GatsbyImage
-          style={{ cursor: "pointer" }}
-          key={`article-menu__illustartion--${index}`}
+          style={{ cursor: "pointer", aspectRatio: "1" }}
+          key={`article-menu__illustration--${index}`}
           image={getImage(imageData) as IGatsbyImageData}
           alt={`Article image ${index}`}
           onClick={() => scrollToImage(position)}
