@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import * as Styled from "./style"
+
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
 
@@ -115,13 +116,17 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
       ? { position: "fixed", ...getFixedPositions() }
       : { position: "absolute", left: "0px", right: "0px" }
 
+  const img = getImage(image) as IGatsbyImageData
+
+  const aspectRatio = `${img.width}/${img.height}`
+
   return (
     <Styled.ViewportConstraint as={motion.div} ref={ref}>
       <Styled.Absolute style={getStickyStyle()}>
         <Styled.ImageWrapper
           style={{ transform: `translateX(${wrapperOffset}px)` }}
         >
-          <Styled.Image image={getImage(image) as IGatsbyImageData} alt="" />
+          <Styled.Image image={img} alt="" style={{ aspectRatio }} />
         </Styled.ImageWrapper>
         <Styled.Caption>
           <Styled.CaptionText>{caption}</Styled.CaptionText>
