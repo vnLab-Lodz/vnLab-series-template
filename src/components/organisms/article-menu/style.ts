@@ -76,7 +76,7 @@ export const Button = styled.button`
   `}
 `
 
-export const MenuContet = styled(motion.div)`
+export const MenuContent = styled(motion.div)`
   ${({ theme: { palette } }) => css`
     position: absolute;
     left: 0px;

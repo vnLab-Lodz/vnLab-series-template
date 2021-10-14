@@ -198,7 +198,7 @@ const ArticleMenu: React.FC<Props> = ({
             </Styled.Layout>
             <AnimatePresence initial={false} exitBeforeEnter>
               {menuState !== MENU_STATE.CLOSED && (
-                <Styled.MenuContet
+                <Styled.MenuContent
                   initial={{ height: 0 }}
                   animate={{ height: getSupportedFitContent() }}
                   exit={{ height: 0 }}
@@ -209,7 +209,7 @@ const ArticleMenu: React.FC<Props> = ({
                       {getMenuContent()}
                     </AnimatePresence>
                   </Styled.MenuLayout>
-                </Styled.MenuContet>
+                </Styled.MenuContent>
               )}
             </AnimatePresence>
           </Styled.StickyWrapper>
