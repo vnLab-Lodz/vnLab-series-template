@@ -14,6 +14,7 @@ export const AnnotationIndex = styled.span`
     font-family: ${typography.fonts.secondary};
     vertical-align: super;
     cursor: pointer;
+    line-height: initial;
   `}
 `
 
