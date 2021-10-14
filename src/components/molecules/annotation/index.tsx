@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useContext } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
+import { AnnotationContext } from "./annotation-context"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
-import { AnnotationContext } from "./annotation-context"
 
 interface Props {
   target: string
@@ -38,6 +38,7 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLSpanElement | null>(null)
+  const offsetRef = useRef<number>(0)
   const { annotations, addAnnotation } = useContext(AnnotationContext)
   const annotation = annotations.find(a => a.target === target)
 
@@ -49,6 +50,7 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
     const parentRect = ref.current.parentElement?.getBoundingClientRect()
     const offset = parentRect?.height ?? elementRect.height
 
+    offsetRef.current = offset
     setPosition(elementRect.top + doc.scrollTop + offset)
   }
 
@@ -64,8 +66,11 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
       !annotations.find(
         a => a.target === target && a.content === children.toString()
       )
-    )
-      addAnnotation(target, children.toString(), position as number)
+    ) {
+      const pos = !!position ? position - offsetRef.current : 0
+
+      addAnnotation(target, children.toString(), pos)
+    }
   }, [ref, position])
 
   const toggleAnnotation = () => setOpen(prev => !prev)

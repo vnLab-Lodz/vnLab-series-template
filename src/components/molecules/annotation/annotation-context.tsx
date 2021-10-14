@@ -23,7 +23,7 @@ const AnnotationProvider: React.FC = ({ children }) => {
   const addAnnotation = (target: string, content: string, position: number) => {
     setAnnotations(prev => {
       const index = prev.length + 1
-      return [...prev, { target, content, index, position }]
+      return [...prev, { target, content, index, position: position }]
     })
   }
 
