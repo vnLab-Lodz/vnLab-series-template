@@ -9,7 +9,7 @@ import useIsClient from "src/hooks/useIsClient"
 //@ts-ignore
 import HypothesisIcon from "../../../images/icons/hypothesis.svg"
 
-function getHypothesistutorialStatus() {
+function getHypothesisTutorialStatus() {
   return !!localStorage.getItem("hypothesisTutorialViewed")
 }
 
@@ -23,7 +23,7 @@ const HypothesisBtn = () => {
     useLocalization()
 
   useEffect(() => {
-    setHypothesisTutorialViewed(getHypothesistutorialStatus())
+    setHypothesisTutorialViewed(getHypothesisTutorialStatus())
   }, [])
 
   const handleTextBtnClick = () => {
@@ -50,12 +50,12 @@ const HypothesisBtn = () => {
   if (!isClient) return <></>
 
   return hypothesisTutorialViewed ? (
-    <Styled.IconButton onClick={handleIconBtnClick}>
+    <Styled.IconButton id="hypothesis-btn" onClick={handleIconBtnClick}>
       <img src={HypothesisIcon} alt="Hypothesis Icon" />
     </Styled.IconButton>
   ) : (
     <Styled.TextButton>
-      <Styled.VerticalText onClick={handleTextBtnClick}>
+      <Styled.VerticalText id="hypothesis-btn" onClick={handleTextBtnClick}>
         {t("hypothesis_btn")}
       </Styled.VerticalText>
     </Styled.TextButton>

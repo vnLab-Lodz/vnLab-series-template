@@ -51,6 +51,13 @@ const FullscreenPortal: React.FC<Props> = ({
 
   useEffect(() => {
     hideHypothesis()
+
+    const btn = document.getElementById("hypothesis-btn")
+    btn?.classList.add("invisible")
+
+    return () => {
+      btn?.classList.remove("invisible")
+    }
   }, [hypothesis])
 
   const uid = `fullscreen-carousel-${carouselUid}__image--${currentImage}`
