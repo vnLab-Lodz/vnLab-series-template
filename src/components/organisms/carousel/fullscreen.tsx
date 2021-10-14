@@ -55,6 +55,10 @@ const FullscreenPortal: React.FC<Props> = ({
 
   const uid = `fullscreen-carousel-${carouselUid}__image--${currentImage}`
 
+  const image = getImage(images[currentImage]) as IGatsbyImageData
+
+  const aspectRatio = `${image.width}/${image.height}`
+
   return ReactDOM.createPortal(
     <Styled.Fullscreen
       as={motion.div}
@@ -79,8 +83,9 @@ const FullscreenPortal: React.FC<Props> = ({
             exit={{ opacity: 0 }}
           >
             <GatsbyImage
-              image={getImage(images[currentImage]) as IGatsbyImageData}
+              image={image}
               alt={`Carousel image ${currentImage}`}
+              style={{ aspectRatio }}
             />
           </Styled.SliderImage>
         </AnimatePresence>
