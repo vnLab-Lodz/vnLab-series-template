@@ -80,3 +80,7 @@ export const CloseBtn = styled.button`
     grid-column: 24;
   }
 `
+
+export const InheritParagraph = styled.p`
+  all: inherit;
+`

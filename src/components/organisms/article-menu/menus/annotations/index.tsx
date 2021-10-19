@@ -22,7 +22,9 @@ const Annotation: React.FC<{
         }}
       >
         {typeof content === "string" ? (
-          <ReactMarkdown components={mdxComponents as any}>
+          <ReactMarkdown
+            components={{ ...mdxComponents, p: Styled.InheritParagraph } as any}
+          >
             {content}
           </ReactMarkdown>
         ) : (

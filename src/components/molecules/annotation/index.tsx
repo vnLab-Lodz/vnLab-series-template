@@ -98,7 +98,11 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
           toggle={toggleAnnotation}
         >
           {typeof children === "string" ? (
-            <ReactMarkdown components={mdxComponents as any}>
+            <ReactMarkdown
+              components={
+                { ...mdxComponents, p: Styled.InheritParagraph } as any
+              }
+            >
               {children}
             </ReactMarkdown>
           ) : (
