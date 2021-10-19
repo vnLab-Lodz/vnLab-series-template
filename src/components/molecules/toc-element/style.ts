@@ -21,7 +21,7 @@ export const TocContainer = styled.article`
   }
 `
 
-export const ArticlTitle = styled(LocalizedLink)`
+export const ArticleTitle = styled(LocalizedLink)`
   text-decoration: none;
   grid-row: 1;
   grid-column: 4 / -2;
