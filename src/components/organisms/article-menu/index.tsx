@@ -13,6 +13,7 @@ import Illustrations from "./menus/illustrations"
 import { useLocalization } from "gatsby-theme-i18n"
 import { SINGLE_AUTHOR_MODE } from "~util/constatnts"
 import * as Styled from "./style"
+import useScrollDistance from "src/hooks/useScrollDistance"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
@@ -67,22 +68,21 @@ const ArticleMenu: React.FC<Props> = ({
     return elementRect.top + doc.scrollTop
   }
 
+  const onScrollEnd = useScrollDistance((distance, _, end) => {
+    if (end < calcNavPosition() + 300) return
+
+    if (distance <= -100) setIsHidden(false)
+    else if (distance > 0) setIsHidden(true)
+  })
+
   const onScroll = () => {
     const currentScrollPos = window.pageYOffset
-    if (!ref || !ref.current) return
-
     const navPosition = calcNavPosition()
 
-    currentScrollPos >= navPosition
-      ? setShouldStick(true)
-      : setShouldStick(false)
+    setShouldStick(currentScrollPos >= navPosition)
 
-    currentScrollPos >= navPosition + 300
-      ? setIsHidden(
-          scrollRef.current < currentScrollPos &&
-            menuState === MENU_STATE.CLOSED
-        )
-      : setIsHidden(false)
+    if (currentScrollPos < navPosition + 300) setIsHidden(false)
+    else if (scrollRef.current <= currentScrollPos) setIsHidden(true)
 
     scrollRef.current = currentScrollPos
   }
@@ -139,8 +139,10 @@ const ArticleMenu: React.FC<Props> = ({
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll)
+    window.addEventListener("scroll", onScrollEnd)
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("scroll", onScrollEnd)
     }
   }, [ref, menuState])
 
