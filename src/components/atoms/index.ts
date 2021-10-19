@@ -9,6 +9,7 @@ import { button } from "./button"
 import { strong } from "./strong"
 import { em } from "./em"
 import { del } from "./del"
+import { a } from "./a"
 
 export default {
   title,
@@ -22,4 +23,5 @@ export default {
   button,
   strong,
   del,
+  a,
 }

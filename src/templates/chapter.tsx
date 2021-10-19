@@ -48,10 +48,11 @@ export const mdxComponents = {
   ol: atoms.ol,
   strong: atoms.strong,
   em: atoms.em,
+  del: atoms.del,
+  a: atoms.a,
   h1: addClass(atoms.h1, "mdx-heading"),
   h2: addClass(atoms.h2, "mdx-heading"),
   h3: addClass(atoms.h3, "mdx-heading"),
-  del: atoms.del,
 }
 
 interface Data {
