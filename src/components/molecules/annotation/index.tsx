@@ -2,9 +2,12 @@ import React, { useEffect, useRef, useState, useContext } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
 import { AnnotationContext } from "./annotation-context"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
+import { MDXProvider } from "@mdx-js/react"
 
 interface Props {
   target: string
@@ -28,7 +31,9 @@ const AnnotationPortal: React.FC<PortalProps> = ({
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
       <Styled.AnnotationNumber>{index}</Styled.AnnotationNumber>
-      <Styled.AnnotationParagraph>{children}</Styled.AnnotationParagraph>
+      <Styled.AnnotationParagraph as="div">
+        {children}
+      </Styled.AnnotationParagraph>
     </Styled.AnnotationContent>,
     document.body
   )
@@ -92,7 +97,13 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
           position={position}
           toggle={toggleAnnotation}
         >
-          {children}
+          {typeof children === "string" ? (
+            <ReactMarkdown components={mdxComponents as any}>
+              {children}
+            </ReactMarkdown>
+          ) : (
+            <MDXProvider components={mdxComponents}>{children}</MDXProvider>
+          )}
         </AnnotationPortal>
       )}
     </Styled.AnnotationTarget>

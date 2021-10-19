@@ -1,6 +1,7 @@
 import { MDXProvider } from "@mdx-js/react"
 import React from "react"
 import { useContext } from "react"
+import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
 import * as Styled from "./style"
@@ -20,7 +21,13 @@ const Annotation: React.FC<{
           window.scrollTo({ top: position, behavior: "smooth" })
         }}
       >
-        <MDXProvider components={mdxComponents}>{content}</MDXProvider>
+        {typeof content === "string" ? (
+          <ReactMarkdown components={mdxComponents as any}>
+            {content}
+          </ReactMarkdown>
+        ) : (
+          <MDXProvider components={mdxComponents}>{content}</MDXProvider>
+        )}
       </Styled.AnnotationParagraph>
     </>
   )
