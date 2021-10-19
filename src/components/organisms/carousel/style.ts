@@ -71,6 +71,8 @@ export const SliderImage = styled.div<{
       margin: 0px !important;
       position: absolute;
       cursor: default;
+      height: initial;
+      max-height: 100%;
     `}
 
   img {
@@ -232,6 +234,7 @@ export const FullscreenSlider = styled(Slider)`
   grid-row: 1 / 3;
   position: relative;
   margin: ${({ theme }) => theme.spacing.xxs} 0px;
+  overflow: hidden;
 
   @media ${devices.tablet} {
     grid-column: 5 / -3;
