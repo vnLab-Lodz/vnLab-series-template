@@ -9,6 +9,8 @@ import React, { useEffect, useLayoutEffect, useContext } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
 import useHypothesis from "src/hooks/useHypothesis"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -104,7 +106,11 @@ const FullscreenPortal: React.FC<Props> = ({
         {currentImage + 1}/{images.length}
       </Styled.FullscreenCount>
       <Styled.FullscreenCaption>
-        {captions[currentImage]}
+        <ReactMarkdown
+          components={{ ...mdxComponents, p: Styled.FullscreenCaption } as any}
+        >
+          {captions[currentImage]}
+        </ReactMarkdown>
       </Styled.FullscreenCaption>
     </Styled.Fullscreen>,
     document.body

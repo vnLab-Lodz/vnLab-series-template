@@ -9,6 +9,8 @@ import FullscreenPortal from "./fullscreen"
 import { PanEvent } from "~types"
 import { v4 as uuid } from "uuid"
 import useIsClient from "src/hooks/useIsClient"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -169,7 +171,13 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                     image={getImage(image) as IGatsbyImageData}
                     alt={`Carousel image ${index}`}
                   />
-                  <Styled.ImageCaption>{captions[index]}</Styled.ImageCaption>
+                  <ReactMarkdown
+                    components={
+                      { ...mdxComponents, p: Styled.ImageCaption } as any
+                    }
+                  >
+                    {captions[index]}
+                  </ReactMarkdown>
                 </Styled.SliderImage>
               )
             })}
