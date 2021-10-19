@@ -1,11 +1,13 @@
+import { MDXProvider } from "@mdx-js/react"
 import React from "react"
 import { useContext } from "react"
+import { mdxComponents } from "src/templates/chapter"
 import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
 import * as Styled from "./style"
 
 const Annotation: React.FC<{
   index: number
-  content: string
+  content: any
   position: number
   closeMenu: () => void
 }> = ({ index, content, position, closeMenu }) => {
@@ -18,7 +20,7 @@ const Annotation: React.FC<{
           window.scrollTo({ top: position, behavior: "smooth" })
         }}
       >
-        {content}
+        <MDXProvider components={mdxComponents}>{content}</MDXProvider>
       </Styled.AnnotationParagraph>
     </>
   )

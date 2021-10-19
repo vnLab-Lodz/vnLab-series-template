@@ -69,7 +69,7 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
     ) {
       const pos = !!position ? position - offsetRef.current : 0
 
-      addAnnotation(target, children.toString(), pos)
+      addAnnotation(target, children, pos)
     }
   }, [ref, position])
 
