@@ -47,7 +47,9 @@ const CaptionPortal: React.FC<PortalProps> = ({
       style={{ bottom: `${position}px` }}
     >
       <Styled.CaptionHeader as="div">
-        <ReactMarkdown components={mdxComponents as any}>
+        <ReactMarkdown
+          components={{ ...mdxComponents, p: Styled.CaptionHeader } as any}
+        >
           {caption}
         </ReactMarkdown>
       </Styled.CaptionHeader>
@@ -56,7 +58,9 @@ const CaptionPortal: React.FC<PortalProps> = ({
       </Styled.CloseBtn>
       {typeof children === "string" ? (
         <Styled.CaptionParagraph as="div">
-          <ReactMarkdown components={mdxComponents as any}>
+          <ReactMarkdown
+            components={{ ...mdxComponents, p: Styled.CaptionParagraph } as any}
+          >
             {children}
           </ReactMarkdown>
         </Styled.CaptionParagraph>
@@ -149,7 +153,9 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
         </Styled.ImageWrapper>
         <Styled.Caption>
           <Styled.CaptionText as="div">
-            <ReactMarkdown components={mdxComponents as any}>
+            <ReactMarkdown
+              components={{ ...mdxComponents, p: Styled.CaptionText } as any}
+            >
               {caption}
             </ReactMarkdown>
           </Styled.CaptionText>
