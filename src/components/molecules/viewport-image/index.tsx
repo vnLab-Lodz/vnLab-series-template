@@ -15,6 +15,9 @@ import * as Styled from "./style"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
+import { MDXProvider } from "@mdx-js/react"
 
 interface Props {
   image: IGatsbyImageData
@@ -35,17 +38,33 @@ const CaptionPortal: React.FC<PortalProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
+  console.log(typeof children)
+
   return ReactDOM.createPortal(
     <Styled.CaptionContent
       ref={ref}
       as="article"
       style={{ bottom: `${position}px` }}
     >
-      <Styled.CaptionHeader>{caption}</Styled.CaptionHeader>
+      <Styled.CaptionHeader as="div">
+        <ReactMarkdown components={mdxComponents as any}>
+          {caption}
+        </ReactMarkdown>
+      </Styled.CaptionHeader>
       <Styled.CloseBtn onClick={toggle}>
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
-      <Styled.CaptionParagraph>{children}</Styled.CaptionParagraph>
+      {typeof children === "string" ? (
+        <Styled.CaptionParagraph as="div">
+          <ReactMarkdown components={mdxComponents as any}>
+            {children}
+          </ReactMarkdown>
+        </Styled.CaptionParagraph>
+      ) : (
+        <Styled.CaptionParagraph>
+          <MDXProvider components={mdxComponents}>{children}</MDXProvider>
+        </Styled.CaptionParagraph>
+      )}
     </Styled.CaptionContent>,
     document.body
   )
@@ -129,7 +148,11 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
           <Styled.Image image={img} alt="" style={{ aspectRatio }} />
         </Styled.ImageWrapper>
         <Styled.Caption>
-          <Styled.CaptionText>{caption}</Styled.CaptionText>
+          <Styled.CaptionText as="div">
+            <ReactMarkdown components={mdxComponents as any}>
+              {caption}
+            </ReactMarkdown>
+          </Styled.CaptionText>
           <Styled.ExpandCaptionBtn onClick={handleClick}>
             {t("expand")}
           </Styled.ExpandCaptionBtn>
