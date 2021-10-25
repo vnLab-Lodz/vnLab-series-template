@@ -25,7 +25,7 @@ export const VariantHeader = styled(atoms.h3)`
   `}
 `
 
-export const ArticlTitle = styled(LocalizedLink)`
+export const ArticleTitle = styled(LocalizedLink)`
   text-decoration: none;
 `
 

@@ -41,9 +41,9 @@ const FooterElement: React.FC<Props> = ({
       >
         <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
         <Styled.ArticleNumber>{number}</Styled.ArticleNumber>
-        <Styled.ArticlTitle to={path}>
+        <Styled.ArticleTitle to={path}>
           <atoms.p>{title}</atoms.p>
-        </Styled.ArticlTitle>
+        </Styled.ArticleTitle>
         <Styled.ArticleAuthor type="primary">{author}</Styled.ArticleAuthor>
         <Styled.SummaryButton onClick={toggleSummary}>
           <span>{t("expand_summary")}</span>
