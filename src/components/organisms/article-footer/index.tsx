@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useLayoutEffect } from "react"
 import { useTranslation } from "react-i18next"
-import usePublication, { PublicationPage } from "src/hooks/usePublication"
+import usePublication from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
-import { getChapterNumberFromIndex, getCurrentPathIndex } from "~util"
+import { getCurrentPathIndex } from "~util"
 import { motion, useMotionTemplate, useSpring } from "framer-motion"
 import * as Styled from "./style"
 
@@ -22,27 +22,30 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
 
   const currentPathIndex = getCurrentPathIndex(pages, currentPath)
 
-  const [index, setIndex] = useState(currentPathIndex)
-  const translationFactor = useSpring(currentPathIndex)
-
-  const translateX = useMotionTemplate`calc(${translationFactor} * -50%)`
-
   const [layoutMode, setLayoutMode] = useState<"base" | "compact">("base")
+  const [index, setIndex] = useState(currentPathIndex)
 
-  useEffect(() => {
-    translationFactor.set(index)
-  }, [index])
+  const translationFactor = useSpring(currentPathIndex)
+  const translateXBig = useMotionTemplate`calc(${translationFactor} * -50%)`
+  const translateXSmall = useMotionTemplate`calc(${translationFactor} * -100%)`
+  const translateX = layoutMode === "base" ? translateXBig : translateXSmall
 
   const rewindIndex = () => setIndex(prev => (prev === 0 ? prev : prev - 1))
 
   const forwardIndex = () =>
-    setIndex(prev => (pages.length - 3 === prev ? prev : prev + 1))
+    setIndex(prev => {
+      let modifier = layoutMode === "base" ? 3 : 2
+      return pages.length - modifier === prev ? prev : prev + 1
+    })
 
   const determineLayoutMode = () => {
     const { clientWidth } = document.documentElement
     setLayoutMode(clientWidth < 1024 ? "compact" : "base")
   }
 
+  useEffect(() => {
+    translationFactor.set(index)
+  }, [index])
   useLayoutEffect(() => {
     determineLayoutMode()
     window.addEventListener("resize", determineLayoutMode)

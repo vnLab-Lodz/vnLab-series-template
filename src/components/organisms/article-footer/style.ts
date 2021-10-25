@@ -40,12 +40,16 @@ export const ArrowButton = styled.button<{ side: "left" | "right" }>`
     cursor: pointer;
     height: 100%;
     width: 100%;
-    grid-column: ${side === "left" ? "1 / 3" : "-3 / last-col"};
+    grid-column: ${side === "left" ? "1 / 4" : "-4 / last-col"};
     grid-row: 1;
     background: none;
     border: none;
     border-radius: 0px;
     outline: 1px solid ${palette.dark};
+
+    @media ${devices.tablet} {
+      grid-column: ${side === "left" ? "1 / 3" : "-3 / last-col"};
+    }
   `}
 `
 export const FooterPages = styled.div`
@@ -54,6 +58,10 @@ export const FooterPages = styled.div`
 
 export const FooterPagesContainer = styled.div`
   grid-row: 1;
-  grid-column: 3 / -3;
+  grid-column: 4 / -4;
   overflow: hidden;
+
+  @media ${devices.tablet} {
+    grid-column: 3 / -3;
+  }
 `

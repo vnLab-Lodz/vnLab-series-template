@@ -1,17 +1,25 @@
 import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
+import { devices } from "~styles/breakpoints"
 
 export const ElementWrapper = styled.article`
   flex: 1;
 
   ${({ theme: { spacing, palette } }) => css`
-    min-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
-    width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
-    max-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
     padding: ${spacing.md};
     outline: 1px solid ${palette.dark};
     margin-left: 1px;
+
+    min-width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
+    width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
+    max-width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
+
+    @media ${devices.laptop} {
+      min-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+      width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+      max-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+    }
   `};
 `
 
