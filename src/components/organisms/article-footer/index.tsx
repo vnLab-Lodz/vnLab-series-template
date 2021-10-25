@@ -98,7 +98,11 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
       <Styled.FooterGrid>
         <Styled.FooterContainer>
           <Styled.ArrowButton side="left" onClick={rewindIndex}>
-            <img src={LeftArrowSVG} alt="Left arrow" />
+            <img
+              className="sizeable-icon--small"
+              src={LeftArrowSVG}
+              alt="Left arrow"
+            />
           </Styled.ArrowButton>
           <FooterElement
             id={left.id}
@@ -121,7 +125,11 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
             variant="right"
           />
           <Styled.ArrowButton side="right" onClick={forwardIndex}>
-            <img src={RightArrowSVG} alt="Right arrow" />
+            <img
+              className="sizeable-icon--small"
+              src={RightArrowSVG}
+              alt="Right arrow"
+            />
           </Styled.ArrowButton>
         </Styled.FooterContainer>
       </Styled.FooterGrid>

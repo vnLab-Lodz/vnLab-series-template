@@ -18,6 +18,44 @@ interface Data {
   }
 }
 
+function chaptersFilter(node: Node) {
+  const { slug } = node
+
+  return (
+    !slug.includes("bibliography") &&
+    !slug.includes("biograms") &&
+    !slug.includes("hypothesis_tutorial")
+  )
+}
+
+function bibliographiesFilter(node: Node) {
+  return node.slug.includes("bibliography")
+}
+
+function biogramsFilter(node: Node) {
+  return node.slug.includes("biograms")
+}
+
+function hypothesisFilter(node: Node) {
+  return node.slug.includes("hypothesis_tutorial")
+}
+
+function composePageOptions(
+  node: Node,
+  options: { isPublication: boolean; template: string }
+) {
+  const slug = delocalizeSlug(node.slug)
+
+  return {
+    path: slug.replace("index", ""),
+    component: path.resolve(`./src/templates/${options.template}.tsx`),
+    context: {
+      slugs: localizeSlug(slug),
+      publication: options.isPublication,
+    },
+  }
+}
+
 export const createPages = async ({
   graphql,
   actions,
@@ -45,18 +83,42 @@ export const createPages = async ({
     return
   }
 
-  data?.allMdx.nodes.forEach(node => {
-    const slug = delocalizeSlug(node.slug)
+  if (!!!data) return
 
-    createPage({
-      path: slug.replace("index", ""),
-      component: path.resolve("./src/templates/chapter.tsx"),
-      context: {
-        slugs: localizeSlug(slug),
-        publication: !slug.includes("bibliography"),
-      },
-    })
-  })
+  const { nodes } = data.allMdx
+
+  nodes
+    .filter(chaptersFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "chapter", isPublication: true })
+      )
+    )
+
+  nodes.filter(bibliographiesFilter).forEach(node =>
+    createPage(
+      composePageOptions(node, {
+        template: "bibliography",
+        isPublication: false,
+      })
+    )
+  )
+
+  nodes
+    .filter(biogramsFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "biogram", isPublication: false })
+      )
+    )
+
+  nodes
+    .filter(hypothesisFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "tutorial", isPublication: false })
+      )
+    )
 }
 
 export const createSchemaCustomization = ({

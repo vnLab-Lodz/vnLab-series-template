@@ -8,6 +8,9 @@ import { motion, PanInfo, useSpring } from "framer-motion"
 import FullscreenPortal from "./fullscreen"
 import { PanEvent } from "~types"
 import { v4 as uuid } from "uuid"
+import useIsClient from "src/hooks/useIsClient"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -15,7 +18,6 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
-import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   images: ImageDataLike[]
@@ -24,9 +26,11 @@ interface Props {
 
 const Carousel: React.FC<Props> = ({ images, captions }) => {
   const ref = useRef<HTMLDivElement | null>(null)
+  const navRef = useRef<HTMLElement | null>(null)
   const imagesClickable = useRef<boolean>(true)
   const constraintRef = useRef<HTMLDivElement | null>(null)
   const [viewportOffset, setViewportOffset] = useState(0)
+  const [navOffset, setNavOffset] = useState(0)
   const [currentImage, setCurrentImage] = useState(0)
   const carouselUid = useMemo(() => uuid(), [images])
   const [fullscreen, setFullscreen] = useState(false)
@@ -65,6 +69,11 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     img && translateX.set((img.offsetLeft - viewportOffset) * -1)
   }, [currentImage, viewportOffset])
 
+  useEffect(() => {
+    navRef.current &&
+      setNavOffset((navRef.current.offsetLeft - viewportOffset) * -1)
+  }, [viewportOffset])
+
   const getSliderMargins = () => {
     if (!ref || !ref.current || !constraintRef || !constraintRef.current)
       return { start: 0, end: 0 }
@@ -96,6 +105,10 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     translateX.stop()
     const offsetX = point.offset.x
 
+    if (point.offset.y > 50 || point.offset.y < -50) {
+      return
+    }
+
     if (currentImage === 0 && offsetX > 0) return
 
     if (currentImage === images.length - 1) return
@@ -106,6 +119,14 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
   const onPanEnd = (_: PanEvent, point: PanInfo) => {
     translateX.stop()
+
+    if (point.offset.y > 50 || point.offset.y < -50) {
+      window.scrollTo({
+        top: document.documentElement.scrollTop - 3 * point.offset.y,
+        behavior: "smooth",
+      })
+      return
+    }
 
     if (point.offset.x > 0) previousImage()
     else nextImage()
@@ -150,13 +171,22 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                     image={getImage(image) as IGatsbyImageData}
                     alt={`Carousel image ${index}`}
                   />
-                  <Styled.ImageCaption>{captions[index]}</Styled.ImageCaption>
+                  <ReactMarkdown
+                    components={
+                      { ...mdxComponents, p: Styled.ImageCaption } as any
+                    }
+                  >
+                    {captions[index]}
+                  </ReactMarkdown>
                 </Styled.SliderImage>
               )
             })}
           </Styled.Slider>
           <GridConstraint ref={constraintRef} style={{ gridRow: 2 }}>
-            <Styled.CarouselNav>
+            <Styled.CarouselNav
+              ref={navRef}
+              style={{ transform: `translateX(${navOffset}px)` }}
+            >
               <InnerGrid>
                 <Styled.Arrow side="left" onClick={previousImage}>
                   <img src={LeftArrowSVG} alt="Left arrow" />

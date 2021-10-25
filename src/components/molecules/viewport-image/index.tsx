@@ -12,8 +12,12 @@ import { useTranslation } from "react-i18next"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import * as Styled from "./style"
+
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
+import { MDXProvider } from "@mdx-js/react"
 
 interface Props {
   image: IGatsbyImageData
@@ -34,17 +38,37 @@ const CaptionPortal: React.FC<PortalProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
+  console.log(typeof children)
+
   return ReactDOM.createPortal(
     <Styled.CaptionContent
       ref={ref}
       as="article"
       style={{ bottom: `${position}px` }}
     >
-      <Styled.CaptionHeader>{caption}</Styled.CaptionHeader>
+      <Styled.CaptionHeader as="div">
+        <ReactMarkdown
+          components={{ ...mdxComponents, p: Styled.CaptionHeader } as any}
+        >
+          {caption}
+        </ReactMarkdown>
+      </Styled.CaptionHeader>
       <Styled.CloseBtn onClick={toggle}>
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
-      <Styled.CaptionParagraph>{children}</Styled.CaptionParagraph>
+      {typeof children === "string" ? (
+        <Styled.CaptionParagraph as="div">
+          <ReactMarkdown
+            components={{ ...mdxComponents, p: Styled.CaptionParagraph } as any}
+          >
+            {children}
+          </ReactMarkdown>
+        </Styled.CaptionParagraph>
+      ) : (
+        <Styled.CaptionParagraph>
+          <MDXProvider components={mdxComponents}>{children}</MDXProvider>
+        </Styled.CaptionParagraph>
+      )}
     </Styled.CaptionContent>,
     document.body
   )
@@ -55,6 +79,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const { addImage } = useContext(ImagesContext)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLDivElement | null>(null)
+  const [wrapperOffset, setWrapperOffset] = useState(0)
   const { t } = useTranslation("common")
   const [inViewRef, isInView] = useInView({ threshold: 0.97 })
 
@@ -74,6 +99,13 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     return ref.current.offsetTop - 130
   }
 
+  const calculateWrapperOffset = () => {
+    if (!ref || !ref.current) return
+
+    const { offsetLeft } = ref.current
+    setWrapperOffset(-offsetLeft)
+  }
+
   const handleClick = () => {
     calculatePosition()
     setOpen(true)
@@ -83,6 +115,12 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     calculatePosition()
     addImage(image, calculateScrollPosition())
     inViewRef(ref.current)
+    calculateWrapperOffset()
+    window.addEventListener("resize", calculateWrapperOffset)
+
+    return () => {
+      window.removeEventListener("resize", calculateWrapperOffset)
+    }
   }, [ref])
 
   const getFixedPositions = () => {
@@ -101,14 +139,26 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
       ? { position: "fixed", ...getFixedPositions() }
       : { position: "absolute", left: "0px", right: "0px" }
 
+  const img = getImage(image) as IGatsbyImageData
+
+  const aspectRatio = `${img.width}/${img.height}`
+
   return (
     <Styled.ViewportConstraint as={motion.div} ref={ref}>
       <Styled.Absolute style={getStickyStyle()}>
-        <Styled.ImageWrapper>
-          <Styled.Image image={getImage(image) as IGatsbyImageData} alt="" />
+        <Styled.ImageWrapper
+          style={{ transform: `translateX(${wrapperOffset}px)` }}
+        >
+          <Styled.Image image={img} alt="" style={{ aspectRatio }} />
         </Styled.ImageWrapper>
         <Styled.Caption>
-          <Styled.CaptionText>{caption}</Styled.CaptionText>
+          <Styled.CaptionText as="div">
+            <ReactMarkdown
+              components={{ ...mdxComponents, p: Styled.CaptionText } as any}
+            >
+              {caption}
+            </ReactMarkdown>
+          </Styled.CaptionText>
           <Styled.ExpandCaptionBtn onClick={handleClick}>
             {t("expand")}
           </Styled.ExpandCaptionBtn>

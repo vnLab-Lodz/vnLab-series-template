@@ -3,23 +3,41 @@ import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
 
-export const LangButton = styled.button`
+export const LangButton = styled.button<{
+  inMenu?: boolean
+  compact?: boolean
+}>`
   background: none;
   border: none;
   cursor: pointer;
   text-align: start;
-  padding: ${({ theme: { spacing } }) => `${spacing.xs} ${spacing.xxs}`};
   position: relative;
+  padding: ${({ theme: { spacing }, inMenu }) =>
+    inMenu ? `${spacing.md} ${spacing.xxs}` : `${spacing.xs} ${spacing.xxs}`};
+
+  ${({ compact, theme: { spacing } }) =>
+    compact &&
+    css`
+      padding: 0px ${spacing.xxs};
+      margin-left: auto;
+    `};
 
   @media ${devices.tablet} {
     padding: ${({ theme: { spacing } }) => spacing.xxs};
     height: 100%;
     text-align: center;
   }
+
+  @media ${devices.desktop} {
+    padding: ${({ theme: { spacing } }) => spacing.xs};
+  }
 `
 
-export const LangButtonText = styled(atoms.p)<{ dark?: boolean }>`
-  ${({ dark, theme: { palette, typography } }) => css`
+export const LangButtonText = styled(atoms.p)<{
+  dark?: boolean
+  alwaysDark?: boolean
+}>`
+  ${({ dark, alwaysDark, theme: { palette, typography } }) => css`
     text-underline-offset: 10px;
     color: ${palette.white};
     text-transform: uppercase;
@@ -31,9 +49,14 @@ export const LangButtonText = styled(atoms.p)<{ dark?: boolean }>`
     css`
       color: ${palette.white};
 
-      @media ${devices.laptop} {
+      @media ${devices.tablet} {
         color: ${palette.black};
       }
+    `}
+
+    ${alwaysDark &&
+    css`
+      color: ${palette.black};
     `}
   `}
 `
@@ -48,6 +71,8 @@ export const LanguagePopUp = styled.div`
     padding: ${spacing.xxs};
     display: flex;
     flex-direction: column;
+    z-index: 8;
+    cursor: default;
   `}
 `
 
@@ -63,8 +88,8 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
     ${inactive === "true" &&
     css`
       pointer-events: none;
-      cursor: normal;
-      color: ${palette.dark};
+      cursor: default;
+      color: ${palette.medium};
     `};
   `}
 `

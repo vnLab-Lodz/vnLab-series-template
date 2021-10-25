@@ -4,7 +4,8 @@ import { devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 
 export const AnnotationTarget = styled.span`
-  font-family: ${({ theme: { typography } }) => typography.fonts.secondary};
+  font-family: inherit;
+  font-size: inherit;
 `
 
 export const AnnotationIndex = styled.span`
@@ -13,6 +14,7 @@ export const AnnotationIndex = styled.span`
     font-family: ${typography.fonts.secondary};
     vertical-align: super;
     cursor: pointer;
+    line-height: initial;
   `}
 `
 
@@ -28,6 +30,10 @@ export const AnnotationContent = styled(GridContainer)`
     position: absolute;
     left: 0px;
     right: 0px;
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
   `}
 `
 
@@ -73,4 +79,8 @@ export const CloseBtn = styled.button`
   @media ${devices.laptop} {
     grid-column: 24;
   }
+`
+
+export const InheritParagraph = styled.p`
+  all: inherit;
 `

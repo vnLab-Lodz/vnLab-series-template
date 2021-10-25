@@ -16,10 +16,15 @@ export const ViewportConstraint = styled.div`
   @media (max-height: 800px) {
     max-height: calc(100vh - 70px);
   }
+
+  @media ${devices.desktop} {
+    // align-items: center;
+  }
 `
 
 export const PanableGrid = styled(GridContainer)`
   touch-action: none;
+  grid-template-rows: max(85vh) max(15vh);
 `
 
 export const Slider = styled.div`
@@ -66,6 +71,8 @@ export const SliderImage = styled.div<{
       margin: 0px !important;
       position: absolute;
       cursor: default;
+      height: initial;
+      max-height: 100%;
     `}
 
   img {
@@ -157,6 +164,10 @@ export const Fullscreen = styled(GridContainer)`
     z-index: 4;
     grid-template-rows: auto 1fr auto;
     padding-bottom: ${spacing.sm};
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
   `}
 `
 
@@ -223,6 +234,7 @@ export const FullscreenSlider = styled(Slider)`
   grid-row: 1 / 3;
   position: relative;
   margin: ${({ theme }) => theme.spacing.xxs} 0px;
+  overflow: hidden;
 
   @media ${devices.tablet} {
     grid-column: 5 / -3;

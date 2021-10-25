@@ -6,7 +6,6 @@ import usePageContent from "src/hooks/usePageContent"
 import { ThemeContext } from "styled-components"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent } from "~util"
-import Layout from "../layout"
 import Annotations from "./menus/annotations"
 import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
@@ -14,12 +13,15 @@ import Illustrations from "./menus/illustrations"
 import { useLocalization } from "gatsby-theme-i18n"
 import { SINGLE_AUTHOR_MODE } from "~util/constatnts"
 import * as Styled from "./style"
+import useScrollDistance from "src/hooks/useScrollDistance"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
 
 interface Props {
   currentPath: string
+  noBibliography?: boolean
+  className?: string
 }
 
 enum MENU_STATE {
@@ -30,7 +32,11 @@ enum MENU_STATE {
   BIBLIOGRAPHY,
 }
 
-const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
+const ArticleMenu: React.FC<Props> = ({
+  currentPath,
+  noBibliography,
+  className,
+}) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
@@ -62,22 +68,21 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
     return elementRect.top + doc.scrollTop
   }
 
+  const onScrollEnd = useScrollDistance((distance, _, end) => {
+    if (end < calcNavPosition() + 300) return
+
+    if (distance <= -100) setIsHidden(false)
+    else if (distance > 0) setIsHidden(true)
+  })
+
   const onScroll = () => {
     const currentScrollPos = window.pageYOffset
-    if (!ref || !ref.current) return
-
     const navPosition = calcNavPosition()
 
-    currentScrollPos >= navPosition
-      ? setShouldStick(true)
-      : setShouldStick(false)
+    setShouldStick(currentScrollPos >= navPosition)
 
-    currentScrollPos >= navPosition + 300
-      ? setIsHidden(
-          scrollRef.current < currentScrollPos &&
-            menuState === MENU_STATE.CLOSED
-        )
-      : setIsHidden(false)
+    if (currentScrollPos < navPosition + 300) setIsHidden(false)
+    else if (scrollRef.current <= currentScrollPos) setIsHidden(true)
 
     scrollRef.current = currentScrollPos
   }
@@ -134,8 +139,10 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll)
+    window.addEventListener("scroll", onScrollEnd)
     return () => {
       window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("scroll", onScrollEnd)
     }
   }, [ref, menuState])
 
@@ -156,7 +163,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
   }, [menuState])
 
   return (
-    <Styled.ArticleMenuContainer ref={ref}>
+    <Styled.ArticleMenuContainer ref={ref} className={className}>
       <AnimatePresence initial={false} exitBeforeEnter>
         {!isHidden && (
           <Styled.StickyWrapper
@@ -166,8 +173,9 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
             animate={{ translateY: 0, opacity: 1 }}
             exit={{ translateY: -125, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
+            className={className}
           >
-            <Layout>
+            <Styled.Layout>
               <Styled.MenuNav
                 open={menuState !== MENU_STATE.CLOSED}
                 as={motion.nav}
@@ -187,12 +195,12 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
                   <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
                   <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
                 </Styled.Button>
-                {getBibliographyButton()}
+                {!noBibliography && getBibliographyButton()}
               </Styled.MenuNav>
-            </Layout>
+            </Styled.Layout>
             <AnimatePresence initial={false} exitBeforeEnter>
               {menuState !== MENU_STATE.CLOSED && (
-                <Styled.MenuContet
+                <Styled.MenuContent
                   initial={{ height: 0 }}
                   animate={{ height: getSupportedFitContent() }}
                   exit={{ height: 0 }}
@@ -203,7 +211,7 @@ const ArticleMenu: React.FC<Props> = ({ currentPath }) => {
                       {getMenuContent()}
                     </AnimatePresence>
                   </Styled.MenuLayout>
-                </Styled.MenuContet>
+                </Styled.MenuContent>
               )}
             </AnimatePresence>
           </Styled.StickyWrapper>

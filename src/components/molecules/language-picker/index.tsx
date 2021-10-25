@@ -11,6 +11,9 @@ interface Props {
   currentPath: string
   className?: string
   dark?: boolean
+  alwaysDark?: boolean
+  standalone?: boolean
+  compact?: boolean
 }
 
 function getLocalesString(config: Array<{ code: string }>) {
@@ -21,7 +24,14 @@ function getLocalesString(config: Array<{ code: string }>) {
   }, "")
 }
 
-const LanguagePicker: React.FC<Props> = ({ currentPath, className, dark }) => {
+const LanguagePicker: React.FC<Props> = ({
+  currentPath,
+  className,
+  dark,
+  alwaysDark,
+  standalone = false,
+  compact = false,
+}) => {
   const [langPickerOpen, setLangPickerOpen] = useState(false)
 
   const { config, locale } = useLocalization()
@@ -33,10 +43,14 @@ const LanguagePicker: React.FC<Props> = ({ currentPath, className, dark }) => {
 
   return (
     <Styled.LangButton
+      compact={compact}
+      inMenu={!standalone}
       className={className}
       onClick={() => setLangPickerOpen(prev => !prev)}
     >
-      <Styled.LangButtonText dark={dark}>{locales}</Styled.LangButtonText>
+      <Styled.LangButtonText dark={dark} alwaysDark={alwaysDark}>
+        {locales}
+      </Styled.LangButtonText>
       {langPickerOpen && (
         <Styled.LanguagePopUp>
           {languages.map((lang: Language, i) => (

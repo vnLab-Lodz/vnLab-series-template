@@ -7,6 +7,9 @@ import { ol } from "./ol"
 import { ul } from "./ul"
 import { button } from "./button"
 import { strong } from "./strong"
+import { em } from "./em"
+import { del } from "./del"
+import { a } from "./a"
 
 export default {
   title,
@@ -16,6 +19,9 @@ export default {
   p,
   ol,
   ul,
+  em,
   button,
   strong,
+  del,
+  a,
 }

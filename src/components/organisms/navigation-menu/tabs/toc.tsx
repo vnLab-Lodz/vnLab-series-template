@@ -5,6 +5,14 @@ import { getPartFromIndex } from "~util/indexes"
 import * as Styled from "../style"
 import { v4 as uuid } from "uuid"
 import { useTranslation } from "react-i18next"
+import { useLocalization } from "gatsby-theme-i18n"
+
+import sectionNamesJSON from "../../../../../meta/section_names.json"
+
+const sectionNames = sectionNamesJSON as unknown as Record<
+  string,
+  Record<string, string | boolean>
+>
 
 type GroupedPages = PublicationPage[][]
 
@@ -27,6 +35,7 @@ function groupPages(pages: PublicationPage[]): GroupedPages {
 const Part: React.FC = ({ children }) => <>{children}</>
 
 const TableOfContents: React.FC<Props> = ({ className, headless }) => {
+  const { locale } = useLocalization()
   const pages = usePublication()
   const groupedPages = groupPages(pages)
   const uid = uuid()
@@ -37,14 +46,22 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
       {!headless && (
         <Styled.TocHeader type="primary">{`${t("toc")}:`}</Styled.TocHeader>
       )}
-      {groupedPages.map((group, i) => (
-        <Part key={`toc-part__${uid}--${i}`}>
-          <Styled.Part type="primary">{`${t("part")} ${i + 1}`}</Styled.Part>
-          {group.map((page, j) => (
-            <TocElement key={`toc-element__${uid}--${j}`} page={page} />
-          ))}
-        </Part>
-      ))}
+      {groupedPages.map((group, i) => {
+        const index = i + 1
+        const sectionName: string | boolean =
+          sectionNames[locale]?.[index] ?? `${t("part")} ${index}`
+
+        return (
+          <Part key={`toc-part__${uid}--${i}`}>
+            {!!sectionName && (
+              <Styled.Part type="primary">{sectionName}</Styled.Part>
+            )}
+            {group.map((page, j) => (
+              <TocElement key={`toc-element__${uid}--${j}`} page={page} />
+            ))}
+          </Part>
+        )
+      })}
     </Styled.TocGrid>
   )
 }

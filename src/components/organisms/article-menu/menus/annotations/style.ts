@@ -14,3 +14,7 @@ export const AnnotationParagraph = styled(atoms.p)`
   cursor: pointer;
   grid-column: 2 / last-col;
 `
+
+export const InheritParagraph = styled.p`
+  all: inherit;
+`

@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
-import Layout from "../layout"
+import BaseLayout from "../layout"
 
 export const ArticleMenuContainer = styled.div`
   position: relative;
@@ -25,6 +25,12 @@ export const StickyWrapper = styled.div<{ sticky?: boolean }>`
         top: 0px;
       }
     `}
+`
+
+export const Layout = styled(BaseLayout)`
+  @media ${devices.desktop} {
+    justify-content: center;
+  }
 `
 
 export const MenuNav = styled.nav<{ open: boolean }>`
@@ -70,7 +76,7 @@ export const Button = styled.button`
   `}
 `
 
-export const MenuContet = styled(motion.div)`
+export const MenuContent = styled(motion.div)`
   ${({ theme: { palette } }) => css`
     position: absolute;
     left: 0px;

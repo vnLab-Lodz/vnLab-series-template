@@ -8,5 +8,23 @@ export default function useHypothesis() {
     setHypothesis(el)
   }, [])
 
-  return hypothesis
+  const isHidden = () => {
+    if (!!!hypothesis) return true
+
+    return hypothesis.classList.contains("invisible")
+  }
+
+  const hideHypothesis = () => {
+    if (!!!hypothesis || isHidden()) return
+
+    hypothesis.classList.add("invisible")
+  }
+
+  const showHypothesis = () => {
+    if (!!!hypothesis || !isHidden()) return
+
+    hypothesis.classList.remove("invisible")
+  }
+
+  return { hypothesis, showHypothesis, hideHypothesis, isHidden }
 }

@@ -23,8 +23,10 @@ import Carousel from "~components/organisms/carousel"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
+import { devices } from "~styles/breakpoints"
+import HypothesisBtn from "~components/molecules/hypothesis-btn"
 
-const addClass =
+export const addClass =
   (
     Component: React.FC<{ className: string }> | StyledComponent<any, any>,
     className: string
@@ -45,6 +47,9 @@ export const mdxComponents = {
   ul: atoms.ul,
   ol: atoms.ol,
   strong: atoms.strong,
+  em: atoms.em,
+  del: atoms.del,
+  a: atoms.a,
   h1: addClass(atoms.h1, "mdx-heading"),
   h2: addClass(atoms.h2, "mdx-heading"),
   h3: addClass(atoms.h3, "mdx-heading"),
@@ -64,6 +69,11 @@ interface Data {
 
 const StyledLayout = styled(Layout)`
   background: ${({ theme: { palette } }) => palette.light};
+
+  @media ${devices.desktop} {
+    grid-template-columns: repeat(32, max(3.125rem));
+    justify-content: center;
+  }
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
@@ -77,6 +87,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
+      <HypothesisBtn />
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>

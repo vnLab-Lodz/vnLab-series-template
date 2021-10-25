@@ -9,6 +9,8 @@ import React, { useEffect, useLayoutEffect, useContext } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
 import useHypothesis from "src/hooks/useHypothesis"
+import ReactMarkdown from "react-markdown"
+import { mdxComponents } from "src/templates/chapter"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -37,7 +39,7 @@ const FullscreenPortal: React.FC<Props> = ({
   previousImage,
   exitFullscreen,
 }) => {
-  const hypothesis = useHypothesis()
+  const { hypothesis, hideHypothesis } = useHypothesis()
   const { setNavMode } = useContext(NavMenuContext)
 
   useLayoutEffect(() => {
@@ -50,14 +52,21 @@ const FullscreenPortal: React.FC<Props> = ({
   }, [])
 
   useEffect(() => {
-    hypothesis?.classList.add("invisible")
+    hideHypothesis()
+
+    const btn = document.getElementById("hypothesis-btn")
+    btn?.classList.add("invisible")
 
     return () => {
-      hypothesis?.classList.remove("invisible")
+      btn?.classList.remove("invisible")
     }
   }, [hypothesis])
 
   const uid = `fullscreen-carousel-${carouselUid}__image--${currentImage}`
+
+  const image = getImage(images[currentImage]) as IGatsbyImageData
+
+  const aspectRatio = `${image.width}/${image.height}`
 
   return ReactDOM.createPortal(
     <Styled.Fullscreen
@@ -81,10 +90,12 @@ const FullscreenPortal: React.FC<Props> = ({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            style={{ aspectRatio }}
           >
             <GatsbyImage
-              image={getImage(images[currentImage]) as IGatsbyImageData}
+              image={image}
               alt={`Carousel image ${currentImage}`}
+              style={{ aspectRatio }}
             />
           </Styled.SliderImage>
         </AnimatePresence>
@@ -96,7 +107,11 @@ const FullscreenPortal: React.FC<Props> = ({
         {currentImage + 1}/{images.length}
       </Styled.FullscreenCount>
       <Styled.FullscreenCaption>
-        {captions[currentImage]}
+        <ReactMarkdown
+          components={{ ...mdxComponents, p: Styled.FullscreenCaption } as any}
+        >
+          {captions[currentImage]}
+        </ReactMarkdown>
       </Styled.FullscreenCaption>
     </Styled.Fullscreen>,
     document.body

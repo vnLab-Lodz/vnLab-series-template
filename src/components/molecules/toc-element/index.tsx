@@ -2,8 +2,9 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useLocalization } from "gatsby-theme-i18n"
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
+import ReactMarkdown from "react-markdown"
 import { PublicationPage } from "src/hooks/usePublication"
-import atoms from "~components/atoms"
+import { mdxComponents } from "src/templates/chapter"
 import { getChapterFromIndex, getSupportedFitContent } from "~util"
 import Arrow from "../arrow"
 import * as Styled from "./style"
@@ -24,30 +25,38 @@ const TocElement: React.FC<Props> = ({ page }) => {
       <Styled.ArticleNumber>
         {getChapterFromIndex(page.index ?? 0)}
       </Styled.ArticleNumber>
-      <Styled.ArticlTitle to={page.path} language={locale}>
-        <atoms.p>{page.title}</atoms.p>
-      </Styled.ArticlTitle>
+      <Styled.ArticleTitle to={page.path} language={locale}>
+        <ReactMarkdown components={mdxComponents as any}>
+          {page.title}
+        </ReactMarkdown>
+      </Styled.ArticleTitle>
       <Styled.ArticleAuthor type="primary">{page.author}</Styled.ArticleAuthor>
-      <Styled.SummaryButton onClick={toggleSummary}>
-        <span>{t("expand_summary")}</span>
-        <Arrow inverted={isSummaryExpanded} />
-      </Styled.SummaryButton>
-      <AnimatePresence initial={false} exitBeforeEnter>
-        {isSummaryExpanded && (
-          <Styled.Summary
-            as={motion.p}
-            initial={{ opacity: 0, height: 0 }}
-            animate={{
-              opacity: 1,
-              height: getSupportedFitContent(),
-            }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          >
-            {page.summary}
-          </Styled.Summary>
-        )}
-      </AnimatePresence>
+      {page.summary && (
+        <>
+          <Styled.SummaryButton onClick={toggleSummary}>
+            <span>{t("expand_summary")}</span>
+            <Arrow inverted={isSummaryExpanded} />
+          </Styled.SummaryButton>
+          <AnimatePresence initial={false} exitBeforeEnter>
+            {isSummaryExpanded && (
+              <Styled.Summary
+                as={motion.p}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{
+                  opacity: 1,
+                  height: getSupportedFitContent(),
+                }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                <ReactMarkdown components={mdxComponents as any}>
+                  {page.summary}
+                </ReactMarkdown>
+              </Styled.Summary>
+            )}
+          </AnimatePresence>
+        </>
+      )}
       <Styled.Divider />
     </Styled.TocContainer>
   )

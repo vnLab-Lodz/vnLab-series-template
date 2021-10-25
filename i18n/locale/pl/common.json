@@ -1,13 +1,13 @@
 {
-  "title": "Nowe narracje wizualne",
+  "title": "Archiwum jako projekt",
   "go-to": "Nawiguj do {{number}} strony",
   "go-back": "Wróć do {{page}}",
   "edition": "Wydanie {{vol}}",
   "changes": "Co się zmieniło?",
   "content": "Treść",
   "illustrations": "Ilustracje",
-  "annotattions": "Przypisy",
-  "bibligraphy": "Bibliografia",
+  "annotations": "Przypisy",
+  "bibliography": "Bibliografia",
   "introduction": "Wprowadzenie",
   "expand": "Rozwiń",
   "previous_article": "Poprzedni artykuł",
@@ -18,5 +18,6 @@
   "search_titles": "szukaj w tytułach",
   "search_everywhere": "szukaj wszędzie",
   "toc": "spis treści",
-  "part": "Część"
+  "part": "Część",
+  "hypothesis_btn": "adnotuj, komentuj"
 }
