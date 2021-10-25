@@ -1,15 +1,14 @@
-import React, { useContext } from "react"
+import React from "react"
 import { GatsbyImage, IGatsbyImageData, getImage } from "gatsby-plugin-image"
 import * as Styled from "./style"
-import { ImagesContext } from "src/context/illustrations-context"
+import { Image } from "src/context/illustrations-context"
 
 interface Props {
   closeMenu: () => void
+  images: Image[]
 }
 
-const Illustrations: React.FC<Props> = ({ closeMenu }) => {
-  const { images } = useContext(ImagesContext)
-
+const Illustrations: React.FC<Props> = ({ closeMenu, images }) => {
   const scrollToImage = (position: number) => {
     closeMenu()
     window.scrollTo({ top: position, behavior: "smooth" })
