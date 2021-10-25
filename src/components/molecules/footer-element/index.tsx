@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { useInView } from "react-intersection-observer"
 import atoms from "~components/atoms"
 import { getSupportedFitContent } from "~util"
 import Arrow from "../arrow"
@@ -28,11 +29,18 @@ const FooterElement: React.FC<Props> = ({
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { t } = useTranslation("common")
 
+  const [inViewRef, isInView] = useInView({ threshold: 0.2 })
+
   const toggleSummary = () => setIsSummaryExpanded(prev => !prev)
+
+  useEffect(() => {
+    if (!isInView) setIsSummaryExpanded(false)
+  }, [isInView])
 
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
       <Styled.ElementWrapper
+        ref={inViewRef}
         key={id}
         as={motion.article}
         initial={{ opacity: 0 }}
