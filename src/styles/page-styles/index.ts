@@ -192,10 +192,9 @@ export const BiogramLink = styled(LocalizedLink)`
 
 export const WrappedEdition = styled(Edition)`
   margin-top: ${({ theme }) => theme.spacing.xl};
-  grid-template-columns: repeat(10, 1fr);
 
   filter: brightness(10);
-  grid-column: 2 / 11;
+  grid-column: 2 / last-col;
 
   @media ${devices.tablet} {
     filter: brightness(10);

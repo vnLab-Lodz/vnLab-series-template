@@ -1,27 +1,15 @@
 import styled from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
-import { InnerGrid } from "~styles/grid"
 
-export const EdtitionWrapper = styled(InnerGrid)`
+export const EditionWrapper = styled.div`
   margin-bottom: ${({ theme: { spacing } }) => spacing.sm};
+  display: flex;
+  align-items: center;
 `
 
 export const Text = styled(atoms.p)`
-  grid-row: 1;
-  grid-column: 1 / 10;
-
-  @media ${devices.tablet} {
-    grid-column: 1 / 6;
-  }
-
-  @media ${devices.laptop} {
-    grid-column: 1 / 4;
-  }
-
-  @media ${devices.laptopL} {
-    grid-column: 1 / 3;
-  }
+  margin-right: ${({ theme }) => theme.spacing.md};
 `
 
 export const Button = styled(atoms.button)`
@@ -31,18 +19,4 @@ export const Button = styled(atoms.button)`
   text-transform: none;
   vertical-align: middle;
   width: fit-content;
-  grid-row: 1;
-  grid-column: 10 / last-col;
-
-  @media ${devices.tablet} {
-    grid-column: 6 / last-col;
-  }
-
-  @media ${devices.laptop} {
-    grid-column: 4 / last-col;
-  }
-
-  @media ${devices.laptopL} {
-    grid-column: 3 / last-col;
-  }
 `
