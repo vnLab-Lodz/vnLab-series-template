@@ -33,20 +33,6 @@ export const FooterContainer = styled.footer`
     grid-template-columns: repeat(30, 1fr);
     grid-column: 3 / last-col;
   }
-
-  &::before {
-    display: none;
-    content: "";
-    position: absolute;
-    border-left: ${({ theme }) => `solid 1px ${theme.palette.dark}`};
-    top: 0px;
-    bottom: 0px;
-    left: 50%;
-
-    @media ${devices.laptop} {
-      display: block;
-    }
-  }
 `
 
 export const ArrowButton = styled.button<{ side: "left" | "right" }>`
@@ -57,9 +43,17 @@ export const ArrowButton = styled.button<{ side: "left" | "right" }>`
     grid-column: ${side === "left" ? "1 / 3" : "-3 / last-col"};
     grid-row: 1;
     background: none;
-    border-top: none;
-    border-bottom: none;
-    border-right: ${side === "left" ? `solid 1px ${palette.dark}` : "none"};
-    border-left: ${side === "right" ? `solid 1px ${palette.dark}` : "none"};
+    border: none;
+    border-radius: 0px;
+    outline: 1px solid ${palette.dark};
   `}
+`
+export const FooterPages = styled.div`
+  display: flex;
+`
+
+export const FooterPagesContainer = styled.div`
+  grid-row: 1;
+  grid-column: 3 / -3;
+  overflow: hidden;
 `

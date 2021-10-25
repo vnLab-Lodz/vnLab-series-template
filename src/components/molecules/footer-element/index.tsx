@@ -3,12 +3,10 @@ import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import atoms from "~components/atoms"
 import { getSupportedFitContent } from "~util"
-import { getChapterFromIndex } from "~util/indexes"
 import Arrow from "../arrow"
 import * as Styled from "./style"
 
 interface Props {
-  variant: "left" | "right"
   id: string
   header: string
   title: string
@@ -19,7 +17,6 @@ interface Props {
 }
 
 const FooterElement: React.FC<Props> = ({
-  variant,
   header,
   author,
   summary,
@@ -38,15 +35,12 @@ const FooterElement: React.FC<Props> = ({
       <Styled.ElementWrapper
         key={id}
         as={motion.article}
-        variant={variant}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
         <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
-        <Styled.ArticleNumber>
-          {getChapterFromIndex(number ?? 0)}
-        </Styled.ArticleNumber>
+        <Styled.ArticleNumber>{number}</Styled.ArticleNumber>
         <Styled.ArticlTitle to={path}>
           <atoms.p>{title}</atoms.p>
         </Styled.ArticlTitle>

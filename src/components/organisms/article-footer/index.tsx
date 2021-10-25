@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useLayoutEffect } from "react"
 import { useTranslation } from "react-i18next"
 import usePublication, { PublicationPage } from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
 import { getChapterNumberFromIndex, getCurrentPathIndex } from "~util"
+import { motion, useMotionTemplate, useSpring } from "framer-motion"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -15,10 +16,6 @@ interface Props {
   currentPath: string
 }
 
-function getIndex(page: PublicationPage, fallback: number) {
-  return getChapterNumberFromIndex(page.index ?? Number(`0.${fallback + 1}`))
-}
-
 const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
   const pages = usePublication()
   const { t } = useTranslation("common")
@@ -26,56 +23,20 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
   const currentPathIndex = getCurrentPathIndex(pages, currentPath)
 
   const [index, setIndex] = useState(currentPathIndex)
+  const translationFactor = useSpring(currentPathIndex)
+
+  const translateX = useMotionTemplate`calc(${translationFactor} * -50%)`
+
   const [layoutMode, setLayoutMode] = useState<"base" | "compact">("base")
+
+  useEffect(() => {
+    translationFactor.set(index)
+  }, [index])
 
   const rewindIndex = () => setIndex(prev => (prev === 0 ? prev : prev - 1))
 
   const forwardIndex = () =>
-    setIndex(prev => {
-      if (prev === pages.length - 2) return prev
-
-      if ([0, 1].includes(prev) && layoutMode === "base") return 2
-
-      return prev + 1
-    })
-
-  const getFooterLayout = () => {
-    const footerPages = pages.filter((_, i) => i !== currentPathIndex)
-    let prevIndex: number = index - 1
-    let nextIndex: number = index
-
-    if (prevIndex < 0) {
-      prevIndex = 0
-      nextIndex = layoutMode === "base" ? 1 : 0
-    }
-
-    if (nextIndex > footerPages.length - 1) {
-      nextIndex = footerPages.length - 1
-      prevIndex = footerPages.length - 2
-    }
-
-    const leftPage = footerPages[prevIndex]
-    const rightPage = footerPages[nextIndex]
-    const leftPageChapterIndex = getIndex(leftPage, prevIndex)
-    const rightPageChapterIndex = getIndex(rightPage, nextIndex)
-
-    return {
-      left: {
-        ...leftPage,
-        header:
-          leftPageChapterIndex < currentPathIndex + 1
-            ? t("previous_article")
-            : t("next_article"),
-      },
-      right: {
-        ...rightPage,
-        header:
-          rightPageChapterIndex > currentPathIndex + 1
-            ? t("next_article")
-            : t("previous_article"),
-      },
-    }
-  }
+    setIndex(prev => (pages.length - 3 === prev ? prev : prev + 1))
 
   const determineLayoutMode = () => {
     const { clientWidth } = document.documentElement
@@ -91,8 +52,6 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
     }
   }, [])
 
-  const { left, right } = getFooterLayout()
-
   return (
     <Styled.FooterSpacer>
       <Styled.FooterGrid>
@@ -104,26 +63,31 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
               alt="Left arrow"
             />
           </Styled.ArrowButton>
-          <FooterElement
-            id={left.id}
-            number={left.index}
-            header={left.header}
-            title={left.title}
-            author={left.author}
-            summary={left.summary}
-            path={left.path}
-            variant="left"
-          />
-          <FooterElement
-            id={right.id}
-            number={right.index}
-            header={right.header}
-            title={right.title}
-            author={right.author}
-            summary={right.summary}
-            path={right.path}
-            variant="right"
-          />
+          <Styled.FooterPagesContainer>
+            <Styled.FooterPages as={motion.div} style={{ translateX }}>
+              {pages.map((page, i) => {
+                if (i === currentPathIndex) return <></>
+
+                return (
+                  <FooterElement
+                    key={page.id}
+                    id={page.id}
+                    number={page.index}
+                    header={
+                      i > currentPathIndex
+                        ? t("next_article")
+                        : t("previous_article")
+                    }
+                    title={page.title}
+                    author={page.author}
+                    summary={page.summary}
+                    path={page.path}
+                  />
+                )
+              })}
+            </Styled.FooterPages>
+          </Styled.FooterPagesContainer>
+
           <Styled.ArrowButton side="right" onClick={forwardIndex}>
             <img
               className="sizeable-icon--small"
