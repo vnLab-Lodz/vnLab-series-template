@@ -126,8 +126,10 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           </Styled.Author>
           <Styled.WrappedEdition />
           <Styled.TocButton onClick={scorllToToC}>
-            <Styled.TocBtnText>{t("home:toc")}</Styled.TocBtnText>
-            <Styled.ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
+            <Styled.TocBtnContent>
+              <Styled.TocBtnText>{t("home:toc")}</Styled.TocBtnText>
+              <Styled.ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
+            </Styled.TocBtnContent>
           </Styled.TocButton>
         </Styled.ContentWrapper>
         <Styled.TocWrapper ref={ref}>

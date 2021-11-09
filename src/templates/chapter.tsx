@@ -18,13 +18,13 @@ import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
 import ArticleFooter from "~components/organisms/article-footer"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
-import { isUndefined } from "~util"
 import Carousel from "~components/organisms/carousel"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
+import { MENUS } from "~types"
 
 export const addClass =
   (
@@ -63,6 +63,7 @@ interface Data {
       title: string
       embeddedImagesLocal: ImageDataLike[]
       headerImage?: ImageDataLike
+      menus?: MENUS[]
     }
   }
 }
@@ -77,10 +78,10 @@ const StyledLayout = styled(Layout)`
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
-  const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
+  const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
 
   const getInitialImages = (): Image[] => {
-    return !isUndefined(headerImage)
+    return !!headerImage
       ? [{ imageData: headerImage as IGatsbyImageData, position: 0 }]
       : []
   }
@@ -92,7 +93,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
-          <ArticleMenu currentPath={location.pathname} />
+          <ArticleMenu currentPath={location.pathname} menus={menus} />
           <StyledLayout className="mdx-section">
             <MDXProvider components={mdxComponents}>
               <SeoMeta title={title} />
@@ -121,6 +122,7 @@ export const query = graphql`
         author
         index
         summary
+        menus
         headerImage {
           childImageSharp {
             gatsbyImageData(layout: FULL_WIDTH)

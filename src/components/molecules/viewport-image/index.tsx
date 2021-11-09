@@ -38,8 +38,6 @@ const CaptionPortal: React.FC<PortalProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
-  console.log(typeof children)
-
   return ReactDOM.createPortal(
     <Styled.CaptionContent
       ref={ref}

@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react"
 
-interface Annotation {
+export interface Annotation {
   target: string
   content: any
   index: number

@@ -8,7 +8,6 @@ import styled from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
-import { isUndefined } from "~util"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import ImagesProvider, { Image } from "src/context/illustrations-context"
@@ -47,7 +46,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
 
   const getInitialImages = (): Image[] => {
-    return !isUndefined(headerImage)
+    return !!headerImage
       ? [{ imageData: headerImage as IGatsbyImageData, position: 0 }]
       : []
   }

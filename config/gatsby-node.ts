@@ -140,6 +140,13 @@ export const createSchemaCustomization = ({
       embeddedImagesLocal: [File] @fileByRelativePath
       meta: Boolean
       locale: String
+      menus: [MENUS]
+    }
+    enum MENUS {
+      CONTENT
+      ILLUSTRATIONS
+      FOOTNOTES
+      BIBLIOGRAPHY
     }
     `)
 }

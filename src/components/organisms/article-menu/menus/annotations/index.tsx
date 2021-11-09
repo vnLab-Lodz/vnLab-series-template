@@ -1,9 +1,8 @@
 import { MDXProvider } from "@mdx-js/react"
 import React from "react"
-import { useContext } from "react"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
-import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
+import { Annotation as AnnotationType } from "~components/molecules/annotation/annotation-context"
 import * as Styled from "./style"
 
 const Annotation: React.FC<{
@@ -35,22 +34,21 @@ const Annotation: React.FC<{
   )
 }
 
-const Annotations: React.FC<{ closeMenu: () => void }> = ({ closeMenu }) => {
-  const { annotations } = useContext(AnnotationContext)
-
-  return (
-    <Styled.AnnotationsGrid>
-      {annotations.map(({ index, content, position }) => (
-        <Annotation
-          key={`inmenu-annotation_${index}`}
-          index={index}
-          content={content}
-          position={position}
-          closeMenu={closeMenu}
-        />
-      ))}
-    </Styled.AnnotationsGrid>
-  )
-}
+const Annotations: React.FC<{
+  closeMenu: () => void
+  annotations: AnnotationType[]
+}> = ({ closeMenu, annotations }) => (
+  <Styled.AnnotationsGrid>
+    {annotations.map(({ index, content, position }) => (
+      <Annotation
+        key={`inmenu-annotation_${index}`}
+        index={index}
+        content={content}
+        position={position}
+        closeMenu={closeMenu}
+      />
+    ))}
+  </Styled.AnnotationsGrid>
+)
 
 export default Annotations

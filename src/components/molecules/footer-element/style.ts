@@ -3,36 +3,24 @@ import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
 
-export const ElementWrapper = styled.article<{
-  variant: "left" | "right"
-}>`
-  ${({ variant, theme: { spacing } }) => css`
-    padding: ${spacing.md} 0px;
+export const ElementWrapper = styled.article`
+  flex: 1;
 
-    ${variant === "right" &&
-    css`
-      display: block;
-      grid-column: 4 / -4;
+  ${({ theme: { spacing, palette } }) => css`
+    padding: ${spacing.md};
+    outline: 1px solid ${palette.dark};
+    margin-left: 1px;
 
-      @media ${devices.tablet} {
-        grid-column: 6 / 25;
-      }
+    min-width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
+    width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
+    max-width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
 
-      @media ${devices.laptop} {
-        grid-column: 18 / 27;
-      }
-    `}
-
-    ${variant === "left" &&
-    css`
-      display: none;
-
-      @media ${devices.laptop} {
-        display: block;
-        grid-column: 5 / 14;
-      }
-    `}
-  `}
+    @media ${devices.laptop} {
+      min-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+      width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+      max-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+    }
+  `};
 `
 
 export const VariantHeader = styled(atoms.h3)`
@@ -45,7 +33,7 @@ export const VariantHeader = styled(atoms.h3)`
   `}
 `
 
-export const ArticlTitle = styled(LocalizedLink)`
+export const ArticleTitle = styled(LocalizedLink)`
   text-decoration: none;
 `
 
