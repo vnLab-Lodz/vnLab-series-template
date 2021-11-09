@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ChangeEventHandler } from "react"
 import * as Styled from "./style"
 import { useTranslation } from "react-i18next"
 
@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next"
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
 
 interface Props {
-  setQuery: React.Dispatch<React.SetStateAction<string>>
-  onSubmit: () => void
+  setQuery: (query: string) => void
+  onSubmit?: () => void
 }
 
 const SearchInput: React.FC<Props> = ({ setQuery, onSubmit }) => {
@@ -17,7 +17,7 @@ const SearchInput: React.FC<Props> = ({ setQuery, onSubmit }) => {
     <Styled.Form
       onSubmit={e => {
         e.preventDefault()
-        onSubmit()
+        onSubmit && onSubmit()
       }}
     >
       <Styled.Input
