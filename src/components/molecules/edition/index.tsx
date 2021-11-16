@@ -10,10 +10,10 @@ const Edition: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation("common")
 
   return (
-    <Styled.EdtitionWrapper className={className}>
+    <Styled.EditionWrapper className={className}>
       <Styled.Text>{t("edition", { vol: 1 })}</Styled.Text>
       <Styled.Button>{t("changes")}</Styled.Button>
-    </Styled.EdtitionWrapper>
+    </Styled.EditionWrapper>
   )
 }
 

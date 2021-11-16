@@ -5,15 +5,19 @@ import { useTranslation } from "react-i18next"
 import usePageContent from "src/hooks/usePageContent"
 import { ThemeContext } from "styled-components"
 import Arrow from "~components/molecules/arrow"
-import { getSupportedFitContent } from "~util"
+import { getSupportedFitContent, isUndefined } from "~util"
 import Annotations from "./menus/annotations"
 import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
 import Illustrations from "./menus/illustrations"
 import { useLocalization } from "gatsby-theme-i18n"
-import { SINGLE_AUTHOR_MODE } from "~util/constatnts"
+import { SINGLE_AUTHOR_MODE } from "~util/constants"
 import * as Styled from "./style"
 import useScrollDistance from "src/hooks/useScrollDistance"
+import { MENUS } from "~types"
+import useBibliography from "src/hooks/useBibliography"
+import { ImagesContext } from "src/context/illustrations-context"
+import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
@@ -22,6 +26,7 @@ interface Props {
   currentPath: string
   noBibliography?: boolean
   className?: string
+  menus?: MENUS[]
 }
 
 enum MENU_STATE {
@@ -32,32 +37,54 @@ enum MENU_STATE {
   BIBLIOGRAPHY,
 }
 
+const BibliographyButton: React.FC<{
+  menuState: MENU_STATE
+  setState: (value: MENU_STATE) => void
+}> = ({ menuState, setState }) => {
+  const { t } = useTranslation("common")
+  const { locale } = useLocalization()
+
+  return SINGLE_AUTHOR_MODE ? (
+    <Styled.BibliographyLink language={locale} to="/bibliography">
+      <Styled.Button onClick={() => {}}>
+        <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
+      </Styled.Button>
+    </Styled.BibliographyLink>
+  ) : (
+    <Styled.Button onClick={() => setState(MENU_STATE.BIBLIOGRAPHY)}>
+      <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
+      <Arrow inverted={menuState === MENU_STATE.BIBLIOGRAPHY} />
+    </Styled.Button>
+  )
+}
+
 const ArticleMenu: React.FC<Props> = ({
   currentPath,
   noBibliography,
   className,
+  menus,
 }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
-  const { locale } = useLocalization()
 
   const scrollRef = useRef<number>(0)
   const ref = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    scrollRef.current = window.pageYOffset
-  }, [])
 
   const { palette } = useContext(ThemeContext)
   const { t } = useTranslation("common")
   const controls = useAnimation()
 
   const pageContent = usePageContent()
+  const bibliography = useBibliography(currentPath)
+  const { images } = useContext(ImagesContext)
+  const { annotations } = useContext(AnnotationContext)
 
   const setState = (value: MENU_STATE) => {
     setMenuState(prev => (prev === value ? MENU_STATE.CLOSED : value))
   }
+
+  const closeMenu = () => setState(MENU_STATE.CLOSED)
 
   const calcNavPosition = () => {
     if (!ref || !ref.current) return Infinity
@@ -87,8 +114,6 @@ const ArticleMenu: React.FC<Props> = ({
     scrollRef.current = currentScrollPos
   }
 
-  const closeMenu = () => setState(MENU_STATE.CLOSED)
-
   const getMenuContent = () => {
     let content = <></>
 
@@ -97,13 +122,15 @@ const ArticleMenu: React.FC<Props> = ({
         content = <Content contents={pageContent} closeMenu={closeMenu} />
         break
       case MENU_STATE.ILLUSTRATIONS:
-        content = <Illustrations closeMenu={closeMenu} />
+        content = <Illustrations images={images} closeMenu={closeMenu} />
         break
       case MENU_STATE.ANNOTATIONS:
-        content = <Annotations closeMenu={closeMenu} />
+        content = (
+          <Annotations annotations={annotations} closeMenu={closeMenu} />
+        )
         break
       case MENU_STATE.BIBLIOGRAPHY:
-        content = <Bibliography currentPath={currentPath} />
+        content = <Bibliography bibliography={bibliography} />
         break
       default:
         break
@@ -122,20 +149,9 @@ const ArticleMenu: React.FC<Props> = ({
     )
   }
 
-  const getBibliographyButton = () => {
-    return SINGLE_AUTHOR_MODE ? (
-      <Styled.BibliographyLink language={locale} to="/bibliography">
-        <Styled.Button onClick={() => {}}>
-          <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
-        </Styled.Button>
-      </Styled.BibliographyLink>
-    ) : (
-      <Styled.Button onClick={() => setState(MENU_STATE.BIBLIOGRAPHY)}>
-        <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
-        <Arrow inverted={menuState === MENU_STATE.BIBLIOGRAPHY} />
-      </Styled.Button>
-    )
-  }
+  useEffect(() => {
+    scrollRef.current = window.pageYOffset
+  }, [])
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll)
@@ -162,6 +178,41 @@ const ArticleMenu: React.FC<Props> = ({
     }
   }, [menuState])
 
+  const shouldRenderMenu = (
+    menu: MENUS,
+    resolver?: (value: boolean) => boolean
+  ): boolean => {
+    const value = !!!menus ? true : menus.includes(menu)
+    if (!!!resolver) return value
+
+    return resolver(value)
+  }
+
+  const shouldRenderContent = shouldRenderMenu(MENUS.CONTENT, value =>
+    !!!menus ? pageContent.length !== 0 : value
+  )
+
+  const shouldRenderIllustrations = shouldRenderMenu(
+    MENUS.ILLUSTRATIONS,
+    value => (!!!menus ? images.length !== 0 : value)
+  )
+
+  const shouldRenderFootnotes = shouldRenderMenu(MENUS.FOOTNOTES, value =>
+    !!!menus ? annotations.length !== 0 : value
+  )
+
+  const shouldRenderBibliography = shouldRenderMenu(MENUS.BIBLIOGRAPHY, value =>
+    !!!menus ? !noBibliography && !isUndefined(bibliography) : value
+  )
+
+  if (
+    !shouldRenderContent &&
+    !shouldRenderIllustrations &&
+    !shouldRenderFootnotes &&
+    !shouldRenderBibliography
+  )
+    return <></>
+
   return (
     <Styled.ArticleMenuContainer ref={ref} className={className}>
       <AnimatePresence initial={false} exitBeforeEnter>
@@ -181,21 +232,34 @@ const ArticleMenu: React.FC<Props> = ({
                 as={motion.nav}
                 animate={controls}
               >
-                <Styled.Button onClick={() => setState(MENU_STATE.CONTENT)}>
-                  <Styled.ButtonText>{t("content")}</Styled.ButtonText>{" "}
-                  <Arrow inverted={menuState === MENU_STATE.CONTENT} />
-                </Styled.Button>
-                <Styled.Button
-                  onClick={() => setState(MENU_STATE.ILLUSTRATIONS)}
-                >
-                  <Styled.ButtonText>{t("illustrations")}</Styled.ButtonText>{" "}
-                  <Arrow inverted={menuState === MENU_STATE.ILLUSTRATIONS} />
-                </Styled.Button>
-                <Styled.Button onClick={() => setState(MENU_STATE.ANNOTATIONS)}>
-                  <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
-                  <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
-                </Styled.Button>
-                {!noBibliography && getBibliographyButton()}
+                {shouldRenderContent && (
+                  <Styled.Button onClick={() => setState(MENU_STATE.CONTENT)}>
+                    <Styled.ButtonText>{t("content")}</Styled.ButtonText>{" "}
+                    <Arrow inverted={menuState === MENU_STATE.CONTENT} />
+                  </Styled.Button>
+                )}
+                {shouldRenderIllustrations && (
+                  <Styled.Button
+                    onClick={() => setState(MENU_STATE.ILLUSTRATIONS)}
+                  >
+                    <Styled.ButtonText>{t("illustrations")}</Styled.ButtonText>{" "}
+                    <Arrow inverted={menuState === MENU_STATE.ILLUSTRATIONS} />
+                  </Styled.Button>
+                )}
+                {shouldRenderFootnotes && (
+                  <Styled.Button
+                    onClick={() => setState(MENU_STATE.ANNOTATIONS)}
+                  >
+                    <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
+                    <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
+                  </Styled.Button>
+                )}
+                {shouldRenderBibliography && (
+                  <BibliographyButton
+                    menuState={menuState}
+                    setState={setState}
+                  />
+                )}
               </Styled.MenuNav>
             </Styled.Layout>
             <AnimatePresence initial={false} exitBeforeEnter>

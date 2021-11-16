@@ -29,7 +29,7 @@ export const ArticleTitle = styled(LocalizedLink)`
 
 export const ArticleNumber = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
-    align-self: center;
+    padding-top: 0.35rem;
     grid-row: 1;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};

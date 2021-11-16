@@ -192,10 +192,9 @@ export const BiogramLink = styled(LocalizedLink)`
 
 export const WrappedEdition = styled(Edition)`
   margin-top: ${({ theme }) => theme.spacing.xl};
-  grid-template-columns: repeat(10, 1fr);
 
   filter: brightness(10);
-  grid-column: 2 / 11;
+  grid-column: 2 / last-col;
 
   @media ${devices.tablet} {
     filter: brightness(10);
@@ -250,6 +249,29 @@ export const TocButton = styled.button`
   `}
 `
 
+export const TocBtnContent = styled.div`
+  ${({ theme: { typography, palette } }) => css`
+    font-family: ${typography.fonts.primary};
+    font-size: ${typography.sm};
+    color: ${palette.white};
+    text-transform: uppercase;
+    text-align: left;
+
+    display: flex;
+    align-items: center;
+
+    grid-column: 2 / -2;
+
+    @media ${devices.tablet} {
+      grid-column: 7 / -2;
+    }
+
+    @media ${devices.laptop} {
+      grid-column: 5 / -2;
+    }
+  `}
+`
+
 export const TocBtnText = styled(atoms.p)`
   ${({ theme: { typography, palette } }) => css`
     font-family: ${typography.fonts.primary};
@@ -257,26 +279,11 @@ export const TocBtnText = styled(atoms.p)`
     color: ${palette.white};
     text-transform: uppercase;
     text-align: left;
-    grid-column: 2 / 11;
-
-    @media ${devices.tablet} {
-      grid-column: 7 / 12;
-    }
-
-    @media ${devices.laptop} {
-      grid-column: 5 / 8;
-    }
   `}
 `
 
 export const ArrowDownImg = styled.img`
-  @media ${devices.tablet} {
-    grid-column: 12;
-  }
-
-  @media ${devices.laptop} {
-    grid-column: 8;
-  }
+  margin-left: ${({ theme }) => theme.spacing.md};
 `
 
 export const TocWrapper = styled.div`
@@ -304,7 +311,6 @@ export const NavBtn = styled.button`
   cursor: pointer;
   border-radius: 0px;
   background: none;
-  /* margin-top: ${({ theme: { spacing } }) => spacing.sm}; */
   padding: ${({ theme: { spacing } }) => spacing.xs};
   height: fit-content;
   grid-row: 1;

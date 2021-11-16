@@ -17,3 +17,10 @@ export type ExtendStyledProps<
 }
 
 export type PanEvent = MouseEvent | TouchEvent | PointerEvent
+
+export enum MENUS {
+  CONTENT = "CONTENT",
+  ILLUSTRATIONS = "ILLUSTRATIONS",
+  FOOTNOTES = "FOOTNOTES",
+  BIBLIOGRAPHY = "BIBLIOGRAPHY",
+}
