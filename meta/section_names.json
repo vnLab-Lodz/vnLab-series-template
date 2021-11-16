@@ -1,10 +1,24 @@
 {
   "en": {
     "1": false,
-    "9": "Appendix"
+    "2": "The Archive in Theory",
+    "3": "The Archive Looking Awry I: Archives of Disputed Histories",
+    "4": "The Archive Looking Awry II",
+    "5": "The Institutional Perspective",
+    "6": "The Archive Looking Awry III: Kisieland – Queering the Archive",
+    "7": "The Archive Looking Awry IV: Archives of the Everyday",
+    "8": "Roundtable",
+    "9": false
   },
   "pl": {
     "1": false,
-    "9": "Aneks"
+    "2": "Archiwum w teorii",
+    "3": "Archiwum z ukosa I: Archiwa spornych historii",
+    "4": "Archiwum z ukosa II",
+    "5": "Perspektywa instytucjonalna",
+    "6": "Archiwum z ukosa III: Kisieland – squeerować archiwum",
+    "7": "Archiwum z ukosa IV: Archiwa codzienności",
+    "8": "Debata",
+    "9": false
   }
 }
