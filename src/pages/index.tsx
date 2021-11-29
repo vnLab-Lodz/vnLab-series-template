@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useRef, useState } from "react"
+import React, { useContext, useRef } from "react"
 import SeoMeta from "~components/meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
@@ -9,6 +9,7 @@ import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import useHypothesis from "src/hooks/useHypothesis"
 import { useEffect } from "react"
 import * as Styled from "../styles/page-styles/index"
+import useIsMobile from "src/hooks/useIsMobile"
 import NavMenuProvider, {
   NavMenuContext,
 } from "~components/organisms/navigation-menu/nav-menu-context"
@@ -26,12 +27,7 @@ const NavMenuToggle: React.FC = () => {
   const { toggleNav } = useContext(NavMenuContext)
 
   return (
-    <Styled.NavBtn
-      onClick={() => {
-        // scrollToToC()
-        setTimeout(() => toggleNav(), 180)
-      }}
-    >
+    <Styled.NavBtn onClick={() => setTimeout(() => toggleNav(), 180)}>
       <img
         className="sizeable-icon"
         src={HamburgerSVG}
@@ -42,13 +38,20 @@ const NavMenuToggle: React.FC = () => {
 }
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
-  const [isMobile, setIsMobile] = useState(false)
   const { hypothesis, hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
   const ref = useRef<HTMLDivElement | null>(null)
 
-  const scorllToToC = () => {
+  const isMobile = useIsMobile(() => {
+    const scrollbarWidth = window.innerWidth - document.body.clientWidth
+    document.documentElement.style.setProperty(
+      "--scrollbarWidth",
+      `${scrollbarWidth}px`
+    )
+  })
+
+  const scrollToToC = () => {
     if (!ref || !ref.current) return
 
     scrollTo({ top: ref.current.offsetTop, behavior: "smooth" })
@@ -57,25 +60,6 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   useEffect(() => {
     hideHypothesis()
   }, [hypothesis])
-
-  const determineDevice = () => {
-    setIsMobile(window.innerWidth < 768)
-
-    const scrollbarWidth = window.innerWidth - document.body.clientWidth
-    document.documentElement.style.setProperty(
-      "--scrollbarWidth",
-      `${scrollbarWidth}px`
-    )
-  }
-
-  useLayoutEffect(() => {
-    determineDevice()
-    window.addEventListener("resize", determineDevice)
-
-    return () => {
-      window.removeEventListener("resize", determineDevice)
-    }
-  }, [])
 
   return (
     <NavMenuProvider>
@@ -125,7 +109,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
             </Styled.BiogramLink>
           </Styled.Author>
           <Styled.WrappedEdition />
-          <Styled.TocButton onClick={scorllToToC}>
+          <Styled.TocButton onClick={scrollToToC}>
             <Styled.TocBtnContent>
               <Styled.TocBtnText>{t("home:toc")}</Styled.TocBtnText>
               <Styled.ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
