@@ -60,7 +60,7 @@ export const ExpandCaptionBtn = styled.button`
 
 export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
-    grid-column: 1 / 14;
+    grid-column: 1 / -6;
     font-size: calc(${typography.sm} * 1.3);
   `}
 `
