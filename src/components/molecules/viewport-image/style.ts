@@ -26,7 +26,6 @@ export const ImageWrapper = styled.div`
   justify-content: center;
   overflow: hidden;
   display: flex;
-  width: 100vw;
   flex: 1;
 `
 

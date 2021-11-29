@@ -139,7 +139,7 @@ const NavigationMenu: React.FC<Props> = ({
 
   return (
     <Styled.Aside open={open}>
-      <Styled.Nav mode={navMode}>
+      <Styled.Nav mode={navMode} id="menu-nav">
         <Styled.Progress style={{ height: progress, width: progress }} />
         <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
           <img

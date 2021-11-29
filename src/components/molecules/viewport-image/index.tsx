@@ -18,6 +18,7 @@ import XSVG from "../../../images/icons/x.svg"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
+import useIsMobile from "src/hooks/useIsMobile"
 
 interface Props {
   image: IGatsbyImageData
@@ -74,12 +75,14 @@ const CaptionPortal: React.FC<PortalProps> = ({
 
 const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const [open, setOpen] = useState<boolean>(false)
+  const [navMenuWidth, setNavMenuWidth] = useState<number>(0)
   const { addImage } = useContext(ImagesContext)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLDivElement | null>(null)
   const [wrapperOffset, setWrapperOffset] = useState(0)
   const { t } = useTranslation("common")
   const [inViewRef, isInView] = useInView({ threshold: 0.97 })
+  const isMobile = useIsMobile()
 
   const calculatePosition = () => {
     if (!ref || !ref.current) return
@@ -121,6 +124,23 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     }
   }, [ref])
 
+  useEffect(() => {
+    getNavMenuWidth()
+    window.addEventListener("resize", getNavMenuWidth)
+
+    return () => window.removeEventListener("resize", getNavMenuWidth)
+  }, [isMobile])
+
+  const getNavMenuWidth = () => {
+    if (isMobile) {
+      setNavMenuWidth(0)
+      return
+    }
+
+    const el = document.getElementById("menu-nav")
+    if (el) setNavMenuWidth(el.clientWidth)
+  }
+
   const getFixedPositions = () => {
     if (!ref || !ref.current) return { left: 0, right: 0 }
 
@@ -145,7 +165,11 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     <Styled.ViewportConstraint as={motion.div} ref={ref}>
       <Styled.Absolute style={getStickyStyle()}>
         <Styled.ImageWrapper
-          style={{ transform: `translateX(${wrapperOffset}px)` }}
+          style={{
+            transform: `translateX(${wrapperOffset}px)`,
+            width: `calc(100vw - ${navMenuWidth}px)`,
+            marginLeft: `${navMenuWidth}px`,
+          }}
         >
           <Styled.Image image={img} alt="" style={{ aspectRatio }} />
         </Styled.ImageWrapper>
