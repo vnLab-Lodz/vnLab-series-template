@@ -81,7 +81,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const ref = useRef<HTMLDivElement | null>(null)
   const [wrapperOffset, setWrapperOffset] = useState(0)
   const { t } = useTranslation("common")
-  const [inViewRef, isInView] = useInView({ threshold: 0.97 })
+  const [inViewRef, isInView] = useInView({ threshold: 0.95 })
   const isMobile = useIsMobile()
 
   const calculatePosition = () => {
@@ -97,7 +97,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const calculateScrollPosition = () => {
     if (!ref || !ref.current) return 0
 
-    return ref.current.offsetTop - 130
+    return ref.current.offsetTop
   }
 
   const calculateWrapperOffset = () => {
