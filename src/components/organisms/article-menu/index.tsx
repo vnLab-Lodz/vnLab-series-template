@@ -19,6 +19,8 @@ import useBibliography from "src/hooks/useBibliography"
 import { ImagesContext } from "src/context/illustrations-context"
 import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
 import useScrollPause from "src/hooks/useScrollPause"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import useIsMobile from "src/hooks/useIsMobile"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
@@ -69,6 +71,9 @@ const ArticleMenu: React.FC<Props> = ({
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
 
+  const { setIsVisible } = useNavMenuContext()
+  const isMobile = useIsMobile(mobile => !mobile && setIsVisible(true))
+
   const theme = useTheme()
   const { pauseScroll, resumeScroll, isPaused } = useScrollPause({
     backgroundColor: theme.palette.light,
@@ -109,8 +114,13 @@ const ArticleMenu: React.FC<Props> = ({
   const onScrollEnd = useScrollDistance((distance, _, end) => {
     if (end < calcNavPosition() + 300) return
 
-    if (distance <= -100) setIsHidden(false)
-    else if (distance > 0) setIsHidden(true)
+    if (distance <= -100) {
+      setIsHidden(false)
+      isMobile && setIsVisible(true)
+    } else if (distance > 0) {
+      setIsHidden(true)
+      isMobile && setIsVisible(false)
+    }
   })
 
   const onScroll = () => {
@@ -171,7 +181,7 @@ const ArticleMenu: React.FC<Props> = ({
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("scroll", onScrollEnd)
     }
-  }, [ref, menuState])
+  }, [ref, menuState, isMobile, setIsVisible])
 
   useEffect(() => {
     if (menuState !== MENU_STATE.CLOSED && !isPaused) {

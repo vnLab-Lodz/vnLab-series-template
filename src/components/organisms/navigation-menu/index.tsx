@@ -1,5 +1,5 @@
 import React, { useContext, useState, useLayoutEffect, useEffect } from "react"
-import { NavMenuContext } from "./nav-menu-context"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { TFunction, useTranslation } from "react-i18next"
 import * as Styled from "./style"
 import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
@@ -11,6 +11,7 @@ import useScrollPause from "src/hooks/useScrollPause"
 import { useTheme } from "styled-components"
 import {
   AnimatePresence,
+  motion,
   useMotionTemplate,
   useTransform,
   useViewportScroll,
@@ -112,7 +113,7 @@ const NavigationMenu: React.FC<Props> = ({
   reduced = false,
   ignoreHypothesis = false,
 }) => {
-  const { navMode, setToggleNav } = useContext(NavMenuContext)
+  const { navMode, setToggleNav, isVisible } = useNavMenuContext()
   const [open, setOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { locale, localizedPath, defaultLang, prefixDefault } =
@@ -143,88 +144,103 @@ const NavigationMenu: React.FC<Props> = ({
   }, [open])
 
   return (
-    <Styled.Aside open={open}>
-      <Styled.Nav mode={navMode} id="menu-nav">
-        <Styled.Progress style={{ height: progress, width: progress }} />
-        <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
-          <img
-            className="sizeable-icon"
-            src={open ? CloseSVG : HamburgerSVG}
-            alt="Toggle Menu Button"
-          />
-        </Styled.ToggleBtn>
-        {!reduced ? (
-          <Styled.Title to="/" language={locale}>
-            {t("common:title")}
-          </Styled.Title>
-        ) : (
-          <MiscTabs currentPath={currentPath} locale={locale} aside={reduced} />
-        )}
+    <AnimatePresence initial={false} exitBeforeEnter>
+      {isVisible && (
+        <Styled.Aside
+          open={open}
+          as={motion.div}
+          initial={{ translateY: -125, opacity: 0 }}
+          animate={{ translateY: 0, opacity: 1 }}
+          exit={{ translateY: -125, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          <Styled.Nav mode={navMode} id="menu-nav">
+            <Styled.Progress style={{ height: progress, width: progress }} />
+            <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
+              <img
+                className="sizeable-icon"
+                src={open ? CloseSVG : HamburgerSVG}
+                alt="Toggle Menu Button"
+              />
+            </Styled.ToggleBtn>
+            {!reduced ? (
+              <Styled.Title to="/" language={locale}>
+                {t("common:title")}
+              </Styled.Title>
+            ) : (
+              <MiscTabs
+                currentPath={currentPath}
+                locale={locale}
+                aside={reduced}
+              />
+            )}
 
-        <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
-      </Styled.Nav>
-      <AnimatePresence>
-        {open && (
-          <Styled.NavMenuContent
-            initial={{ translateX: -1500 }}
-            animate={{ translateX: 0 }}
-            exit={{ translateX: -1500 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          >
-            <Styled.Tabs sticky>
-              <Styled.TabItems>
-                <Styled.TabButton
-                  onClick={() => setNavState(NAV_MENU_STATES.TOC)}
+            <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
+          </Styled.Nav>
+          <AnimatePresence>
+            {open && (
+              <Styled.NavMenuContent
+                initial={{ translateX: -1500 }}
+                animate={{ translateX: 0 }}
+                exit={{ translateX: -1500 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                <Styled.Tabs sticky>
+                  <Styled.TabItems>
+                    <Styled.TabButton
+                      onClick={() => setNavState(NAV_MENU_STATES.TOC)}
+                    >
+                      <Styled.TabButtonText
+                        active={navState === NAV_MENU_STATES.TOC}
+                      >
+                        {t("nav-menu:tabs.toc")}
+                      </Styled.TabButtonText>
+                    </Styled.TabButton>
+                    <Styled.TabButton
+                      onClick={() => setNavState(NAV_MENU_STATES.INDEXES)}
+                    >
+                      <Styled.TabButtonText
+                        active={navState === NAV_MENU_STATES.INDEXES}
+                      >
+                        {t("nav-menu:tabs.indexes")}
+                      </Styled.TabButtonText>
+                    </Styled.TabButton>
+                    <Styled.TabButton
+                      onClick={() => setNavState(NAV_MENU_STATES.ABOUT)}
+                    >
+                      <Styled.TabButtonText
+                        active={navState === NAV_MENU_STATES.ABOUT}
+                      >
+                        {t("nav-menu:tabs.about")}
+                      </Styled.TabButtonText>
+                    </Styled.TabButton>
+                  </Styled.TabItems>
+                  <Styled.TabItems noFlex>
+                    <MiscTabs currentPath={currentPath} locale={locale} />
+                  </Styled.TabItems>
+                </Styled.Tabs>
+                <ActiveTab navState={navState} />
+                <NextTab navState={navState} setNavState={setNavState} />
+                <Styled.AnnotationsButton
+                  onClick={() =>
+                    navigate(
+                      localizedPath({
+                        locale,
+                        prefixDefault,
+                        defaultLang,
+                        path: "/hypothesis_tutorial",
+                      })
+                    )
+                  }
                 >
-                  <Styled.TabButtonText
-                    active={navState === NAV_MENU_STATES.TOC}
-                  >
-                    {t("nav-menu:tabs.toc")}
-                  </Styled.TabButtonText>
-                </Styled.TabButton>
-                <Styled.TabButton
-                  onClick={() => setNavState(NAV_MENU_STATES.INDEXES)}
-                >
-                  <Styled.TabButtonText
-                    active={navState === NAV_MENU_STATES.INDEXES}
-                  >
-                    {t("nav-menu:tabs.indexes")}
-                  </Styled.TabButtonText>
-                </Styled.TabButton>
-                <Styled.TabButton
-                  onClick={() => setNavState(NAV_MENU_STATES.ABOUT)}
-                >
-                  <Styled.TabButtonText
-                    active={navState === NAV_MENU_STATES.ABOUT}
-                  >
-                    {t("nav-menu:tabs.about")}
-                  </Styled.TabButtonText>
-                </Styled.TabButton>
-              </Styled.TabItems>
-              <Styled.TabItems noFlex>
-                <MiscTabs currentPath={currentPath} locale={locale} />
-              </Styled.TabItems>
-            </Styled.Tabs>
-            <ActiveTab navState={navState} />
-            <NextTab navState={navState} setNavState={setNavState} />
-            <Styled.AnnotationsButton
-              onClick={() =>
-                navigate(
-                  localizedPath({
-                    locale,
-                    prefixDefault,
-                    defaultLang,
-                    path: "/hypothesis_tutorial",
-                  })
-                )
-              }
-            >
-              {t("nav-menu:how_to_annotate")}
-            </Styled.AnnotationsButton>
-          </Styled.NavMenuContent>
-        )}
-      </AnimatePresence>
-    </Styled.Aside>
+                  {t("nav-menu:how_to_annotate")}
+                </Styled.AnnotationsButton>
+              </Styled.NavMenuContent>
+            )}
+          </AnimatePresence>
+        </Styled.Aside>
+      )}
+    </AnimatePresence>
   )
 }
 

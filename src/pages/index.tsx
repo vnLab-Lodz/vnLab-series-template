@@ -10,9 +10,8 @@ import useHypothesis from "src/hooks/useHypothesis"
 import { useEffect } from "react"
 import * as Styled from "../styles/page-styles/index"
 import useIsMobile from "src/hooks/useIsMobile"
-import NavMenuProvider, {
-  NavMenuContext,
-} from "~components/organisms/navigation-menu/nav-menu-context"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 
 //@ts-ignore
 import Logo from "../images/icons/vnlab_logo.svg"
@@ -24,7 +23,7 @@ import SearchSVG from "../images/icons/magnifying_glass.svg"
 import HamburgerSVG from "../images/icons/hamburger.svg"
 
 const NavMenuToggle: React.FC = () => {
-  const { toggleNav } = useContext(NavMenuContext)
+  const { toggleNav } = useNavMenuContext()
 
   return (
     <Styled.NavBtn onClick={() => setTimeout(() => toggleNav(), 180)}>

@@ -1,11 +1,14 @@
 import { useLayoutEffect, useState } from "react"
 
-export default function useIsMobile(callback?: () => void): boolean {
+export default function useIsMobile(
+  callback?: (mobile: boolean) => void
+): boolean {
   const [isMobile, setIsMobile] = useState(false)
 
   const handleResize = () => {
-    setIsMobile(window.innerWidth < 768)
-    if (callback) callback()
+    const mobile = window.innerWidth < 768
+    setIsMobile(mobile)
+    if (callback) callback(mobile)
   }
 
   useLayoutEffect(() => {
