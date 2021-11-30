@@ -150,9 +150,16 @@ const NavigationMenu: React.FC<Props> = ({
           open={open}
           as={motion.div}
           initial={{ translateY: -125, opacity: 0 }}
-          animate={{ translateY: 0, opacity: 1 }}
-          exit={{ translateY: -125, opacity: 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          animate={{
+            translateY: 0,
+            opacity: 1,
+            transition: { duration: 0.25, ease: "easeInOut" },
+          }}
+          exit={{
+            translateY: -125,
+            opacity: 0,
+            transition: { delay: 0.25, duration: 0.3, ease: "easeInOut" },
+          }}
         >
           <Styled.Nav mode={navMode} id="menu-nav">
             <Styled.Progress style={{ height: progress, width: progress }} />

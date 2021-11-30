@@ -112,13 +112,13 @@ const ArticleMenu: React.FC<Props> = ({
   }
 
   const onScrollEnd = useScrollDistance((distance, _, end) => {
-    if (end < calcNavPosition() + 300) return
+    const isBelowNav = end >= calcNavPosition() + 300
 
     if (distance <= -100) {
-      setIsHidden(false)
+      isBelowNav && setIsHidden(false)
       isMobile && setIsVisible(true)
     } else if (distance > 0) {
-      setIsHidden(true)
+      isBelowNav && setIsHidden(true)
       isMobile && setIsVisible(false)
     }
   })
@@ -127,10 +127,14 @@ const ArticleMenu: React.FC<Props> = ({
     const currentScrollPos = window.pageYOffset
     const navPosition = calcNavPosition()
 
-    setShouldStick(currentScrollPos >= navPosition)
+    if (currentScrollPos >= navPosition + 500) setShouldStick(true)
+    else setShouldStick(false)
 
     if (currentScrollPos < navPosition + 300) setIsHidden(false)
-    else if (scrollRef.current <= currentScrollPos) setIsHidden(true)
+    else if (scrollRef.current <= currentScrollPos) {
+      setIsHidden(true)
+      setIsVisible(false)
+    }
 
     scrollRef.current = currentScrollPos
   }
