@@ -10,7 +10,7 @@ const Annotation: React.FC<{
   index: number
   content: any
   position: number
-  closeMenu: () => void
+  closeMenu: (callback?: () => void) => void
 }> = ({ index, content, position, closeMenu }) => {
   const isMobile = useIsMobile()
   // * Offset the width of the menu bar on mobile
@@ -20,10 +20,14 @@ const Annotation: React.FC<{
     <>
       <Styled.AnnotationNumber>{index}</Styled.AnnotationNumber>
       <Styled.AnnotationParagraph
-        onClick={() => {
-          closeMenu()
-          window.scrollTo({ top: position - scrollOffset, behavior: "smooth" })
-        }}
+        onClick={() =>
+          closeMenu(() =>
+            window.scrollTo({
+              top: position - scrollOffset,
+              behavior: "smooth",
+            })
+          )
+        }
       >
         {typeof content === "string" ? (
           <ReactMarkdown
@@ -40,7 +44,7 @@ const Annotation: React.FC<{
 }
 
 const Annotations: React.FC<{
-  closeMenu: () => void
+  closeMenu: (callback?: () => void) => void
   annotations: AnnotationType[]
 }> = ({ closeMenu, annotations }) => (
   <Styled.AnnotationsGrid>

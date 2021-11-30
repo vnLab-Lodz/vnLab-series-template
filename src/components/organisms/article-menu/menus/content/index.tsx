@@ -5,7 +5,7 @@ import * as Styled from "./style"
 
 interface Props {
   contents: Contents[]
-  closeMenu: () => void
+  closeMenu: (callback?: () => void) => void
 }
 
 const contentComponents = {
@@ -28,8 +28,9 @@ const Content: React.FC<Props> = ({ contents, closeMenu }) => {
             last={index === array.length - 1}
             key={index}
             onClick={() => {
-              closeMenu()
-              window.scrollTo({ top: y - 130, behavior: "smooth" })
+              closeMenu(() =>
+                window.scrollTo({ top: y - 130, behavior: "smooth" })
+              )
             }}
           >
             {level === "h1" ? t("introduction") : text}

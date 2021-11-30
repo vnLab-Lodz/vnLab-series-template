@@ -7,6 +7,8 @@ import LanguagePicker from "~components/molecules/language-picker"
 import useHypothesis from "src/hooks/useHypothesis"
 import Indexes from "./tabs/indexes"
 import About from "./tabs/about"
+import useScrollPause from "src/hooks/useScrollPause"
+import { useTheme } from "styled-components"
 import {
   AnimatePresence,
   useMotionTemplate,
@@ -118,6 +120,11 @@ const NavigationMenu: React.FC<Props> = ({
   const { hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "nav-menu"])
 
+  const theme = useTheme()
+  const { pauseScroll, resumeScroll } = useScrollPause({
+    backgroundColor: theme.palette.light,
+  })
+
   const { scrollYProgress } = useViewportScroll()
   const scrollPercent = useTransform(scrollYProgress, [0, 1], [0, 100])
   const progress = useMotionTemplate`${scrollPercent}%`
@@ -128,12 +135,10 @@ const NavigationMenu: React.FC<Props> = ({
 
   useLayoutEffect(() => {
     if (open) {
-      document.body.classList.add("no-scroll")
+      pauseScroll()
       if (!ignoreHypothesis) hideHypothesis()
-    }
-
-    return () => {
-      document.body.classList.remove("no-scroll")
+    } else {
+      resumeScroll()
     }
   }, [open])
 

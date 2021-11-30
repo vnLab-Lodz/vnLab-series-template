@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import usePageContent from "src/hooks/usePageContent"
-import { ThemeContext } from "styled-components"
+import { ThemeContext, useTheme } from "styled-components"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent, isUndefined } from "~util"
 import Annotations from "./menus/annotations"
@@ -18,6 +18,7 @@ import { MENUS } from "~types"
 import useBibliography from "src/hooks/useBibliography"
 import { ImagesContext } from "src/context/illustrations-context"
 import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
+import useScrollPause from "src/hooks/useScrollPause"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
@@ -68,6 +69,11 @@ const ArticleMenu: React.FC<Props> = ({
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
 
+  const theme = useTheme()
+  const { pauseScroll, resumeScroll, isPaused } = useScrollPause({
+    backgroundColor: theme.palette.light,
+  })
+
   const scrollRef = useRef<number>(0)
   const ref = useRef<HTMLDivElement | null>(null)
 
@@ -84,7 +90,12 @@ const ArticleMenu: React.FC<Props> = ({
     setMenuState(prev => (prev === value ? MENU_STATE.CLOSED : value))
   }
 
-  const closeMenu = () => setState(MENU_STATE.CLOSED)
+  const closeMenu = (callback?: () => void) => {
+    resumeScroll(() => {
+      setState(MENU_STATE.CLOSED)
+      if (callback) callback()
+    })
+  }
 
   const calcNavPosition = () => {
     if (!ref || !ref.current) return Infinity
@@ -163,6 +174,12 @@ const ArticleMenu: React.FC<Props> = ({
   }, [ref, menuState])
 
   useEffect(() => {
+    if (menuState !== MENU_STATE.CLOSED && !isPaused) {
+      pauseScroll()
+    } else if (menuState === MENU_STATE.CLOSED && isPaused) {
+      resumeScroll(() => setIsHidden(false))
+    }
+
     controls.start(
       {
         borderBottomColor:
@@ -173,9 +190,7 @@ const ArticleMenu: React.FC<Props> = ({
       { delay: 0.2, duration: 0.3, ease: "easeOut" }
     )
 
-    return () => {
-      controls.stop()
-    }
+    return () => controls.stop()
   }, [menuState])
 
   const shouldRenderMenu = (

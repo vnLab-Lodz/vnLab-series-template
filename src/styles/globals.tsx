@@ -57,6 +57,7 @@ export const Globals = createGlobalStyle`
 
   .no-scroll {
     overflow: hidden;
+    padding-right: var(--scrollbarWidth);
   }
 
   .invisible {

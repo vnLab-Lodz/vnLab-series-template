@@ -23,7 +23,7 @@ export const ImageWrapper = styled.div`
     position: fixed;
     z-index: 0;
     display: block;
-    width: calc(50vw - (var(--scrollbarWidth) / 2));
+    width: 51vw; // ! 1 for scroll pause compatibility
   }
 `
 
@@ -296,8 +296,8 @@ export const TocWrapper = styled.div`
   }
 
   @media ${devices.laptop} {
-    background: none;
     grid-column: 3 / 17;
+    z-index: 1;
   }
 `
 
