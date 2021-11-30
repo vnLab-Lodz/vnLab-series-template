@@ -105,7 +105,7 @@ export const Globals = createGlobalStyle`
         --text-sm: 13px;
     }
 
-    @media ${devices.desktop} {
+    @media ${devices.desktop} and (min-height: 1100px) {
         --unit-base: 1.5rem;
         --space-unit: 1.25rem;
 
