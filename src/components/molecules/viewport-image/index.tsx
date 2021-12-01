@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  CSSProperties,
-} from "react"
+import React, { useState, useRef, useEffect, useContext } from "react"
 import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
@@ -19,6 +13,7 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
 import useIsMobile from "src/hooks/useIsMobile"
+import { GatsbyImage } from "gatsby-plugin-image"
 
 interface Props {
   image: IGatsbyImageData
@@ -76,12 +71,15 @@ const CaptionPortal: React.FC<PortalProps> = ({
 const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   const [open, setOpen] = useState<boolean>(false)
   const [navMenuWidth, setNavMenuWidth] = useState<number>(0)
+  const [constraintHeight, setConstraintHeight] = useState<string>("100vh")
   const { addImage } = useContext(ImagesContext)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLDivElement | null>(null)
+  const imageRef = useRef<HTMLDivElement | null>(null)
+  const captionRef = useRef<HTMLDivElement | null>(null)
   const [wrapperOffset, setWrapperOffset] = useState(0)
   const { t } = useTranslation("common")
-  const [inViewRef, isInView] = useInView({ threshold: 0.95 })
+  const [inViewRef, isInView] = useInView({ threshold: 0.9 })
   const isMobile = useIsMobile()
 
   const calculatePosition = () => {
@@ -131,6 +129,32 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     return () => window.removeEventListener("resize", getNavMenuWidth)
   }, [isMobile])
 
+  const setConstraints = () => {
+    if (
+      !imageRef.current ||
+      !captionRef.current ||
+      constraintHeight !== "100vh"
+    )
+      return
+
+    const height = imageRef.current.clientHeight
+    const captionHeight = captionRef.current.clientHeight
+    const constraint = `calc(${height + captionHeight}px + 2 *var(--space-xs))`
+
+    setConstraintHeight(constraint)
+  }
+
+  useEffect(setConstraints, [imageRef, constraintHeight])
+
+  const resetConstraint = () => {
+    setConstraintHeight("100vh")
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", resetConstraint)
+    return () => window.removeEventListener("resize", resetConstraint)
+  }, [])
+
   const getNavMenuWidth = () => {
     if (isMobile) {
       setNavMenuWidth(0)
@@ -141,39 +165,49 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     if (el) setNavMenuWidth(el.clientWidth)
   }
 
-  const getFixedPositions = () => {
-    if (!ref || !ref.current) return { left: 0, right: 0 }
+  // const getFixedPositions = () => {
+  //   if (!ref || !ref.current) return { left: 0, right: 0 }
 
-    const { offsetLeft, offsetWidth } = ref.current
+  //   const { offsetLeft, offsetWidth } = ref.current
 
-    const left = offsetLeft
-    const right = document.body.clientWidth - offsetLeft - offsetWidth
+  //   const left = offsetLeft
+  //   const right = document.body.clientWidth - offsetLeft - offsetWidth
 
-    return { left, right }
-  }
+  //   return { left, right }
+  // }
 
-  const getStickyStyle = (): CSSProperties =>
-    isInView
-      ? { position: "fixed", ...getFixedPositions() }
-      : { position: "absolute", left: "0px", right: "0px" }
+  // const getStickyStyle = (): CSSProperties =>
+  //   isInView
+  //     ? { position: "fixed", ...getFixedPositions() }
+  //     : { position: "absolute", left: "0px", right: "0px" }
 
   const img = getImage(image) as IGatsbyImageData
 
   const aspectRatio = `${img.width}/${img.height}`
 
   return (
-    <Styled.ViewportConstraint as={motion.div} ref={ref}>
-      <Styled.Absolute style={getStickyStyle()}>
+    <Styled.ViewportConstraint
+      as={motion.div}
+      ref={ref}
+      style={{ height: constraintHeight }}
+    >
+      <Styled.Absolute>
         <Styled.ImageWrapper
+          ref={imageRef}
           style={{
             transform: `translateX(${wrapperOffset}px)`,
             width: `calc(100vw - ${navMenuWidth}px)`,
             marginLeft: `${navMenuWidth}px`,
           }}
         >
-          <Styled.Image image={img} alt="" style={{ aspectRatio }} />
+          <GatsbyImage
+            objectFit="contain"
+            image={img}
+            alt=""
+            style={{ aspectRatio }}
+          />
         </Styled.ImageWrapper>
-        <Styled.Caption>
+        <Styled.Caption ref={captionRef}>
           <Styled.CaptionText as="div">
             <ReactMarkdown
               components={{ ...mdxComponents, p: Styled.CaptionText } as any}

@@ -1,4 +1,3 @@
-import { GatsbyImage } from "gatsby-plugin-image"
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 import { GridContainer, InnerGrid } from "~styles/grid"
@@ -6,8 +5,6 @@ import atoms from "~components/atoms"
 
 export const ViewportConstraint = styled.div`
   position: relative;
-  height: 100vh;
-
   margin: ${({ theme: { spacing } }) => spacing.xxxl} 0px;
 `
 
@@ -16,7 +13,8 @@ export const Absolute = styled.div`
   left: 0px;
   right: 0px;
   top: 0px;
-  bottom: 0px;
+  height: fit-content;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,10 +25,6 @@ export const ImageWrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex: 1;
-`
-
-export const Image = styled(GatsbyImage)`
-  height: 100%;
 `
 
 export const Caption = styled(InnerGrid)`
