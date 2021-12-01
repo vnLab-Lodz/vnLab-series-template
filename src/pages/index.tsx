@@ -99,15 +99,21 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
               </Styled.SearchBtn>
             </Styled.Header>
           )}
-          <Styled.LogoImg src={Logo} alt="vnlab logo" />
-          <Styled.Title>{t("common:title")}</Styled.Title>
-          <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
-          <Styled.Author type="primary">
-            <Styled.BiogramLink to="/biograms/krzysztof_pijarski" lang={locale}>
-              {t("home:author")}
-            </Styled.BiogramLink>
-          </Styled.Author>
-          <Styled.WrappedEdition />
+          <Styled.Center>
+            <Styled.LogoImg src={Logo} alt="vnlab logo" />
+            <Styled.Title>{t("common:title")}</Styled.Title>
+            <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
+            <Styled.Author type="primary">
+              <Styled.BiogramLink
+                to="/biograms/krzysztof_pijarski"
+                lang={locale}
+              >
+                {t("home:author")}
+              </Styled.BiogramLink>
+            </Styled.Author>
+            <Styled.WrappedEdition />
+          </Styled.Center>
+
           <Styled.TocButton onClick={scrollToToC}>
             <Styled.TocBtnContent>
               <Styled.TocBtnText>{t("home:toc")}</Styled.TocBtnText>
