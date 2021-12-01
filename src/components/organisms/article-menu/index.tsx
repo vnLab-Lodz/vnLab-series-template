@@ -133,7 +133,7 @@ const ArticleMenu: React.FC<Props> = ({
     if (currentScrollPos < navPosition + 300) setIsHidden(false)
     else if (scrollRef.current <= currentScrollPos) {
       setIsHidden(true)
-      setIsVisible(false)
+      isMobile && setIsVisible(false)
     }
 
     scrollRef.current = currentScrollPos
