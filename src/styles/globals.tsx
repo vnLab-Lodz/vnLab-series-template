@@ -111,10 +111,10 @@ export const Globals = createGlobalStyle`
         --space-unit: 1.25rem;
 
   
-        --text-xxl: 6rem;
-        --text-xl: 6rem;
-        --text-lg: 2.5rem;
-        --text-md: 1.55rem;
+        --text-xxl: 4.8rem;
+        --text-xl: 4.8rem;
+        --text-lg: 1.7rem;
+        --text-md: 1.5rem;
         --text-sm: 1.1rem;
     }
   }
