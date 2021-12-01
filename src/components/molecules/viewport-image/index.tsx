@@ -14,6 +14,7 @@ import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
 import useIsMobile from "src/hooks/useIsMobile"
 import { GatsbyImage } from "gatsby-plugin-image"
+import useScrollDistance from "src/hooks/useScrollDistance"
 
 interface Props {
   image: IGatsbyImageData
@@ -69,18 +70,36 @@ const CaptionPortal: React.FC<PortalProps> = ({
 }
 
 const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
-  const [open, setOpen] = useState<boolean>(false)
-  const [navMenuWidth, setNavMenuWidth] = useState<number>(0)
-  const [constraintHeight, setConstraintHeight] = useState<string>("100vh")
-  const { addImage } = useContext(ImagesContext)
-  const [position, setPosition] = useState<number | undefined>(undefined)
-  const ref = useRef<HTMLDivElement | null>(null)
-  const imageRef = useRef<HTMLDivElement | null>(null)
   const captionRef = useRef<HTMLDivElement | null>(null)
+  const imageRef = useRef<HTMLDivElement | null>(null)
+  const ref = useRef<HTMLDivElement | null>(null)
+
+  const [position, setPosition] = useState<number | undefined>(undefined)
+  const [constraintHeight, setConstraintHeight] = useState<string>("100vh")
+  const [open, setOpen] = useState<boolean | undefined>(undefined)
+  const [navMenuWidth, setNavMenuWidth] = useState<number>(0)
   const [wrapperOffset, setWrapperOffset] = useState(0)
-  const { t } = useTranslation("common")
-  const [inViewRef, isInView] = useInView({ threshold: 0.9 })
+
   const isMobile = useIsMobile()
+
+  const { addImage } = useContext(ImagesContext)
+  const { t } = useTranslation("common")
+
+  const [inViewRef, isInView] = useInView({ threshold: 0.85 })
+  const scrollRef = useRef<number>(0)
+  const isScrolling = useRef(false)
+
+  const onScroll = () => {
+    const currentScrollPos = window.pageYOffset
+
+    if (scrollRef.current >= currentScrollPos) isScrolling.current = true
+
+    scrollRef.current = currentScrollPos
+  }
+
+  const onScrollEnd = useScrollDistance(() => {
+    isScrolling.current = false
+  })
 
   const calculatePosition = () => {
     if (!ref || !ref.current) return
@@ -110,6 +129,40 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     setOpen(true)
   }
 
+  const setConstraints = () => {
+    if (
+      !imageRef.current ||
+      !captionRef.current ||
+      constraintHeight !== "100vh"
+    )
+      return
+
+    const height = imageRef.current.clientHeight
+    const captionHeight = captionRef.current.clientHeight
+    const constraint = `calc(${height + captionHeight}px + 2 *var(--space-xs))`
+
+    setConstraintHeight(constraint)
+  }
+
+  const resetConstraint = () => {
+    setConstraintHeight("100vh")
+  }
+
+  const getNavMenuWidth = () => {
+    if (isMobile) {
+      setNavMenuWidth(0)
+      return
+    }
+
+    const el = document.getElementById("menu-nav")
+    if (el) setNavMenuWidth(el.clientWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", resetConstraint)
+    return () => window.removeEventListener("resize", resetConstraint)
+  }, [])
+
   useEffect(() => {
     calculatePosition()
     addImage(image, calculateScrollPosition())
@@ -129,57 +182,23 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     return () => window.removeEventListener("resize", getNavMenuWidth)
   }, [isMobile])
 
-  const setConstraints = () => {
-    if (
-      !imageRef.current ||
-      !captionRef.current ||
-      constraintHeight !== "100vh"
-    )
-      return
-
-    const height = imageRef.current.clientHeight
-    const captionHeight = captionRef.current.clientHeight
-    const constraint = `calc(${height + captionHeight}px + 2 *var(--space-xs))`
-
-    setConstraintHeight(constraint)
-  }
-
   useEffect(setConstraints, [imageRef, constraintHeight])
 
-  const resetConstraint = () => {
-    setConstraintHeight("100vh")
-  }
+  useEffect(() => {
+    if (!ref.current || !isInView || isScrolling.current) return
+
+    window.scrollTo({ top: ref.current.offsetTop, behavior: "smooth" })
+  }, [isInView])
 
   useEffect(() => {
-    window.addEventListener("resize", resetConstraint)
-    return () => window.removeEventListener("resize", resetConstraint)
-  }, [])
+    window.addEventListener("scroll", onScroll)
+    window.addEventListener("scroll", onScrollEnd)
 
-  const getNavMenuWidth = () => {
-    if (isMobile) {
-      setNavMenuWidth(0)
-      return
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("scroll", onScrollEnd)
     }
-
-    const el = document.getElementById("menu-nav")
-    if (el) setNavMenuWidth(el.clientWidth)
-  }
-
-  // const getFixedPositions = () => {
-  //   if (!ref || !ref.current) return { left: 0, right: 0 }
-
-  //   const { offsetLeft, offsetWidth } = ref.current
-
-  //   const left = offsetLeft
-  //   const right = document.body.clientWidth - offsetLeft - offsetWidth
-
-  //   return { left, right }
-  // }
-
-  // const getStickyStyle = (): CSSProperties =>
-  //   isInView
-  //     ? { position: "fixed", ...getFixedPositions() }
-  //     : { position: "absolute", left: "0px", right: "0px" }
+  }, [])
 
   const img = getImage(image) as IGatsbyImageData
 
