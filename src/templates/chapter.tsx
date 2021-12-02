@@ -4,7 +4,6 @@ import { MDXProvider } from "@mdx-js/react"
 import { MdxLink } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
-import Layout from "~components/organisms/layout"
 import Abstract from "~components/molecules/abstract"
 import Annotation from "~components/molecules/annotation"
 import Quote from "~components/molecules/quote"
@@ -25,6 +24,8 @@ import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import { MENUS } from "~types"
+import { GridContainer } from "~styles/grid"
+import withGridConstraint from "src/hoc/withGridConstraint"
 
 export const addClass =
   (
@@ -35,24 +36,24 @@ export const addClass =
     <Component className={className}>{children}</Component>
 
 export const mdxComponents = {
-  Link: MdxLink,
-  Author: Author,
-  Abstract: Abstract,
-  Annotation: Annotation,
-  Edition: Edition,
-  Quote: Quote,
-  ViewportImage: ViewportImage,
-  Carousel: Carousel,
-  p: atoms.p,
-  ul: atoms.ul,
-  ol: atoms.ol,
-  strong: atoms.strong,
-  em: atoms.em,
-  del: atoms.del,
-  a: atoms.a,
-  h1: addClass(atoms.h1, "mdx-heading"),
-  h2: addClass(atoms.h2, "mdx-heading"),
-  h3: addClass(atoms.h3, "mdx-heading"),
+  Link: withGridConstraint(MdxLink),
+  Author: withGridConstraint(Author),
+  Abstract: withGridConstraint(Abstract),
+  Annotation: withGridConstraint(Annotation),
+  Edition: withGridConstraint(Edition),
+  Quote: withGridConstraint(Quote),
+  ViewportImage: withGridConstraint(ViewportImage),
+  Carousel: withGridConstraint(Carousel),
+  p: withGridConstraint(atoms.p),
+  ul: withGridConstraint(atoms.ul),
+  ol: withGridConstraint(atoms.ol),
+  strong: withGridConstraint(atoms.strong),
+  em: withGridConstraint(atoms.em),
+  del: withGridConstraint(atoms.del),
+  a: withGridConstraint(atoms.a),
+  h1: withGridConstraint(addClass(atoms.h1, "mdx-heading")),
+  h2: withGridConstraint(addClass(atoms.h2, "mdx-heading")),
+  h3: withGridConstraint(addClass(atoms.h3, "mdx-heading")),
 }
 
 interface Data {
@@ -68,7 +69,7 @@ interface Data {
   }
 }
 
-const StyledLayout = styled(Layout)`
+const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.light};
 
   @media ${devices.desktop} {
