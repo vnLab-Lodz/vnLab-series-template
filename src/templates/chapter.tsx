@@ -71,6 +71,7 @@ interface Data {
 
 const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.light};
+  overflow: initial;
 
   @media ${devices.desktop} {
     grid-template-columns: repeat(32, max(3.125rem));
