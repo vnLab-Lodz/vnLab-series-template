@@ -63,7 +63,7 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
 
     window.scrollTo(0, parseInt(scrollY || "0") * -1)
 
-    if (callback) setTimeout(() => callback())
+    if (callback) setTimeout(() => callback(), 66)
   }
 
   return { isPaused, pauseScroll, resumeScroll }
