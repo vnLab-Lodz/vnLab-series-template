@@ -3,6 +3,14 @@ import { useEffect, useState } from "react"
 export default function useHypothesis() {
   const [hypothesis, setHypothesis] = useState<Element | null>(null)
 
+  const getHypothesis = () => {
+    if (hypothesis !== null) return hypothesis
+
+    const el = document.querySelector("hypothesis-sidebar")
+    setHypothesis(el)
+    return el
+  }
+
   useEffect(() => {
     if (hypothesis !== null) return
 
@@ -11,22 +19,25 @@ export default function useHypothesis() {
   }, [hypothesis])
 
   const isHidden = () => {
-    if (!!!hypothesis) return true
+    const h = getHypothesis()
+    if (!!!h) return true
 
-    return hypothesis.classList.contains("invisible")
+    return h.classList.contains("invisible")
   }
 
   const hideHypothesis = () => {
-    if (!!!hypothesis || isHidden()) return
+    const h = getHypothesis()
+    if (!!!h || isHidden()) return
 
-    hypothesis.classList.add("invisible")
+    h.classList.add("invisible")
   }
 
   const showHypothesis = () => {
-    if (!!!hypothesis || !isHidden()) return
+    const h = getHypothesis()
+    if (!!!h || !isHidden()) return
 
-    hypothesis.classList.remove("invisible")
+    h.classList.remove("invisible")
   }
 
-  return { hypothesis, showHypothesis, hideHypothesis, isHidden }
+  return { hypothesis: getHypothesis, showHypothesis, hideHypothesis, isHidden }
 }
