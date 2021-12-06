@@ -23,6 +23,10 @@ export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
   grid-row: 2;
   position: ${({ sticky }) => (sticky ? "sticky" : "relative")};
   top: 0;
+
+  @media ${devices.desktop} {
+    height: 100%;
+  }
 `
 
 export const ImageWrapper = styled.div`
