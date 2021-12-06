@@ -81,6 +81,7 @@ export default {
         theme_color: `#000000`,
         display: `standalone`,
         orientation: `portrait`,
+        icon: `${__dirname}/../static/images/favicon-512x512.png`,
         icons: [
           {
             src: "/images/favicon-48x48.png",
