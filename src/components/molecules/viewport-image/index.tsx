@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext, useMemo } from "react"
+import React, { useState, useRef, useEffect, useContext } from "react"
 import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
@@ -25,8 +25,6 @@ interface PortalProps {
   position: number
   caption: string
 }
-
-const markdownComponents = { ...mdxComponents, p: Styled.CaptionText } as any
 
 const CaptionPortal: React.FC<PortalProps> = ({
   children,
@@ -149,7 +147,11 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
           <GridConstraint>
             <Styled.Caption ref={captionRef}>
               <Styled.CaptionText as="div">
-                <ReactMarkdown components={markdownComponents}>
+                <ReactMarkdown
+                  components={
+                    { ...mdxComponents, p: Styled.CaptionText } as any
+                  }
+                >
                   {caption}
                 </ReactMarkdown>
               </Styled.CaptionText>
