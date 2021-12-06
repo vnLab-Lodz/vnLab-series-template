@@ -147,7 +147,7 @@ const NavigationMenu: React.FC<Props> = ({
     <AnimatePresence initial={false} exitBeforeEnter>
       {isVisible && (
         <Styled.Aside
-          left
+          noConstraint
           open={open}
           as={motion.div}
           initial={{ translateY: -125, opacity: 0 }}
