@@ -1,4 +1,4 @@
-import React, { useContext, useState, useLayoutEffect, useEffect } from "react"
+import React, { useState, useLayoutEffect, useEffect } from "react"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { TFunction, useTranslation } from "react-i18next"
 import * as Styled from "./style"
