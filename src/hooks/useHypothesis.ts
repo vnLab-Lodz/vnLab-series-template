@@ -1,43 +1,32 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import useHypothesisContext from "./useHypothesisContext"
 
 export default function useHypothesis() {
-  const [hypothesis, setHypothesis] = useState<Element | null>(null)
-
-  const getHypothesis = () => {
-    if (hypothesis !== null) return hypothesis
-
-    const el = document.querySelector("hypothesis-sidebar")
-    setHypothesis(el)
-    return el
-  }
+  const { hypothesis } = useHypothesisContext()
 
   useEffect(() => {
     if (hypothesis !== null) return
 
     const el = document.querySelector("hypothesis-sidebar")
-    setHypothesis(el)
   }, [hypothesis])
 
   const isHidden = () => {
-    const h = getHypothesis()
-    if (!!!h) return true
+    if (!!!hypothesis) return true
 
-    return h.classList.contains("invisible")
+    return hypothesis.classList.contains("invisible")
   }
 
   const hideHypothesis = () => {
-    const h = getHypothesis()
-    if (!!!h || isHidden()) return
+    if (!!!hypothesis || isHidden()) return
 
-    h.classList.add("invisible")
+    hypothesis.classList.add("invisible")
   }
 
   const showHypothesis = () => {
-    const h = getHypothesis()
-    if (!!!h || !isHidden()) return
+    if (!!!hypothesis || !isHidden()) return
 
-    h.classList.remove("invisible")
+    hypothesis.classList.remove("invisible")
   }
 
-  return { hypothesis: getHypothesis, showHypothesis, hideHypothesis, isHidden }
+  return { hypothesis, showHypothesis, hideHypothesis, isHidden }
 }
