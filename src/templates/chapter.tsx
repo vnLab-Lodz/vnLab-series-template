@@ -76,7 +76,12 @@ const StyledLayout = styled(GridContainer)`
   @media ${devices.desktop} {
     grid-template-columns: repeat(32, max(3.125rem));
     justify-content: center;
+    margin: auto;
   }
+`
+
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.light};
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
@@ -96,17 +101,19 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
           <ArticleMenu currentPath={location.pathname} menus={menus} />
-          <StyledLayout className="mdx-section">
-            <MDXProvider components={mdxComponents}>
-              <SeoMeta title={title} />
-              <MDXRenderer
-                frontmatter={mdx.frontmatter}
-                localImages={embeddedImagesLocal}
-              >
-                {mdx.body}
-              </MDXRenderer>
-            </MDXProvider>
-          </StyledLayout>
+          <StyledArticle>
+            <StyledLayout className="mdx-section">
+              <MDXProvider components={mdxComponents}>
+                <SeoMeta title={title} />
+                <MDXRenderer
+                  frontmatter={mdx.frontmatter}
+                  localImages={embeddedImagesLocal}
+                >
+                  {mdx.body}
+                </MDXRenderer>
+              </MDXProvider>
+            </StyledLayout>
+          </StyledArticle>
           <ArticleFooter currentPath={location.pathname} />
         </ImagesProvider>
       </AnnotationProvider>

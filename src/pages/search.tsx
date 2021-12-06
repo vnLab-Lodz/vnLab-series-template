@@ -87,9 +87,11 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
   return (
     <NavMenuProvider>
       <NavigationMenu currentPath={location.pathname} />
-      <Styled.SearchLayout>
-        <SearchClient data={pages} engine={options} />
-      </Styled.SearchLayout>
+      <Styled.Wrapper>
+        <Styled.SearchLayout>
+          <SearchClient data={pages} engine={options} />
+        </Styled.SearchLayout>
+      </Styled.Wrapper>
     </NavMenuProvider>
   )
 }

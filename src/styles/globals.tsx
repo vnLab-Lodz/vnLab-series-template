@@ -35,6 +35,7 @@ export const Globals = createGlobalStyle`
   }
   body {
     line-height: 1;
+    width: 100%;
   }
   html, body {
     min-height: 100vh;
@@ -55,6 +56,7 @@ export const Globals = createGlobalStyle`
     border-spacing: 0;
   }
 
+  
   .no-scroll {
     overflow: hidden;
     padding-right: var(--scrollbarWidth);
