@@ -16,6 +16,7 @@ import { devices } from "~styles/breakpoints"
 import { mdxComponents } from "./chapter"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import { MENUS } from "~types"
+import { GridConstraint, GridContainer } from "~styles/grid"
 
 interface Data {
   mdx: {
@@ -30,7 +31,7 @@ interface Data {
   }
 }
 
-const StyledLayout = styled(Layout)`
+const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.quaternary};
   padding-bottom: ${({ theme }) => theme.spacing.xxxl};
   min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
@@ -44,6 +45,10 @@ const StyledLayout = styled(Layout)`
     grid-template-columns: repeat(32, max(3.125rem));
     justify-content: center;
   }
+`
+
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.quaternary};
 `
 
 const StyledArticleMenu = styled(ArticleMenu)`
@@ -71,17 +76,19 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             currentPath={location.pathname}
             menus={menus}
           />
-          <StyledLayout className="mdx-section">
-            <MDXProvider components={mdxComponents}>
-              <SeoMeta title={title} />
-              <MDXRenderer
-                frontmatter={mdx.frontmatter}
-                localImages={embeddedImagesLocal}
-              >
-                {mdx.body}
-              </MDXRenderer>
-            </MDXProvider>
-          </StyledLayout>
+          <StyledArticle>
+            <StyledLayout className="mdx-section">
+              <MDXProvider components={mdxComponents}>
+                <SeoMeta title={title} />
+                <MDXRenderer
+                  frontmatter={mdx.frontmatter}
+                  localImages={embeddedImagesLocal}
+                >
+                  {mdx.body}
+                </MDXRenderer>
+              </MDXProvider>
+            </StyledLayout>
+          </StyledArticle>
         </ImagesProvider>
       </AnnotationProvider>
     </NavMenuProvider>

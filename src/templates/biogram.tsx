@@ -16,6 +16,8 @@ import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import { addClass, mdxComponents } from "./chapter"
 import { MENUS } from "~types"
+import withGridConstraint from "src/hoc/withGridConstraint"
+import { GridContainer } from "~styles/grid"
 
 interface Data {
   mdx: {
@@ -30,7 +32,7 @@ interface Data {
   }
 }
 
-const StyledLayout = styled(Layout)`
+const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.light};
   padding-bottom: ${({ theme }) => theme.spacing.xxxl};
   min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
@@ -64,7 +66,14 @@ const StyledH1 = styled(atoms.h1)`
   `};
 `
 
-const components = { ...mdxComponents, h1: addClass(StyledH1, "mdx-heading") }
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.light};
+`
+
+const components = {
+  ...mdxComponents,
+  h1: withGridConstraint(addClass(StyledH1, "mdx-heading")),
+}
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
@@ -82,17 +91,19 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
           <ArticleMenu currentPath={location.pathname} menus={menus} />
-          <StyledLayout className="mdx-section">
-            <MDXProvider components={components}>
-              <SeoMeta title={title} />
-              <MDXRenderer
-                frontmatter={mdx.frontmatter}
-                localImages={embeddedImagesLocal}
-              >
-                {mdx.body}
-              </MDXRenderer>
-            </MDXProvider>
-          </StyledLayout>
+          <StyledArticle>
+            <StyledLayout className="mdx-section">
+              <MDXProvider components={components}>
+                <SeoMeta title={title} />
+                <MDXRenderer
+                  frontmatter={mdx.frontmatter}
+                  localImages={embeddedImagesLocal}
+                >
+                  {mdx.body}
+                </MDXRenderer>
+              </MDXProvider>
+            </StyledLayout>
+          </StyledArticle>
         </ImagesProvider>
       </AnnotationProvider>
     </NavMenuProvider>

@@ -51,8 +51,8 @@ export const IconButton = styled.button`
     background: none;
     border: none;
     padding: ${spacing.xxs};
-    bottom: ${spacing.md};
-    right: ${spacing.sm};
+    bottom: ${spacing.xxs};
+    right: ${spacing.xs};
     cursor: pointer;
 
     @media ${devices.tablet} {

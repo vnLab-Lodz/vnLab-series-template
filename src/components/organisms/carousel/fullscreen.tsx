@@ -5,12 +5,14 @@ import {
   IGatsbyImageData,
   ImageDataLike,
 } from "gatsby-plugin-image"
-import React, { useEffect, useLayoutEffect, useContext } from "react"
+import React, { useEffect, useLayoutEffect } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
 import useHypothesis from "src/hooks/useHypothesis"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import { NAV_MODES } from "../navigation-menu/nav-menu-context"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -18,7 +20,6 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import CloseSVG from "../../../images/icons/x.svg"
-import { NavMenuContext, NAV_MODES } from "../navigation-menu/nav-menu-context"
 
 interface Props {
   carouselUid: string
@@ -40,7 +41,7 @@ const FullscreenPortal: React.FC<Props> = ({
   exitFullscreen,
 }) => {
   const { hypothesis, hideHypothesis } = useHypothesis()
-  const { setNavMode } = useContext(NavMenuContext)
+  const { setNavMode } = useNavMenuContext()
 
   useLayoutEffect(() => {
     document.body.classList.add("no-scroll")
@@ -70,6 +71,7 @@ const FullscreenPortal: React.FC<Props> = ({
 
   return ReactDOM.createPortal(
     <Styled.Fullscreen
+      noConstraint
       as={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

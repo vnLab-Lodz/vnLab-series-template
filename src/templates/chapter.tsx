@@ -4,7 +4,6 @@ import { MDXProvider } from "@mdx-js/react"
 import { MdxLink } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
-import Layout from "~components/organisms/layout"
 import Abstract from "~components/molecules/abstract"
 import Annotation from "~components/molecules/annotation"
 import Quote from "~components/molecules/quote"
@@ -25,6 +24,8 @@ import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import { MENUS } from "~types"
+import { GridContainer } from "~styles/grid"
+import withGridConstraint from "src/hoc/withGridConstraint"
 
 export const addClass =
   (
@@ -36,23 +37,23 @@ export const addClass =
 
 export const mdxComponents = {
   Link: MdxLink,
-  Author: Author,
-  Abstract: Abstract,
+  Author: withGridConstraint(Author),
+  Abstract: withGridConstraint(Abstract),
   Annotation: Annotation,
-  Edition: Edition,
-  Quote: Quote,
+  Edition: withGridConstraint(Edition),
+  Quote: withGridConstraint(Quote),
   ViewportImage: ViewportImage,
-  Carousel: Carousel,
-  p: atoms.p,
-  ul: atoms.ul,
-  ol: atoms.ol,
+  Carousel: withGridConstraint(Carousel),
+  p: withGridConstraint(atoms.p),
+  ul: withGridConstraint(atoms.ul),
+  ol: withGridConstraint(atoms.ol),
   strong: atoms.strong,
   em: atoms.em,
   del: atoms.del,
   a: atoms.a,
-  h1: addClass(atoms.h1, "mdx-heading"),
-  h2: addClass(atoms.h2, "mdx-heading"),
-  h3: addClass(atoms.h3, "mdx-heading"),
+  h1: withGridConstraint(addClass(atoms.h1, "mdx-heading")),
+  h2: withGridConstraint(addClass(atoms.h2, "mdx-heading")),
+  h3: withGridConstraint(addClass(atoms.h3, "mdx-heading")),
 }
 
 interface Data {
@@ -68,13 +69,19 @@ interface Data {
   }
 }
 
-const StyledLayout = styled(Layout)`
+const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.light};
+  overflow: initial;
 
   @media ${devices.desktop} {
     grid-template-columns: repeat(32, max(3.125rem));
     justify-content: center;
+    margin: auto;
   }
+`
+
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.light};
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
@@ -94,17 +101,19 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
           <ArticleMenu currentPath={location.pathname} menus={menus} />
-          <StyledLayout className="mdx-section">
-            <MDXProvider components={mdxComponents}>
-              <SeoMeta title={title} />
-              <MDXRenderer
-                frontmatter={mdx.frontmatter}
-                localImages={embeddedImagesLocal}
-              >
-                {mdx.body}
-              </MDXRenderer>
-            </MDXProvider>
-          </StyledLayout>
+          <StyledArticle>
+            <StyledLayout className="mdx-section">
+              <MDXProvider components={mdxComponents}>
+                <SeoMeta title={title} />
+                <MDXRenderer
+                  frontmatter={mdx.frontmatter}
+                  localImages={embeddedImagesLocal}
+                >
+                  {mdx.body}
+                </MDXRenderer>
+              </MDXProvider>
+            </StyledLayout>
+          </StyledArticle>
           <ArticleFooter currentPath={location.pathname} />
         </ImagesProvider>
       </AnnotationProvider>

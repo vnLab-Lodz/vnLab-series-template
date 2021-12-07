@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import useHypothesisContext from "./useHypothesisContext"
 
 export default function useHypothesis() {
-  const [hypothesis, setHypothesis] = useState<Element | null>(null)
+  const { hypothesis } = useHypothesisContext()
 
   useEffect(() => {
+    if (hypothesis !== null) return
+
     const el = document.querySelector("hypothesis-sidebar")
-    setHypothesis(el)
-  }, [])
+  }, [hypothesis])
 
   const isHidden = () => {
     if (!!!hypothesis) return true

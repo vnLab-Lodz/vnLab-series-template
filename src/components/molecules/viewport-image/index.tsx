@@ -1,23 +1,19 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  CSSProperties,
-} from "react"
+import React, { useState, useRef, useEffect, useContext } from "react"
 import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import { useTranslation } from "react-i18next"
-import { motion } from "framer-motion"
+import { useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import * as Styled from "./style"
-
-//@ts-ignore
-import XSVG from "../../../images/icons/x.svg"
+import { GridConstraint } from "~styles/grid"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
+import { GatsbyImage } from "gatsby-plugin-image"
+
+//@ts-ignore
+import XSVG from "../../../images/icons/x.svg"
 
 interface Props {
   image: IGatsbyImageData
@@ -73,18 +69,24 @@ const CaptionPortal: React.FC<PortalProps> = ({
 }
 
 const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
-  const [open, setOpen] = useState<boolean>(false)
-  const { addImage } = useContext(ImagesContext)
-  const [position, setPosition] = useState<number | undefined>(undefined)
+  const captionRef = useRef<HTMLDivElement | null>(null)
   const ref = useRef<HTMLDivElement | null>(null)
-  const [wrapperOffset, setWrapperOffset] = useState(0)
+  const stickyRef = useRef<HTMLDivElement | null>(null)
+
+  const [position, setPosition] = useState<number | undefined>(undefined)
+  const [open, setOpen] = useState<boolean | undefined>(undefined)
+  const [sticky, setSticky] = useState(false)
+
+  const controls = useAnimation()
+
+  const [inViewRef, isInView] = useInView({ threshold: 0.1 })
+  const { addImage } = useContext(ImagesContext)
   const { t } = useTranslation("common")
-  const [inViewRef, isInView] = useInView({ threshold: 0.97 })
 
   const calculatePosition = () => {
-    if (!ref || !ref.current) return
+    if (!stickyRef || !stickyRef.current) return
 
-    const { offsetTop, offsetHeight } = ref.current
+    const { offsetTop, offsetHeight } = stickyRef.current
     const offset = offsetTop + offsetHeight
     const doc = document.documentElement
 
@@ -92,16 +94,9 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
   }
 
   const calculateScrollPosition = () => {
-    if (!ref || !ref.current) return 0
+    if (!stickyRef || !stickyRef.current) return 0
 
-    return ref.current.offsetTop - 130
-  }
-
-  const calculateWrapperOffset = () => {
-    if (!ref || !ref.current) return
-
-    const { offsetLeft } = ref.current
-    setWrapperOffset(-offsetLeft)
+    return stickyRef.current.offsetTop
   }
 
   const handleClick = () => {
@@ -109,66 +104,71 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     setOpen(true)
   }
 
+  useEffect(() => inViewRef(ref.current), [ref])
+
   useEffect(() => {
-    calculatePosition()
-    addImage(image, calculateScrollPosition())
-    inViewRef(ref.current)
-    calculateWrapperOffset()
-    window.addEventListener("resize", calculateWrapperOffset)
+    const timeout = setTimeout(() => {
+      calculatePosition()
+      addImage(image, calculateScrollPosition())
+    }, 66)
 
-    return () => {
-      window.removeEventListener("resize", calculateWrapperOffset)
-    }
-  }, [ref])
+    return () => clearTimeout(timeout)
+  }, [stickyRef])
 
-  const getFixedPositions = () => {
-    if (!ref || !ref.current) return { left: 0, right: 0 }
+  useEffect(() => {
+    if (!stickyRef.current) return setSticky(isInView)
 
-    const { offsetLeft, offsetWidth } = ref.current
+    const proportions = stickyRef.current.offsetHeight / window.innerHeight
 
-    const left = offsetLeft
-    const right = document.body.clientWidth - offsetLeft - offsetWidth
+    if (proportions > 0.8) setSticky(isInView)
+    else setSticky(false)
+  }, [isInView])
 
-    return { left, right }
-  }
+  useEffect(() => {
+    const marginBottom = sticky ? "100px" : "0px"
+    const duration = sticky ? 0.1 : 0.2
 
-  const getStickyStyle = (): CSSProperties =>
-    isInView
-      ? { position: "fixed", ...getFixedPositions() }
-      : { position: "absolute", left: "0px", right: "0px" }
+    controls.start({ marginBottom, transition: { duration, ease: "easeIn" } })
+  }, [sticky])
 
   const img = getImage(image) as IGatsbyImageData
 
-  const aspectRatio = `${img.width}/${img.height}`
-
   return (
-    <Styled.ViewportConstraint as={motion.div} ref={ref}>
-      <Styled.Absolute style={getStickyStyle()}>
-        <Styled.ImageWrapper
-          style={{ transform: `translateX(${wrapperOffset}px)` }}
-        >
-          <Styled.Image image={img} alt="" style={{ aspectRatio }} />
+    <Styled.ViewportConstraint ref={ref} sticky={sticky} animate={controls}>
+      <Styled.Absolute ref={stickyRef} sticky={sticky}>
+        <Styled.ImageWrapper>
+          <GatsbyImage
+            objectFit="contain"
+            image={img}
+            alt={caption ?? "Viewport image without a caption"}
+          />
         </Styled.ImageWrapper>
-        <Styled.Caption>
-          <Styled.CaptionText as="div">
-            <ReactMarkdown
-              components={{ ...mdxComponents, p: Styled.CaptionText } as any}
-            >
-              {caption}
-            </ReactMarkdown>
-          </Styled.CaptionText>
-          <Styled.ExpandCaptionBtn onClick={handleClick}>
-            {t("expand")}
-          </Styled.ExpandCaptionBtn>
-        </Styled.Caption>
-        {open && position && (
-          <CaptionPortal
-            caption={caption}
-            toggle={() => setOpen(false)}
-            position={position}
-          >
-            {children}
-          </CaptionPortal>
+        {caption && (
+          <GridConstraint>
+            <Styled.Caption ref={captionRef}>
+              <Styled.CaptionText as="div">
+                <ReactMarkdown
+                  components={
+                    { ...mdxComponents, p: Styled.CaptionText } as any
+                  }
+                >
+                  {caption}
+                </ReactMarkdown>
+              </Styled.CaptionText>
+              <Styled.ExpandCaptionBtn onClick={handleClick}>
+                {t("expand")}
+              </Styled.ExpandCaptionBtn>
+            </Styled.Caption>
+            {open && position && (
+              <CaptionPortal
+                caption={caption}
+                toggle={() => setOpen(false)}
+                position={position}
+              >
+                {children}
+              </CaptionPortal>
+            )}
+          </GridConstraint>
         )}
       </Styled.Absolute>
     </Styled.ViewportConstraint>

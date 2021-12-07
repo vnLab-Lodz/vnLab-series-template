@@ -4,14 +4,13 @@ import * as Styled from "./style"
 import { Image } from "src/context/illustrations-context"
 
 interface Props {
-  closeMenu: () => void
+  closeMenu: (callback?: () => void) => void
   images: Image[]
 }
 
 const Illustrations: React.FC<Props> = ({ closeMenu, images }) => {
   const scrollToImage = (position: number) => {
-    closeMenu()
-    window.scrollTo({ top: position, behavior: "smooth" })
+    closeMenu(() => window.scrollTo({ top: position, behavior: "smooth" }))
   }
 
   return (

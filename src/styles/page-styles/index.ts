@@ -12,6 +12,7 @@ export const ImageWrapper = styled.div`
   bottom: 0;
   right: 0;
   width: 100vw;
+  max-height: 100vh;
   filter: brightness(0.6);
 
   @media ${devices.tablet} {
@@ -23,22 +24,23 @@ export const ImageWrapper = styled.div`
     position: fixed;
     z-index: 0;
     display: block;
-    width: calc(50vw - (var(--scrollbarWidth) / 2));
+    width: 51vw; // ! 1 for scroll pause compatibility
   }
 `
 
 export const ContentWrapper = styled.aside`
   height: 100vh;
   display: grid;
-  grid-template-rows: 1fr repeat(6, min-content);
   align-content: end;
   grid-column: 1 / last-col;
+  grid-template-rows: 1fr min-content;
 
   grid-template-columns: repeat(32, 1fr);
 
   z-index: 7;
 
   @media ${devices.tablet} {
+    grid-template-rows: min-content 1fr min-content;
     z-index: 11;
   }
 
@@ -106,37 +108,39 @@ export const SearchBtn = styled.button<{ flex?: boolean }>`
     `};
 `
 
-export const LogoImg = styled.img`
-  transform: rotate(90deg) translateY(-35%);
-  grid-row: 2;
-  filter: brightness(10);
-  grid-column: 2 / last-col;
+export const Center = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  grid-column: 2 / -2;
 
   @media ${devices.tablet} {
-    grid-column: 7 / last-col;
+    grid-column: 7 / -7;
   }
 
   @media ${devices.laptop} {
+    grid-column: 5 / 13;
+  }
+`
+
+export const LogoImg = styled.img`
+  transform: rotate(90deg) translateY(-35%);
+  max-width: 1.3rem;
+  filter: brightness(10);
+
+  @media ${devices.laptop} {
     filter: none;
-    grid-column: 5 / 7;
   }
 `
 
 export const Title = styled(atoms.title)`
   margin-bottom: ${({ theme }) => theme.spacing.md};
 
-  grid-row: 3;
-  grid-column: 2 / 16;
   filter: brightness(10);
 
-  @media ${devices.tablet} {
-    grid-column: 7 / 16;
-  }
-
   @media ${devices.laptop} {
-    grid-column: 5 / 10;
     filter: none;
-    grid-row: 3;
   }
 `
 
@@ -145,19 +149,14 @@ export const Editorship = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
 
-    grid-column: 2 / -2;
     filter: brightness(10);
 
     @media ${devices.tablet} {
-      grid-column: 7 / -2;
       font-weight: bold;
-      grid-row: 4;
     }
 
     @media ${devices.laptop} {
-      grid-column: 5 / 9;
       filter: none;
-      grid-row: 4;
     }
   `}
 `
@@ -168,17 +167,9 @@ export const Author = styled(atoms.h3)`
   text-align: left;
 
   filter: brightness(10);
-  grid-column: 2 / -2;
-
-  @media ${devices.tablet} {
-    grid-column: 7 / -2;
-    grid-row: 5;
-  }
 
   @media ${devices.laptop} {
     filter: none;
-    grid-column: 5 / 14;
-    grid-row: 5;
   }
 `
 
@@ -217,13 +208,13 @@ export const TocButton = styled.button`
     padding: ${spacing.sm} 0px;
     display: grid;
     cursor: pointer;
-    margin-top: calc(${spacing.lg});
+    /* margin-top: calc(${spacing.lg}); */
 
     grid-template-columns: repeat(32, 1fr);
     grid-column: 1 / last-col;
 
     @media ${devices.tablet} {
-      margin-top: calc(${spacing.xxl} * 2);
+      /* margin-top: calc(${spacing.xxl} * 2); */
       padding: ${spacing.md} 0px;
       grid-column: 1 / last-col;
       grid-row: 7;
@@ -236,15 +227,15 @@ export const TocButton = styled.button`
     }
 
     @media (min-height: 1100px) {
-      margin-top: 30vh;
+      /* margin-top: 30vh; */
     }
 
     @media (max-height: 650px) {
-      margin-top: 0;
+      /* margin-top: 0; */
     }
 
     @media ${devices.desktop} {
-      margin-top: calc(${spacing.xxl} * 2);
+      /* margin-top: calc(${spacing.xxl} * 2); */
     }
   `}
 `
@@ -296,8 +287,8 @@ export const TocWrapper = styled.div`
   }
 
   @media ${devices.laptop} {
-    background: none;
     grid-column: 3 / 17;
+    z-index: 1;
   }
 `
 

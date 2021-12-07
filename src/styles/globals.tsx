@@ -35,6 +35,7 @@ export const Globals = createGlobalStyle`
   }
   body {
     line-height: 1;
+    width: 100%;
   }
   html, body {
     min-height: 100vh;
@@ -55,8 +56,10 @@ export const Globals = createGlobalStyle`
     border-spacing: 0;
   }
 
+  
   .no-scroll {
     overflow: hidden;
+    padding-right: var(--scrollbarWidth);
   }
 
   .invisible {
@@ -105,15 +108,15 @@ export const Globals = createGlobalStyle`
         --text-sm: 13px;
     }
 
-    @media ${devices.desktop} {
+    @media ${devices.desktop} and (min-height: 1100px) {
         --unit-base: 1.5rem;
         --space-unit: 1.25rem;
 
   
-        --text-xxl: 6rem;
-        --text-xl: 6rem;
-        --text-lg: 2.5rem;
-        --text-md: 1.55rem;
+        --text-xxl: 4.8rem;
+        --text-xl: 4.8rem;
+        --text-lg: 1.7rem;
+        --text-md: 1.5rem;
         --text-sm: 1.1rem;
     }
   }

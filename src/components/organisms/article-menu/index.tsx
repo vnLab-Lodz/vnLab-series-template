@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import usePageContent from "src/hooks/usePageContent"
-import { ThemeContext } from "styled-components"
+import { ThemeContext, useTheme } from "styled-components"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent, isUndefined } from "~util"
 import Annotations from "./menus/annotations"
@@ -18,6 +18,9 @@ import { MENUS } from "~types"
 import useBibliography from "src/hooks/useBibliography"
 import { ImagesContext } from "src/context/illustrations-context"
 import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
+import useScrollPause from "src/hooks/useScrollPause"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import useIsMobile from "src/hooks/useIsMobile"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
@@ -68,6 +71,14 @@ const ArticleMenu: React.FC<Props> = ({
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
 
+  const { setIsVisible } = useNavMenuContext()
+  const isMobile = useIsMobile(mobile => !mobile && setIsVisible(true))
+
+  const theme = useTheme()
+  const { pauseScroll, resumeScroll, isPaused } = useScrollPause({
+    backgroundColor: theme.palette.light,
+  })
+
   const scrollRef = useRef<number>(0)
   const ref = useRef<HTMLDivElement | null>(null)
 
@@ -84,7 +95,12 @@ const ArticleMenu: React.FC<Props> = ({
     setMenuState(prev => (prev === value ? MENU_STATE.CLOSED : value))
   }
 
-  const closeMenu = () => setState(MENU_STATE.CLOSED)
+  const closeMenu = (callback?: () => void) => {
+    resumeScroll(() => {
+      setState(MENU_STATE.CLOSED)
+      if (callback) callback()
+    })
+  }
 
   const calcNavPosition = () => {
     if (!ref || !ref.current) return Infinity
@@ -96,20 +112,29 @@ const ArticleMenu: React.FC<Props> = ({
   }
 
   const onScrollEnd = useScrollDistance((distance, _, end) => {
-    if (end < calcNavPosition() + 300) return
+    const isBelowNav = end >= calcNavPosition() + 300
 
-    if (distance <= -100) setIsHidden(false)
-    else if (distance > 0) setIsHidden(true)
+    if (distance <= -100) {
+      isBelowNav && setIsHidden(false)
+      isMobile && setIsVisible(true)
+    } else if (distance > 0) {
+      isBelowNav && setIsHidden(true)
+      isMobile && setIsVisible(false)
+    }
   })
 
   const onScroll = () => {
     const currentScrollPos = window.pageYOffset
     const navPosition = calcNavPosition()
 
-    setShouldStick(currentScrollPos >= navPosition)
+    if (currentScrollPos >= navPosition + 500) setShouldStick(true)
+    else setShouldStick(false)
 
     if (currentScrollPos < navPosition + 300) setIsHidden(false)
-    else if (scrollRef.current <= currentScrollPos) setIsHidden(true)
+    else if (scrollRef.current <= currentScrollPos) {
+      setIsHidden(true)
+      isMobile && setIsVisible(false)
+    }
 
     scrollRef.current = currentScrollPos
   }
@@ -160,9 +185,15 @@ const ArticleMenu: React.FC<Props> = ({
       window.removeEventListener("scroll", onScroll)
       window.removeEventListener("scroll", onScrollEnd)
     }
-  }, [ref, menuState])
+  }, [ref, menuState, isMobile, setIsVisible])
 
   useEffect(() => {
+    if (menuState !== MENU_STATE.CLOSED && !isPaused) {
+      pauseScroll()
+    } else if (menuState === MENU_STATE.CLOSED && isPaused) {
+      resumeScroll(() => setIsHidden(false))
+    }
+
     controls.start(
       {
         borderBottomColor:
@@ -173,9 +204,7 @@ const ArticleMenu: React.FC<Props> = ({
       { delay: 0.2, duration: 0.3, ease: "easeOut" }
     )
 
-    return () => {
-      controls.stop()
-    }
+    return () => controls.stop()
   }, [menuState])
 
   const shouldRenderMenu = (

@@ -57,7 +57,7 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
 
   return (
     <Styled.FooterSpacer>
-      <Styled.FooterGrid>
+      <Styled.FooterGrid noConstraint>
         <Styled.FooterContainer>
           <Styled.ArrowButton side="left" onClick={rewindIndex}>
             <img
@@ -69,18 +69,20 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
           <Styled.FooterPagesContainer>
             <Styled.FooterPages as={motion.div} style={{ translateX }}>
               {pages.map((page, i) => {
-                if (i === currentPathIndex) return <></>
+                if (i === currentPathIndex)
+                  return <React.Fragment key={page.id}></React.Fragment>
+
+                const header =
+                  i > currentPathIndex
+                    ? t("next_article")
+                    : t("previous_article")
 
                 return (
                   <FooterElement
                     key={page.id}
                     id={page.id}
                     number={page.index}
-                    header={
-                      i > currentPathIndex
-                        ? t("next_article")
-                        : t("previous_article")
-                    }
+                    header={header}
                     title={page.title}
                     author={page.author}
                     summary={page.summary}

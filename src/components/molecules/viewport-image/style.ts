@@ -1,37 +1,48 @@
-import { GatsbyImage } from "gatsby-plugin-image"
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 import { GridContainer, InnerGrid } from "~styles/grid"
 import atoms from "~components/atoms"
+import { motion } from "framer-motion"
 
-export const ViewportConstraint = styled.div`
-  position: relative;
-  height: 100vh;
+export const ViewportConstraint = styled(motion.div)<{ sticky: boolean }>`
+  display: grid;
+  grid-template-columns: repeat(32, 1fr);
+  overflow: hidden;
 
-  margin: ${({ theme: { spacing } }) => spacing.xxxl} 0px;
+  grid-template-rows: ${({ theme: { spacing } }) =>
+    `${spacing.xxxl} 1fr ${spacing.xxxl}`};
+  grid-column: 1 / last-col;
+  max-height: ${({ theme: { spacing } }) =>
+    `calc(100vh + 2 * ${spacing.xxxl})`};
+
+  overflow: initial;
 `
 
-export const Absolute = styled.div`
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
+  grid-column: 1 / last-col;
+  grid-row: 2;
+  position: ${({ sticky }) => (sticky ? "sticky" : "relative")};
+  top: 0;
+
+  @media ${devices.desktop} {
+    height: 100%;
+  }
 `
 
 export const ImageWrapper = styled.div`
   justify-content: center;
   overflow: hidden;
   display: flex;
-  width: 100vw;
   flex: 1;
-`
 
-export const Image = styled(GatsbyImage)`
-  height: 100%;
+  grid-column: 1 / last-col;
+
+  @media ${devices.tablet} {
+  }
+
+  @media ${devices.laptop} {
+    grid-column: 3 / last-col;
+  }
 `
 
 export const Caption = styled(InnerGrid)`
@@ -61,7 +72,7 @@ export const ExpandCaptionBtn = styled.button`
 
 export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
-    grid-column: 1 / 14;
+    grid-column: 1 / -6;
     font-size: calc(${typography.sm} * 1.3);
   `}
 `

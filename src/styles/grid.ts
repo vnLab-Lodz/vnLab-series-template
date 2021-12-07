@@ -5,6 +5,7 @@ interface ContainerProps {
   columns?: number | string
   rows?: number | string
   noConstraint?: boolean
+  left?: boolean
 }
 
 export const GridContainer = styled.div<ContainerProps>`
@@ -12,11 +13,13 @@ export const GridContainer = styled.div<ContainerProps>`
   grid-template-columns: repeat(32, 1fr);
   overflow: hidden;
 
-  ${({ noConstraint }) =>
+  ${({ noConstraint, left }) =>
     !noConstraint &&
     css`
       @media ${devices.desktop} {
         grid-template-columns: repeat(32, max(3.125rem));
+        max-width: calc(3.125rem * 32);
+        margin: ${left ? "0 auto 0 0" : "auto"};
       }
     `}
 `

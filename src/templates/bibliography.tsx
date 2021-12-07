@@ -42,6 +42,10 @@ const StyledLayout = styled(Layout)`
   }
 `
 
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.light};
+`
+
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
 
@@ -57,17 +61,19 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
-          <StyledLayout className="mdx-section">
-            <MDXProvider components={mdxComponents}>
-              <SeoMeta title={title} />
-              <MDXRenderer
-                frontmatter={mdx.frontmatter}
-                localImages={embeddedImagesLocal}
-              >
-                {mdx.body}
-              </MDXRenderer>
-            </MDXProvider>
-          </StyledLayout>
+          <StyledArticle>
+            <StyledLayout className="mdx-section">
+              <MDXProvider components={mdxComponents}>
+                <SeoMeta title={title} />
+                <MDXRenderer
+                  frontmatter={mdx.frontmatter}
+                  localImages={embeddedImagesLocal}
+                >
+                  {mdx.body}
+                </MDXRenderer>
+              </MDXProvider>
+            </StyledLayout>
+          </StyledArticle>
         </ImagesProvider>
       </AnnotationProvider>
     </NavMenuProvider>

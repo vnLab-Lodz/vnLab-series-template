@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useRef, useState } from "react"
+import React, { useContext, useRef } from "react"
 import SeoMeta from "~components/meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
@@ -9,9 +9,9 @@ import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import useHypothesis from "src/hooks/useHypothesis"
 import { useEffect } from "react"
 import * as Styled from "../styles/page-styles/index"
-import NavMenuProvider, {
-  NavMenuContext,
-} from "~components/organisms/navigation-menu/nav-menu-context"
+import useIsMobile from "src/hooks/useIsMobile"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 
 //@ts-ignore
 import Logo from "../images/icons/vnlab_logo.svg"
@@ -23,15 +23,10 @@ import SearchSVG from "../images/icons/magnifying_glass.svg"
 import HamburgerSVG from "../images/icons/hamburger.svg"
 
 const NavMenuToggle: React.FC = () => {
-  const { toggleNav } = useContext(NavMenuContext)
+  const { toggleNav } = useNavMenuContext()
 
   return (
-    <Styled.NavBtn
-      onClick={() => {
-        // scrollToToC()
-        setTimeout(() => toggleNav(), 180)
-      }}
-    >
+    <Styled.NavBtn onClick={() => setTimeout(() => toggleNav(), 180)}>
       <img
         className="sizeable-icon"
         src={HamburgerSVG}
@@ -42,13 +37,20 @@ const NavMenuToggle: React.FC = () => {
 }
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
-  const [isMobile, setIsMobile] = useState(false)
   const { hypothesis, hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
   const ref = useRef<HTMLDivElement | null>(null)
 
-  const scorllToToC = () => {
+  const isMobile = useIsMobile(() => {
+    const scrollbarWidth = window.innerWidth - document.body.clientWidth
+    document.documentElement.style.setProperty(
+      "--scrollbarWidth",
+      `${scrollbarWidth}px`
+    )
+  })
+
+  const scrollToToC = () => {
     if (!ref || !ref.current) return
 
     scrollTo({ top: ref.current.offsetTop, behavior: "smooth" })
@@ -57,25 +59,6 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   useEffect(() => {
     hideHypothesis()
   }, [hypothesis])
-
-  const determineDevice = () => {
-    setIsMobile(window.innerWidth < 768)
-
-    const scrollbarWidth = window.innerWidth - document.body.clientWidth
-    document.documentElement.style.setProperty(
-      "--scrollbarWidth",
-      `${scrollbarWidth}px`
-    )
-  }
-
-  useLayoutEffect(() => {
-    determineDevice()
-    window.addEventListener("resize", determineDevice)
-
-    return () => {
-      window.removeEventListener("resize", determineDevice)
-    }
-  }, [])
 
   return (
     <NavMenuProvider>
@@ -116,16 +99,22 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
               </Styled.SearchBtn>
             </Styled.Header>
           )}
-          <Styled.LogoImg src={Logo} alt="vnlab logo" />
-          <Styled.Title>{t("common:title")}</Styled.Title>
-          <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
-          <Styled.Author type="primary">
-            <Styled.BiogramLink to="/biograms/krzysztof_pijarski" lang={locale}>
-              {t("home:author")}
-            </Styled.BiogramLink>
-          </Styled.Author>
-          <Styled.WrappedEdition />
-          <Styled.TocButton onClick={scorllToToC}>
+          <Styled.Center>
+            <Styled.LogoImg src={Logo} alt="vnlab logo" />
+            <Styled.Title>{t("common:title")}</Styled.Title>
+            <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
+            <Styled.Author type="primary">
+              <Styled.BiogramLink
+                to="/biograms/krzysztof_pijarski"
+                lang={locale}
+              >
+                {t("home:author")}
+              </Styled.BiogramLink>
+            </Styled.Author>
+            <Styled.WrappedEdition />
+          </Styled.Center>
+
+          <Styled.TocButton onClick={scrollToToC}>
             <Styled.TocBtnContent>
               <Styled.TocBtnText>{t("home:toc")}</Styled.TocBtnText>
               <Styled.ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
