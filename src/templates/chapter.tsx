@@ -43,7 +43,7 @@ export const mdxComponents = {
   Edition: withGridConstraint(Edition),
   Quote: withGridConstraint(Quote),
   ViewportImage: ViewportImage,
-  Carousel: withGridConstraint(Carousel),
+  Carousel: Carousel,
   p: withGridConstraint(atoms.p),
   ul: withGridConstraint(atoms.ul),
   ol: withGridConstraint(atoms.ol),
