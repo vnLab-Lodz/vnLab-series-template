@@ -14,7 +14,8 @@ import { v4 as uuid } from "uuid"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import useIsMobile from "src/hooks/useIsMobile"
-import useIsClient from "src/hooks/useIsClient"
+import { useInView } from "react-intersection-observer"
+import { useAnimation } from "framer-motion"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -30,13 +31,21 @@ interface Props {
 }
 
 const Carousel: React.FC<Props> = ({ images, captions }) => {
-  const { addImage } = useContext(ImagesContext)
   const ref = useRef<HTMLDivElement | null>(null)
+  const constraintRef = useRef<HTMLDivElement | null>(null)
+  const stickyRef = useRef<HTMLDivElement | null>(null)
+
   const [currentImage, setCurrentImage] = useState(0)
   const [fullscreen, setFullscreen] = useState(false)
-  const carouselUid = useMemo(() => uuid(), [images])
+  const [sticky, setSticky] = useState(false)
+
+  const [inViewRef, isInView] = useInView({ threshold: 0.1 })
+  const { addImage } = useContext(ImagesContext)
   const isMobile = useIsMobile()
-  const { key } = useIsClient()
+
+  const controls = useAnimation()
+
+  const carouselUid = useMemo(() => uuid(), [images])
 
   const calcScrollPos = () => {
     if (!ref || !ref.current) return 0
@@ -99,6 +108,8 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const getWrapperKey = (index: number) =>
     `carousel-${carouselUid}__wrapper--${index}`
 
+  useEffect(() => inViewRef(constraintRef.current), [constraintRef])
+
   useEffect(() => {
     const scrollPos = calcScrollPos()
     images.forEach(img => addImage(img as IGatsbyImageData, scrollPos))
@@ -108,39 +119,57 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     if (isMobile && fullscreen) setFullscreen(false)
   }, [isMobile])
 
+  useEffect(() => {
+    if (!stickyRef.current) return setSticky(isInView)
+
+    const proportions = stickyRef.current.offsetHeight / window.innerHeight
+
+    if (proportions > 0.8) setSticky(isInView)
+    else setSticky(false)
+  }, [isInView])
+
+  useEffect(() => {
+    const marginBottom = sticky ? "100px" : "0px"
+    const duration = sticky ? 0.1 : 0.2
+
+    controls.start({ marginBottom, transition: { duration, ease: "easeIn" } })
+  }, [sticky])
+
   return (
-    <React.Fragment key={key}>
-      <Styled.ViewportConstraint sticky>
-        <Styled.Slider ref={ref} onScroll={onScroll}>
-          {images.map((image, index) => (
-            <Image
-              key={getWrapperKey(index)}
-              index={index}
-              onClick={onImgClick}
-              carouselUid={carouselUid}
-              caption={captions[index]}
-              image={image as IGatsbyImageData}
-            />
-          ))}
-        </Styled.Slider>
-        <Styled.Controls>
-          <Styled.CarouselNav>
-            <InnerGrid>
-              <Styled.Arrow side="left" onClick={previousImage}>
-                <img src={LeftArrowSVG} alt="Left arrow" />
-              </Styled.Arrow>
-              <Styled.ImageCount>
-                {currentImage + 1}/{images.length}
-              </Styled.ImageCount>
-              <Styled.Arrow side="right" onClick={nextImage}>
-                <img src={RightArrowSVG} alt="Right arrow" />
-              </Styled.Arrow>
-              <Styled.Expand onClick={() => setFullscreen(true)}>
-                <img src={ExpandArrow} alt="Expand arrow" />
-              </Styled.Expand>
-            </InnerGrid>
-          </Styled.CarouselNav>
-        </Styled.Controls>
+    <>
+      <Styled.ViewportConstraint ref={constraintRef} animate={controls}>
+        <Styled.Absolute ref={stickyRef} sticky={sticky}>
+          <Styled.Slider ref={ref} onScroll={onScroll}>
+            {images.map((image, index) => (
+              <Image
+                key={getWrapperKey(index)}
+                index={index}
+                onClick={onImgClick}
+                carouselUid={carouselUid}
+                caption={captions[index]}
+                image={image as IGatsbyImageData}
+              />
+            ))}
+          </Styled.Slider>
+          <Styled.Controls>
+            <Styled.CarouselNav>
+              <InnerGrid>
+                <Styled.Arrow side="left" onClick={previousImage}>
+                  <img src={LeftArrowSVG} alt="Left arrow" />
+                </Styled.Arrow>
+                <Styled.ImageCount>
+                  {currentImage + 1}/{images.length}
+                </Styled.ImageCount>
+                <Styled.Arrow side="right" onClick={nextImage}>
+                  <img src={RightArrowSVG} alt="Right arrow" />
+                </Styled.Arrow>
+                <Styled.Expand onClick={() => setFullscreen(true)}>
+                  <img src={ExpandArrow} alt="Expand arrow" />
+                </Styled.Expand>
+              </InnerGrid>
+            </Styled.CarouselNav>
+          </Styled.Controls>
+        </Styled.Absolute>
       </Styled.ViewportConstraint>
       {fullscreen && (
         <FullscreenPortal
@@ -153,7 +182,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
           exitFullscreen={() => setFullscreen(false)}
         />
       )}
-    </React.Fragment>
+    </>
   )
 }
 

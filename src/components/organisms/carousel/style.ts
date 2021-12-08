@@ -5,13 +5,28 @@ import { GridConstraint, GridContainer } from "~styles/grid"
 import { devices } from "~styles/breakpoints"
 import atoms from "~components/atoms"
 
-export const ViewportConstraint = styled(GridContainer)<{ sticky: boolean }>`
-  max-height: 100vh;
+export const ViewportConstraint = styled(motion.div)`
+  display: grid;
   grid-column: 1 / last-col;
-  margin: ${({ theme: { spacing } }) => spacing.xxl} 0px;
+  grid-template-columns: repeat(32, 1fr);
+  grid-template-rows: ${({ theme: { spacing } }) =>
+    `${spacing.xxxl} 1fr ${spacing.xxxl}`};
+  max-height: ${({ theme: { spacing } }) =>
+    `calc(100vh + 2 * ${spacing.xxxl})`};
+  overflow: initial;
+`
+
+export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
+  grid-column: 1 / last-col;
+  grid-row: 2;
+  position: ${({ sticky }) => (sticky ? "sticky" : "relative")};
+  top: 0;
   display: grid;
   grid-template-rows: 1fr min-content;
-  overflow: initial;
+
+  @media ${devices.desktop} {
+    height: 100%;
+  }
 `
 
 export const Slider = styled(motion.div)`
@@ -69,6 +84,10 @@ export const ImageWrapper = styled.div`
 
   @media ${devices.laptop} {
     width: calc(calc(100vw / 32) * 16);
+  }
+
+  @media ${devices.desktop} {
+    max-width: calc(3.125rem * 16);
   }
 
   &:first-child {
@@ -297,4 +316,4 @@ export const SliderImage = styled.div<{
   }
 `
 
-//endregion
+//#endregion
