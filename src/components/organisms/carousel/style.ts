@@ -37,14 +37,6 @@ export const Slider = styled(motion.div)`
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
 
-  @media ${devices.tablet} {
-    grid-column: 1 / last-col;
-  }
-
-  @media ${devices.laptop} {
-    grid-column: 1 / last-col;
-  }
-
   padding-left: calc(calc(100vw / 32) * 1);
   padding-right: calc(calc(100vw / 32) * 1);
 
