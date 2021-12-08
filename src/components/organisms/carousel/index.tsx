@@ -8,7 +8,6 @@ import React, {
 } from "react"
 import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import { ImagesContext } from "src/context/illustrations-context"
-import * as Styled from "./style"
 import { InnerGrid } from "~styles/grid"
 import FullscreenPortal from "./fullscreen"
 import { v4 as uuid } from "uuid"
@@ -16,6 +15,7 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import useIsMobile from "src/hooks/useIsMobile"
 import useIsClient from "src/hooks/useIsClient"
+import * as Styled from "./style"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -23,8 +23,6 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
-
-import * as New from "./newStyle"
 
 interface Props {
   images: ImageDataLike[]
@@ -34,7 +32,6 @@ interface Props {
 const Carousel: React.FC<Props> = ({ images, captions }) => {
   const { addImage } = useContext(ImagesContext)
   const ref = useRef<HTMLDivElement | null>(null)
-  const touchRef = useRef<boolean>(false)
   const [currentImage, setCurrentImage] = useState(0)
   const [fullscreen, setFullscreen] = useState(false)
   const carouselUid = useMemo(() => uuid(), [images])
@@ -47,15 +44,15 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     return ref.current.offsetTop
   }
 
-  const nextImage = () => {
-    touchRef.current = true
-    setCurrentImage(prev => (prev >= images.length - 1 ? prev : prev + 1))
-  }
+  const getNextIndex = () =>
+    currentImage >= images.length - 1 ? currentImage : currentImage + 1
 
-  const previousImage = () => {
-    touchRef.current = true
-    setCurrentImage(prev => (prev <= 0 ? prev : prev - 1))
-  }
+  const getPrevIndex = () =>
+    currentImage <= 0 ? currentImage : currentImage - 1
+
+  const nextImage = () => scrollToImage(getNextIndex())
+
+  const previousImage = () => scrollToImage(getPrevIndex())
 
   const getScrollOffset = () => {
     const { innerWidth } = window
@@ -65,31 +62,33 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     return innerWidth < 1024 ? unit * 6 : unit * 8
   }
 
+  const getImagePosition = (index: number) => {
+    if (!ref.current) return 0
+
+    const offset = getScrollOffset()
+    const selector = `#${getWrapperKey(index)}`
+    const wrapper = ref.current.querySelector<HTMLDivElement>(selector)
+
+    return wrapper ? wrapper.offsetLeft - offset : 0
+  }
+
+  const scrollToImage = (index: number) => {
+    if (!ref.current) return
+
+    const left = getImagePosition(index)
+
+    ref.current.scrollTo({ left, behavior: "smooth" })
+  }
+
   const onScroll: React.UIEventHandler<HTMLDivElement> = e => {
     if (!ref.current) return
 
-    const offset = getScrollOffset()
-    const selector = `#${getWrapperKey(currentImage)}`
-    const wrapper = ref.current.querySelector<HTMLDivElement>(selector)
-    const imgPosition = wrapper ? wrapper.offsetLeft - offset : 0
     const { scrollLeft } = e.currentTarget
+    const imgPosition = getImagePosition(currentImage)
     const distance = imgPosition - scrollLeft
 
-    if (touchRef.current === true) {
-      if (distance < 1 && distance > -1) touchRef.current = false
-      return
-    }
-
-    if (distance > 10) previousImage()
-    else if (distance < -10) nextImage()
-  }
-
-  const onTouchStart: React.UIEventHandler<HTMLDivElement> = e => {
-    e.currentTarget.style.overflowX = "scroll"
-  }
-
-  const onTouchEnd: React.UIEventHandler<HTMLDivElement> = e => {
-    e.currentTarget.style.overflowX = "hidden"
+    if (distance > 300) setCurrentImage(getPrevIndex())
+    else if (distance < -300) setCurrentImage(getNextIndex())
   }
 
   const onImgClick = useCallback(
@@ -109,26 +108,10 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     if (isMobile && fullscreen) setFullscreen(false)
   }, [isMobile])
 
-  useEffect(() => {
-    if (!ref.current) return
-
-    const offset = getScrollOffset()
-    const selector = `#${getWrapperKey(currentImage)}`
-    const wrapper = ref.current.querySelector<HTMLDivElement>(selector)
-    const imgPosition = wrapper ? wrapper.offsetLeft - offset : 0
-
-    ref.current.scrollTo({ left: imgPosition, behavior: "smooth" })
-  }, [currentImage])
-
   return (
     <React.Fragment key={key}>
-      <New.ViewportConstraint sticky>
-        <New.Slider
-          ref={ref}
-          onScroll={onScroll}
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
+      <Styled.ViewportConstraint sticky>
+        <Styled.Slider ref={ref} onScroll={onScroll}>
           {images.map((image, index) => (
             <Image
               key={getWrapperKey(index)}
@@ -139,9 +122,9 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
               image={image as IGatsbyImageData}
             />
           ))}
-        </New.Slider>
-        <New.Controls>
-          <New.CarouselNav>
+        </Styled.Slider>
+        <Styled.Controls>
+          <Styled.CarouselNav>
             <InnerGrid>
               <Styled.Arrow side="left" onClick={previousImage}>
                 <img src={LeftArrowSVG} alt="Left arrow" />
@@ -156,9 +139,9 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                 <img src={ExpandArrow} alt="Expand arrow" />
               </Styled.Expand>
             </InnerGrid>
-          </New.CarouselNav>
-        </New.Controls>
-      </New.ViewportConstraint>
+          </Styled.CarouselNav>
+        </Styled.Controls>
+      </Styled.ViewportConstraint>
       {fullscreen && (
         <FullscreenPortal
           carouselUid={carouselUid}
@@ -181,21 +164,21 @@ const Image: React.FC<{
   index: number
   carouselUid: string
 }> = React.memo(({ carouselUid, index, caption, image, onClick }) => (
-  <New.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
-    <New.Image
+  <Styled.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
+    <Styled.Image
       objectFit="cover"
       alt={`${caption} | Carousel image ${index}`}
       image={getImage(image) as IGatsbyImageData}
       onClick={onClick}
     />
-    <New.Caption>
+    <Styled.Caption>
       <ReactMarkdown
         components={{ ...mdxComponents, p: Styled.ImageCaption } as any}
       >
         {caption}
       </ReactMarkdown>
-    </New.Caption>
-  </New.ImageWrapper>
+    </Styled.Caption>
+  </Styled.ImageWrapper>
 ))
 
 export default Carousel
