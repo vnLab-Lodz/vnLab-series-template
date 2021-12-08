@@ -15,6 +15,7 @@ import { v4 as uuid } from "uuid"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import useIsMobile from "src/hooks/useIsMobile"
+import useIsClient from "src/hooks/useIsClient"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -38,7 +39,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const [fullscreen, setFullscreen] = useState(false)
   const carouselUid = useMemo(() => uuid(), [images])
   const isMobile = useIsMobile()
-  // const { key } = useIsClient()
+  const { key } = useIsClient()
 
   const calcScrollPos = () => {
     if (!ref || !ref.current) return 0
@@ -91,32 +92,13 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     e.currentTarget.style.overflowX = "hidden"
   }
 
-  const onImgClick = () => !isMobile && setFullscreen(true)
+  const onImgClick = useCallback(
+    () => !isMobile && setFullscreen(true),
+    [isMobile, setFullscreen]
+  )
 
   const getWrapperKey = (index: number) =>
     `carousel-${carouselUid}__wrapper--${index}`
-
-  const renderImage = (image: ImageDataLike, index: number) => {
-    const wrapperKey = getWrapperKey(index)
-
-    return (
-      <New.ImageWrapper key={wrapperKey} id={wrapperKey}>
-        <New.Image
-          objectFit="cover"
-          alt={`${captions[index]} | Carousel image ${index}`}
-          image={getImage(image) as IGatsbyImageData}
-          onClick={onImgClick}
-        />
-        <New.Caption>
-          <ReactMarkdown
-            components={{ ...mdxComponents, p: Styled.ImageCaption } as any}
-          >
-            {captions[index]}
-          </ReactMarkdown>
-        </New.Caption>
-      </New.ImageWrapper>
-    )
-  }
 
   useEffect(() => {
     const scrollPos = calcScrollPos()
@@ -139,7 +121,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   }, [currentImage])
 
   return (
-    <>
+    <React.Fragment key={key}>
       <New.ViewportConstraint sticky>
         <New.Slider
           ref={ref}
@@ -147,7 +129,16 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
-          {images.map(renderImage)}
+          {images.map((image, index) => (
+            <Image
+              key={getWrapperKey(index)}
+              index={index}
+              onClick={onImgClick}
+              carouselUid={carouselUid}
+              caption={captions[index]}
+              image={image as IGatsbyImageData}
+            />
+          ))}
         </New.Slider>
         <New.Controls>
           <New.CarouselNav>
@@ -179,8 +170,32 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
           exitFullscreen={() => setFullscreen(false)}
         />
       )}
-    </>
+    </React.Fragment>
   )
 }
+
+const Image: React.FC<{
+  caption: string
+  onClick: () => void
+  image: IGatsbyImageData
+  index: number
+  carouselUid: string
+}> = React.memo(({ carouselUid, index, caption, image, onClick }) => (
+  <New.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
+    <New.Image
+      objectFit="cover"
+      alt={`${caption} | Carousel image ${index}`}
+      image={getImage(image) as IGatsbyImageData}
+      onClick={onClick}
+    />
+    <New.Caption>
+      <ReactMarkdown
+        components={{ ...mdxComponents, p: Styled.ImageCaption } as any}
+      >
+        {caption}
+      </ReactMarkdown>
+    </New.Caption>
+  </New.ImageWrapper>
+))
 
 export default Carousel
