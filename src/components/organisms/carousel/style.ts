@@ -38,11 +38,11 @@ export const Slider = styled(motion.div)`
   scroll-snap-type: x mandatory;
 
   @media ${devices.tablet} {
-    grid-column: 4 / last-col;
+    grid-column: 1 / last-col;
   }
 
   @media ${devices.laptop} {
-    grid-column: 3 / last-col;
+    grid-column: 1 / last-col;
   }
 
   padding-left: calc(calc(100vw / 32) * 1);
@@ -54,7 +54,7 @@ export const Slider = styled(motion.div)`
   }
 
   @media ${devices.laptop} {
-    padding-left: calc(calc(100vw / 32) * 6);
+    padding-left: calc(calc(100vw / 32) * 8);
     padding-right: calc(calc(100vw / 32) * 8);
   }
 
