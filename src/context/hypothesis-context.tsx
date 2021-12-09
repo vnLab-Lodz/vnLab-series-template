@@ -18,6 +18,18 @@ const HypothesisContextProvider: React.FC = ({ children }) => {
 
       const el = document.querySelector("hypothesis-sidebar")
       setHypothesis(el)
+
+      // Style the shadow dom
+      if (el !== null) {
+        const style = document.createElement("style")
+
+        style.innerHTML = `
+        .Buckets__list.Buckets__list {
+          background: transparent;
+        }`
+
+        if (el.shadowRoot) el.shadowRoot.appendChild(style)
+      }
     }, 500)
 
     return () => clearInterval(interval)
