@@ -92,7 +92,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           {headerImage && <HeaderImage image={headerImage} />}
           <ArticleMenu currentPath={location.pathname} menus={menus} />
           <StyledArticle>
-            <StyledLayout className="mdx-section">
+            <StyledLayout flexible className="mdx-section">
               <MDXProvider components={components}>
                 <SeoMeta title={title} />
                 <MDXRenderer

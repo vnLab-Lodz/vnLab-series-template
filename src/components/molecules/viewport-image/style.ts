@@ -4,14 +4,12 @@ import { GridContainer, InnerGrid } from "~styles/grid"
 import atoms from "~components/atoms"
 import { motion } from "framer-motion"
 
-export const ViewportConstraint = styled(motion.div)<{ sticky: boolean }>`
+export const ViewportConstraint = styled(motion.div)`
   display: grid;
+  grid-column: 1 / last-col;
   grid-template-columns: repeat(32, 1fr);
-  overflow: hidden;
-
   grid-template-rows: ${({ theme: { spacing } }) =>
     `${spacing.xxxl} 1fr ${spacing.xxxl}`};
-  grid-column: 1 / last-col;
   max-height: ${({ theme: { spacing } }) =>
     `calc(100vh + 2 * ${spacing.xxxl})`};
 
