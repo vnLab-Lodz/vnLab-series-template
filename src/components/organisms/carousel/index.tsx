@@ -138,7 +138,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   return (
     <>
       <Styled.ViewportConstraint ref={constraintRef} animate={controls}>
-        <Styled.Absolute ref={stickyRef} sticky={sticky}>
+        <Styled.Absolute flexible ref={stickyRef} sticky={sticky}>
           <Styled.Slider ref={ref} onScroll={onScroll}>
             {images.map((image, index) => (
               <Image

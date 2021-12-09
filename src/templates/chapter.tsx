@@ -74,7 +74,6 @@ const StyledLayout = styled(GridContainer)`
   overflow: initial;
 
   @media ${devices.desktop} {
-    grid-template-columns: repeat(32, max(3.125rem));
     justify-content: center;
     margin: auto;
   }
@@ -102,7 +101,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           {headerImage && <HeaderImage image={headerImage} />}
           <ArticleMenu currentPath={location.pathname} menus={menus} />
           <StyledArticle>
-            <StyledLayout className="mdx-section">
+            <StyledLayout flexible className="mdx-section">
               <MDXProvider components={mdxComponents}>
                 <SeoMeta title={title} />
                 <MDXRenderer

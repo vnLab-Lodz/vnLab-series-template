@@ -41,13 +41,20 @@ export const Slider = styled(motion.div)`
   padding-right: calc(calc(100vw / 32) * 1);
 
   @media ${devices.tablet} {
+    grid-column: 4 / last-col;
     padding-left: calc(calc(100vw / 32) * 3);
     padding-right: calc(calc(100vw / 32) * 3);
   }
 
   @media ${devices.laptop} {
+    grid-column: 1 / last-col;
     padding-left: calc(calc(100vw / 32) * 8);
     padding-right: calc(calc(100vw / 32) * 8);
+  }
+
+  @media ${devices.laptop} {
+    padding-left: calc(calc(100vw / 32) * 12);
+    padding-right: calc(calc(100vw / 32) * 12);
   }
 
   overflow-x: -moz-scrollbars-none;

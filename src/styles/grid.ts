@@ -2,10 +2,9 @@ import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
 interface ContainerProps {
-  columns?: number | string
-  rows?: number | string
   noConstraint?: boolean
   left?: boolean
+  flexible?: boolean
 }
 
 export const GridContainer = styled.div<ContainerProps>`
@@ -22,6 +21,15 @@ export const GridContainer = styled.div<ContainerProps>`
         margin: ${left ? "0 auto 0 0" : "auto"};
       }
     `}
+
+  ${({ flexible }) =>
+    flexible &&
+    css`
+      @media ${devices.desktop} {
+        grid-template-columns: 1fr repeat(30, max(3.125rem)) 1fr;
+        max-width: 100vw !important;
+      }
+    `};
 `
 
 export const GridConstraint = styled.div`
