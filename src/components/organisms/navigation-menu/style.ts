@@ -332,6 +332,7 @@ export const AboutWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(16, 1fr);
   grid-column: 1 / last-col;
+  padding-top: ${({ theme }) => theme.spacing.md};
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
