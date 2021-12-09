@@ -49,11 +49,13 @@ export const Caption = styled(InnerGrid)`
 `
 
 export const ExpandCaptionBtn = styled.button`
-  ${({ theme: { typography } }) => css`
+  ${({ theme: { typography, palette } }) => css`
     grid-column: -5 / span 4;
+
     @media ${devices.tablet} {
       grid-column: -3 / span 2;
     }
+
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     font-weight: 500;
@@ -65,6 +67,7 @@ export const ExpandCaptionBtn = styled.button`
     border: none;
     cursor: pointer;
     height: fit-content;
+    color: ${palette.black};
   `}
 `
 

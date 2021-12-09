@@ -208,13 +208,11 @@ export const TocButton = styled.button`
     padding: ${spacing.sm} 0px;
     display: grid;
     cursor: pointer;
-    /* margin-top: calc(${spacing.lg}); */
 
     grid-template-columns: repeat(32, 1fr);
     grid-column: 1 / last-col;
 
     @media ${devices.tablet} {
-      /* margin-top: calc(${spacing.xxl} * 2); */
       padding: ${spacing.md} 0px;
       grid-column: 1 / last-col;
       grid-row: 7;

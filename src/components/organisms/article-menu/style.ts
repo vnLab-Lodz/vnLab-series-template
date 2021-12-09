@@ -55,24 +55,26 @@ export const MenuNav = styled.nav<{ open: boolean }>`
 `
 
 export const ButtonText = styled.span`
-  ${({ theme: { spacing, typography } }) => css`
+  ${({ theme: { spacing, typography, palette } }) => css`
     margin-right: ${spacing.xxs};
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     font-weight: bold;
     text-transform: uppercase;
     line-height: 115%;
+    color: ${palette.black};
   `}
 `
 
 export const Button = styled.button`
-  ${({ theme: { spacing } }) => css`
+  ${({ theme: { spacing, palette } }) => css`
     padding: ${spacing.xs};
     background: none;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
+    color: ${palette.black};
   `}
 `
 
