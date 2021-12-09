@@ -51,7 +51,7 @@ export const ArticleAuthor = styled(atoms.h3)`
 `
 
 export const SummaryButton = styled.button`
-  ${({ theme: { spacing, typography } }) => css`
+  ${({ theme: { spacing, typography, palette } }) => css`
     border: none;
     background: none;
     padding: 0;
@@ -59,8 +59,10 @@ export const SummaryButton = styled.button`
     grid-row: 3;
     grid-column: 4 / -2;
     text-align: left;
+    color: ${palette.black};
 
     span {
+      color: ${palette.black};
       font-family: ${typography.fonts.primary};
       font-size: ${typography.sm};
       font-weight: normal;
