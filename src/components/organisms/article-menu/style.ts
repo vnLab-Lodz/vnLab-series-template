@@ -51,6 +51,10 @@ export const MenuNav = styled.nav<{ open: boolean }>`
       justify-content: center;
       overflow-x: hidden;
     }
+
+    @media (min-width: 1024px) and (max-width: 1100px) {
+      overflow-x: visible;
+    }
   `}
 `
 
