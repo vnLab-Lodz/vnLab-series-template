@@ -99,7 +99,11 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>
           {headerImage && <HeaderImage image={headerImage} />}
-          <ArticleMenu currentPath={location.pathname} menus={menus} />
+          <ArticleMenu
+            currentPath={location.pathname}
+            menus={menus}
+            spaced={!headerImage}
+          />
           <StyledArticle>
             <StyledLayout flexible className="mdx-section">
               <MDXProvider components={mdxComponents}>

@@ -73,6 +73,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           {headerImage && <HeaderImage image={headerImage} />}
           <StyledArticleMenu
             noBibliography
+            spaced={!headerImage}
             currentPath={location.pathname}
             menus={menus}
           />

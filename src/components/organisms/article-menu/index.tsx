@@ -26,6 +26,7 @@ import useIsMobile from "src/hooks/useIsMobile"
 import ArrowDown from "src/images/icons/arrow_down.svg"
 
 interface Props {
+  spaced?: boolean
   currentPath: string
   noBibliography?: boolean
   className?: string
@@ -66,6 +67,7 @@ const ArticleMenu: React.FC<Props> = ({
   noBibliography,
   className,
   menus,
+  spaced,
 }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
@@ -243,7 +245,11 @@ const ArticleMenu: React.FC<Props> = ({
     return <></>
 
   return (
-    <Styled.ArticleMenuContainer ref={ref} className={className}>
+    <Styled.ArticleMenuContainer
+      ref={ref}
+      className={className}
+      spaced={spaced}
+    >
       <AnimatePresence initial={false} exitBeforeEnter>
         {!isHidden && (
           <Styled.StickyWrapper
