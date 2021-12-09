@@ -1,13 +1,21 @@
 import { motion } from "framer-motion"
 import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
-import { devices } from "~styles/breakpoints"
+import { breakpoints, devices } from "~styles/breakpoints"
 import BaseLayout from "../layout"
 
-export const ArticleMenuContainer = styled.div`
+export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
   position: relative;
   height: 250px;
   background: ${({ theme: { palette } }) => palette.light};
+
+  ${({ spaced }) =>
+    spaced &&
+    css`
+      @media (max-width: 767px) {
+        padding-top: 70px;
+      }
+    `};
 `
 
 export const StickyWrapper = styled.div<{ sticky?: boolean }>`
@@ -50,6 +58,10 @@ export const MenuNav = styled.nav<{ open: boolean }>`
     @media ${devices.tablet} {
       justify-content: center;
       overflow-x: hidden;
+    }
+
+    @media (min-width: 1024px) and (max-width: 1100px) {
+      overflow-x: visible;
     }
   `}
 `
