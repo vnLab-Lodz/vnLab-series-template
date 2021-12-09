@@ -77,7 +77,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             menus={menus}
           />
           <StyledArticle>
-            <StyledLayout className="mdx-section">
+            <StyledLayout flexible className="mdx-section">
               <MDXProvider components={mdxComponents}>
                 <SeoMeta title={title} />
                 <MDXRenderer

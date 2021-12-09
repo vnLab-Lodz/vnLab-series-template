@@ -7,7 +7,7 @@ interface Props {
 
 const Layout: React.FC<Props> = ({ children, className }) => {
   return (
-    <GridContainer className={className}>
+    <GridContainer flexible className={className}>
       <GridConstraint>{children}</GridConstraint>
     </GridContainer>
   )

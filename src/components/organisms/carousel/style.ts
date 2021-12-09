@@ -1,97 +1,114 @@
 import styled, { css } from "styled-components"
-import atoms from "~components/atoms"
+import { motion } from "framer-motion"
+import { GatsbyImage } from "gatsby-plugin-image"
+import { GridConstraint, GridContainer } from "~styles/grid"
 import { devices } from "~styles/breakpoints"
-import { GridContainer } from "~styles/grid"
+import atoms from "~components/atoms"
 
-//#region Base carousel styles
+export const ViewportConstraint = styled(motion.div)`
+  display: grid;
+  grid-column: 1 / last-col;
+  grid-template-columns: repeat(32, 1fr);
+  grid-template-rows: ${({ theme: { spacing } }) =>
+    `${spacing.xxxl} 1fr ${spacing.xxxl}`};
+  max-height: ${({ theme: { spacing } }) =>
+    `calc(100vh + 2 * ${spacing.xxxl})`};
+  overflow: initial;
+`
 
-export const ViewportConstraint = styled.div`
+export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
+  grid-column: 1 / last-col;
+  grid-row: 2;
+  position: ${({ sticky }) => (sticky ? "sticky" : "relative")};
+  top: 0;
+  display: grid;
+  grid-template-rows: 1fr min-content;
+
+  @media ${devices.desktop} {
+    height: 100%;
+  }
+`
+
+export const Slider = styled(motion.div)`
+  grid-row: 1;
+  max-height: 100%;
+  grid-column: 1 / last-col;
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+
+  padding-left: calc(calc(100vw / 32) * 1);
+  padding-right: calc(calc(100vw / 32) * 1);
+
+  @media ${devices.tablet} {
+    grid-column: 4 / last-col;
+    padding-left: calc(calc(100vw / 32) * 3);
+    padding-right: calc(calc(100vw / 32) * 3);
+  }
+
+  @media ${devices.laptop} {
+    grid-column: 1 / last-col;
+    padding-left: calc(calc(100vw / 32) * 8);
+    padding-right: calc(calc(100vw / 32) * 8);
+  }
+
+  @media ${devices.laptop} {
+    padding-left: calc(calc(100vw / 32) * 12);
+    padding-right: calc(calc(100vw / 32) * 12);
+  }
+
+  overflow-x: -moz-scrollbars-none;
+  overflow-x: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+  }
+`
+
+export const ImageWrapper = styled.div`
+  flex: 1 0 auto;
+  width: calc(calc(100vw / 32) * 30);
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 100vw;
-  margin: ${({ theme: { spacing } }) => spacing.xxl} 0px;
-  max-height: 100vh;
+  margin: 0px ${({ theme }) => theme.spacing.xs};
+  overflow: hidden;
+  scroll-snap-align: center;
 
-  @media (max-height: 800px) {
-    max-height: calc(100vh - 70px);
+  @media ${devices.tablet} {
+    width: calc(calc(100vw / 32) * 23);
+  }
+
+  @media ${devices.laptop} {
+    width: calc(calc(100vw / 32) * 16);
   }
 
   @media ${devices.desktop} {
-    // align-items: center;
+    max-width: calc(3.125rem * 16);
+  }
+
+  &:first-child {
+    margin-left: 0px;
+  }
+
+  &:last-child {
+    margin-right: 0px;
   }
 `
 
-export const PanableGrid = styled(GridContainer)`
-  touch-action: none;
-  grid-template-rows: max(85vh) max(15vh);
+export const Image = styled(GatsbyImage)`
+  cursor: pointer;
+  flex: 1 1 auto;
 `
 
-export const Slider = styled.div`
-  grid-row: 1;
-  grid-column: 1 / last-col;
-  white-space: nowrap;
-  touch-action: none;
-
-  @media (max-height: 800px) {
-    max-height: calc(100vh - 160px);
-  }
+export const Caption = styled.article`
+  min-height: 2rem;
 `
 
-export const SliderImage = styled.div<{
-  marginStart?: number
-  marginEnd?: number
-  fullscreen?: boolean
-}>`
-  display: inline-block;
-  vertical-align: top;
-  margin: 0px 16px;
-  height: 100%;
-  pointer-events: none;
-
-  @media ${devices.tablet} {
-    cursor: pointer;
-    pointer-events: all;
-  }
-
-  ${({ fullscreen }) => (fullscreen ? FullscreenSlider : Slider)} & {
-    &:first-child {
-      margin-left: ${({ marginStart }) => `${marginStart ?? 0}px`};
-    }
-
-    &:last-child {
-      margin-right: ${({ marginEnd }) => `${marginEnd ?? 0}px`};
-    }
-  }
-
-  ${({ fullscreen }) =>
-    fullscreen &&
-    css`
-      display: flex;
-      margin: 0px !important;
-      position: absolute;
-      cursor: default;
-      height: initial;
-      max-height: 100%;
-    `}
-
-  img {
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
-  }
-`
-
-export const ImageCaption = styled(atoms.p)`
-  ${({ theme: { spacing, typography } }) => css`
-    font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
-    margin-top: ${spacing.xs};
-    width: 100%;
-    white-space: break-spaces;
-  `}
+export const Controls = styled(GridConstraint)`
+  margin-top: ${({ theme }) => theme.spacing.xs};
 `
 
 export const CarouselNav = styled.nav`
@@ -99,26 +116,6 @@ export const CarouselNav = styled.nav`
     border-bottom: solid 1px ${palette.dark};
     grid-column: 1 / last-col;
     padding-bottom: ${spacing.xxs};
-    margin-top: ${spacing.lg};
-  `}
-`
-
-export const ImageCount = styled(atoms.p)`
-  ${({ theme: { typography } }) => css`
-    font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
-    font-weight: bold;
-    text-align: center;
-    grid-column: 13 / 17;
-    align-self: center;
-
-    @media ${devices.tablet} {
-      grid-column: 11 / 15;
-    }
-
-    @media ${devices.laptop} {
-      grid-column: 8/ 12;
-    }
   `}
 `
 
@@ -149,7 +146,34 @@ export const Expand = styled.button`
   }
 `
 
-//#endregion
+export const ImageCount = styled(atoms.p)`
+  ${({ theme: { typography } }) => css`
+    font-family: ${typography.fonts.primary};
+    font-size: ${typography.sm};
+    font-weight: bold;
+    text-align: center;
+    grid-column: 13 / 17;
+    align-self: center;
+
+    @media ${devices.tablet} {
+      grid-column: 11 / 15;
+    }
+
+    @media ${devices.laptop} {
+      grid-column: 8/ 12;
+    }
+  `}
+`
+
+export const ImageCaption = styled(atoms.p)`
+  ${({ theme: { spacing, typography } }) => css`
+    font-family: ${typography.fonts.primary};
+    font-size: ${typography.sm};
+    margin-top: ${spacing.xs};
+    width: 100%;
+    white-space: break-spaces;
+  `}
+`
 
 //#region Fullscreen carousel styles
 
@@ -245,4 +269,50 @@ export const FullscreenSlider = styled(Slider)`
   }
 `
 
-//endregion
+export const SliderImage = styled.div<{
+  marginStart?: number
+  marginEnd?: number
+  fullscreen?: boolean
+}>`
+  display: inline-block;
+  vertical-align: top;
+  margin: 0px 16px;
+  height: 100%;
+  pointer-events: none;
+
+  @media ${devices.tablet} {
+    cursor: pointer;
+    pointer-events: all;
+  }
+
+  ${({ fullscreen }) => (fullscreen ? FullscreenSlider : Slider)} & {
+    &:first-child {
+      margin-left: ${({ marginStart }) => `${marginStart ?? 0}px`};
+    }
+
+    &:last-child {
+      margin-right: ${({ marginEnd }) => `${marginEnd ?? 0}px`};
+    }
+  }
+
+  ${({ fullscreen }) =>
+    fullscreen &&
+    css`
+      display: flex;
+      margin: 0px !important;
+      position: absolute;
+      cursor: default;
+      height: initial;
+      max-height: 100%;
+    `}
+
+  img {
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
+  }
+`
+
+//#endregion
