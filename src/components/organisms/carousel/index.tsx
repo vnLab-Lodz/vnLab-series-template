@@ -50,9 +50,9 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const carouselUid = useMemo(() => uuid(), [images])
 
   const calcScrollPos = () => {
-    if (!ref || !ref.current) return 0
+    if (!stickyRef || !stickyRef.current) return 0
 
-    return ref.current.offsetTop
+    return stickyRef.current.offsetTop
   }
 
   const getNextIndex = () =>
@@ -115,7 +115,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   useEffect(() => {
     const scrollPos = calcScrollPos()
     images.forEach(img => addImage(img as IGatsbyImageData, scrollPos))
-  }, [ref])
+  }, [stickyRef])
 
   useEffect(() => {
     if (isMobile && fullscreen) setFullscreen(false)
