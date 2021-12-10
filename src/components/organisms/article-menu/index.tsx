@@ -141,9 +141,6 @@ const ArticleMenu: React.FC<Props> = ({
     const currentScrollPos = window.pageYOffset
     const navPosition = calcNavPosition()
 
-    console.log("currentScrollPos", currentScrollPos)
-    console.log("navPosition", navPosition)
-
     if (currentScrollPos >= navPosition + 500) setShouldStick(true)
     else setShouldStick(false)
   }
