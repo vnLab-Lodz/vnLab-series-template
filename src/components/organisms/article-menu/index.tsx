@@ -1,4 +1,9 @@
-import { AnimatePresence, motion, useAnimation } from "framer-motion"
+import {
+  AnimatePresence,
+  motion,
+  useAnimation,
+  useViewportScroll,
+} from "framer-motion"
 import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -24,6 +29,7 @@ import useIsMobile from "src/hooks/useIsMobile"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
+import { log } from "console"
 
 interface Props {
   spaced?: boolean
@@ -75,13 +81,13 @@ const ArticleMenu: React.FC<Props> = ({
 
   const { setIsVisible } = useNavMenuContext()
   const isMobile = useIsMobile(mobile => !mobile && setIsVisible(true))
+  const { scrollYProgress } = useViewportScroll()
 
   const theme = useTheme()
   const { pauseScroll, resumeScroll, isPaused } = useScrollPause({
     backgroundColor: theme.palette.light,
   })
 
-  const scrollRef = useRef<number>(0)
   const ref = useRef<HTMLDivElement | null>(null)
 
   const { palette } = useContext(ThemeContext)
@@ -116,10 +122,16 @@ const ArticleMenu: React.FC<Props> = ({
   const onScrollEnd = useScrollDistance((distance, _, end) => {
     const isBelowNav = end >= calcNavPosition() + 300
 
-    if (distance <= -100) {
+    if (scrollYProgress.get() < 0.01) {
+      isMobile && setIsVisible(true)
+      setIsHidden(false)
+      return
+    }
+
+    if (distance <= -80) {
       isBelowNav && setIsHidden(false)
       isMobile && setIsVisible(true)
-    } else if (distance > 0) {
+    } else if (distance > 20) {
       isBelowNav && setIsHidden(true)
       isMobile && setIsVisible(false)
     }
@@ -131,14 +143,6 @@ const ArticleMenu: React.FC<Props> = ({
 
     if (currentScrollPos >= navPosition + 500) setShouldStick(true)
     else setShouldStick(false)
-
-    if (currentScrollPos < navPosition + 300) setIsHidden(false)
-    else if (scrollRef.current <= currentScrollPos) {
-      setIsHidden(true)
-      isMobile && setIsVisible(false)
-    }
-
-    scrollRef.current = currentScrollPos
   }
 
   const getMenuContent = () => {
@@ -175,10 +179,6 @@ const ArticleMenu: React.FC<Props> = ({
       </motion.div>
     )
   }
-
-  useEffect(() => {
-    scrollRef.current = window.pageYOffset
-  }, [])
 
   useEffect(() => {
     window.addEventListener("scroll", onScroll)

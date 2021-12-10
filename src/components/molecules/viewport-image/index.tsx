@@ -108,8 +108,9 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      calculatePosition()
-      addImage(image, calculateScrollPosition())
+      addImage(image, calculateScrollPosition, () =>
+        stickyRef.current?.scrollIntoView({ behavior: "smooth" })
+      )
     }, 66)
 
     return () => clearTimeout(timeout)

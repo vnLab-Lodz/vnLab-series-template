@@ -74,7 +74,9 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
     ) {
       const pos = !!position ? position - offsetRef.current : 0
 
-      addAnnotation(target, children, pos)
+      addAnnotation(target, children, pos, () =>
+        ref.current?.scrollIntoView({ behavior: "smooth" })
+      )
     }
   }, [ref, position])
 
