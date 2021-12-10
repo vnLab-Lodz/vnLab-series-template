@@ -24,6 +24,7 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
+import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   images: ImageDataLike[]
@@ -42,6 +43,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const [inViewRef, isInView] = useInView({ threshold: 0.1 })
   const { addImage } = useContext(ImagesContext)
   const isMobile = useIsMobile()
+  const { key } = useIsClient()
 
   const controls = useAnimation()
 
@@ -136,7 +138,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   }, [sticky])
 
   return (
-    <>
+    <React.Fragment key={key}>
       <Styled.ViewportConstraint ref={constraintRef} animate={controls}>
         <Styled.Absolute flexible ref={stickyRef} sticky={sticky}>
           <Styled.Slider ref={ref} onScroll={onScroll}>
@@ -182,7 +184,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
           exitFullscreen={() => setFullscreen(false)}
         />
       )}
-    </>
+    </React.Fragment>
   )
 }
 
