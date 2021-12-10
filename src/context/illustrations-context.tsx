@@ -3,12 +3,17 @@ import React, { createContext, useState } from "react"
 
 export interface Image {
   imageData: IGatsbyImageData
-  position: number
+  calculatePosition: () => number
+  scrollIntoView?: () => void
 }
 
 interface Context {
   images: Image[]
-  addImage: (image: IGatsbyImageData, position: number) => void
+  addImage: (
+    image: IGatsbyImageData,
+    calculatePosition: () => number,
+    scrollIntoView?: () => void
+  ) => void
 }
 
 interface Props {
@@ -23,8 +28,15 @@ export const ImagesContext = createContext<Context>({
 const ImagesProvider: React.FC<Props> = ({ children, initialImages = [] }) => {
   const [images, setImages] = useState<Image[]>(initialImages)
 
-  const addImage = (image: IGatsbyImageData, position: number) => {
-    setImages(prev => [...prev, { imageData: image, position }])
+  const addImage = (
+    image: IGatsbyImageData,
+    calculatePosition: () => number,
+    scrollIntoView?: () => void
+  ) => {
+    setImages(prev => [
+      ...prev,
+      { imageData: image, calculatePosition, scrollIntoView },
+    ])
   }
 
   return (

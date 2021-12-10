@@ -9,19 +9,24 @@ interface Props {
 }
 
 const Illustrations: React.FC<Props> = ({ closeMenu, images }) => {
-  const scrollToImage = (position: number) => {
-    closeMenu(() => window.scrollTo({ top: position, behavior: "smooth" }))
-  }
-
   return (
     <Styled.IllustrationsWrapper>
-      {images.map(({ imageData, position }, index) => (
+      {images.map(({ imageData, calculatePosition, scrollIntoView }, index) => (
         <GatsbyImage
           style={{ cursor: "pointer", aspectRatio: "1" }}
           key={`article-menu__illustration--${index}`}
           image={getImage(imageData) as IGatsbyImageData}
           alt={`Article image ${index}`}
-          onClick={() => scrollToImage(position)}
+          onClick={() => {
+            closeMenu(() => {
+              if (scrollIntoView) {
+                scrollIntoView()
+                return
+              }
+
+              window.scrollTo({ top: calculatePosition(), behavior: "smooth" })
+            })
+          }}
         />
       ))}
     </Styled.IllustrationsWrapper>

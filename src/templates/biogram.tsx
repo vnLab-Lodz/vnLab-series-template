@@ -80,7 +80,12 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
-      ? [{ imageData: headerImage as IGatsbyImageData, position: 0 }]
+      ? [
+          {
+            imageData: headerImage as IGatsbyImageData,
+            calculatePosition: () => 0,
+          },
+        ]
       : []
   }
 

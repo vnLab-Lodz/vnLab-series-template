@@ -113,8 +113,11 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   useEffect(() => inViewRef(constraintRef.current), [constraintRef])
 
   useEffect(() => {
-    const scrollPos = calcScrollPos()
-    images.forEach(img => addImage(img as IGatsbyImageData, scrollPos))
+    images.forEach(img =>
+      addImage(img as IGatsbyImageData, calcScrollPos, () => {
+        stickyRef.current?.scrollIntoView({ behavior: "smooth" })
+      })
+    )
   }, [stickyRef])
 
   useEffect(() => {
