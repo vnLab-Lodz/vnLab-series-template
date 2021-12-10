@@ -5,11 +5,17 @@ export interface Annotation {
   content: any
   index: number
   position: number
+  scrollIntoView?: () => void
 }
 
 interface Context {
   annotations: Array<Annotation>
-  addAnnotation: (target: string, content: any, position: number) => void
+  addAnnotation: (
+    target: string,
+    content: any,
+    position: number,
+    scrollIntoView?: () => void
+  ) => void
 }
 
 export const AnnotationContext = createContext<Context>({
@@ -20,10 +26,15 @@ export const AnnotationContext = createContext<Context>({
 const AnnotationProvider: React.FC = ({ children }) => {
   const [annotations, setAnnotations] = useState<Annotation[]>([])
 
-  const addAnnotation = (target: string, content: any, position: number) => {
+  const addAnnotation = (
+    target: string,
+    content: any,
+    position: number,
+    scrollIntoView?: () => void
+  ) => {
     setAnnotations(prev => {
       const index = prev.length + 1
-      return [...prev, { target, content, index, position: position }]
+      return [...prev, { target, content, index, position, scrollIntoView }]
     })
   }
 
