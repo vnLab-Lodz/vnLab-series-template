@@ -54,6 +54,7 @@ export const mdxComponents = {
   h1: withGridConstraint(addClass(atoms.h1, "mdx-heading")),
   h2: withGridConstraint(addClass(atoms.h2, "mdx-heading")),
   h3: withGridConstraint(addClass(atoms.h3, "mdx-heading")),
+  br: withGridConstraint(() => <br />),
 }
 
 interface Data {
