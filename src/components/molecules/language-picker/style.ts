@@ -61,10 +61,10 @@ export const LangButtonText = styled(atoms.p)<{
   `}
 `
 
-export const LanguagePopUp = styled.div`
-  ${({ theme: { spacing, palette } }) => css`
+export const LanguagePopUp = styled.div<{ close: boolean }>`
+  ${({ theme: { spacing, palette }, close }) => css`
     position: absolute;
-    top: 60%;
+    top: ${close ? "100%" : "70%"};
     right: 0px;
     background: ${palette.white};
     border: solid 1px ${palette.dark};

@@ -20,7 +20,7 @@ function getLocalesString(config: Array<{ code: string }>) {
   return config.reduce((prev: string, { code }, index) => {
     if (index === 0) return code.toUpperCase()
 
-    return (prev += `/${code.toUpperCase()}`)
+    return (prev += ` / ${code.toUpperCase()}`)
   }, "")
 }
 
@@ -52,7 +52,7 @@ const LanguagePicker: React.FC<Props> = ({
         {locales}
       </Styled.LangButtonText>
       {langPickerOpen && (
-        <Styled.LanguagePopUp>
+        <Styled.LanguagePopUp close={compact}>
           {languages.map((lang: Language, i) => (
             <Styled.LangLink
               key={`nav-menu__lang-link--${i}`}
