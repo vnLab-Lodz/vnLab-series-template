@@ -50,7 +50,9 @@ const TocElement: React.FC<Props> = ({ page, last }) => {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               >
-                <ReactMarkdown components={mdxComponents as any}>
+                <ReactMarkdown
+                  components={{ ...mdxComponents, p: Styled.p } as any}
+                >
                   {page.summary}
                 </ReactMarkdown>
               </Styled.Summary>
