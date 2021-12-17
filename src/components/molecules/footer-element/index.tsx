@@ -2,8 +2,10 @@ import { AnimatePresence, motion } from "framer-motion"
 import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useInView } from "react-intersection-observer"
+import { mdxComponents } from "src/templates/chapter"
 import atoms from "~components/atoms"
 import { getSupportedFitContent } from "~util"
+import ReactMarkdown from "react-markdown"
 import Arrow from "../arrow"
 import * as Styled from "./style"
 
@@ -53,21 +55,26 @@ const FooterElement: React.FC<Props> = ({
           <atoms.p>{title}</atoms.p>
         </Styled.ArticleTitle>
         <Styled.ArticleAuthor type="primary">{author}</Styled.ArticleAuthor>
-        <Styled.SummaryButton onClick={toggleSummary}>
-          <span>{t("expand_summary")}</span>
-          <Arrow inverted={isSummaryExpanded} />
-        </Styled.SummaryButton>
+        {summary && (
+          <Styled.SummaryButton onClick={toggleSummary}>
+            <span>{t("expand_summary")}</span>
+            <Arrow inverted={isSummaryExpanded} />
+          </Styled.SummaryButton>
+        )}
         <AnimatePresence initial={false} exitBeforeEnter>
-          {isSummaryExpanded && (
-            <atoms.p
-              as={motion.p}
+          {summary && isSummaryExpanded && (
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: getSupportedFitContent() }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-              {summary}
-            </atoms.p>
+              <ReactMarkdown
+                components={{ ...mdxComponents, p: Styled.p } as any}
+              >
+                {summary}
+              </ReactMarkdown>
+            </motion.div>
           )}
         </AnimatePresence>
       </Styled.ElementWrapper>

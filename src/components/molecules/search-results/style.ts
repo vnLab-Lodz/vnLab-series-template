@@ -16,7 +16,8 @@ export const ResultsWrapper = styled.div`
     grid-column 5 / 13;
     
     ${Summary} {
-      width: 400%;
+      width: 200%;
+      text-align: justify;
     }
   }
 

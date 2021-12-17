@@ -74,10 +74,15 @@ export const SummaryButton = styled.button`
 `
 
 export const Summary = styled(atoms.p)`
+  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.153)`};
   margin-top: ${({ theme }) => theme.spacing.xxs};
   grid-row: 4;
   grid-column: 4 / -2;
   overflow: hidden;
+`
+
+export const p = styled(atoms.p)`
+  font-size: inherit;
 `
 
 export const Divider = styled.div`

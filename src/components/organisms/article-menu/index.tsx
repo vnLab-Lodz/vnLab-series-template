@@ -128,7 +128,7 @@ const ArticleMenu: React.FC<Props> = ({
       return
     }
 
-    if (distance <= -80) {
+    if (distance <= -300) {
       isBelowNav && setIsHidden(false)
       isMobile && setIsVisible(true)
     } else if (distance > 20) {
@@ -220,7 +220,7 @@ const ArticleMenu: React.FC<Props> = ({
   }
 
   const shouldRenderContent = shouldRenderMenu(MENUS.CONTENT, value =>
-    !!!menus ? pageContent.length !== 0 : value
+    !!!menus ? pageContent.length > 1 : value
   )
 
   const shouldRenderIllustrations = shouldRenderMenu(

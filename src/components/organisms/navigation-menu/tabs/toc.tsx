@@ -21,17 +21,6 @@ interface Props {
   headless?: boolean
 }
 
-function groupPages(pages: PublicationPage[]): GroupedPages {
-  return pages.reduce((prev, page) => {
-    const part = getPartFromIndex(page.index ?? 0)
-
-    let array = [...prev]
-    array[part - 1] = [...(array[part - 1] ?? []), page]
-
-    return array
-  }, [] as GroupedPages)
-}
-
 const Part: React.FC = ({ children }) => <>{children}</>
 
 const TableOfContents: React.FC<Props> = ({ className, headless }) => {
@@ -57,13 +46,28 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
               <Styled.Part type="primary">{sectionName}</Styled.Part>
             )}
             {group.map((page, j) => (
-              <TocElement key={`toc-element__${uid}--${j}`} page={page} />
+              <TocElement
+                key={`toc-element__${uid}--${j}`}
+                page={page}
+                last={group.length - 1 === j && groupedPages.length - 1 === i}
+              />
             ))}
           </Part>
         )
       })}
     </Styled.TocGrid>
   )
+}
+
+function groupPages(pages: PublicationPage[]): GroupedPages {
+  return pages.reduce((prev, page) => {
+    const part = getPartFromIndex(page.index ?? 0)
+
+    let array = [...prev]
+    array[part - 1] = [...(array[part - 1] ?? []), page]
+
+    return array
+  }, [] as GroupedPages)
 }
 
 export default TableOfContents

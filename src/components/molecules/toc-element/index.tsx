@@ -11,9 +11,10 @@ import * as Styled from "./style"
 
 interface Props {
   page: PublicationPage
+  last?: boolean
 }
 
-const TocElement: React.FC<Props> = ({ page }) => {
+const TocElement: React.FC<Props> = ({ page, last }) => {
   const { t } = useTranslation("common")
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { locale } = useLocalization()
@@ -49,7 +50,9 @@ const TocElement: React.FC<Props> = ({ page }) => {
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               >
-                <ReactMarkdown components={mdxComponents as any}>
+                <ReactMarkdown
+                  components={{ ...mdxComponents, p: Styled.p } as any}
+                >
                   {page.summary}
                 </ReactMarkdown>
               </Styled.Summary>
@@ -57,7 +60,7 @@ const TocElement: React.FC<Props> = ({ page }) => {
           </AnimatePresence>
         </>
       )}
-      <Styled.Divider />
+      {!last && <Styled.Divider />}
     </Styled.TocContainer>
   )
 }

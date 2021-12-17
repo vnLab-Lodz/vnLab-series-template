@@ -32,11 +32,9 @@ export const ImageWrapper = styled.div`
   overflow: hidden;
   display: flex;
   flex: 1;
+  padding-top: ${({ theme }) => theme.spacing.xs};
 
   grid-column: 1 / last-col;
-
-  @media ${devices.tablet} {
-  }
 
   @media ${devices.laptop} {
     grid-column: 3 / last-col;

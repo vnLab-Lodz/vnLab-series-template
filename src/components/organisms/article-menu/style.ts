@@ -98,7 +98,7 @@ export const MenuContent = styled(motion.div)`
     top: 0px;
     z-index: 2;
     background-color: ${palette.white};
-    border-bottom: solid 2px ${palette.dark};
+    border-bottom: solid 1px ${palette.dark};
     overflow-y: scroll;
     max-height: 88vh;
   `}

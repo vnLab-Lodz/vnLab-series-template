@@ -232,9 +232,9 @@ export const TabButton = styled.button<{ small?: boolean }>`
   border: none;
   cursor: pointer;
   text-align: start;
-  padding: ${({ theme: { spacing }, small }) =>
-    !small ? `${spacing.md} ${spacing.xxs}` : `0px ${spacing.xxs}`};
   position: relative;
+  padding: ${({ theme: { spacing }, small }) =>
+    !small ? `${spacing.xs} ${spacing.xxs}` : `0px ${spacing.xxs}`};
 
   ${({ small, theme }) =>
     small &&
@@ -243,6 +243,8 @@ export const TabButton = styled.button<{ small?: boolean }>`
     `};
 
   @media ${devices.tablet} {
+    padding: ${({ theme: { spacing }, small }) =>
+      !small ? `${spacing.md} ${spacing.xxs}` : `0px ${spacing.xxs}`};
     height: 100%;
     text-align: center;
   }
