@@ -220,7 +220,7 @@ const ArticleMenu: React.FC<Props> = ({
   }
 
   const shouldRenderContent = shouldRenderMenu(MENUS.CONTENT, value =>
-    !!!menus ? pageContent.length !== 0 : value
+    !!!menus ? pageContent.length > 1 : value
   )
 
   const shouldRenderIllustrations = shouldRenderMenu(
