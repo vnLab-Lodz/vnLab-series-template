@@ -11,9 +11,10 @@ import * as Styled from "./style"
 
 interface Props {
   page: PublicationPage
+  last?: boolean
 }
 
-const TocElement: React.FC<Props> = ({ page }) => {
+const TocElement: React.FC<Props> = ({ page, last }) => {
   const { t } = useTranslation("common")
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { locale } = useLocalization()
@@ -57,7 +58,7 @@ const TocElement: React.FC<Props> = ({ page }) => {
           </AnimatePresence>
         </>
       )}
-      <Styled.Divider />
+      {!last && <Styled.Divider />}
     </Styled.TocContainer>
   )
 }
