@@ -128,7 +128,7 @@ const ArticleMenu: React.FC<Props> = ({
       return
     }
 
-    if (distance <= -80) {
+    if (distance <= -300) {
       isBelowNav && setIsHidden(false)
       isMobile && setIsVisible(true)
     } else if (distance > 20) {
