@@ -13,7 +13,7 @@ export const LangButton = styled.button<{
   text-align: start;
   position: relative;
   padding: ${({ theme: { spacing }, inMenu }) =>
-    inMenu ? `${spacing.md} ${spacing.xxs}` : `${spacing.xs} ${spacing.xxs}`};
+    inMenu ? `${spacing.xs} ${spacing.xxs}` : `${spacing.xs} ${spacing.xxs}`};
 
   ${({ compact, theme: { spacing } }) =>
     compact &&
