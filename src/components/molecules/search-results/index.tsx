@@ -14,6 +14,7 @@ const SearchResults: React.FC<Props> = ({ results }) => {
         <TocElement
           key={`search-result__${i}--${res.id}-${res.index}`}
           page={res}
+          last={results.length - 1 === i}
         />
       ))}
     </Styled.ResultsWrapper>
