@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react"
+import React, { useRef } from "react"
 import SeoMeta from "~components/meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
@@ -63,8 +63,9 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   return (
     <NavMenuProvider>
       <NavigationMenu
-        reduced={isMobile}
+        independentHiding
         ignoreHypothesis
+        reduced={isMobile}
         currentPath={location.pathname}
       />
       <GridContainer style={{ minHeight: "100vh" }} noConstraint>

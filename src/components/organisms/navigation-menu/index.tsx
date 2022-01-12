@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react"
+import React, { useState, useLayoutEffect, useEffect, useRef } from "react"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { TFunction, useTranslation } from "react-i18next"
 import * as Styled from "./style"
@@ -16,6 +16,9 @@ import {
   useTransform,
   useViewportScroll,
 } from "framer-motion"
+import { navigate } from "gatsby-link"
+import useIsMobile from "src/hooks/useIsMobile"
+import useScrollDistance from "src/hooks/useScrollDistance"
 
 //@ts-ignore
 import HamburgerSVG from "../../../images/icons/hamburger.svg"
@@ -25,7 +28,6 @@ import CloseSVG from "../../../images/icons/x.svg"
 import VnlabLogo from "../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
-import { navigate } from "gatsby-link"
 
 enum NAV_MENU_STATES {
   TOC,
@@ -37,6 +39,7 @@ interface Props {
   currentPath: string
   reduced?: boolean
   ignoreHypothesis?: boolean
+  independentHiding?: boolean
 }
 
 interface MiscProps {
@@ -112,14 +115,17 @@ const NavigationMenu: React.FC<Props> = ({
   currentPath,
   reduced = false,
   ignoreHypothesis = false,
+  independentHiding = false,
 }) => {
-  const { navMode, setToggleNav, isVisible } = useNavMenuContext()
+  const { navMode, setToggleNav, isVisible, setIsVisible } = useNavMenuContext()
   const [open, setOpen] = useState(false)
   const [navState, setNavState] = useState<NAV_MENU_STATES>(NAV_MENU_STATES.TOC)
   const { locale, localizedPath, defaultLang, prefixDefault } =
     useLocalization()
   const { hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "nav-menu"])
+  const prevScrollPos = useRef<number | undefined>(undefined)
+  const isMobile = useIsMobile(mobile => !mobile && setIsVisible(true))
 
   const theme = useTheme()
   const { pauseScroll, resumeScroll } = useScrollPause({
@@ -131,6 +137,33 @@ const NavigationMenu: React.FC<Props> = ({
   const progress = useMotionTemplate`${scrollPercent}%`
 
   const toggleMenu = () => setOpen(prev => !prev)
+
+  const onScroll = () => {
+    if (!independentHiding) return
+
+    const currentScrollPos = window.pageYOffset
+
+    if (prevScrollPos.current !== undefined && isMobile) {
+      if (open || prevScrollPos.current !== 0) {
+        if (prevScrollPos.current < currentScrollPos) setIsVisible(false)
+      }
+    }
+
+    prevScrollPos.current = currentScrollPos
+  }
+
+  const onScrollEnd = useScrollDistance(distance => {
+    if (distance <= -300 && isMobile) setIsVisible(true)
+  })
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll)
+    window.addEventListener("scroll", onScrollEnd)
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.addEventListener("scroll", onScrollEnd)
+    }
+  }, [isMobile, setIsVisible])
 
   useEffect(() => setToggleNav(() => () => toggleMenu()), [])
 
