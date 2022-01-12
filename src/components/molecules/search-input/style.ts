@@ -15,7 +15,7 @@ margin-top: 66.5px;
 }
 
 @media ${devices.laptop} {
-  grid-column 5 / 15;
+  grid-column 5 / 16;
   grid-template-columns: repeat(12, 1fr)
   }
 `

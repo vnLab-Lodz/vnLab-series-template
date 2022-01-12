@@ -104,6 +104,20 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
     setOpen(true)
   }
 
+  const isExpandShown = () => {
+    if (caption.length > 150) return true
+
+    if (!children) return false
+
+    return children.toString().length > 0
+  }
+
+  const getFormattedCaption = () => {
+    if (caption.length <= 150) return caption
+
+    return caption.slice(0, 150) + "..."
+  }
+
   useEffect(() => inViewRef(ref.current), [ref])
 
   useEffect(() => {
@@ -153,12 +167,14 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
                     { ...mdxComponents, p: Styled.CaptionText } as any
                   }
                 >
-                  {caption}
+                  {getFormattedCaption()}
                 </ReactMarkdown>
               </Styled.CaptionText>
-              <Styled.ExpandCaptionBtn onClick={handleClick}>
-                {t("expand")}
-              </Styled.ExpandCaptionBtn>
+              {isExpandShown() && (
+                <Styled.ExpandCaptionBtn onClick={handleClick}>
+                  {t("expand")}
+                </Styled.ExpandCaptionBtn>
+              )}
             </Styled.Caption>
             {open && position && (
               <CaptionPortal
