@@ -29,7 +29,6 @@ import useIsMobile from "src/hooks/useIsMobile"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
-import { log } from "console"
 
 interface Props {
   spaced?: boolean
@@ -89,6 +88,7 @@ const ArticleMenu: React.FC<Props> = ({
   })
 
   const ref = useRef<HTMLDivElement | null>(null)
+  const prevScrollPos = useRef<number | undefined>(undefined)
 
   const { palette } = useContext(ThemeContext)
   const { t } = useTranslation("common")
@@ -141,8 +141,19 @@ const ArticleMenu: React.FC<Props> = ({
     const currentScrollPos = window.pageYOffset
     const navPosition = calcNavPosition()
 
-    if (currentScrollPos >= navPosition + 500) setShouldStick(true)
-    else setShouldStick(false)
+    const isSticky = currentScrollPos >= navPosition + 500
+    setShouldStick(isSticky)
+
+    if (prevScrollPos.current !== undefined && isSticky) {
+      if (menuState === MENU_STATE.CLOSED && prevScrollPos.current === 0) return
+
+      if (prevScrollPos.current >= currentScrollPos) return
+
+      setIsHidden(true)
+      if (isMobile) setIsVisible(false)
+    }
+
+    prevScrollPos.current = currentScrollPos
   }
 
   const getMenuContent = () => {
