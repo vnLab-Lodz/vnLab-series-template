@@ -89,7 +89,11 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
 
   return (
     <Styled.AnnotationTarget>
-      {target}
+      <ReactMarkdown
+        components={{ ...mdxComponents, p: Styled.InheritParagraph } as any}
+      >
+        {target}
+      </ReactMarkdown>
       <Styled.AnnotationIndex ref={ref} onClick={handleIndexClick}>
         {annotation?.index}
       </Styled.AnnotationIndex>
