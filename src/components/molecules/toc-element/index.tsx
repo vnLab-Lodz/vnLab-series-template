@@ -1,8 +1,9 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { useLocalization } from "gatsby-theme-i18n"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import ReactMarkdown from "react-markdown"
+import useIsClient from "src/hooks/useIsClient"
 import { PublicationPage } from "src/hooks/usePublication"
 import { mdxComponents } from "src/templates/chapter"
 import { getChapterFromIndex, getSupportedFitContent } from "~util"
@@ -19,7 +20,14 @@ const TocElement: React.FC<Props> = ({ page, last }) => {
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { locale } = useLocalization()
 
+  const [height, setHeight] = useState("fit-content")
+  const { isClient } = useIsClient()
+
   const toggleSummary = () => setIsSummaryExpanded(prev => !prev)
+
+  useEffect(() => {
+    if (isClient) setHeight(getSupportedFitContent())
+  }, [isClient])
 
   return (
     <Styled.TocContainer>
@@ -43,10 +51,7 @@ const TocElement: React.FC<Props> = ({ page, last }) => {
               <Styled.Summary
                 as={motion.p}
                 initial={{ opacity: 0, height: 0 }}
-                animate={{
-                  opacity: 1,
-                  height: getSupportedFitContent(),
-                }}
+                animate={{ opacity: 1, height }}
                 exit={{ opacity: 0, height: 0 }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               >

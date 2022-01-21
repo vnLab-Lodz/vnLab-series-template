@@ -8,6 +8,7 @@ import { getSupportedFitContent } from "~util"
 import ReactMarkdown from "react-markdown"
 import Arrow from "../arrow"
 import * as Styled from "./style"
+import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   id: string
@@ -30,6 +31,8 @@ const FooterElement: React.FC<Props> = ({
 }) => {
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { t } = useTranslation("common")
+  const [height, setHeight] = useState("fit-content")
+  const { isClient } = useIsClient()
 
   const [inViewRef, isInView] = useInView({ threshold: 0.2 })
 
@@ -38,6 +41,10 @@ const FooterElement: React.FC<Props> = ({
   useEffect(() => {
     if (!isInView) setIsSummaryExpanded(false)
   }, [isInView])
+
+  useEffect(() => {
+    if (isClient) setHeight(getSupportedFitContent())
+  }, [isClient])
 
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
@@ -65,7 +72,7 @@ const FooterElement: React.FC<Props> = ({
           {summary && isSummaryExpanded && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: getSupportedFitContent() }}
+              animate={{ opacity: 1, height }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
             >
