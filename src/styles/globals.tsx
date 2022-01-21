@@ -79,6 +79,74 @@ export const Globals = createGlobalStyle`
     
   }
 
+  .reveal .controls:before {
+        content: "";
+        position: absolute;
+        width: 10.5em;
+        height: 10.5em;
+        background: rgba(248, 248, 248, 0.5);
+        bottom: 0;
+        right: -0.55em;
+        border-radius: 50%;
+
+      }
+
+  .reveal {
+    img, video, iframe {
+      max-width: 100%;
+      max-height: 100%;
+      margin: auto;
+    },
+
+    .has-light-background {
+      max-width: 100%;
+      max-height: 100%;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    },
+
+    .controls {
+      .controls-arrow, .control-arrow {
+        width: 1.5em;
+        height: 2em;
+
+        &:hover {
+          :before, :after { 
+            transform: none !important;
+            -webkit-transform: none !important;
+          }
+        }
+
+        :before {
+          all: initial;
+          content: "";
+          position: absolute;
+          top: calc(50% - 5px);
+          left: 0;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 5px 10px 5px 0;
+          border-color: transparent currentColor transparent transparent;
+          cursor: pointer;
+        }
+
+        :after {
+          all: initial;
+          content: "";
+          position: absolute;
+          top: calc(50% - 1px);
+          left: 10px;
+          height: 2px;
+          width: 13px;
+          background: currentColor;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   :root {
     /* spacing */
     --space-unit: 1.125rem;

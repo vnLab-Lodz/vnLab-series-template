@@ -44,15 +44,16 @@ export const VerticalText = styled.p`
   `};
 `
 
-export const IconButton = styled.button`
-  ${({ theme: { spacing } }) => css`
+export const IconButton = styled.button<{ left: boolean }>`
+  ${({ left, theme: { spacing } }) => css`
     z-index: 12;
     position: fixed;
     background: none;
     border: none;
     padding: ${spacing.xxs};
     bottom: ${spacing.xxs};
-    right: ${spacing.xs};
+    ${left ? `left: ${spacing.xs}` : `right: ${spacing.xs}`};
+
     cursor: pointer;
 
     @media ${devices.tablet} {

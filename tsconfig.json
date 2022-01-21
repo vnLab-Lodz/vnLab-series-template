@@ -24,5 +24,10 @@
       "~util": ["src/util/index.ts"]
     }
   },
-  "include": ["./src/**/*", "./config/**/*", "./src/types/declarations.d.ts"]
+  "include": [
+    "./src/**/*",
+    "./config/**/*",
+    "./src/types/declarations.d.ts",
+    "./src/types/reveal.js.d.ts"
+  ]
 }
