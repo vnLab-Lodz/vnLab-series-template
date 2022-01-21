@@ -1,3 +1,5 @@
 export function isFirefox() {
-  return navigator.userAgent.search("Firefox") !== -1
+  return typeof navigator === "undefined"
+    ? false
+    : navigator.userAgent.toLowerCase().indexOf("firefox") > -1
 }
