@@ -29,7 +29,6 @@ import useIsMobile from "src/hooks/useIsMobile"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
-import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   spaced?: boolean
@@ -99,13 +98,6 @@ const ArticleMenu: React.FC<Props> = ({
   const bibliography = useBibliography(currentPath)
   const { images } = useContext(ImagesContext)
   const { annotations } = useContext(AnnotationContext)
-
-  const [height, setHeight] = useState("fit-content")
-  const { isClient } = useIsClient()
-
-  useEffect(() => {
-    if (isClient) setHeight(getSupportedFitContent())
-  }, [isClient])
 
   const setState = (value: MENU_STATE) => {
     setMenuState(prev => (prev === value ? MENU_STATE.CLOSED : value))
@@ -190,7 +182,7 @@ const ArticleMenu: React.FC<Props> = ({
       <motion.div
         key={menuState}
         initial={{ height: 0, opacity: 0 }}
-        animate={{ height, opacity: 1 }}
+        animate={{ height: getSupportedFitContent(), opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
       >
@@ -320,7 +312,7 @@ const ArticleMenu: React.FC<Props> = ({
               {menuState !== MENU_STATE.CLOSED && (
                 <Styled.MenuContent
                   initial={{ height: 0 }}
-                  animate={{ height }}
+                  animate={{ height: getSupportedFitContent() }}
                   exit={{ height: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
                 >
