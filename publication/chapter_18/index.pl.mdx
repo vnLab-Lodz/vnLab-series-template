@@ -28,32 +28,56 @@ embeddedImagesLocal:
   - images/19_02590033.jpeg
 ---
 
-<Slide># Kisieland</Slide>
+<TextSlide>
+
+# Kisieland
+
+## Karol Radziszewski
+
+</TextSlide>
 
 <Slide>
-  <CenterImageSlide image={props.localImages[0]} />
-  <CenterImageSlide image={props.localImages[1]} />
+  <TwoImageSlide
+    image1={props.localImages[0]}
+    image2={props.localImages[1]}
+    direction="column"
+  />
+  <TwoImageSlide
+    direction="row"
+    image1={props.localImages[11]}
+    image2={props.localImages[18]}
+  />
+</Slide>
+
+<Slide>
+  <AnnotatedImageSlide image={props.localImages[5]}>
+    **The totality/fragmentariness of the archive.** Considering the fact that
+    the universalist ambitions of the archive have already been subject to
+    repeated criticism — in the guise of collecting a totality of knowledge and
+    constructing an all-encompassing narrative, both intimately tied to issues
+    of power and empire — this problem seems to belong to the past.
+  </AnnotatedImageSlide>
+</Slide>
+
+<Slide>
+  <FullscreenImageSlide image={props.localImages[12]} />
+  <FullscreenImageSlide image={props.localImages[11]} />
+  <FullscreenImageSlide image={props.localImages[13]} />
+  <FullscreenImageSlide image={props.localImages[14]} />
+  <FullscreenImageSlide image={props.localImages[15]} />
+  <FullscreenImageSlide image={props.localImages[16]} />
+  <FullscreenImageSlide image={props.localImages[17]} />
+  <FullscreenImageSlide image={props.localImages[18]} />
+  <FullscreenImageSlide image={props.localImages[19]} />
+</Slide>
+
+<Slide>
   <CenterImageSlide image={props.localImages[2]} />
   <CenterImageSlide image={props.localImages[3]} />
   <CenterImageSlide image={props.localImages[4]} />
-  <CenterImageSlide image={props.localImages[5]} />
   <CenterImageSlide image={props.localImages[6]} />
   <CenterImageSlide image={props.localImages[7]} />
   <CenterImageSlide image={props.localImages[8]} />
   <CenterImageSlide image={props.localImages[9]} />
   <CenterImageSlide image={props.localImages[10]} />
-</Slide>
-
-<Slide>
-  <CenterImageSlide image={props.localImages[11]} />
-  <CenterImageSlide image={props.localImages[12]} />
-  <CenterImageSlide image={props.localImages[13]} />
-  <CenterImageSlide image={props.localImages[14]} />
-  <CenterImageSlide image={props.localImages[15]} />
-  <CenterImageSlide image={props.localImages[16]} />
-  <CenterImageSlide image={props.localImages[17]} />
-  <CenterImageSlide image={props.localImages[18]} />
-  <CenterImageSlide image={props.localImages[19]} />
-  <CenterImageSlide image={props.localImages[20]} />
-  <CenterImageSlide image={props.localImages[21]} />
 </Slide>
