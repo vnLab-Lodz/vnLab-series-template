@@ -1,4 +1,8 @@
-import { CreatePagesArgs, CreateSchemaCustomizationArgs } from "gatsby"
+import {
+  CreatePagesArgs,
+  CreateSchemaCustomizationArgs,
+  CreateWebpackConfigArgs,
+} from "gatsby"
 import { delocalizeSlug, localizeSlug } from "../src/util"
 
 const path = require(`path`)
@@ -168,4 +172,23 @@ export const createSchemaCustomization = ({
       BIBLIOGRAPHY
     }
     `)
+}
+
+export const onCreateWebpackConfig = ({
+  stage,
+  loaders,
+  actions,
+}: CreateWebpackConfigArgs) => {
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /reveal.js/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    })
+  }
 }
