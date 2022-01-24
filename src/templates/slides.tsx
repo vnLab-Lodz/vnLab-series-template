@@ -55,7 +55,7 @@ const components = {
   AnnotatedImageSlide,
 }
 
-const Slides: React.FC<PageProps<Data>> = ({ data: { mdx } }) => {
+const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, title } = mdx.frontmatter
 
   useEffect(() => {
