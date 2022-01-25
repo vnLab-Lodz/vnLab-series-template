@@ -34,6 +34,9 @@ export default {
               disableBgImageOnAlpha: true,
             },
           },
+          {
+            resolve: require.resolve(`../plugins/gatsby-remark-widows`),
+          },
         ],
       },
     },
