@@ -140,6 +140,12 @@ iframe {
    * CONTROLS
  *********************************************/
 
+@media (max-width: 767px) {
+  .reveal .controls {
+    bottom: 42px;
+  }
+}
+
 .reveal .controls:before {
   content: "";
   position: absolute;
