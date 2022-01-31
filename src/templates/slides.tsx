@@ -17,6 +17,8 @@ import TextSlide from "~components/molecules/slides/text-slide"
 import FullscreenImageSlide from "~components/molecules/slides/fullscreen-image-slide"
 import TwoImageSlide from "~components/molecules/slides/two-image-slide"
 import AnnotatedImageSlide from "~components/molecules/slides/annotated-image-slide"
+import atoms from "~components/atoms"
+import { SwipeEventData } from "react-swipeable"
 
 //@ts-ignore
 import Reveal from "reveal.js"
@@ -25,7 +27,6 @@ import Markdown from "reveal.js/plugin/markdown/markdown.esm.js"
 
 import "reveal.js/dist/reveal.css"
 import "../styles/reveal-theme.css"
-import atoms from "~components/atoms"
 
 interface Data {
   mdx: {
@@ -60,6 +61,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   useEffect(() => {
     const deck = new Reveal({
+      touch: false,
       plugins: [Markdown],
       embedded: true,
       margin: 0,
@@ -68,6 +70,28 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       progress: false,
     })
     deck.initialize()
+
+    const swipeHandler = ({ detail: { dir } }: CustomEvent<SwipeEventData>) => {
+      switch (dir) {
+        case "Left":
+          deck.right()
+          break
+        case "Right":
+          deck.left()
+          break
+        case "Up":
+          deck.down()
+          break
+        case "Down":
+          deck.up()
+          break
+      }
+    }
+
+    window.addEventListener("deck_swipe", swipeHandler as EventListener)
+    return () => {
+      window.removeEventListener("deck_swipe", swipeHandler as EventListener)
+    }
   }, [])
 
   return (

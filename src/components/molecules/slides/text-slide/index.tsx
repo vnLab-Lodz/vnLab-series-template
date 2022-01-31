@@ -2,6 +2,7 @@ import React from "react"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { useTheme } from "styled-components"
+import Slide from "../slide"
 
 interface Props {
   background?: string
@@ -12,7 +13,7 @@ const TextSlide: React.FC<Props> = ({ children, background }) => {
   const bgColor = background ?? theme.palette.light
 
   return (
-    <section data-background-color={bgColor}>
+    <Slide background={bgColor}>
       <div
         style={{
           height: "100%",
@@ -31,7 +32,7 @@ const TextSlide: React.FC<Props> = ({ children, background }) => {
           children
         )}
       </div>
-    </section>
+    </Slide>
   )
 }
 
