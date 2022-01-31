@@ -1,6 +1,5 @@
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
-import React, { useState } from "react"
-import useIsMobile from "src/hooks/useIsMobile"
+import React, { useEffect, useState } from "react"
 import { useTheme } from "styled-components"
 import * as Styled from "./style"
 
@@ -9,6 +8,23 @@ interface Props {
   image2: IGatsbyImageData
   background?: string
   direction: "column" | "row"
+}
+
+const useScreenDimensions = () => {
+  const [width, setWidth] = useState(window.innerWidth)
+  const [height, setHeight] = useState(window.innerHeight)
+
+  const handleResize = () => {
+    setWidth(window.innerWidth)
+    setHeight(window.innerHeight)
+  }
+
+  React.useEffect(() => {
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
+
+  return { width, height }
 }
 
 const TwoImageSlide: React.FC<Props> = ({
@@ -21,9 +37,17 @@ const TwoImageSlide: React.FC<Props> = ({
   const bgColor = background ?? theme.palette.light
   const [layout, setLayout] = useState(direction)
 
-  useIsMobile(mobile => {
-    if (direction == "row") setLayout(layout => (mobile ? "column" : "row"))
-  })
+  const { width, height } = useScreenDimensions()
+
+  useEffect(() => {
+    if (width >= 768 && height > 414) {
+      setLayout(direction)
+      return
+    }
+
+    if (width > height) setLayout("row")
+    else setLayout("column")
+  }, [width, height])
 
   const img1 = getImage(image1) as IGatsbyImageData
   const img2 = getImage(image2) as IGatsbyImageData

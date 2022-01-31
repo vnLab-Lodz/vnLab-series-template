@@ -37,7 +37,7 @@ export const SlideImageWrapper = styled.div<{
       ? css`
           max-height: ${({ theme }) => `calc(100% - 4 *${theme.spacing.xs})`};
           /* max-width: ${({ theme }) => `calc(100%-2*${theme.spacing.xs})`}; */
-          max-width: 57vh; // magic number that makes sur e the images are always spaced by the margin
+          max-width: 57vh; // magic number that makes sure the images are always spaced by the margin
         `
       : css`
           max-height: ${({ theme }) => `calc(50% - 2 *${theme.spacing.xs})`};
