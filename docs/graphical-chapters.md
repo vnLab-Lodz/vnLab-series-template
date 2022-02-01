@@ -106,8 +106,6 @@ embeddedImagesLocal:
 
 ### 1. Slide
 
----
-
 This slide component can accept children slides. A `background` property can be specified to change the background color of the slide.
 
 ```jsx
@@ -123,9 +121,7 @@ This slide component can accept children slides. A `background` property can be 
 
 <br />
 
-## 2. Text
-
----
+### 2. Text
 
 This slide component can accept basic form of markdown. It can be used to create a title slide for the chapter. Contents of input markdown will be centered on the slide. Just like the normal `Slide` component it can also accept the `background` property.
 
@@ -143,9 +139,7 @@ This slide component can accept basic form of markdown. It can be used to create
 
 <br />
 
-## 3. Center image
-
----
+### 3. Center image
 
 This slide component accepts an `image` property similar to all other image components in the template. Just like the normal `Slide` component it can also accept the `background` property.
 
@@ -155,9 +149,7 @@ This slide component accepts an `image` property similar to all other image comp
 
 <br />
 
-## 4. Annotated image
-
----
+### 4. Annotated image
 
 This slide component accepts an `image` prop and markdown as it's children. Just like the normal `Slide` component it can also accept the `background` property.
 
@@ -170,9 +162,7 @@ This slide component accepts an `image` prop and markdown as it's children. Just
 
 <br />
 
-## 5. Fullscreen image
-
----
+### 5. Fullscreen image
 
 This slide component accepts an `image` property similar to all other image components in the template. Just like the normal `Slide` component it can also accept the `background` property.
 
@@ -182,9 +172,7 @@ This slide component accepts an `image` property similar to all other image comp
 
 <br />
 
-## 6. Two images
-
----
+### 6. Two images
 
 This slide component accepts `image1`, `image2` and `direction` properties. The direction property can be set to `column` or `row` and it determines the layout of the slide. The `direction` prop is optional and does not need to be specified. The default value for the `direction` prop is `row`. Just like the normal `Slide` component it can also accept the `background` property.
 
