@@ -9,9 +9,19 @@ export const SlideImageWrapper = styled.div`
 `
 
 export const SlideAnnotation = styled.div`
-  margin: ${({ theme: { spacing } }) =>
-    `${spacing.xs} ${spacing.xxxl} 0 ${spacing.xxxl}`};
   flex: 1 0 auto;
+  margin: ${({ theme: { spacing } }) =>
+    `${spacing.xs} ${spacing.xs} 0 ${spacing.xs}`};
+
+  @media ${devices.tablet} {
+    margin: ${({ theme: { spacing } }) =>
+      `${spacing.xs} ${spacing.xxxl} 0 ${spacing.xxxl}`};
+  }
+
+  @media ${devices.tablet} {
+    margin: ${({ theme: { spacing } }) =>
+      `${spacing.xs} ${spacing.xl} 0 ${spacing.xl}`};
+  }
 `
 
 export const AnnotationParagraph = styled(atoms.p)`
