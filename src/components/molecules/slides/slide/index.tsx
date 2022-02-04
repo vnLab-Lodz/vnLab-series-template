@@ -16,6 +16,8 @@ const Slide: React.FC<Props> = ({
   const bgColor = background ?? theme.palette.light
 
   const handlers = useSwipeable({
+    preventDefaultTouchmoveEvent: true,
+    trackTouch: true,
     onSwiped: eventData => {
       if (disableSwipe) return
 
