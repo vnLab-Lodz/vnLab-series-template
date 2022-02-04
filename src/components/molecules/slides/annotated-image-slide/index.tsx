@@ -2,7 +2,7 @@ import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import React from "react"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
-import { useTheme } from "styled-components"
+import Slide from "../slide"
 import * as Styled from "./style"
 
 interface Props {
@@ -16,13 +16,10 @@ const AnnotatedImageSlide: React.FC<Props> = ({
   image,
   children,
 }) => {
-  const theme = useTheme()
-  const bgColor = background ?? theme.palette.light
-
   const img = getImage(image) as IGatsbyImageData
 
   return (
-    <section data-background-color={bgColor}>
+    <Slide background={background}>
       <Styled.SlideContentWrapper>
         <GatsbyImage image={img} objectFit="contain" alt="Slide image" />
         <Styled.SlideAnnotation>
@@ -35,7 +32,7 @@ const AnnotatedImageSlide: React.FC<Props> = ({
           </ReactMarkdown>
         </Styled.SlideAnnotation>
       </Styled.SlideContentWrapper>
-    </section>
+    </Slide>
   )
 }
 

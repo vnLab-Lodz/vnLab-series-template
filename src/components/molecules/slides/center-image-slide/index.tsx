@@ -1,6 +1,6 @@
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import React from "react"
-import { useTheme } from "styled-components"
+import Slide from "../slide"
 import * as Styled from "./style"
 
 interface Props {
@@ -14,13 +14,10 @@ const CenterImageSlide: React.FC<Props> = ({
   image,
   fit = "contain",
 }) => {
-  const theme = useTheme()
-  const bgColor = background ?? theme.palette.light
-
   const img = getImage(image) as IGatsbyImageData
 
   return (
-    <section data-background-color={bgColor}>
+    <Slide background={background}>
       <Styled.SlideImageWrapper fullscreen={fit === "cover"}>
         <GatsbyImage
           image={img}
@@ -29,7 +26,7 @@ const CenterImageSlide: React.FC<Props> = ({
           alt="Slide image"
         />
       </Styled.SlideImageWrapper>
-    </section>
+    </Slide>
   )
 }
 

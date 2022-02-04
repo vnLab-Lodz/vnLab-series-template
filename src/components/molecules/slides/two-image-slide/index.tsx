@@ -1,7 +1,7 @@
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import React, { useEffect, useState } from "react"
 import useScreenDimensions from "src/hooks/useScreenDimensions"
-import { useTheme } from "styled-components"
+import Slide from "../slide"
 import * as Styled from "./style"
 
 interface Props {
@@ -17,8 +17,6 @@ const TwoImageSlide: React.FC<Props> = ({
   image2,
   direction = "row",
 }) => {
-  const theme = useTheme()
-  const bgColor = background ?? theme.palette.light
   const [layout, setLayout] = useState(direction)
 
   const { width, height } = useScreenDimensions()
@@ -37,7 +35,7 @@ const TwoImageSlide: React.FC<Props> = ({
   const img2 = getImage(image2) as IGatsbyImageData
 
   return (
-    <section data-background-color={bgColor}>
+    <Slide background={background}>
       <Styled.ImagesContainer direction={layout}>
         <Styled.SlideImageWrapper direction={layout}>
           <GatsbyImage
@@ -56,7 +54,7 @@ const TwoImageSlide: React.FC<Props> = ({
           />
         </Styled.SlideImageWrapper>
       </Styled.ImagesContainer>
-    </section>
+    </Slide>
   )
 }
 
