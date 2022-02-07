@@ -70,6 +70,8 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       width: "100%",
       height: "100%",
       progress: false,
+      hash: true,
+      history: true,
     })
     deck.initialize()
 
