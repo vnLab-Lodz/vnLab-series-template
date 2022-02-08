@@ -20,7 +20,7 @@ const theme = {
   typography: {
     fonts: {
       primary: "'HK-Grotesk', sans-serif",
-      secondary: "'CrimsonPro', serif",
+      secondary: "'Crimson Pro', serif",
     },
     ...typography,
   },
