@@ -20,6 +20,7 @@
     "gatsby-plugin-styled-components": "^4.10.0",
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-remark-images": "^5.7.0",
+    "gatsby-remark-orphans": "^1.0.7",
     "gatsby-source-filesystem": "^3.10.0",
     "gatsby-theme-i18n": "^2.0.0",
     "gatsby-theme-i18n-react-i18next": "^2.0.0",
