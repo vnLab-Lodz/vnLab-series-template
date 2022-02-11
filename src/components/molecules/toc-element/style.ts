@@ -24,7 +24,10 @@ export const TocContainer = styled.article`
 export const ArticleTitle = styled(LocalizedLink)`
   text-decoration: none;
   grid-row: 1;
-  grid-column: 4 / -2;
+  grid-column: 4 / -3;
+  p {
+    font-weight: 400;
+  }
 `
 
 export const ArticleNumber = styled(atoms.p)`
@@ -44,9 +47,11 @@ export const ArticleNumber = styled(atoms.p)`
 export const ArticleAuthor = styled(atoms.h3)`
   ${({ theme: { spacing } }) => css`
     grid-row: 2;
-    grid-column: 4 / -2;
+    grid-column: 4 / -3;
     margin: ${spacing.xxs} 0px;
     text-align: left;
+    font-weight: normal;
+    font-size: 15px;
   `}
 `
 
@@ -57,7 +62,7 @@ export const SummaryButton = styled.button`
     padding: 0;
     cursor: pointer;
     grid-row: 3;
-    grid-column: 4 / -2;
+    grid-column: 4 / -3;
     text-align: left;
     color: ${palette.black};
 
@@ -77,7 +82,7 @@ export const Summary = styled(atoms.p)`
   font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.153)`};
   margin-top: ${({ theme }) => theme.spacing.xxs};
   grid-row: 4;
-  grid-column: 4 / -2;
+  grid-column: 4 / -3;
   overflow: hidden;
 `
 
@@ -92,9 +97,9 @@ export const Divider = styled.div`
   right: 0;
   height: 1px;
   background: ${({ theme }) => theme.palette.dark};
-  grid-column: 2 / -2;
+  grid-column: 2 / -3;
 
   @media ${devices.tablet} {
-    grid-column: 3 / -2;
+    grid-column: 3 / -3;
   }
 `
