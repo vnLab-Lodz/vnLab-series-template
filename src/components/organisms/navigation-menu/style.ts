@@ -312,10 +312,18 @@ export const TocHeader = styled(atoms.h3)`
   `}
 `
 
-export const Part = styled(atoms.h3)`
+export const Part = styled(atoms.h3)<{ first?: boolean }>`
   margin: 0px 0px ${({ theme }) => theme.spacing.md} 0px;
   text-align: start;
   grid-column: 2 / last-col;
+  margin-bottom: 80px;
+  margin-top: 80px;
+
+  ${({ first }) =>
+    first &&
+    css`
+      margin-top: 0px;
+    `}
 
   @media ${devices.tablet} {
     grid-column: 3 / last-col;
