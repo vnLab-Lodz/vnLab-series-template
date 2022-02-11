@@ -84,7 +84,6 @@ export const CaptionContent = styled(GridContainer)`
     border-bottom: solid 1px ${palette.dark};
     font-family: ${typography.fonts.secondary};
     padding-top: ${spacing.sm};
-    padding-bottom: ${spacing.lg};
     position: absolute;
     left: 0px;
     right: 0px;
