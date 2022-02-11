@@ -1,5 +1,5 @@
 import { useLocalization } from "gatsby-theme-i18n"
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import * as Styled from "./style"
 
 interface Language {
@@ -16,12 +16,13 @@ interface Props {
   compact?: boolean
 }
 
-function getLocalesString(config: Array<{ code: string }>) {
-  return config.reduce((prev: string, { code }, index) => {
-    if (index === 0) return code.toUpperCase()
-
-    return (prev += ` / ${code.toUpperCase()}`)
-  }, "")
+function getLocales(config: Array<{ code: string }>, activeLang: string) {
+  return config.map(({ code }, index) => (
+    <>
+      <Styled.LocaleSpan active={code === activeLang}>{code}</Styled.LocaleSpan>
+      {index !== config.length - 1 && " / "}
+    </>
+  ))
 }
 
 const LanguagePicker: React.FC<Props> = ({
@@ -35,11 +36,10 @@ const LanguagePicker: React.FC<Props> = ({
   const [langPickerOpen, setLangPickerOpen] = useState(false)
 
   const { config, locale } = useLocalization()
-  const locales = getLocalesString(config)
-  const languages: Language[] = config.map(({ code, name }: Language) => ({
-    code,
-    name,
-  }))
+  const locales = useMemo(() => getLocales(config, locale), [config, locale])
+  const languages: Language[] = useMemo(() => {
+    return config.map(({ code, name }: Language) => ({ code, name }))
+  }, [config])
 
   return (
     <Styled.LangButton

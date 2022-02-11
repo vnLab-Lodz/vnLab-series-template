@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import usePublication, { PublicationPage } from "src/hooks/usePublication"
 import TocElement from "~components/molecules/toc-element"
 import { getPartFromIndex } from "~util/indexes"
@@ -21,12 +21,10 @@ interface Props {
   headless?: boolean
 }
 
-const Part: React.FC = ({ children }) => <>{children}</>
-
 const TableOfContents: React.FC<Props> = ({ className, headless }) => {
   const { locale } = useLocalization()
   const pages = usePublication()
-  const groupedPages = groupPages(pages)
+  const groupedPages = useMemo(() => groupPages(pages), [pages])
   const uid = uuid()
   const { t } = useTranslation("common")
 
@@ -41,9 +39,11 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
           sectionNames[locale]?.[index] ?? `${t("part")} ${index}`
 
         return (
-          <Part key={`toc-part__${uid}--${i}`}>
+          <React.Fragment key={`toc-part__${uid}--${i}`}>
             {!!sectionName && (
-              <Styled.Part type="primary">{sectionName}</Styled.Part>
+              <Styled.Part type="primary" first={i === 0}>
+                {sectionName}
+              </Styled.Part>
             )}
             {group.map((page, j) => (
               <TocElement
@@ -52,7 +52,7 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
                 last={group.length - 1 === j && groupedPages.length - 1 === i}
               />
             ))}
-          </Part>
+          </React.Fragment>
         )
       })}
     </Styled.TocGrid>
