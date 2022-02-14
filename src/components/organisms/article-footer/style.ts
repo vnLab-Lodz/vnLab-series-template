@@ -6,6 +6,11 @@ export const FooterSpacer = styled.div`
   ${({ theme: { palette, spacing } }) => css`
     background: ${palette.light};
     padding: ${spacing.xxxl} 0px;
+
+    @media ${devices.tablet} {
+      padding-top: calc(0.9 * ${spacing.xxxl});
+      padding-bottom: calc(1.05 * ${spacing.xxxl});
+    }
   `}
 `
 

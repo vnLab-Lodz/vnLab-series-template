@@ -6,6 +6,18 @@ export const Globals = createGlobalStyle`
     v2.0 | 20110126
     License: none (public domain)
   */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  *::selection {
+    background: #fbfdbc; /* WebKit/Blink Browsers */
+    color: #222222;
+  }
+  *::-moz-selection {
+    background: #fbfdbc; /* Gecko Browsers */
+    color: #222222;
+  }
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -96,7 +108,7 @@ export const Globals = createGlobalStyle`
     --text-xl: 32px;
     --text-lg: 22px;
     --text-md: 18px;
-    --text-sm: 13px;
+    --text-sm: 11px;
     
     @media ${devices.tablet} {
         --unit-base: 1.25rem;
@@ -105,7 +117,7 @@ export const Globals = createGlobalStyle`
         --text-xl: 60px;
         --text-lg: 25px;
         --text-md: 20px;
-        --text-sm: 13px;
+        --text-sm: 11px;
     }
 
     @media ${devices.desktop} and (min-height: 1100px) {
@@ -117,7 +129,7 @@ export const Globals = createGlobalStyle`
         --text-xl: 4.8rem;
         --text-lg: 1.7rem;
         --text-md: 1.5rem;
-        --text-sm: 1.1rem;
+        --text-sm: 0.9rem;
     }
   }
   

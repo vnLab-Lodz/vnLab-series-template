@@ -9,16 +9,14 @@ export const ElementWrapper = styled.article`
   ${({ theme: { spacing, palette } }) => css`
     padding: ${spacing.md};
     outline: 1px solid ${palette.dark};
-    margin-left: 1px;
-
-    min-width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
-    width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
-    max-width: ${`calc(100% - (2 * ${spacing.md}) - 1px)`};
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
 
     @media ${devices.laptop} {
-      min-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
-      width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
-      max-width: ${`calc(50% - (2 * ${spacing.md}) - 1px)`};
+      min-width: 50%;
+      width: 50%;
+      max-width: 50%;
     }
   `};
 `

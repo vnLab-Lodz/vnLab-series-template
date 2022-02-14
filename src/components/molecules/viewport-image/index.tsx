@@ -55,7 +55,7 @@ const CaptionPortal: React.FC<PortalProps> = ({
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
       {typeof children === "string" ? (
-        <Styled.CaptionParagraph as="div">
+        <Styled.CaptionParagraph as="div" padded={!!children}>
           <ReactMarkdown
             components={{ ...mdxComponents, p: Styled.CaptionParagraph } as any}
           >
@@ -63,7 +63,7 @@ const CaptionPortal: React.FC<PortalProps> = ({
           </ReactMarkdown>
         </Styled.CaptionParagraph>
       ) : (
-        <Styled.CaptionParagraph>
+        <Styled.CaptionParagraph padded={!!children}>
           <MDXProvider components={mdxComponents}>{children}</MDXProvider>
         </Styled.CaptionParagraph>
       )}

@@ -12,17 +12,27 @@ import * as Styled from "./style"
 interface Props {
   page: PublicationPage
   last?: boolean
+  current?: boolean
+  hideDivider?: boolean
 }
 
-const TocElement: React.FC<Props> = ({ page, last }) => {
+const TocElement: React.FC<Props> = ({ page, last, current, hideDivider }) => {
   const { t } = useTranslation("common")
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { locale } = useLocalization()
 
+  const getDividerVisibility = () => {
+    if (hideDivider) return false
+
+    return !last && !current
+  }
+
   const toggleSummary = () => setIsSummaryExpanded(prev => !prev)
 
+  const isDividerVisible = getDividerVisibility()
+
   return (
-    <Styled.TocContainer>
+    <Styled.TocContainer highlighted={current}>
       <Styled.ArticleNumber>
         {getChapterFromIndex(page.index ?? 0)}
       </Styled.ArticleNumber>
@@ -31,7 +41,11 @@ const TocElement: React.FC<Props> = ({ page, last }) => {
           {page.title}
         </ReactMarkdown>
       </Styled.ArticleTitle>
-      <Styled.ArticleAuthor type="primary">{page.author}</Styled.ArticleAuthor>
+      {page.author && (
+        <Styled.ArticleAuthor type="primary">
+          {page.author}
+        </Styled.ArticleAuthor>
+      )}
       {page.summary && (
         <>
           <Styled.SummaryButton onClick={toggleSummary}>
@@ -60,7 +74,7 @@ const TocElement: React.FC<Props> = ({ page, last }) => {
           </AnimatePresence>
         </>
       )}
-      {!last && <Styled.Divider />}
+      {isDividerVisible && <Styled.Divider />}
     </Styled.TocContainer>
   )
 }
