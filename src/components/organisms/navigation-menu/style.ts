@@ -131,6 +131,11 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
     // that makes them 2px leaving a white gap between button and tabs
     width: calc(100% + 1px);
   }
+
+  @media ${devices.desktop} {
+    padding: ${({ theme }) => theme.spacing.md} 0px;
+    height: 164px;
+  }
 `
 
 export const Logo = styled.img`
@@ -195,6 +200,11 @@ export const Tabs = styled.header<{ sticky?: boolean }>`
           top: 0px;
           z-index: 7;
         `};
+    }
+
+    @media ${devices.desktop} {
+      padding: ${({ theme }) => theme.spacing.sm} 0px;
+      height: fit-content;
     }
   `}
 `
