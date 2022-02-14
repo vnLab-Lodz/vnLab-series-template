@@ -72,5 +72,5 @@ export const SummaryButton = styled.button`
 `
 
 export const p = styled(atoms.p)`
-  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.153)`};
+  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.4)`};
 `
