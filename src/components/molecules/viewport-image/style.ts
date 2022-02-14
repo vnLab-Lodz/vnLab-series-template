@@ -36,6 +36,10 @@ export const ImageWrapper = styled.div`
 
   grid-column: 1 / last-col;
 
+  @media ${devices.tablet} {
+    grid-column: 4 / last-col;
+  }
+
   @media ${devices.laptop} {
     grid-column: 3 / last-col;
   }
