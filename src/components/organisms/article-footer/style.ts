@@ -5,7 +5,8 @@ import { GridContainer } from "~styles/grid"
 export const FooterSpacer = styled.div`
   ${({ theme: { palette, spacing } }) => css`
     background: ${palette.light};
-    padding: ${spacing.xxxl} 0px;
+    padding-top: calc(0.9 * ${spacing.xxxl});
+    padding-bottom: calc(1.05 * ${spacing.xxxl});
   `}
 `
 
