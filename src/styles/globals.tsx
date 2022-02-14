@@ -7,8 +7,17 @@ export const Globals = createGlobalStyle`
     License: none (public domain)
   */
   *, *::before, *::after {
-  box-sizing: border-box;
-}
+    box-sizing: border-box;
+  }
+
+  *::selection {
+    background: #fbfdbc; /* WebKit/Blink Browsers */
+    color: #222222;
+  }
+  *::-moz-selection {
+    background: #fbfdbc; /* Gecko Browsers */
+    color: #222222;
+  }
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
