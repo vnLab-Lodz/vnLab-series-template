@@ -54,7 +54,7 @@ export const ArticleAuthor = styled(atoms.h3)`
   ${({ theme: { spacing, typography } }) => css`
     grid-row: 2;
     grid-column: 4 / -3;
-    margin: ${spacing.xxs} 0px;
+    margin: ${spacing.xs} 0px;
     text-align: left;
     font-weight: normal;
     font-size: calc(${typography.sm} * 1.2);
