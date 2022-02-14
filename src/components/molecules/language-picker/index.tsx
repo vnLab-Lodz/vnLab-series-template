@@ -18,10 +18,10 @@ interface Props {
 
 function getLocales(config: Array<{ code: string }>, activeLang: string) {
   return config.map(({ code }, index) => (
-    <>
+    <React.Fragment key={`locale-code--${code}`}>
       <Styled.LocaleSpan active={code === activeLang}>{code}</Styled.LocaleSpan>
       {index !== config.length - 1 && " / "}
-    </>
+    </React.Fragment>
   ))
 }
 
@@ -53,9 +53,9 @@ const LanguagePicker: React.FC<Props> = ({
       </Styled.LangButtonText>
       {langPickerOpen && (
         <Styled.LanguagePopUp close={compact}>
-          {languages.map((lang: Language, i) => (
+          {languages.map(lang => (
             <Styled.LangLink
-              key={`nav-menu__lang-link--${i}`}
+              key={lang.code}
               inactive={(lang.code === locale).toString()}
               to={currentPath.replace(`/${locale}/`, "/")}
               language={lang.code}
