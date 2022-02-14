@@ -6,6 +6,7 @@ import * as Styled from "../style"
 import { v4 as uuid } from "uuid"
 import { useTranslation } from "react-i18next"
 import { useLocalization } from "gatsby-theme-i18n"
+import { useLocation } from "@reach/router"
 
 import sectionNamesJSON from "../../../../../meta/section_names.json"
 
@@ -22,11 +23,13 @@ interface Props {
 }
 
 const TableOfContents: React.FC<Props> = ({ className, headless }) => {
-  const { locale } = useLocalization()
-  const pages = usePublication()
-  const groupedPages = useMemo(() => groupPages(pages), [pages])
-  const uid = uuid()
   const { t } = useTranslation("common")
+  const { locale } = useLocalization()
+  const { pathname } = useLocation()
+  const pages = usePublication()
+  const uid = uuid()
+
+  const groupedPages = useMemo(() => groupPages(pages), [pages])
 
   return (
     <Styled.TocGrid className={className}>
@@ -37,6 +40,10 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
         const index = i + 1
         const sectionName: string | boolean =
           sectionNames[locale]?.[index] ?? `${t("part")} ${index}`
+
+        const currentIndex: number | undefined = group.findIndex(
+          el => el.path === pathname
+        )
 
         return (
           <React.Fragment key={`toc-part__${uid}--${i}`}>
@@ -50,6 +57,8 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
                 key={`toc-element__${uid}--${j}`}
                 page={page}
                 last={group.length - 1 === j && groupedPages.length - 1 === i}
+                current={pathname === page.path}
+                hideDivider={currentIndex - 1 === j}
               />
             ))}
           </React.Fragment>

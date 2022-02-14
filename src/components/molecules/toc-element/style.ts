@@ -3,14 +3,20 @@ import { LocalizedLink } from "gatsby-theme-i18n"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
 
-export const TocContainer = styled.article`
+export const TocContainer = styled.article<{ highlighted?: boolean }>`
   position: relative;
   display: grid;
   grid-column: 1 / last-col;
   grid-template-rows: repeat(4, min-content);
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-  padding-bottom: ${({ theme }) => theme.spacing.xs};
+  padding-block: ${({ theme }) => theme.spacing.xs};
   grid-template-columns: repeat(16, 1fr);
+
+  ${({ highlighted, theme }) =>
+    highlighted &&
+    css`
+      background: ${theme.palette.light};
+      border-block: 1px solid ${theme.palette.black};
+    `};
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
