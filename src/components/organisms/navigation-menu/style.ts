@@ -135,6 +135,7 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
 
 export const Logo = styled.img`
   display: none;
+  height: 60px;
 
   @media ${devices.tablet} {
     display: block;
