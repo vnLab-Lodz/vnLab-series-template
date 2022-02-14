@@ -53,6 +53,10 @@ export const MenuNav = styled.nav<{ open: boolean }>`
     z-index: 3;
     transition: background 0.5s ease-in-out;
 
+    filter: ${open
+      ? `drop-shadow(-10px 0px 0px ${palette.white})  drop-shadow(0px -20px 0px ${palette.white})`
+      : "none"};
+
     overflow-x: auto;
 
     @media ${devices.tablet} {
@@ -106,7 +110,7 @@ export const MenuContent = styled(motion.div)`
 
 export const MenuLayout = styled(Layout)`
   margin-top: ${({ theme: { spacing } }) => spacing.xxxl};
-  margin-bottom: ${({ theme: { spacing } }) => spacing.sm};
+  margin-bottom: ${({ theme: { spacing } }) => spacing.xl};
 `
 
 export const BibliographyLink = styled(LocalizedLink)`
