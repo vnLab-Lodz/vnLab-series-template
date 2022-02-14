@@ -8,6 +8,7 @@ const StyledButton = styled(motion.button)`
   ${({ theme: { typography, spacing } }) => css`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
+    letter-spacing: 0.55px;
     font-weight: 600;
     text-transform: uppercase;
     line-height: 115%;

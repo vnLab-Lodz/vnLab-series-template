@@ -32,7 +32,7 @@ export const ArticleTitle = styled(LocalizedLink)`
   grid-row: 1;
   grid-column: 4 / -3;
   p {
-    font-weight: 400;
+    font-weight: 500;
   }
 `
 
@@ -51,13 +51,21 @@ export const ArticleNumber = styled(atoms.p)`
   `}
 `
 export const ArticleAuthor = styled(atoms.h3)`
-  ${({ theme: { spacing } }) => css`
+  ${({ theme: { spacing, typography } }) => css`
     grid-row: 2;
     grid-column: 4 / -3;
     margin: ${spacing.xxs} 0px;
     text-align: left;
     font-weight: normal;
-    font-size: 15px;
+    font-size: calc(${typography.sm} * 1.2);
+
+    @media ${devices.tablet} {
+      font-size: calc(${typography.sm} * 1.4);
+    }
+
+    @media ${devices.desktop} {
+      font-size: calc(${typography.sm} * 1.1);
+    }
   `}
 `
 
@@ -76,6 +84,7 @@ export const SummaryButton = styled.button`
       color: ${palette.black};
       font-family: ${typography.fonts.primary};
       font-size: ${typography.sm};
+      letter-spacing: 0.55px;
       font-weight: normal;
       text-transform: lowercase;
       line-height: 115%;

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
-import { breakpoints, devices } from "~styles/breakpoints"
+import { devices } from "~styles/breakpoints"
 import BaseLayout from "../layout"
 
 export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
@@ -71,9 +71,9 @@ export const ButtonText = styled.span`
     margin-right: ${spacing.xxs};
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
+    letter-spacing: 0.55px;
     font-weight: bold;
     text-transform: uppercase;
-    line-height: 115%;
     color: ${palette.black};
   `}
 `

@@ -262,6 +262,7 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
+    letter-spacing: 0.55px;
     font-weight: bold;
 
     ${active &&
@@ -435,6 +436,7 @@ export const AnnotationsButton = styled.button`
   padding: ${({ theme }) => theme.spacing.md};
   grid-column: 1 / last-col;
   font-size: ${({ theme }) => theme.typography.sm};
+  letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
   color: ${({ theme }) => theme.palette.black};
@@ -449,6 +451,7 @@ export const NextTabButton = styled.button`
   grid-column: 1 / last-col;
   margin-top: ${({ theme }) => theme.spacing.md};
   font-size: ${({ theme }) => theme.typography.sm};
+  letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
   color: ${({ theme }) => theme.palette.white};

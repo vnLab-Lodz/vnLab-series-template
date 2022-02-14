@@ -76,7 +76,11 @@ export const ExpandCaptionBtn = styled.button`
 export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     grid-column: 1 / -6;
-    font-size: calc(${typography.sm} * 1.3);
+    font-size: ${typography.sm};
+
+    @media ${devices.tablet} {
+      font-size: calc(${typography.sm} * 1.4);
+    }
   `}
 `
 
@@ -103,6 +107,7 @@ export const CaptionContent = styled(GridContainer)`
 export const CaptionHeader = styled(CaptionText)`
   grid-column: 3 / 30;
   grid-row: 1;
+  font-size: ${({ theme: { typography } }) => typography.md};
 
   @media ${devices.tablet} {
     grid-column: 8 / 28;
@@ -113,9 +118,15 @@ export const CaptionHeader = styled(CaptionText)`
   }
 `
 
-export const CaptionParagraph = styled(atoms.p)`
+export const CaptionParagraph = styled(atoms.p)<{ padded?: boolean }>`
   grid-column: 3 / 32;
   grid-row: 2;
+
+  ${({ padded, theme }) =>
+    padded &&
+    css`
+      padding-bottom: ${theme.spacing.xs};
+    `};
 
   @media ${devices.tablet} {
     grid-column: 8 / 30;

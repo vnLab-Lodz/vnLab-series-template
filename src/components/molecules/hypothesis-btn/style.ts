@@ -32,11 +32,11 @@ export const VerticalText = styled.p`
   ${({ theme: { palette, typography } }) => css`
     color: ${palette.white};
     font-weight: 500;
-    font-size: 11px;
+    font-size: ${typography.sm};
+    letter-spacing: 0.55px;
     font-family: ${typography.fonts.primary};
 
     @media ${devices.tablet} {
-      font-size: ${typography.sm};
       width: fit-content;
       writing-mode: vertical-lr;
       text-orientation: mixed;

@@ -96,5 +96,6 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
 export const LocaleSpan = styled.span<{ active: boolean }>`
   font-size: inherit;
   font-family: inherit;
-  font-weight: ${({ active }) => (active ? "bold" : "normal")};s
+  font-weight: ${({ active }) => (active ? "bold" : "normal")};
+  letter-spacing: 0.55px;
 `
