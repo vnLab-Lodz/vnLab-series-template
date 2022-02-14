@@ -3,6 +3,9 @@ import { devices } from "~styles/breakpoints"
 
 export const TextButton = styled.button`
   ${({ theme: { palette, spacing } }) => css`
+    display: flex;
+    align-items: center;
+
     position: fixed;
     bottom: 0px;
     left: 0px;
@@ -11,14 +14,14 @@ export const TextButton = styled.button`
     border-radius: 0;
     text-transform: uppercase;
     background-color: ${palette.black};
-    padding: ${spacing.xxs};
+    padding: 0;
     z-index: 12;
     width: -webkit-fill-available;
     width: 100%;
     cursor: pointer;
 
     @media ${devices.tablet} {
-      padding: ${spacing.xs};
+      flex-direction: column;
       transform: rotate(180deg);
       top: 0px;
       left: initial;
@@ -29,14 +32,20 @@ export const TextButton = styled.button`
 `
 
 export const VerticalText = styled.p`
-  ${({ theme: { palette, typography } }) => css`
+  ${({ theme: { spacing, palette, typography } }) => css`
     color: ${palette.white};
     font-weight: 500;
     font-size: ${typography.sm};
     letter-spacing: 0.55px;
     font-family: ${typography.fonts.primary};
+    padding: ${spacing.xxs};
+    flex: 1 0 auto;
+
+    margin-left: calc(${spacing.xs} + 11px);
 
     @media ${devices.tablet} {
+      margin-left: 0;
+      padding: ${spacing.xs};
       width: fit-content;
       writing-mode: vertical-lr;
       text-orientation: mixed;
@@ -68,4 +77,17 @@ export const IconButton = styled.button`
       }
     }
   `};
+`
+
+export const CloseBtn = styled.img`
+  height: 11px;
+  width: 11px;
+  filter: brightness(10);
+  cursor: pointer;
+  margin-right: ${({ theme }) => theme.spacing.xs};
+
+  @media ${devices.tablet} {
+    margin-right: 0;
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
+  }
 `
