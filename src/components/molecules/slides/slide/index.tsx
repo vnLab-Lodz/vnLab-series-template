@@ -13,7 +13,7 @@ const Slide: React.FC<Props> = ({
   disableSwipe = false,
 }) => {
   const theme = useTheme()
-  const bgColor = background ?? theme.palette.dark
+  const bgColor = background ?? theme.palette.black
 
   const handlers = useSwipeable({
     preventDefaultTouchmoveEvent: true,
