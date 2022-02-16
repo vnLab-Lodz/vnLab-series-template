@@ -16,8 +16,15 @@ interface Context {
 
 export const NavMenuContext = createContext<Context | undefined>(undefined)
 
-const NavMenuProvider: React.FC = ({ children }) => {
-  const [mode, setMode] = useState<NAV_MODES>(NAV_MODES.LIGHT)
+interface NavMenuProviderProps {
+  defaultMode?: NAV_MODES
+}
+
+const NavMenuProvider: React.FC<NavMenuProviderProps> = ({
+  children,
+  defaultMode = NAV_MODES.LIGHT,
+}) => {
+  const [mode, setMode] = useState<NAV_MODES>(defaultMode)
   const [isVisible, setIsVisible] = useState(true)
   const [toggleNav, setToggleNav] = useState<() => void>(() => {})
 

@@ -1,5 +1,7 @@
 import React, { useEffect } from "react"
-import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
+import NavMenuProvider, {
+  NAV_MODES,
+} from "~components/organisms/navigation-menu/nav-menu-context"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import styled from "styled-components"
@@ -110,7 +112,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   }, [])
 
   return (
-    <NavMenuProvider>
+    <NavMenuProvider defaultMode={NAV_MODES.DARK}>
       <HypothesisBtn left />
       <NavigationMenu currentPath={location.pathname} />
       <StyledArticle>
