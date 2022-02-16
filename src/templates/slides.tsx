@@ -13,7 +13,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import { mdxComponents } from "./chapter"
 import Slide from "~components/molecules/slides/slide"
 import CenterImageSlide from "~components/molecules/slides/center-image-slide"
-import TextSlide from "~components/molecules/slides/text-slide"
+import TitleSlide from "~components/molecules/slides/title-slide"
 import FullscreenImageSlide from "~components/molecules/slides/fullscreen-image-slide"
 import TwoImageSlide from "~components/molecules/slides/two-image-slide"
 import AnnotatedImageSlide from "~components/molecules/slides/annotated-image-slide"
@@ -40,19 +40,30 @@ interface Data {
   }
 }
 
-const components = {
+export const slidesMdxComponents = {
   ...mdxComponents,
   h1: styled(atoms.h1)`
-    margin: 0;
+    margin: 8px;
+    color: ${({ theme }) => theme.palette.white};
+    font-weight: 300;
   `,
   h2: styled(atoms.h2)`
     margin: 0;
+    font-family: ${({ theme }) => theme.typography.fonts.primary};
+    color: ${({ theme }) => theme.palette.white};
   `,
-  p: atoms.p,
+  h3: styled(atoms.h3)`
+    margin: 0;
+    font-family: ${({ theme }) => theme.typography.fonts.primary};
+    color: ${({ theme }) => theme.palette.white};
+  `,
+  p: styled(atoms.p)`
+    color: ${({ theme }) => theme.palette.white};
+  `,
   Slide,
   CenterImageSlide,
   FullscreenImageSlide,
-  TextSlide,
+  TitleSlide,
   TwoImageSlide,
   AnnotatedImageSlide,
   VerticalSlides,
@@ -106,7 +117,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
         <StyledLayout>
           <RevealContainer className="reveal">
             <div className="slides">
-              <MDXProvider components={components}>
+              <MDXProvider components={slidesMdxComponents}>
                 <SeoMeta title={title} />
                 <MDXRenderer
                   frontmatter={mdx.frontmatter}
