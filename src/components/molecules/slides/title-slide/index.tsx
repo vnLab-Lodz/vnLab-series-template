@@ -8,20 +8,18 @@ interface Props {
   background?: string
 }
 
-const TitleSlide: React.FC<Props> = ({ children, background }) => {
-  return (
-    <Slide background={background}>
-      <Styled.TextContainer>
-        {typeof children === "string" ? (
-          <ReactMarkdown components={slidesMdxComponents as any}>
-            {children?.toString() ?? ""}
-          </ReactMarkdown>
-        ) : (
-          children
-        )}
-      </Styled.TextContainer>
-    </Slide>
-  )
-}
+const TitleSlide: React.FC<Props> = ({ children, background }) => (
+  <Slide background={background}>
+    <Styled.TextContainer>
+      {typeof children === "string" ? (
+        <ReactMarkdown components={slidesMdxComponents as any}>
+          {children?.toString() ?? ""}
+        </ReactMarkdown>
+      ) : (
+        children
+      )}
+    </Styled.TextContainer>
+  </Slide>
+)
 
 export default TitleSlide

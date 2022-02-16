@@ -22,6 +22,7 @@ import AnnotatedImageSlide from "~components/molecules/slides/annotated-image-sl
 import atoms from "~components/atoms"
 import { SwipeEventData } from "react-swipeable"
 import VerticalSlides from "~components/molecules/slides/vertical-slides"
+import TextSlide from "~components/molecules/slides/text-slide"
 
 //@ts-ignore
 import Reveal from "reveal.js"
@@ -69,6 +70,7 @@ export const slidesMdxComponents = {
   TwoImageSlide,
   AnnotatedImageSlide,
   VerticalSlides,
+  TextSlide,
 }
 
 const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {

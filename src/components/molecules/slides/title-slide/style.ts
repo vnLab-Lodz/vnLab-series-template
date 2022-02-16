@@ -7,4 +7,7 @@ export const TextContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin-top: 100px;
+  margin-bottom: 100px;
 `
