@@ -12,9 +12,19 @@ export const SlideImageWrapper = styled.div<{ fullscreen?: boolean }>`
     `calc(70px + 2 * ${theme.spacing.xs}) calc(2 * ${theme.spacing.xs}) calc(2 * ${theme.spacing.xs}) calc(2 * ${theme.spacing.xs})`};
 
   @media ${devices.tablet} {
-    margin: ${({ theme }) => `calc(2 * ${theme.spacing.xs})`};
-    height: ${({ theme }) => `calc(100% - 4 *${theme.spacing.xs})`};
-    max-height: ${({ theme }) => `calc(100% - 4 *${theme.spacing.xs})`};
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: calc(100vw / 32 * 2);
+    margin-right: calc(100vw / 32 * 2);
+    max-width: calc(100vw / 32 * 25);
+    height: calc(100vh - 200px);
+    max-height: calc(100vh - 200px);
+  }
+
+  @media ${devices.laptop} {
+    margin-left: calc(100vw / 32 * 2);
+    margin-right: calc(100vw / 32 * 2);
+    max-width: calc(100vw / 32 * 26);
   }
 
   ${({ fullscreen }) =>
