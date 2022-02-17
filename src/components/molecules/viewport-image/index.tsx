@@ -3,7 +3,7 @@ import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import { useTranslation } from "react-i18next"
-import { useAnimation } from "framer-motion"
+import { AnimatePresence, motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import * as Styled from "./style"
 import { GridConstraint } from "~styles/grid"
@@ -37,7 +37,11 @@ const CaptionPortal: React.FC<PortalProps> = ({
   return ReactDOM.createPortal(
     <Styled.CaptionContent
       ref={ref}
-      as="article"
+      as={motion.article}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       style={{ bottom: `${position}px` }}
     >
       <Styled.CaptionHeader as="div">
@@ -51,7 +55,7 @@ const CaptionPortal: React.FC<PortalProps> = ({
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
       {typeof children === "string" ? (
-        <Styled.CaptionParagraph as="div">
+        <Styled.CaptionParagraph as="div" padded={!!children}>
           <ReactMarkdown
             components={{ ...mdxComponents, p: Styled.CaptionParagraph } as any}
           >
@@ -59,7 +63,7 @@ const CaptionPortal: React.FC<PortalProps> = ({
           </ReactMarkdown>
         </Styled.CaptionParagraph>
       ) : (
-        <Styled.CaptionParagraph>
+        <Styled.CaptionParagraph padded={!!children}>
           <MDXProvider components={mdxComponents}>{children}</MDXProvider>
         </Styled.CaptionParagraph>
       )}
@@ -176,15 +180,17 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
                 </Styled.ExpandCaptionBtn>
               )}
             </Styled.Caption>
-            {open && position && (
-              <CaptionPortal
-                caption={caption}
-                toggle={() => setOpen(false)}
-                position={position}
-              >
-                {children}
-              </CaptionPortal>
-            )}
+            <AnimatePresence>
+              {open && position && (
+                <CaptionPortal
+                  caption={caption}
+                  toggle={() => setOpen(false)}
+                  position={position}
+                >
+                  {children}
+                </CaptionPortal>
+              )}
+            </AnimatePresence>
           </GridConstraint>
         )}
       </Styled.Absolute>

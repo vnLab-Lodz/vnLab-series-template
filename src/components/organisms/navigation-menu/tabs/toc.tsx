@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import usePublication, { PublicationPage } from "src/hooks/usePublication"
 import TocElement from "~components/molecules/toc-element"
 import { getPartFromIndex } from "~util/indexes"
@@ -6,6 +6,7 @@ import * as Styled from "../style"
 import { v4 as uuid } from "uuid"
 import { useTranslation } from "react-i18next"
 import { useLocalization } from "gatsby-theme-i18n"
+import { useLocation } from "@reach/router"
 
 import sectionNamesJSON from "../../../../../meta/section_names.json"
 
@@ -21,14 +22,14 @@ interface Props {
   headless?: boolean
 }
 
-const Part: React.FC = ({ children }) => <>{children}</>
-
 const TableOfContents: React.FC<Props> = ({ className, headless }) => {
-  const { locale } = useLocalization()
-  const pages = usePublication()
-  const groupedPages = groupPages(pages)
-  const uid = uuid()
   const { t } = useTranslation("common")
+  const { locale } = useLocalization()
+  const { pathname } = useLocation()
+  const pages = usePublication()
+  const uid = uuid()
+
+  const groupedPages = useMemo(() => groupPages(pages), [pages])
 
   return (
     <Styled.TocGrid className={className}>
@@ -40,19 +41,27 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
         const sectionName: string | boolean =
           sectionNames[locale]?.[index] ?? `${t("part")} ${index}`
 
+        const currentIndex: number | undefined = group.findIndex(
+          el => el.path === pathname
+        )
+
         return (
-          <Part key={`toc-part__${uid}--${i}`}>
+          <React.Fragment key={`toc-part__${uid}--${i}`}>
             {!!sectionName && (
-              <Styled.Part type="primary">{sectionName}</Styled.Part>
+              <Styled.Part type="primary" first={i === 0}>
+                {sectionName}
+              </Styled.Part>
             )}
             {group.map((page, j) => (
               <TocElement
                 key={`toc-element__${uid}--${j}`}
                 page={page}
                 last={group.length - 1 === j && groupedPages.length - 1 === i}
+                current={pathname === page.path}
+                hideDivider={currentIndex - 1 === j}
               />
             ))}
-          </Part>
+          </React.Fragment>
         )
       })}
     </Styled.TocGrid>

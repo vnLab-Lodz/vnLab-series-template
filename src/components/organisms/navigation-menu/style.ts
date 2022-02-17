@@ -131,10 +131,16 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
     // that makes them 2px leaving a white gap between button and tabs
     width: calc(100% + 1px);
   }
+
+  @media ${devices.desktop} {
+    padding: ${({ theme }) => theme.spacing.md} 0px;
+    height: 164px;
+  }
 `
 
 export const Logo = styled.img`
   display: none;
+  height: 60px;
 
   @media ${devices.tablet} {
     display: block;
@@ -194,6 +200,11 @@ export const Tabs = styled.header<{ sticky?: boolean }>`
           top: 0px;
           z-index: 7;
         `};
+    }
+
+    @media ${devices.desktop} {
+      padding: ${({ theme }) => theme.spacing.sm} 0px;
+      height: fit-content;
     }
   `}
 `
@@ -261,6 +272,7 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
+    letter-spacing: 0.55px;
     font-weight: bold;
 
     ${active &&
@@ -312,10 +324,18 @@ export const TocHeader = styled(atoms.h3)`
   `}
 `
 
-export const Part = styled(atoms.h3)`
+export const Part = styled(atoms.h3)<{ first?: boolean }>`
   margin: 0px 0px ${({ theme }) => theme.spacing.md} 0px;
   text-align: start;
   grid-column: 2 / last-col;
+  margin-bottom: 80px;
+  margin-top: 80px;
+
+  ${({ first }) =>
+    first &&
+    css`
+      margin-top: 0px;
+    `}
 
   @media ${devices.tablet} {
     grid-column: 3 / last-col;
@@ -426,6 +446,7 @@ export const AnnotationsButton = styled.button`
   padding: ${({ theme }) => theme.spacing.md};
   grid-column: 1 / last-col;
   font-size: ${({ theme }) => theme.typography.sm};
+  letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
   color: ${({ theme }) => theme.palette.black};
@@ -440,6 +461,7 @@ export const NextTabButton = styled.button`
   grid-column: 1 / last-col;
   margin-top: ${({ theme }) => theme.spacing.md};
   font-size: ${({ theme }) => theme.typography.sm};
+  letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
   color: ${({ theme }) => theme.palette.white};

@@ -112,6 +112,7 @@ export const Center = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  user-select: none;
 
   grid-column: 2 / -2;
 

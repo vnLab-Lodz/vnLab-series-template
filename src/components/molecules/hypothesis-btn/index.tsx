@@ -9,6 +9,8 @@ import useIsMobile from "src/hooks/useIsMobile"
 
 //@ts-ignore
 import HypothesisIcon from "../../../images/icons/hypothesis.svg"
+//@ts-ignore
+import XSVG from "../../../images/icons/x.svg"
 
 function getHypothesisTutorialStatus() {
   return !!localStorage.getItem("hypothesisTutorialViewed")
@@ -32,11 +34,15 @@ const HypothesisBtn: React.FC<Props> = ({ left }) => {
     setHypothesisTutorialViewed(getHypothesisTutorialStatus())
   }, [])
 
-  const handleTextBtnClick = () => {
+  const setHypothesisTutorialViewedInLocalStorage = () => {
     if (!!!hypothesisTutorialViewed) {
       localStorage.setItem("hypothesisTutorialViewed", "true")
       setHypothesisTutorialViewed(true)
     }
+  }
+
+  const handleTextBtnClick = () => {
+    setHypothesisTutorialViewedInLocalStorage()
 
     navigate(
       localizedPath({
@@ -51,6 +57,13 @@ const HypothesisBtn: React.FC<Props> = ({ left }) => {
 
   const handleIconBtnClick = () => {
     isHidden() ? showHypothesis() : hideHypothesis()
+  }
+
+  const closeAnnotateBtn = (
+    e: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
+    e.stopPropagation()
+    setHypothesisTutorialViewedInLocalStorage()
   }
 
   if (!isClient) return <></>
@@ -68,6 +81,7 @@ const HypothesisBtn: React.FC<Props> = ({ left }) => {
       <Styled.VerticalText id="hypothesis-btn" onClick={handleTextBtnClick}>
         {t("hypothesis_btn")}
       </Styled.VerticalText>
+      <Styled.CloseBtn src={XSVG} alt="X" onClick={closeAnnotateBtn} />
     </Styled.TextButton>
   )
 }

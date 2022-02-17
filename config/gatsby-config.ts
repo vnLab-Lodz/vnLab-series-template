@@ -34,6 +34,12 @@ export default {
               disableBgImageOnAlpha: true,
             },
           },
+          {
+            resolve: `gatsby-remark-orphans`,
+            options: {
+              silenceReporting: true,
+            },
+          },
         ],
       },
     },

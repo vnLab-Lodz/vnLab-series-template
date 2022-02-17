@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
-import { breakpoints, devices } from "~styles/breakpoints"
+import { devices } from "~styles/breakpoints"
 import BaseLayout from "../layout"
 
 export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
@@ -13,7 +13,7 @@ export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
     spaced &&
     css`
       @media (max-width: 767px) {
-        padding-top: 70px;
+        padding-top: 66px;
       }
     `};
 `
@@ -48,16 +48,27 @@ export const MenuNav = styled.nav<{ open: boolean }>`
     border-bottom-style: solid;
     border-bottom-width: 1px;
     border-bottom-color: ${palette.dark};
-    padding: ${spacing.sm};
+    padding: ${spacing.xxs};
     position: relative;
     z-index: 3;
     transition: background 0.5s ease-in-out;
 
+    filter: ${open
+      ? `drop-shadow(-10px 0px 0px ${palette.white})  drop-shadow(10px 0px 0px ${palette.white})`
+      : "none"};
+
     overflow-x: auto;
 
     @media ${devices.tablet} {
+      padding: ${spacing.sm};
+      max-height: 106px;
       justify-content: center;
       overflow-x: hidden;
+    }
+
+    @media ${devices.desktop} {
+      max-height: 164px;
+      height: 164px;
     }
 
     @media (min-width: 1024px) and (max-width: 1100px) {
@@ -71,9 +82,9 @@ export const ButtonText = styled.span`
     margin-right: ${spacing.xxs};
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
+    letter-spacing: 0.55px;
     font-weight: bold;
     text-transform: uppercase;
-    line-height: 115%;
     color: ${palette.black};
   `}
 `
@@ -106,7 +117,7 @@ export const MenuContent = styled(motion.div)`
 
 export const MenuLayout = styled(Layout)`
   margin-top: ${({ theme: { spacing } }) => spacing.xxxl};
-  margin-bottom: ${({ theme: { spacing } }) => spacing.sm};
+  margin-bottom: ${({ theme: { spacing } }) => spacing.xl};
 `
 
 export const BibliographyLink = styled(LocalizedLink)`

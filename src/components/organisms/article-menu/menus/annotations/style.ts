@@ -8,6 +8,7 @@ export const AnnotationsGrid = styled(InnerGrid)`
 `
 
 export const AnnotationNumber = styled(atoms.p)`
+  font-size: calc(1.4 * ${({ theme }) => theme.typography.sm});
   grid-column: 1 / 2;
 
   @media ${devices.tablet} {
@@ -16,6 +17,8 @@ export const AnnotationNumber = styled(atoms.p)`
 `
 
 export const AnnotationParagraph = styled(atoms.p)`
+  font-size: calc(1.4 * ${({ theme }) => theme.typography.sm});
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
   cursor: pointer;
   grid-column: 3 / last-col;
 
@@ -26,4 +29,6 @@ export const AnnotationParagraph = styled(atoms.p)`
 
 export const InheritParagraph = styled.p`
   all: inherit;
+  font-size: calc(1.4 * ${({ theme }) => theme.typography.sm});
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
 `

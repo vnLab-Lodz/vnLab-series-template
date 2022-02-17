@@ -43,7 +43,6 @@ export const LangButtonText = styled(atoms.p)<{
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
-    font-weight: bold;
 
     ${dark &&
     css`
@@ -92,4 +91,11 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
       color: ${palette.medium};
     `};
   `}
+`
+
+export const LocaleSpan = styled.span<{ active: boolean }>`
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: ${({ active }) => (active ? "bold" : "normal")};
+  letter-spacing: 0.55px;
 `

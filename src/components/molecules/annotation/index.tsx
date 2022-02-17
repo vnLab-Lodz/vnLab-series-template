@@ -4,10 +4,11 @@ import * as Styled from "./style"
 import { AnnotationContext } from "./annotation-context"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
+import { MDXProvider } from "@mdx-js/react"
+import { AnimatePresence, motion } from "framer-motion"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
-import { MDXProvider } from "@mdx-js/react"
 
 interface Props {
   target: string
@@ -26,7 +27,14 @@ const AnnotationPortal: React.FC<PortalProps> = ({
   toggle,
 }) => {
   return ReactDOM.createPortal(
-    <Styled.AnnotationContent as="article" style={{ top: `${position}px` }}>
+    <Styled.AnnotationContent
+      as={motion.article}
+      style={{ top: `${position}px` }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+    >
       <Styled.CloseBtn onClick={toggle}>
         <img src={XSVG} alt="Close" />
       </Styled.CloseBtn>
@@ -97,25 +105,27 @@ const Annotation: React.FC<Props> = ({ target, children }) => {
       <Styled.AnnotationIndex ref={ref} onClick={handleIndexClick}>
         {annotation?.index}
       </Styled.AnnotationIndex>
-      {open && (
-        <AnnotationPortal
-          index={annotation?.index ?? 0}
-          position={position}
-          toggle={toggleAnnotation}
-        >
-          {typeof children === "string" ? (
-            <ReactMarkdown
-              components={
-                { ...mdxComponents, p: Styled.InheritParagraph } as any
-              }
-            >
-              {children}
-            </ReactMarkdown>
-          ) : (
-            <MDXProvider components={mdxComponents}>{children}</MDXProvider>
-          )}
-        </AnnotationPortal>
-      )}
+      <AnimatePresence>
+        {open && (
+          <AnnotationPortal
+            index={annotation?.index ?? 0}
+            position={position}
+            toggle={toggleAnnotation}
+          >
+            {typeof children === "string" ? (
+              <ReactMarkdown
+                components={
+                  { ...mdxComponents, p: Styled.InheritParagraph } as any
+                }
+              >
+                {children}
+              </ReactMarkdown>
+            ) : (
+              <MDXProvider components={mdxComponents}>{children}</MDXProvider>
+            )}
+          </AnnotationPortal>
+        )}
+      </AnimatePresence>
     </Styled.AnnotationTarget>
   )
 }
