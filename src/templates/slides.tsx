@@ -18,7 +18,6 @@ import CenterImageSlide from "~components/molecules/slides/center-image-slide"
 import TitleSlide from "~components/molecules/slides/title-slide"
 import FullscreenImageSlide from "~components/molecules/slides/fullscreen-image-slide"
 import TwoImageSlide from "~components/molecules/slides/two-image-slide"
-import AnnotatedImageSlide from "~components/molecules/slides/annotated-image-slide"
 import atoms from "~components/atoms"
 import { SwipeEventData } from "react-swipeable"
 import VerticalSlides from "~components/molecules/slides/vertical-slides"
@@ -68,7 +67,6 @@ export const slidesMdxComponents = {
   FullscreenImageSlide,
   TitleSlide,
   TwoImageSlide,
-  AnnotatedImageSlide,
   VerticalSlides,
   TextSlide,
 }
