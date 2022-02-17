@@ -27,8 +27,8 @@ export const SlideImageWrapper = styled.div<{ fullscreen?: boolean }>`
       margin: 65px 0px 0px 0px;
 
       @media ${devices.tablet} {
-        height: 100%;
-        max-height: 100%;
+        height: 100vh;
+        max-height: 100vh;
         margin: 0;
       }
     `}
