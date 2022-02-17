@@ -31,7 +31,7 @@ export const SlideImageWrapper = styled.div<{ fullscreen?: boolean }>`
     fullscreen &&
     css`
       width: 100%;
-      max-width: 100%;
+      max-width: 100% !important;
       height: calc(100% - 65px);
       max-height: calc(100% - 65px);
       margin: 65px 0px 0px 0px;
