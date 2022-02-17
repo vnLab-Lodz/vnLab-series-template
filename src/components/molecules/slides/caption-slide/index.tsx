@@ -57,7 +57,7 @@ const CaptionSlide: React.FC<Props> = ({
     return () => {
       window.removeEventListener("resize", determinePosition)
     }
-  }, [])
+  }, [ref])
 
   return (
     <Slide background={background} disableSwipe={disableSwipe}>
