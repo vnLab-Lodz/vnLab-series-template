@@ -6,7 +6,6 @@ export const Container = styled.div`
   justify-content: center;
   height: 100vh;
   overflow-y: auto;
-  max-height: calc(100vh - 200px);
   width: 100%;
   text-align: left;
 
@@ -51,7 +50,7 @@ export const Text = styled.div`
     font-weight: 300;
     font-style: normal;
     line-height: 150%;
-    max-width: 50%;
+    max-width: 55%;
     height: fit-content;
     display: flex;
     flex-direction: column;
