@@ -53,6 +53,7 @@ const CaptionSlide: React.FC<Props> = ({
       setPosition(position)
     }
 
+    determinePosition()
     window.addEventListener("resize", determinePosition)
     return () => {
       window.removeEventListener("resize", determinePosition)
