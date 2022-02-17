@@ -34,7 +34,11 @@ const CaptionSlide: React.FC<Props> = ({
   const [position, setPosition] = useState(0)
   const ref = useRef<HTMLDivElement | null>(null)
 
-  const expandCaption = () => setOpen(true)
+  const expandCaption = () => {
+    const position = calculatePosition()
+    setPosition(position)
+    setOpen(true)
+  }
 
   const minimizeCaption = () => setOpen(false)
 
