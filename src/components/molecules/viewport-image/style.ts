@@ -77,6 +77,7 @@ export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     grid-column: 1 / -6;
     font-size: ${typography.sm};
+    text-align: left;
 
     @media ${devices.tablet} {
       font-size: calc(${typography.sm} * 1.4);
@@ -121,6 +122,7 @@ export const CaptionHeader = styled(CaptionText)`
 export const CaptionParagraph = styled(atoms.p)<{ padded?: boolean }>`
   grid-column: 3 / 32;
   grid-row: 2;
+  text-align: left;
 
   ${({ padded, theme }) =>
     padded &&
