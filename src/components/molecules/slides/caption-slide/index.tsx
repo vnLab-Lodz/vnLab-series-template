@@ -70,7 +70,7 @@ const CaptionSlide: React.FC<Props> = ({
           {children}
         </Styled.SlideContainer>
         {!!caption && (
-          <Styled.SlideCaption>
+          <Styled.SlideCaption centered={!!caption && !extendedCaption}>
             <ReactMarkdown components={components}>{caption}</ReactMarkdown>
             {!!extendedCaption && (
               <Styled.ExpandCaptionButton onClick={expandCaption}>

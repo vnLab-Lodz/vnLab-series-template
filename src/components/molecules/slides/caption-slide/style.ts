@@ -48,10 +48,10 @@ export const SlideContainer = styled.div<{ fullscreen?: boolean }>`
     `};
 `
 
-export const SlideCaption = styled.article`
+export const SlideCaption = styled.article<{ centered?: boolean }>`
   min-height: 100px;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${({ centered }) => (centered ? "center" : "space-between")};
   align-items: center;
 
   min-width: calc(100vw / 32 * 30);
