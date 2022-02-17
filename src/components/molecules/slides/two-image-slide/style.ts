@@ -8,27 +8,6 @@ export const ImagesContainer = styled.div<{
   flex-direction: ${({ direction }) => direction};
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 100%;
-  width: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs})`};
-  max-width: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs})`};
-
-  height: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs} - 70px)`};
-  max-height: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs} - 70px)`};
-  padding: ${({ theme }) =>
-    `calc(70px + ${theme.spacing.xs}) ${theme.spacing.xs} ${theme.spacing.xs} ${theme.spacing.xs}`};
-
-  @media ${devices.tablet} {
-    height: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs})`};
-    max-height: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs})`};
-    padding: ${({ theme }) => theme.spacing.xs};
-  }
-
-  @media ${devices.laptop} {
-    height: 100vh;
-    min-width: 100%;
-    padding: 100px calc(100vw / 32 * 2);
-  }
 `
 
 export const SlideImageWrapper = styled.div<{
@@ -41,12 +20,20 @@ export const SlideImageWrapper = styled.div<{
   ${({ direction }) =>
     direction === "row"
       ? css`
-          max-height: ${({ theme }) => `calc(100% - 4 *${theme.spacing.xs})`};
-          /* max-width: ${({ theme }) => `calc(100%-2*${theme.spacing.xs})`}; */
-          max-width: 57vh; // magic number that makes sure the images are always spaced by the margin
+          max-height: ${({ theme }) =>
+            `calc(100vh - 260px - 2 * ${theme.spacing.xxs})`};
+
+          @media ${devices.tablet} {
+            max-height: ${({ theme }) =>
+              `calc(100vh - 200px - 2 * ${theme.spacing.xxs})`};
+          }
         `
       : css`
-          max-height: ${({ theme }) => `calc(50% - 2 *${theme.spacing.xs})`};
-          max-width: ${({ theme }) => `calc(100% - 4 *${theme.spacing.xs})`};
-        `};
+         max-height: ${({ theme }) =>
+           `calc((100vh - 260px - 4 * ${theme.spacing.xxs}) / 2)`};
+
+          @media ${devices.tablet} {
+            max-height: ${({ theme }) =>
+              `calc((100vh - 200px - 4 * ${theme.spacing.xxs}) / 2)`};
+      `};
 `

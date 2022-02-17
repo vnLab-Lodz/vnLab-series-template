@@ -33,6 +33,22 @@ export const SlideContainer = styled.div<{ fullscreen?: boolean }>`
   display: flex;
   align-items: center;
 
+  max-height: calc(100vh - 260px);
+
+  @media ${devices.tablet} {
+    max-height: calc(100vh - 200px);
+  }
+
+  ${({ fullscreen }) =>
+    fullscreen &&
+    css`
+      max-height: calc(100vh - 60px);
+
+      @media ${devices.tablet} {
+        max-height: 100vh;
+      }
+    `}
+
   ${({ fullscreen }) =>
     !fullscreen &&
     css`

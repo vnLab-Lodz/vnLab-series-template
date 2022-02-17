@@ -1,7 +1,7 @@
 import { GatsbyImage, getImage, IGatsbyImageData } from "gatsby-plugin-image"
 import React, { useEffect, useState } from "react"
 import useScreenDimensions from "src/hooks/useScreenDimensions"
-import Slide from "../slide"
+import CaptionSlide, { CaptionProps } from "../caption-slide"
 import * as Styled from "./style"
 
 interface Props {
@@ -11,8 +11,10 @@ interface Props {
   direction: "column" | "row"
 }
 
-const TwoImageSlide: React.FC<Props> = ({
+const TwoImageSlide: React.FC<Props & CaptionProps> = ({
   background,
+  caption,
+  extendedCaption,
   image1,
   image2,
   direction = "row",
@@ -35,7 +37,11 @@ const TwoImageSlide: React.FC<Props> = ({
   const img2 = getImage(image2) as IGatsbyImageData
 
   return (
-    <Slide background={background}>
+    <CaptionSlide
+      background={background}
+      caption={caption}
+      extendedCaption={extendedCaption}
+    >
       <Styled.ImagesContainer direction={layout}>
         <Styled.SlideImageWrapper direction={layout}>
           <GatsbyImage
@@ -54,7 +60,7 @@ const TwoImageSlide: React.FC<Props> = ({
           />
         </Styled.SlideImageWrapper>
       </Styled.ImagesContainer>
-    </Slide>
+    </CaptionSlide>
   )
 }
 
