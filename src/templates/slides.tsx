@@ -118,7 +118,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <HypothesisBtn left />
       <NavigationMenu currentPath={location.pathname} />
       <StyledArticle>
-        <StyledLayout>
+        <StyledLayout noConstraint>
           <RevealContainer className="reveal">
             <div className="slides">
               <MDXProvider components={slidesMdxComponents}>
@@ -139,7 +139,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 }
 
 const StyledArticle = styled.article`
-  background: ${({ theme: { palette } }) => palette.light};
+  background: ${({ theme: { palette } }) => palette.black};
 `
 
 const RevealContainer = styled.div.attrs(props => ({
@@ -157,7 +157,7 @@ const RevealContainer = styled.div.attrs(props => ({
 `
 
 const StyledLayout = styled(GridContainer)`
-  background: ${({ theme: { palette } }) => palette.light};
+  background: ${({ theme: { palette } }) => palette.black};
   overflow: initial;
 
   grid-template-rows: auto;
