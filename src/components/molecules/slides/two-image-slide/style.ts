@@ -23,6 +23,12 @@ export const ImagesContainer = styled.div<{
     max-height: ${({ theme }) => `calc(100% - 2 *${theme.spacing.xs})`};
     padding: ${({ theme }) => theme.spacing.xs};
   }
+
+  @media ${devices.laptop} {
+    height: 100vh;
+    min-width: 100%;
+    padding: 100px calc(100vw / 32 * 2);
+  }
 `
 
 export const SlideImageWrapper = styled.div<{
@@ -30,7 +36,7 @@ export const SlideImageWrapper = styled.div<{
 }>`
   display: flex;
   justify-content: center;
-  margin: ${({ theme }) => theme.spacing.xs};
+  margin: ${({ theme }) => theme.spacing.xxs};
 
   ${({ direction }) =>
     direction === "row"
