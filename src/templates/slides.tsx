@@ -87,6 +87,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       progress: false,
       hash: true,
       history: true,
+      controls: false,
     })
     deck.initialize()
 
@@ -152,7 +153,7 @@ const RevealContainer = styled.div.attrs(props => ({
   }
 
   @media ${devices.laptop} {
-    grid-column 3 / last-col;
+    grid-column: 3 / last-col;
   }
 `
 

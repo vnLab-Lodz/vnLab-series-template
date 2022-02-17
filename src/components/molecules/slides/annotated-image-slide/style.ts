@@ -8,21 +8,6 @@ export const SlideImageWrapper = styled.div`
   flex: 1 1 auto;
 `
 
-export const SlideAnnotation = styled.div`
-  flex: 1 0 auto;
-  margin: ${({ theme: { spacing } }) =>
-    `${spacing.xs} ${spacing.xs} 0 ${spacing.xs}`};
-
-  @media ${devices.tablet} {
-    margin: ${({ theme: { spacing } }) =>
-      `${spacing.xs} ${spacing.xxxl} 0 ${spacing.xxxl}`};
-  }
-
-  @media ${devices.tablet} {
-    margin: ${({ theme: { spacing } }) =>
-      `${spacing.xs} ${spacing.xl} 0 ${spacing.xl}`};
-  }
-`
 export const SlideAnnotation2 = styled.div`
   min-height: 100px;
   display: flex;
