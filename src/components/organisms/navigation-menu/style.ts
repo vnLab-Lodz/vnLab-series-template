@@ -63,8 +63,9 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
   `}
 `
 
-export const Progress = styled(motion.div)`
-  background: ${({ theme }) => theme.palette.black};
+export const Progress = styled(motion.div)<{ light?: boolean }>`
+  background: ${({ theme, light = false }) =>
+    light ? theme.palette.white : theme.palette.black};
   position: absolute;
 
   @media (max-width: calc(${breakpoints.tablet} - 1px)) {

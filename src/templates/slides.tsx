@@ -1,9 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import NavMenuProvider, {
   NAV_MODES,
 } from "~components/organisms/navigation-menu/nav-menu-context"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
-import NavigationMenu from "~components/organisms/navigation-menu"
+import { GraphicalVariant as NavigationMenu } from "~components/organisms/navigation-menu"
 import styled from "styled-components"
 import { GridContainer } from "~styles/grid"
 import { devices } from "~styles/breakpoints"
@@ -73,9 +73,10 @@ export const slidesMdxComponents = {
 
 const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, title } = mdx.frontmatter
+  const deck = useRef<any>()
 
   useEffect(() => {
-    const deck = new Reveal({
+    deck.current = new Reveal({
       touch: false,
       plugins: [Markdown],
       embedded: true,
@@ -87,21 +88,21 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       history: true,
       controls: false,
     })
-    deck.initialize()
+    deck.current.initialize()
 
     const swipeHandler = ({ detail: { dir } }: CustomEvent<SwipeEventData>) => {
       switch (dir) {
         case "Left":
-          deck.right()
+          deck.current.right()
           break
         case "Right":
-          deck.left()
+          deck.current.left()
           break
         case "Up":
-          deck.down()
+          deck.current.down()
           break
         case "Down":
-          deck.up()
+          deck.current.up()
           break
       }
     }
@@ -113,9 +114,9 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   }, [])
 
   return (
-    <NavMenuProvider defaultMode={NAV_MODES.DARK}>
+    <NavMenuProvider defaultMode={NAV_MODES.LIGHT}>
       <HypothesisBtn left />
-      <NavigationMenu currentPath={location.pathname} />
+      <NavigationMenu currentPath={location.pathname} renderProps={{ deck }} />
       <StyledArticle>
         <StyledLayout noConstraint>
           <RevealContainer className="reveal">
