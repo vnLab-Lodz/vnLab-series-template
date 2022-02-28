@@ -18,9 +18,10 @@ function getHypothesisTutorialStatus() {
 
 interface Props {
   left?: boolean
+  hiddenOnMobile?: boolean
 }
 
-const HypothesisBtn: React.FC<Props> = ({ left }) => {
+const HypothesisBtn: React.FC<Props> = ({ left, hiddenOnMobile = false }) => {
   const { t } = useTranslation("common")
   const { isClient } = useIsClient()
   const [hypothesisTutorialViewed, setHypothesisTutorialViewed] =
@@ -66,7 +67,7 @@ const HypothesisBtn: React.FC<Props> = ({ left }) => {
     setHypothesisTutorialViewedInLocalStorage()
   }
 
-  if (!isClient) return <></>
+  if (!isClient || hiddenOnMobile) return <></>
 
   return hypothesisTutorialViewed ? (
     <Styled.IconButton

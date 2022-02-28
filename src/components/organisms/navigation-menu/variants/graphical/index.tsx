@@ -7,6 +7,7 @@ import { NAV_MODES } from "../../nav-menu-context"
 import { useTranslation } from "react-i18next"
 import { useLocalization } from "gatsby-theme-i18n"
 import { useTheme } from "styled-components"
+import useIsMobile from "src/hooks/useIsMobile"
 import {
   motion,
   useAnimation,
@@ -22,6 +23,8 @@ import HamburgerSVG from "../../../../../images/icons/hamburger.svg"
 import CloseSVG from "../../../../../images/icons/x.svg"
 //@ts-ignore
 import VnlabLogo from "../../../../../images/icons/vnlab_logo.svg"
+//@ts-ignore
+import HypothesisIcon from "../../../../../images/icons/hypothesis.svg"
 
 interface RenderProps {
   deck: MutableRefObject<any>
@@ -36,6 +39,8 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
   renderProps,
 }) => {
   const { deck } = renderProps
+
+  const isMobile = useIsMobile()
 
   const { t } = useTranslation(["common", "nav-menu"])
   const { locale } = useLocalization()
@@ -98,40 +103,38 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
             open={open}
             onClick={toggleWithAnimation}
           >
-            <motion.img
+            <GraphicallyStyled.Icon
               style={{ filter }}
               className="sizeable-icon"
               src={open ? CloseSVG : HamburgerSVG}
               alt="Toggle Menu Button"
             />
           </GraphicallyStyled.ToggleBtn>
-          <Styled.Title to="/" language={locale}>
-            {t("common:title")}
-          </Styled.Title>
-          <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
+          {!isMobile ? (
+            <>
+              <Styled.Title to="/" language={locale}>
+                {t("common:title")}
+              </Styled.Title>
+              <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
+            </>
+          ) : (
+            <NavigationButtons isMobile={isMobile} />
+          )}
         </GraphicallyStyled.BaseContainer>
-        <GraphicallyStyled.SlideNavContainer
-          style={{ translateX }}
-          initial={{ opacity: 1 }}
-          animate={controls}
-        >
-          <Styled.Progress
-            light
-            style={{ height: progress, width: progress }}
-          />
-          <GraphicallyStyled.ButtonsContainer spaced>
-            <GraphicallyStyled.ArrowBtn>k</GraphicallyStyled.ArrowBtn>
-            <GraphicallyStyled.ArrowBtn>h</GraphicallyStyled.ArrowBtn>
-            <GraphicallyStyled.ArrowBtn>j</GraphicallyStyled.ArrowBtn>
-            <GraphicallyStyled.ArrowBtn>l</GraphicallyStyled.ArrowBtn>
-          </GraphicallyStyled.ButtonsContainer>
-          <GraphicallyStyled.ButtonsContainer>
-            <GraphicallyStyled.MediaBtn>a</GraphicallyStyled.MediaBtn>
-            <GraphicallyStyled.MediaBtn>b</GraphicallyStyled.MediaBtn>
-            <GraphicallyStyled.MediaBtn>CC</GraphicallyStyled.MediaBtn>
-            <GraphicallyStyled.MediaBtn>d</GraphicallyStyled.MediaBtn>
-          </GraphicallyStyled.ButtonsContainer>
-        </GraphicallyStyled.SlideNavContainer>
+        {!isMobile && (
+          <GraphicallyStyled.SlideNavContainer
+            style={{ translateX }}
+            initial={{ opacity: 1 }}
+            animate={controls}
+          >
+            <Styled.Progress
+              light
+              style={{ height: progress, width: progress }}
+            />
+            <NavigationButtons isMobile={isMobile} />
+            <UtilityButtons />
+          </GraphicallyStyled.SlideNavContainer>
+        )}
       </GraphicallyStyled.Nav>
       <NavMenuContent
         open={open}
@@ -139,7 +142,50 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
         setNavState={setNavState}
         currentPath={currentPath}
       />
+      {isMobile && (
+        <GraphicallyStyled.BottomUtilityBar>
+          <Styled.Progress
+            light
+            style={{ height: progress, width: progress }}
+          />
+          <UtilityButtons />
+          <GraphicallyStyled.MediaBtn>
+            <img
+              style={{ height: 24, width: "auto", filter: "invert(1)" }}
+              className="sizeable-icon"
+              src={HypothesisIcon}
+              alt="Hypothesis Button"
+            />
+          </GraphicallyStyled.MediaBtn>
+        </GraphicallyStyled.BottomUtilityBar>
+      )}
     </Styled.Aside>
+  )
+}
+
+interface NavigationButtonsProps {
+  isMobile: boolean
+}
+
+const NavigationButtons: React.FC<NavigationButtonsProps> = ({ isMobile }) => {
+  return (
+    <GraphicallyStyled.ButtonsContainer spaced={!isMobile}>
+      <GraphicallyStyled.ArrowBtn>k</GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>h</GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>j</GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>l</GraphicallyStyled.ArrowBtn>
+    </GraphicallyStyled.ButtonsContainer>
+  )
+}
+
+const UtilityButtons: React.FC = () => {
+  return (
+    <GraphicallyStyled.ButtonsContainer>
+      <GraphicallyStyled.MediaBtn>a</GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>b</GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>CC</GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>d</GraphicallyStyled.MediaBtn>
+    </GraphicallyStyled.ButtonsContainer>
   )
 }
 

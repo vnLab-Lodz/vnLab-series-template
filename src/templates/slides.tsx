@@ -115,7 +115,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider defaultMode={NAV_MODES.LIGHT}>
-      <HypothesisBtn left />
+      <HypothesisBtn left hiddenOnMobile />
       <NavigationMenu currentPath={location.pathname} renderProps={{ deck }} />
       <StyledArticle>
         <StyledLayout noConstraint>
