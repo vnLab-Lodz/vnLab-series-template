@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import NavMenuProvider, {
   NAV_MODES,
 } from "~components/organisms/navigation-menu/nav-menu-context"
@@ -22,6 +22,8 @@ import atoms from "~components/atoms"
 import { SwipeEventData } from "react-swipeable"
 import VerticalSlides from "~components/molecules/slides/vertical-slides"
 import TextSlide from "~components/molecules/slides/text-slide"
+import EndSlideOverlay from "~components/organisms/end-slide-overlay"
+import { AnimatePresence } from "framer-motion"
 
 //@ts-ignore
 import Reveal from "reveal.js"
@@ -73,6 +75,7 @@ export const slidesMdxComponents = {
 
 const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, title } = mdx.frontmatter
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false)
   const deck = useRef<any>()
 
   useEffect(() => {
@@ -105,6 +108,8 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           deck.current.up()
           break
       }
+      const isLast = deck.current.isLastSlide()
+      setIsOverlayVisible(isLast)
     }
 
     window.addEventListener("deck_swipe", swipeHandler as EventListener)
@@ -113,10 +118,73 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     }
   }, [])
 
+  const verifyLastSlideState = useCallback(() => {
+    if (!deck.current) return
+
+    const isLast = deck.current.isLastSlide()
+    if (!isLast) setIsOverlayVisible(false)
+  }, [deck.current])
+
+  const handleKeyBinding = useCallback(
+    (method: "right" | "down" | "left" | "up" | "prev" | "next") => () => {
+      if (!deck.current) return
+
+      const isHidingMethod = ["left", "up", "prev"].includes(method)
+      const isOpeningMethod = ["right", "next"].includes(method)
+      const isLast = deck.current.isLastSlide()
+
+      if (isOpeningMethod) setIsOverlayVisible(isLast)
+
+      if (isLast && isOverlayVisible && isHidingMethod) {
+        setIsOverlayVisible(false)
+        return
+      }
+
+      const move = deck.current[method]
+      move()
+
+      if (isOpeningMethod) {
+        setIsOverlayVisible(isLast && deck.current.isLastSlide())
+      }
+    },
+    [deck.current, isOverlayVisible]
+  )
+
+  useEffect(() => {
+    if (!deck.current) return
+
+    const rightBinding = handleKeyBinding("right")
+    const leftBinding = handleKeyBinding("left")
+    const upBinding = handleKeyBinding("up")
+    const downBinding = handleKeyBinding("down")
+    const prevBinding = handleKeyBinding("prev")
+    const nextBinding = handleKeyBinding("next")
+
+    deck.current.addKeyBinding({ keyCode: 39 }, rightBinding)
+    deck.current.addKeyBinding({ keyCode: 37 }, leftBinding)
+    deck.current.addKeyBinding({ keyCode: 38 }, upBinding)
+    deck.current.addKeyBinding({ keyCode: 40 }, downBinding)
+    deck.current.addKeyBinding({ keyCode: 80, key: "p" }, prevBinding)
+    deck.current.addKeyBinding({ keyCode: 78, key: "n" }, nextBinding)
+    deck.current.on("slidechanged", verifyLastSlideState)
+    return () => {
+      deck.current.removeKeyBinding(39)
+      deck.current.removeKeyBinding(37)
+      deck.current.removeKeyBinding(38)
+      deck.current.removeKeyBinding(40)
+      deck.current.removeKeyBinding(80)
+      deck.current.removeKeyBinding(78)
+      deck.current.off("slidechanged", verifyLastSlideState)
+    }
+  }, [deck.current, handleKeyBinding])
+
   return (
     <NavMenuProvider defaultMode={NAV_MODES.LIGHT}>
       <HypothesisBtn left hiddenOnMobile />
-      <NavigationMenu currentPath={location.pathname} renderProps={{ deck }} />
+      <NavigationMenu
+        currentPath={location.pathname}
+        renderProps={{ deck, isOverlayVisible, setIsOverlayVisible }}
+      />
       <StyledArticle>
         <StyledLayout noConstraint>
           <RevealContainer className="reveal">
@@ -131,6 +199,14 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
                 </MDXRenderer>
               </MDXProvider>
             </div>
+            <AnimatePresence>
+              {isOverlayVisible && (
+                <EndSlideOverlay
+                  currentPath={location.pathname}
+                  setIsOverlayVisible={setIsOverlayVisible}
+                />
+              )}
+            </AnimatePresence>
           </RevealContainer>
         </StyledLayout>
       </StyledArticle>

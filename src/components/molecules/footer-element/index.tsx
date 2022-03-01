@@ -17,9 +17,11 @@ interface Props {
   summary?: string
   number?: number
   path: string
+  className?: string
 }
 
 const FooterElement: React.FC<Props> = ({
+  className,
   header,
   author,
   summary,
@@ -42,6 +44,7 @@ const FooterElement: React.FC<Props> = ({
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
       <Styled.ElementWrapper
+        className={className}
         ref={inViewRef}
         key={id}
         as={motion.article}
@@ -52,7 +55,11 @@ const FooterElement: React.FC<Props> = ({
         <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
         <Styled.ArticleNumber>{number}</Styled.ArticleNumber>
         <Styled.ArticleTitle to={path}>
-          <atoms.p>{title}</atoms.p>
+          <atoms.p>
+            <ReactMarkdown components={{ ...mdxComponents } as any}>
+              {title}
+            </ReactMarkdown>
+          </atoms.p>
         </Styled.ArticleTitle>
         <Styled.ArticleAuthor type="primary">{author}</Styled.ArticleAuthor>
         {summary && (

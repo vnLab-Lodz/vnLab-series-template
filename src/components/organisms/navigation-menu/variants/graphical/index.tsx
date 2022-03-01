@@ -47,6 +47,8 @@ import ArrowDown from "../../../../../images/icons/arrow_down.svg"
 
 interface RenderProps {
   deck: MutableRefObject<any>
+  isOverlayVisible: boolean
+  setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
@@ -57,7 +59,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
   toggleMenu,
   renderProps,
 }) => {
-  const { deck } = renderProps
+  const { deck, isOverlayVisible, setIsOverlayVisible } = renderProps
 
   const isMobile = useIsMobile()
 
@@ -137,7 +139,12 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
               <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
             </>
           ) : (
-            <NavigationButtons isMobile={isMobile} deck={deck} />
+            <NavigationButtons
+              isMobile={isMobile}
+              deck={deck}
+              isOverlayVisible={isOverlayVisible}
+              setIsOverlayVisible={setIsOverlayVisible}
+            />
           )}
         </GraphicallyStyled.BaseContainer>
         {!isMobile && (
@@ -150,8 +157,16 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
               light
               style={{ height: progress, width: progress }}
             />
-            <NavigationButtons isMobile={isMobile} deck={deck} />
-            <UtilityButtons deck={deck} />
+            <NavigationButtons
+              isMobile={isMobile}
+              deck={deck}
+              isOverlayVisible={isOverlayVisible}
+              setIsOverlayVisible={setIsOverlayVisible}
+            />
+            <UtilityButtons
+              deck={deck}
+              setIsOverlayVisible={setIsOverlayVisible}
+            />
           </GraphicallyStyled.SlideNavContainer>
         )}
       </GraphicallyStyled.Nav>
@@ -167,7 +182,10 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
             light
             style={{ height: progress, width: progress }}
           />
-          <UtilityButtons deck={deck} />
+          <UtilityButtons
+            deck={deck}
+            setIsOverlayVisible={setIsOverlayVisible}
+          />
           <GraphicallyStyled.MediaBtn>
             <img
               style={{ height: 24, width: "auto" }}
@@ -185,9 +203,13 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
 interface NavigationButtonsProps {
   isMobile: boolean
   deck: MutableRefObject<any>
+  isOverlayVisible: boolean
+  setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({
+  setIsOverlayVisible,
+  isOverlayVisible,
   isMobile,
   deck,
 }) => {
@@ -196,20 +218,44 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   const opacityRight = useSpring(0.1)
   const opacityDown = useSpring(0.1)
 
-  const moveUp = () => deck.current?.up()
-  const moveLeft = () => deck.current?.left()
-  const moveRight = () => deck.current?.right()
-  const moveDown = () => deck.current?.down()
+  const moveUp = () => {
+    if (isOverlayVisible) setIsOverlayVisible(false)
+    else deck.current?.up()
+  }
+
+  const moveLeft = () => {
+    if (isOverlayVisible) setIsOverlayVisible(false)
+    else deck.current?.left()
+  }
+
+  const moveRight = () => {
+    if (!deck.current) return
+
+    const isLast = deck.current.isLastSlide()
+    if (isLast && !isOverlayVisible) setIsOverlayVisible(true)
+    else deck.current.right()
+  }
+
+  const moveDown = () => {
+    if (!deck.current) return
+
+    const isLast = deck.current.isLastSlide()
+    if (isLast && !isOverlayVisible) setIsOverlayVisible(true)
+    else deck.current.down()
+  }
 
   const handleSlideChange = useCallback(() => {
     if (!deck.current) return
 
+    const isLast = deck.current.isLastSlide()
     const routes = deck.current.availableRoutes()
     opacityUp.set(routes.up ? 1 : 0.1)
     opacityLeft.set(routes.left ? 1 : 0.1)
-    opacityRight.set(routes.right ? 1 : 0.1)
+    opacityRight.set(
+      routes.right || (!routes.right && isLast && !isOverlayVisible) ? 1 : 0.1
+    )
     opacityDown.set(routes.down ? 1 : 0.1)
-  }, [deck.current])
+  }, [deck.current, isOverlayVisible])
 
   useEffect(() => {
     if (!deck.current) return
@@ -220,7 +266,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
       clearTimeout(timeout)
       deck.current.off("slidechanged", handleSlideChange)
     }
-  }, [deck.current])
+  }, [deck.current, handleSlideChange])
 
   return (
     <GraphicallyStyled.ButtonsContainer spaced={!isMobile}>
@@ -277,9 +323,13 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
 
 interface UtilityButtonsProps {
   deck: MutableRefObject<any>
+  setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
+const UtilityButtons: React.FC<UtilityButtonsProps> = ({
+  deck,
+  setIsOverlayVisible,
+}) => {
   const [overviewOpen, setOverviewOpen] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -320,6 +370,10 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
       )
     }
   }, [deck.current])
+
+  useEffect(() => {
+    if (overviewOpen) setIsOverlayVisible(false)
+  }, [overviewOpen])
 
   return (
     <GraphicallyStyled.ButtonsContainer>
