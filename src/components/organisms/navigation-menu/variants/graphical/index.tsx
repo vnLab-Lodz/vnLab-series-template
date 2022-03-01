@@ -24,7 +24,17 @@ import CloseSVG from "../../../../../images/icons/x.svg"
 //@ts-ignore
 import VnlabLogo from "../../../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
-import HypothesisIcon from "../../../../../images/icons/hypothesis.svg"
+import HypothesisIcon from "../../../../../images/icons/hypothesis_rewers.svg"
+//@ts-ignore
+import CCIcon from "../../../../../images/icons/CC.svg"
+//@ts-ignore
+import OverviewOffIcon from "../../../../../images/icons/overview_off.svg"
+//@ts-ignore
+import FullscreenOffIcon from "../../../../../images/icons/fullscreen_off.svg"
+//@ts-ignore
+import SoundOffIcon from "../../../../../images/icons/sound_off.svg"
+//@ts-ignore
+import ArrowDown from "../../../../../images/icons/arrow_down.svg"
 
 interface RenderProps {
   deck: MutableRefObject<any>
@@ -151,7 +161,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
           <UtilityButtons />
           <GraphicallyStyled.MediaBtn>
             <img
-              style={{ height: 24, width: "auto", filter: "invert(1)" }}
+              style={{ height: 24, width: "auto" }}
               className="sizeable-icon"
               src={HypothesisIcon}
               alt="Hypothesis Button"
@@ -170,10 +180,38 @@ interface NavigationButtonsProps {
 const NavigationButtons: React.FC<NavigationButtonsProps> = ({ isMobile }) => {
   return (
     <GraphicallyStyled.ButtonsContainer spaced={!isMobile}>
-      <GraphicallyStyled.ArrowBtn>k</GraphicallyStyled.ArrowBtn>
-      <GraphicallyStyled.ArrowBtn>h</GraphicallyStyled.ArrowBtn>
-      <GraphicallyStyled.ArrowBtn>j</GraphicallyStyled.ArrowBtn>
-      <GraphicallyStyled.ArrowBtn>l</GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>
+        <img
+          style={{ height: 24, width: "auto", transform: "rotate(180deg)" }}
+          className="sizeable-icon"
+          src={ArrowDown}
+          alt="Sound"
+        />
+      </GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>
+        <img
+          style={{ height: 24, width: "auto", transform: "rotate(90deg)" }}
+          className="sizeable-icon"
+          src={ArrowDown}
+          alt="Sound"
+        />
+      </GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>
+        <img
+          style={{ height: 24, width: "auto", transform: "rotate(-90deg)" }}
+          className="sizeable-icon"
+          src={ArrowDown}
+          alt="Sound"
+        />
+      </GraphicallyStyled.ArrowBtn>
+      <GraphicallyStyled.ArrowBtn>
+        <img
+          style={{ height: 24, width: "auto" }}
+          className="sizeable-icon"
+          src={ArrowDown}
+          alt="Sound"
+        />
+      </GraphicallyStyled.ArrowBtn>
     </GraphicallyStyled.ButtonsContainer>
   )
 }
@@ -181,10 +219,38 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({ isMobile }) => {
 const UtilityButtons: React.FC = () => {
   return (
     <GraphicallyStyled.ButtonsContainer>
-      <GraphicallyStyled.MediaBtn>a</GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn>b</GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn>CC</GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn>d</GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>
+        <img
+          style={{ height: 8, width: "auto" }}
+          className="sizeable-icon"
+          src={SoundOffIcon}
+          alt="Sound"
+        />
+      </GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>
+        <img
+          style={{ height: 16, width: "auto" }}
+          className="sizeable-icon"
+          src={CCIcon}
+          alt="CC"
+        />
+      </GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>
+        <img
+          style={{ height: 16, width: "auto" }}
+          className="sizeable-icon"
+          src={OverviewOffIcon}
+          alt="Overview"
+        />
+      </GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn>
+        <img
+          style={{ height: 16, width: "auto" }}
+          className="sizeable-icon"
+          src={FullscreenOffIcon}
+          alt="Fulscreen"
+        />
+      </GraphicallyStyled.MediaBtn>
     </GraphicallyStyled.ButtonsContainer>
   )
 }

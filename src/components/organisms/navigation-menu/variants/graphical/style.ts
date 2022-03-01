@@ -68,15 +68,13 @@ export const MediaBtn = styled.button`
   line-height: 1.36;
   height: 100%;
 
-  @media (max-width: ${breakpoints.mobileL}) {
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
     &:last-of-type {
-      padding-right: 0;
-      margin-right: ${({ theme }) => theme.spacing.sm};
+      margin-right: ${({ theme }) => theme.spacing.xxs};
     }
 
     &:first-of-type {
-      padding-left: 0;
-      margin-left: ${({ theme }) => theme.spacing.sm};
+      margin-left: ${({ theme }) => theme.spacing.xxs};
     }
   }
 
@@ -87,7 +85,10 @@ export const MediaBtn = styled.button`
 `
 
 export const ArrowBtn = styled(MediaBtn)`
-  padding: ${({ theme }) => theme.spacing.xxs};
+  padding-top: ${({ theme }) => theme.spacing.xxs};
+  padding-bottom: ${({ theme }) => theme.spacing.xxs};
+  padding-left: ${({ theme }) => `calc(${theme.spacing.xxs} * 1.25)`};
+  padding-right: ${({ theme }) => `calc(${theme.spacing.xxs} * 1.25)`};
 `
 
 export const ToggleBtn = styled(Styled.ToggleBtn)`
