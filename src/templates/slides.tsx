@@ -96,6 +96,8 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     const swipeHandler = ({ detail: { dir } }: CustomEvent<SwipeEventData>) => {
       switch (dir) {
         case "Left":
+          const isLast = deck.current.isLastSlide()
+          setIsOverlayVisible(isLast)
           deck.current.right()
           break
         case "Right":
@@ -108,8 +110,6 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           deck.current.up()
           break
       }
-      const isLast = deck.current.isLastSlide()
-      setIsOverlayVisible(isLast)
     }
 
     window.addEventListener("deck_swipe", swipeHandler as EventListener)
