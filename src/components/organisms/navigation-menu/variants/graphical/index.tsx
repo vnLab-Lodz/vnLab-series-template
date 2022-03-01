@@ -1,4 +1,9 @@
-import React, { MutableRefObject, useCallback, useEffect } from "react"
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import enhance, { NavVariantProps } from "../../enhance"
 import * as Styled from "../../style"
 import * as GraphicallyStyled from "./style"
@@ -29,6 +34,8 @@ import HypothesisIcon from "../../../../../images/icons/hypothesis_rewers.svg"
 import CCIcon from "../../../../../images/icons/CC.svg"
 //@ts-ignore
 import OverviewOffIcon from "../../../../../images/icons/overview_off.svg"
+//@ts-ignore
+import OverviewOnIcon from "../../../../../images/icons/overview_on.svg"
 //@ts-ignore
 import FullscreenOffIcon from "../../../../../images/icons/fullscreen_off.svg"
 //@ts-ignore
@@ -144,7 +151,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
               style={{ height: progress, width: progress }}
             />
             <NavigationButtons isMobile={isMobile} deck={deck} />
-            <UtilityButtons />
+            <UtilityButtons deck={deck} />
           </GraphicallyStyled.SlideNavContainer>
         )}
       </GraphicallyStyled.Nav>
@@ -160,7 +167,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
             light
             style={{ height: progress, width: progress }}
           />
-          <UtilityButtons />
+          <UtilityButtons deck={deck} />
           <GraphicallyStyled.MediaBtn>
             <img
               style={{ height: 24, width: "auto" }}
@@ -268,7 +275,32 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   )
 }
 
-const UtilityButtons: React.FC = () => {
+interface UtilityButtonsProps {
+  deck: MutableRefObject<any>
+}
+
+const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
+  const [overviewOpen, setOverviewOpen] = useState(false)
+
+  const toggleOverview = () => deck.current?.toggleOverview()
+
+  const verifyOverviewState = useCallback(() => {
+    if (!deck.current) return
+
+    setOverviewOpen(deck.current.isOverview())
+  }, [deck.current])
+
+  useEffect(() => {
+    if (!deck.current) return
+
+    deck.current.on("overviewshown", verifyOverviewState)
+    deck.current.on("overviewhidden", verifyOverviewState)
+    return () => {
+      deck.current.off("overviewshown", verifyOverviewState)
+      deck.current.off("overviewhidden", verifyOverviewState)
+    }
+  }, [deck.current])
+
   return (
     <GraphicallyStyled.ButtonsContainer>
       <GraphicallyStyled.MediaBtn>
@@ -287,11 +319,11 @@ const UtilityButtons: React.FC = () => {
           alt="CC"
         />
       </GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn onClick={toggleOverview}>
         <img
           style={{ height: 16, width: "auto" }}
           className="sizeable-icon"
-          src={OverviewOffIcon}
+          src={overviewOpen ? OverviewOnIcon : OverviewOffIcon}
           alt="Overview"
         />
       </GraphicallyStyled.MediaBtn>
