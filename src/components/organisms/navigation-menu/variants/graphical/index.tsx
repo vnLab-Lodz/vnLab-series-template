@@ -39,6 +39,8 @@ import OverviewOnIcon from "../../../../../images/icons/overview_on.svg"
 //@ts-ignore
 import FullscreenOffIcon from "../../../../../images/icons/fullscreen_off.svg"
 //@ts-ignore
+import FullscreenOnIcon from "../../../../../images/icons/fullscreen_on.svg"
+//@ts-ignore
 import SoundOffIcon from "../../../../../images/icons/sound_off.svg"
 //@ts-ignore
 import ArrowDown from "../../../../../images/icons/arrow_down.svg"
@@ -90,8 +92,6 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
 
   const handleSlideChange = useCallback(
     (e: any) => {
-      console.log("HEJ")
-
       const x = e.indexh === 0 ? 100 : 0
       translateValue.set(x)
 
@@ -281,8 +281,12 @@ interface UtilityButtonsProps {
 
 const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
   const [overviewOpen, setOverviewOpen] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   const toggleOverview = () => deck.current?.toggleOverview()
+
+  const enterFullscreen = () =>
+    deck.current?.getRevealElement()?.requestFullscreen()
 
   const verifyOverviewState = useCallback(() => {
     if (!deck.current) return
@@ -290,14 +294,30 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
     setOverviewOpen(deck.current.isOverview())
   }, [deck.current])
 
+  const verifyFullscreenState = useCallback(() => {
+    if (!deck.current) return
+
+    const revealElement = deck.current.getRevealElement()
+    const fullscreenElement = document.fullscreenElement
+
+    setIsFullscreen(revealElement == fullscreenElement)
+  }, [deck.current])
+
   useEffect(() => {
     if (!deck.current) return
 
+    const revealElement = deck.current.getRevealElement()
+
     deck.current.on("overviewshown", verifyOverviewState)
     deck.current.on("overviewhidden", verifyOverviewState)
+    revealElement.addEventListener("fullscreenchange", verifyFullscreenState)
     return () => {
       deck.current.off("overviewshown", verifyOverviewState)
       deck.current.off("overviewhidden", verifyOverviewState)
+      revealElement.removeEventListener(
+        "fullscreenchange",
+        verifyFullscreenState
+      )
     }
   }, [deck.current])
 
@@ -327,11 +347,11 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
           alt="Overview"
         />
       </GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn onClick={enterFullscreen}>
         <img
           style={{ height: 16, width: "auto" }}
           className="sizeable-icon"
-          src={FullscreenOffIcon}
+          src={isFullscreen ? FullscreenOnIcon : FullscreenOffIcon}
           alt="Fulscreen"
         />
       </GraphicallyStyled.MediaBtn>
