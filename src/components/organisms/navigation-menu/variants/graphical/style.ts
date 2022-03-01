@@ -96,7 +96,7 @@ export const ToggleBtn = styled(Styled.ToggleBtn)`
   background: transparent;
   filter: none;
 
-  @media (max-width: ${breakpoints.mobileL}) {
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
     border-right: solid 1px ${({ theme }) => theme.palette.white};
     border-bottom: solid 1px ${({ theme }) => theme.palette.white};
   }
