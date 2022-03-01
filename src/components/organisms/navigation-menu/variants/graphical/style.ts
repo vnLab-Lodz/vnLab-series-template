@@ -68,6 +68,10 @@ export const MediaBtn = styled.button`
   line-height: 1.36;
   height: 100%;
 
+  &:disabled {
+    opacity: 0.1;
+  }
+
   @media (max-width: calc(${breakpoints.tablet} - 1px)) {
     &:last-of-type {
       margin-right: ${({ theme }) => theme.spacing.xxs};

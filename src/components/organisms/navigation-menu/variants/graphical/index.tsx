@@ -41,7 +41,7 @@ import FullscreenOffIcon from "../../../../../images/icons/fullscreen_off.svg"
 //@ts-ignore
 import FullscreenOnIcon from "../../../../../images/icons/fullscreen_on.svg"
 //@ts-ignore
-import SoundOffIcon from "../../../../../images/icons/sound_off.svg"
+import SoundOnIcon from "../../../../../images/icons/sound_on.svg"
 //@ts-ignore
 import ArrowDown from "../../../../../images/icons/arrow_down.svg"
 
@@ -323,15 +323,15 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({ deck }) => {
 
   return (
     <GraphicallyStyled.ButtonsContainer>
-      <GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn disabled>
         <img
-          style={{ height: 8, width: "auto" }}
+          style={{ height: 16, width: "auto" }}
           className="sizeable-icon"
-          src={SoundOffIcon}
+          src={SoundOnIcon}
           alt="Sound"
         />
       </GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn>
+      <GraphicallyStyled.MediaBtn disabled>
         <img
           style={{ height: 16, width: "auto" }}
           className="sizeable-icon"
