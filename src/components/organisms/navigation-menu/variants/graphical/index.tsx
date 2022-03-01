@@ -83,6 +83,8 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
 
   const handleSlideChange = useCallback(
     (e: any) => {
+      console.log("HEJ")
+
       const x = e.indexh === 0 ? 100 : 0
       translateValue.set(x)
 
@@ -128,7 +130,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
               <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
             </>
           ) : (
-            <NavigationButtons isMobile={isMobile} />
+            <NavigationButtons isMobile={isMobile} deck={deck} />
           )}
         </GraphicallyStyled.BaseContainer>
         {!isMobile && (
@@ -141,7 +143,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
               light
               style={{ height: progress, width: progress }}
             />
-            <NavigationButtons isMobile={isMobile} />
+            <NavigationButtons isMobile={isMobile} deck={deck} />
             <UtilityButtons />
           </GraphicallyStyled.SlideNavContainer>
         )}
@@ -175,38 +177,88 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
 
 interface NavigationButtonsProps {
   isMobile: boolean
+  deck: MutableRefObject<any>
 }
 
-const NavigationButtons: React.FC<NavigationButtonsProps> = ({ isMobile }) => {
+const NavigationButtons: React.FC<NavigationButtonsProps> = ({
+  isMobile,
+  deck,
+}) => {
+  const opacityUp = useSpring(0.1)
+  const opacityLeft = useSpring(0.1)
+  const opacityRight = useSpring(0.1)
+  const opacityDown = useSpring(0.1)
+
+  const moveUp = () => deck.current?.up()
+  const moveLeft = () => deck.current?.left()
+  const moveRight = () => deck.current?.right()
+  const moveDown = () => deck.current?.down()
+
+  const handleSlideChange = useCallback(() => {
+    if (!deck.current) return
+
+    const routes = deck.current.availableRoutes()
+    opacityUp.set(routes.up ? 1 : 0.1)
+    opacityLeft.set(routes.left ? 1 : 0.1)
+    opacityRight.set(routes.right ? 1 : 0.1)
+    opacityDown.set(routes.down ? 1 : 0.1)
+  }, [deck.current])
+
+  useEffect(() => {
+    if (!deck.current) return
+
+    const timeout = setTimeout(handleSlideChange)
+    deck.current.on("slidechanged", handleSlideChange)
+    return () => {
+      clearTimeout(timeout)
+      deck.current.off("slidechanged", handleSlideChange)
+    }
+  }, [deck.current])
+
   return (
     <GraphicallyStyled.ButtonsContainer spaced={!isMobile}>
-      <GraphicallyStyled.ArrowBtn>
-        <img
-          style={{ height: 24, width: "auto", transform: "rotate(180deg)" }}
+      <GraphicallyStyled.ArrowBtn onClick={moveUp}>
+        <motion.img
+          style={{
+            height: 24,
+            width: "auto",
+            transform: "rotate(180deg)",
+            opacity: opacityUp,
+          }}
           className="sizeable-icon"
           src={ArrowDown}
           alt="Sound"
         />
       </GraphicallyStyled.ArrowBtn>
-      <GraphicallyStyled.ArrowBtn>
-        <img
-          style={{ height: 24, width: "auto", transform: "rotate(90deg)" }}
+      <GraphicallyStyled.ArrowBtn onClick={moveLeft}>
+        <motion.img
+          style={{
+            height: 24,
+            width: "auto",
+            transform: "rotate(90deg)",
+            opacity: opacityLeft,
+          }}
           className="sizeable-icon"
           src={ArrowDown}
           alt="Sound"
         />
       </GraphicallyStyled.ArrowBtn>
-      <GraphicallyStyled.ArrowBtn>
-        <img
-          style={{ height: 24, width: "auto", transform: "rotate(-90deg)" }}
+      <GraphicallyStyled.ArrowBtn onClick={moveRight}>
+        <motion.img
+          style={{
+            height: 24,
+            width: "auto",
+            transform: "rotate(-90deg)",
+            opacity: opacityRight,
+          }}
           className="sizeable-icon"
           src={ArrowDown}
           alt="Sound"
         />
       </GraphicallyStyled.ArrowBtn>
-      <GraphicallyStyled.ArrowBtn>
-        <img
-          style={{ height: 24, width: "auto" }}
+      <GraphicallyStyled.ArrowBtn onClick={moveDown}>
+        <motion.img
+          style={{ height: 24, width: "auto", opacity: opacityDown }}
           className="sizeable-icon"
           src={ArrowDown}
           alt="Sound"
