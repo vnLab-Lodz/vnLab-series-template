@@ -112,7 +112,7 @@ export const ToggleBtn = styled(Styled.ToggleBtn)`
 `
 
 export const Icon = styled(motion.img)`
-  @media (max-width: ${breakpoints.mobileL}) {
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
     filter: brightness(10) !important;
   }
 `
