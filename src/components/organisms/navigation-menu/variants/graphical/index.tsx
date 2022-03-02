@@ -167,6 +167,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
             />
             <UtilityButtons
               deck={deck}
+              isMobile={isMobile}
               setIsOverlayVisible={setIsOverlayVisible}
             />
           </GraphicallyStyled.SlideNavContainer>
@@ -186,6 +187,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
           />
           <UtilityButtons
             deck={deck}
+            isMobile={isMobile}
             setIsOverlayVisible={setIsOverlayVisible}
           />
           <GraphicallyStyled.MediaBtn
@@ -328,12 +330,14 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
 }
 
 interface UtilityButtonsProps {
+  isMobile: boolean
   deck: MutableRefObject<any>
   setIsOverlayVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const UtilityButtons: React.FC<UtilityButtonsProps> = ({
   deck,
+  isMobile,
   setIsOverlayVisible,
 }) => {
   const [overviewOpen, setOverviewOpen] = useState(false)
@@ -383,22 +387,26 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
 
   return (
     <GraphicallyStyled.ButtonsContainer>
-      <GraphicallyStyled.MediaBtn disabled>
-        <img
-          style={{ height: 16, width: "auto" }}
-          className="sizeable-icon"
-          src={SoundOnIcon}
-          alt="Sound"
-        />
-      </GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn disabled>
-        <img
-          style={{ height: 16, width: "auto" }}
-          className="sizeable-icon"
-          src={CCIcon}
-          alt="CC"
-        />
-      </GraphicallyStyled.MediaBtn>
+      {!isMobile && (
+        <>
+          <GraphicallyStyled.MediaBtn disabled>
+            <img
+              style={{ height: 16, width: "auto" }}
+              className="sizeable-icon"
+              src={SoundOnIcon}
+              alt="Sound"
+            />
+          </GraphicallyStyled.MediaBtn>
+          <GraphicallyStyled.MediaBtn disabled>
+            <img
+              style={{ height: 16, width: "auto" }}
+              className="sizeable-icon"
+              src={CCIcon}
+              alt="CC"
+            />
+          </GraphicallyStyled.MediaBtn>
+        </>
+      )}
       <GraphicallyStyled.MediaBtn onClick={toggleOverview}>
         <img
           style={{ height: 16, width: "auto" }}

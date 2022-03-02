@@ -26,11 +26,16 @@ export const BaseContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
   }
+
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
+    border-bottom: solid 1px ${({ theme }) => theme.palette.white};
+  }
 `
 
 export const SlideNavContainer = styled(motion.div)`
   position: absolute;
   height: 100%;
+  height: -webkit-fill-available;
   background: ${({ theme }) => theme.palette.black};
   right: 0;
   width: 100%;
@@ -69,7 +74,7 @@ export const MediaBtn = styled.button`
   height: 100%;
 
   &:disabled {
-    opacity: 0.1;
+    opacity: 0;
   }
 
   @media (max-width: calc(${breakpoints.tablet} - 1px)) {
@@ -99,11 +104,6 @@ export const ToggleBtn = styled(Styled.ToggleBtn)`
   z-index: 1;
   background: transparent;
   filter: none;
-
-  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
-    border-right: solid 1px ${({ theme }) => theme.palette.white};
-    border-bottom: solid 1px ${({ theme }) => theme.palette.white};
-  }
 
   ${({ open }) =>
     open &&
