@@ -13,6 +13,7 @@ export const ImageWrapper = styled.div`
   right: 0;
   width: 100vw;
   max-height: 100vh;
+  min-height: 680px;
   filter: brightness(0.6);
 
   @media ${devices.tablet} {
@@ -30,6 +31,7 @@ export const ImageWrapper = styled.div`
 
 export const ContentWrapper = styled.aside`
   height: 100vh;
+  min-height: 680px;
   display: grid;
   align-content: end;
   grid-column: 1 / last-col;
@@ -135,7 +137,7 @@ export const LogoImg = styled.img`
   }
 `
 
-export const Title = styled(atoms.title)`
+export const Title = styled.img`
   margin-bottom: ${({ theme }) => theme.spacing.md};
 
   filter: brightness(10);
@@ -151,10 +153,6 @@ export const Editorship = styled(atoms.p)`
     font-size: ${typography.sm};
 
     filter: brightness(10);
-
-    @media ${devices.tablet} {
-      font-weight: bold;
-    }
 
     @media ${devices.laptop} {
       filter: none;
