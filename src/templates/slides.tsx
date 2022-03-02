@@ -24,6 +24,7 @@ import VerticalSlides from "~components/molecules/slides/vertical-slides"
 import TextSlide from "~components/molecules/slides/text-slide"
 import EndSlideOverlay from "~components/organisms/end-slide-overlay"
 import { AnimatePresence } from "framer-motion"
+import screenfull from "screenfull"
 
 //@ts-ignore
 import Reveal from "reveal.js"
@@ -167,7 +168,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     deck.current.addKeyBinding({ keyCode: 80, key: "p" }, prevBinding)
     deck.current.addKeyBinding({ keyCode: 78, key: "n" }, nextBinding)
     deck.current.addKeyBinding({ keyCode: 70, key: "f" }, () => {
-      document.body.requestFullscreen()
+      if (screenfull.isEnabled) screenfull.toggle()
     })
     deck.current.on("slidechanged", verifyLastSlideState)
     return () => {

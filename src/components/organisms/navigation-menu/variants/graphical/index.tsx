@@ -14,6 +14,7 @@ import { useLocalization } from "gatsby-theme-i18n"
 import { useTheme } from "styled-components"
 import useIsMobile from "src/hooks/useIsMobile"
 import useHypothesis from "src/hooks/useHypothesis"
+import screenfull from "screenfull"
 import {
   motion,
   useAnimation,
@@ -345,10 +346,7 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
 
   const toggleOverview = () => deck.current?.toggleOverview()
 
-  const toggleFullscreen = () => {
-    if (isFullscreen) document.exitFullscreen()
-    else document.body.requestFullscreen()
-  }
+  const toggleFullscreen = () => screenfull.isEnabled && screenfull.toggle()
 
   const verifyOverviewState = useCallback(() => {
     if (!deck.current) return
@@ -356,26 +354,21 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
     setOverviewOpen(deck.current.isOverview())
   }, [deck.current])
 
-  const verifyFullscreenState = useCallback(() => {
-    const body = document.body
-    const fullscreenElement = document.fullscreenElement
-
-    setIsFullscreen(body == fullscreenElement)
-  }, [])
+  const verifyFullscreenState = useCallback(
+    () => setIsFullscreen(screenfull.isEnabled && screenfull.isFullscreen),
+    [screenfull]
+  )
 
   useEffect(() => {
     if (!deck.current) return
 
     deck.current.on("overviewshown", verifyOverviewState)
     deck.current.on("overviewhidden", verifyOverviewState)
-    document.body.addEventListener("fullscreenchange", verifyFullscreenState)
+    screenfull.isEnabled && screenfull.on("change", verifyFullscreenState)
     return () => {
       deck.current.off("overviewshown", verifyOverviewState)
       deck.current.off("overviewhidden", verifyOverviewState)
-      document.body.removeEventListener(
-        "fullscreenchange",
-        verifyFullscreenState
-      )
+      screenfull.isEnabled && screenfull.off("change", verifyFullscreenState)
     }
   }, [deck.current])
 
