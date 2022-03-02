@@ -180,7 +180,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider defaultMode={NAV_MODES.LIGHT}>
-      <HypothesisBtn left hiddenOnMobile />
+      <HypothesisBtn hiddenOnMobile invert={!isOverlayVisible} />
       <NavigationMenu
         currentPath={location.pathname}
         renderProps={{ deck, isOverlayVisible, setIsOverlayVisible }}

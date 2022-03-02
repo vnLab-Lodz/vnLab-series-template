@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next"
 import { useLocalization } from "gatsby-theme-i18n"
 import { useTheme } from "styled-components"
 import useIsMobile from "src/hooks/useIsMobile"
+import useHypothesis from "src/hooks/useHypothesis"
 import {
   motion,
   useAnimation,
@@ -62,6 +63,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
   const { deck, isOverlayVisible, setIsOverlayVisible } = renderProps
 
   const isMobile = useIsMobile()
+  const { showHypothesis, hideHypothesis, isHidden } = useHypothesis()
 
   const { t } = useTranslation(["common", "nav-menu"])
   const { locale } = useLocalization()
@@ -186,7 +188,11 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
             deck={deck}
             setIsOverlayVisible={setIsOverlayVisible}
           />
-          <GraphicallyStyled.MediaBtn>
+          <GraphicallyStyled.MediaBtn
+            onClick={() => {
+              isHidden() ? showHypothesis() : hideHypothesis()
+            }}
+          >
             <img
               style={{ height: 24, width: "auto" }}
               className="sizeable-icon"

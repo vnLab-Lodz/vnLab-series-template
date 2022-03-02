@@ -6,9 +6,13 @@ import * as Styled from "./style"
 import useHypothesis from "src/hooks/useHypothesis"
 import useIsClient from "src/hooks/useIsClient"
 import useIsMobile from "src/hooks/useIsMobile"
+import { AnimatePresence, motion, useSpring, useTransform } from "framer-motion"
+import { useTheme } from "styled-components"
 
 //@ts-ignore
 import HypothesisIcon from "../../../images/icons/hypothesis.svg"
+//@ts-ignore
+import HypothesisIconInvert from "../../../images/icons/hypothesis_rewers.svg"
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
 
@@ -19,9 +23,14 @@ function getHypothesisTutorialStatus() {
 interface Props {
   left?: boolean
   hiddenOnMobile?: boolean
+  invert?: boolean
 }
 
-const HypothesisBtn: React.FC<Props> = ({ left, hiddenOnMobile = false }) => {
+const HypothesisBtn: React.FC<Props> = ({
+  left,
+  hiddenOnMobile = false,
+  invert = false,
+}) => {
   const { t } = useTranslation("common")
   const { isClient } = useIsClient()
   const [hypothesisTutorialViewed, setHypothesisTutorialViewed] =
@@ -30,10 +39,32 @@ const HypothesisBtn: React.FC<Props> = ({ left, hiddenOnMobile = false }) => {
   const { locale, defaultLang, prefixDefault, localizedPath } =
     useLocalization()
   const isMobile = useIsMobile()
+  const { palette } = useTheme()
+
+  const invertFactor = useSpring(invert ? 0 : 1)
+  const backgroundColor = useTransform(
+    invertFactor,
+    [0, 1],
+    [palette.white, palette.black]
+  )
+  const color = useTransform(
+    invertFactor,
+    [0, 1],
+    [palette.black, palette.white]
+  )
+  const filter = useTransform(
+    invertFactor,
+    [0, 1],
+    ["brightness(0)", "brightness(10)"]
+  )
 
   useEffect(() => {
     setHypothesisTutorialViewed(getHypothesisTutorialStatus())
   }, [])
+
+  useEffect(() => {
+    invertFactor.set(invert ? 0 : 1)
+  }, [invert, palette])
 
   const setHypothesisTutorialViewedInLocalStorage = () => {
     if (!!!hypothesisTutorialViewed) {
@@ -67,7 +98,7 @@ const HypothesisBtn: React.FC<Props> = ({ left, hiddenOnMobile = false }) => {
     setHypothesisTutorialViewedInLocalStorage()
   }
 
-  if (!isClient || hiddenOnMobile) return <></>
+  if (!isClient || (hiddenOnMobile && isMobile)) return <></>
 
   return hypothesisTutorialViewed ? (
     <Styled.IconButton
@@ -75,14 +106,32 @@ const HypothesisBtn: React.FC<Props> = ({ left, hiddenOnMobile = false }) => {
       onClick={handleIconBtnClick}
       left={!!left && isMobile}
     >
-      <img src={HypothesisIcon} alt="Hypothesis Icon" />
+      <AnimatePresence initial={false} exitBeforeEnter>
+        <motion.img
+          key={invert ? "inverted-icon" : "normal-icon"}
+          src={invert ? HypothesisIconInvert : HypothesisIcon}
+          alt="Hypothesis Icon"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        />
+      </AnimatePresence>
     </Styled.IconButton>
   ) : (
-    <Styled.TextButton>
-      <Styled.VerticalText id="hypothesis-btn" onClick={handleTextBtnClick}>
+    <Styled.TextButton style={{ backgroundColor }}>
+      <Styled.VerticalText
+        style={{ color }}
+        id="hypothesis-btn"
+        onClick={handleTextBtnClick}
+      >
         {t("hypothesis_btn")}
       </Styled.VerticalText>
-      <Styled.CloseBtn src={XSVG} alt="X" onClick={closeAnnotateBtn} />
+      <Styled.CloseBtn
+        src={XSVG}
+        style={{ filter }}
+        alt="X"
+        onClick={closeAnnotateBtn}
+      />
     </Styled.TextButton>
   )
 }
