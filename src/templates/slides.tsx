@@ -166,6 +166,9 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     deck.current.addKeyBinding({ keyCode: 40 }, downBinding)
     deck.current.addKeyBinding({ keyCode: 80, key: "p" }, prevBinding)
     deck.current.addKeyBinding({ keyCode: 78, key: "n" }, nextBinding)
+    deck.current.addKeyBinding({ keyCode: 70, key: "f" }, () => {
+      document.body.requestFullscreen()
+    })
     deck.current.on("slidechanged", verifyLastSlideState)
     return () => {
       deck.current.removeKeyBinding(39)
@@ -174,6 +177,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       deck.current.removeKeyBinding(40)
       deck.current.removeKeyBinding(80)
       deck.current.removeKeyBinding(78)
+      deck.current.removeKeyBinding(70)
       deck.current.off("slidechanged", verifyLastSlideState)
     }
   }, [deck.current, handleKeyBinding])

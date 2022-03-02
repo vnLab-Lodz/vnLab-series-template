@@ -345,8 +345,10 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
 
   const toggleOverview = () => deck.current?.toggleOverview()
 
-  const enterFullscreen = () =>
-    deck.current?.getRevealElement()?.requestFullscreen()
+  const toggleFullscreen = () => {
+    if (isFullscreen) document.exitFullscreen()
+    else document.body.requestFullscreen()
+  }
 
   const verifyOverviewState = useCallback(() => {
     if (!deck.current) return
@@ -355,26 +357,22 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
   }, [deck.current])
 
   const verifyFullscreenState = useCallback(() => {
-    if (!deck.current) return
-
-    const revealElement = deck.current.getRevealElement()
+    const body = document.body
     const fullscreenElement = document.fullscreenElement
 
-    setIsFullscreen(revealElement == fullscreenElement)
-  }, [deck.current])
+    setIsFullscreen(body == fullscreenElement)
+  }, [])
 
   useEffect(() => {
     if (!deck.current) return
 
-    const revealElement = deck.current.getRevealElement()
-
     deck.current.on("overviewshown", verifyOverviewState)
     deck.current.on("overviewhidden", verifyOverviewState)
-    revealElement.addEventListener("fullscreenchange", verifyFullscreenState)
+    document.body.addEventListener("fullscreenchange", verifyFullscreenState)
     return () => {
       deck.current.off("overviewshown", verifyOverviewState)
       deck.current.off("overviewhidden", verifyOverviewState)
-      revealElement.removeEventListener(
+      document.body.removeEventListener(
         "fullscreenchange",
         verifyFullscreenState
       )
@@ -415,7 +413,7 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
           alt="Overview"
         />
       </GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn onClick={enterFullscreen}>
+      <GraphicallyStyled.MediaBtn onClick={toggleFullscreen}>
         <img
           style={{ height: 16, width: "auto" }}
           className="sizeable-icon"
