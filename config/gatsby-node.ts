@@ -187,6 +187,10 @@ export const onCreateWebpackConfig = ({
             test: /reveal.js/,
             use: loaders.null(),
           },
+          {
+            test: /screenfull/,
+            use: loaders.null(),
+          },
         ],
       },
     })
