@@ -48,6 +48,7 @@ export const Globals = createGlobalStyle`
   body {
     line-height: 1;
     width: 100%;
+    overscroll-behavior-y: contain;
   }
   html, body {
     min-height: 100vh;
