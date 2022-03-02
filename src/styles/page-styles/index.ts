@@ -202,8 +202,8 @@ export const WrappedEdition = styled(Edition)`
 export const TocButton = styled.button`
   ${({ theme: { palette, spacing } }) => css`
     border: none;
-    background: ${palette.black};
     color: ${palette.white};
+    background: transparent;
     padding: ${spacing.sm} 0px;
     display: grid;
     cursor: pointer;
@@ -212,6 +212,7 @@ export const TocButton = styled.button`
     grid-column: 1 / last-col;
 
     @media ${devices.tablet} {
+      background: ${palette.black};
       padding: ${spacing.md} 0px;
       grid-column: 1 / last-col;
       grid-row: 7;
@@ -221,18 +222,6 @@ export const TocButton = styled.button`
       grid-template-columns: repeat(16, 1fr);
       grid-column: 1 / 17;
       grid-row: 7;
-    }
-
-    @media (min-height: 1100px) {
-      /* margin-top: 30vh; */
-    }
-
-    @media (max-height: 650px) {
-      /* margin-top: 0; */
-    }
-
-    @media ${devices.desktop} {
-      /* margin-top: calc(${spacing.xxl} * 2); */
     }
   `}
 `
@@ -267,11 +256,20 @@ export const TocBtnText = styled(atoms.p)`
     color: ${palette.white};
     text-transform: uppercase;
     text-align: left;
+    display: none;
+
+    @media ${devices.tablet} {
+      display: initial;
+    }
   `}
 `
 
 export const ArrowDownImg = styled.img`
-  margin-left: ${({ theme }) => theme.spacing.md};
+  margin-left: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.3)`};
+
+  @media ${devices.tablet} {
+    margin-left: ${({ theme }) => theme.spacing.md};
+  }
 `
 
 export const TocWrapper = styled.div`
