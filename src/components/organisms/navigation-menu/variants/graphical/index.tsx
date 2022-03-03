@@ -376,6 +376,12 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
     if (overviewOpen) setIsOverlayVisible(false)
   }, [overviewOpen])
 
+  useEffect(() => {
+    if (!deck.current) return
+
+    deck.current.layout()
+  }, [isFullscreen, deck.current])
+
   return (
     <GraphicallyStyled.ButtonsContainer>
       {!isMobile && (
