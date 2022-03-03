@@ -152,6 +152,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
         </GraphicallyStyled.BaseContainer>
         {!isMobile && (
           <GraphicallyStyled.SlideNavContainer
+            disablePointerEvents={open}
             style={{ translateX }}
             initial={{ opacity: 1 }}
             animate={controls}

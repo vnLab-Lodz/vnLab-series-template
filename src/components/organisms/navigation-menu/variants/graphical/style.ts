@@ -32,7 +32,9 @@ export const BaseContainer = styled.div`
   }
 `
 
-export const SlideNavContainer = styled(motion.div)`
+export const SlideNavContainer = styled(motion.div)<{
+  disablePointerEvents: boolean
+}>`
   position: absolute;
   height: 100%;
   height: -webkit-fill-available;
@@ -46,6 +48,9 @@ export const SlideNavContainer = styled(motion.div)`
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+
+  ${({ disablePointerEvents }) =>
+    disablePointerEvents && "pointer-events: none;"};
 `
 
 export const ButtonsContainer = styled.div<{ spaced?: boolean }>`
