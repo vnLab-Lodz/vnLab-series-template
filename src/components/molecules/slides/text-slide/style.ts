@@ -20,9 +20,9 @@ export const Container = styled.div`
     left: 0px;
     right: 0px;
     height: 150px;
-    background: linear-gradient(
+    background-image: linear-gradient(
       0deg,
-      transparent,
+      rgba(34, 34, 34, 0),
       ${({ theme }) => theme.palette.black} 60px
     );
 
@@ -39,10 +39,10 @@ export const Container = styled.div`
     left: 0px;
     right: 0px;
     height: 150px;
-    background: linear-gradient(
+    background-image: linear-gradient(
       0deg,
       ${({ theme }) => theme.palette.black} 90px,
-      transparent
+      rgba(34, 34, 34, 0)
     );
 
     @media ${devices.tablet} {
