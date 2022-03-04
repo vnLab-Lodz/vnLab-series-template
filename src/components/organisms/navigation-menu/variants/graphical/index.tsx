@@ -380,7 +380,10 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
   useEffect(() => {
     if (!deck.current) return
 
-    deck.current.layout()
+    const timeout = setTimeout(() => deck.current.layout(), 1000)
+    return () => {
+      clearTimeout(timeout)
+    }
   }, [isFullscreen, deck.current])
 
   return (
