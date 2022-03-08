@@ -2,6 +2,7 @@ import React, {
   MutableRefObject,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from "react"
 import enhance, { NavVariantProps } from "../../enhance"
@@ -345,6 +346,8 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
   const [overviewOpen, setOverviewOpen] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
+  const dimensions = useRef<any>(undefined)
+
   const toggleOverview = () => deck.current?.toggleOverview()
 
   const toggleFullscreen = () => screenfull.isEnabled && screenfull.toggle()
@@ -380,7 +383,26 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
   useEffect(() => {
     if (!deck.current) return
 
-    const timeout = setTimeout(() => deck.current.layout(), 1000)
+    const timeout = setTimeout(() => {
+      if (process.env.NODE_ENV === "development") {
+        console.log(deck.current.getScale())
+        console.log(deck.current.getComputedSlideSize())
+      }
+
+      const { width, height } = deck.current.getComputedSlideSize()
+
+      if (
+        dimensions.current &&
+        (height !== dimensions.current.height ||
+          width !== dimensions.current.width)
+      ) {
+        deck.current.sync()
+        deck.current.layout()
+        deck.current.getRevealElement().focus()
+      }
+
+      dimensions.current = { width, height }
+    }, 1000)
     return () => {
       clearTimeout(timeout)
     }
