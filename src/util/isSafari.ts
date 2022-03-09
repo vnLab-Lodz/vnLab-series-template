@@ -1,4 +1,6 @@
-export default function isSafari() {
+export default function isSafari(client = false) {
+  if (!client) return true
+
   return (
     navigator.vendor &&
     navigator.vendor.indexOf("Apple") > -1 &&

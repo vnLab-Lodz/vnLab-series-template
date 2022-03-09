@@ -15,6 +15,7 @@ import { useTheme } from "styled-components"
 import useIsMobile from "src/hooks/useIsMobile"
 import useHypothesis from "src/hooks/useHypothesis"
 import screenfull from "screenfull"
+import useIsClient from "src/hooks/useIsClient"
 import isSafari from "~util/isSafari"
 import {
   motion,
@@ -345,6 +346,7 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
 }) => {
   const [overviewOpen, setOverviewOpen] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const { isClient } = useIsClient()
 
   const toggleOverview = () => deck.current?.toggleOverview()
 
@@ -408,7 +410,7 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
           alt="Overview"
         />
       </GraphicallyStyled.MediaBtn>
-      {!isSafari() && (
+      {!isSafari(isClient) && (
         <GraphicallyStyled.MediaBtn onClick={toggleFullscreen}>
           <img
             style={{ height: 16, width: "auto" }}
