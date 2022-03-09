@@ -95,6 +95,7 @@ export const MediaBtn = styled.button`
   @media ${devices.tablet} {
     height: auto;
     width: 100%;
+    padding-bottom: ${({ theme }) => theme.spacing.md};
   }
 `
 
