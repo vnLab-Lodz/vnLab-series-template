@@ -33,6 +33,7 @@ export const AnnotationContent = styled(GridContainer)`
 
     @media ${devices.desktop} {
       justify-content: center;
+      max-width: none;
     }
   `}
 `

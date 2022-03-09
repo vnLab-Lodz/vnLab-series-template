@@ -101,6 +101,7 @@ export const CaptionContent = styled(GridContainer)`
 
     @media ${devices.desktop} {
       justify-content: center;
+      max-width: none;
     }
   `}
 `
