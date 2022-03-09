@@ -81,11 +81,11 @@ export const Globals = createGlobalStyle`
 
   .sizeable-icon {
     @media ${devices.desktop} {
-      width: auto;
-      height: 32px;
+      width: auto !important;
+      height: 32px !important;
       
       &--small {
-        height: 20px;
+        height: 20px !important;
   
       }
     }
