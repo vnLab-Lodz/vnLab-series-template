@@ -25,6 +25,7 @@ import TextSlide from "~components/molecules/slides/text-slide"
 import EndSlideOverlay from "~components/organisms/end-slide-overlay"
 import { AnimatePresence } from "framer-motion"
 import screenfull from "screenfull"
+import isSafari from "~util/isSafari"
 
 //@ts-ignore
 import Reveal from "reveal.js"
@@ -151,6 +152,13 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     [deck.current, isOverlayVisible]
   )
 
+  const fullscreenBinding = useCallback(e => {
+    if (!!e.preventDefault) e.preventDefault()
+    if (isSafari() || !screenfull.isEnabled) return
+
+    screenfull.toggle()
+  }, [])
+
   useEffect(() => {
     if (!deck.current) return
 
@@ -167,9 +175,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     deck.current.addKeyBinding({ keyCode: 40 }, downBinding)
     deck.current.addKeyBinding({ keyCode: 80, key: "p" }, prevBinding)
     deck.current.addKeyBinding({ keyCode: 78, key: "n" }, nextBinding)
-    deck.current.addKeyBinding({ keyCode: 70, key: "f" }, () => {
-      if (screenfull.isEnabled) screenfull.toggle()
-    })
+    deck.current.addKeyBinding({ keyCode: 70, key: "f" }, fullscreenBinding)
     deck.current.on("slidechanged", verifyLastSlideState)
     return () => {
       deck.current.removeKeyBinding(39)
@@ -181,7 +187,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       deck.current.removeKeyBinding(70)
       deck.current.off("slidechanged", verifyLastSlideState)
     }
-  }, [deck.current, handleKeyBinding])
+  }, [deck.current, handleKeyBinding, fullscreenBinding, verifyLastSlideState])
 
   return (
     <NavMenuProvider defaultMode={NAV_MODES.LIGHT}>

@@ -2,7 +2,6 @@ import React, {
   MutableRefObject,
   useCallback,
   useEffect,
-  useRef,
   useState,
 } from "react"
 import enhance, { NavVariantProps } from "../../enhance"
@@ -16,6 +15,7 @@ import { useTheme } from "styled-components"
 import useIsMobile from "src/hooks/useIsMobile"
 import useHypothesis from "src/hooks/useHypothesis"
 import screenfull from "screenfull"
+import isSafari from "~util/isSafari"
 import {
   motion,
   useAnimation,
@@ -346,8 +346,6 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
   const [overviewOpen, setOverviewOpen] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
 
-  const dimensions = useRef<any>(undefined)
-
   const toggleOverview = () => deck.current?.toggleOverview()
 
   const toggleFullscreen = () => screenfull.isEnabled && screenfull.toggle()
@@ -380,34 +378,6 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
     if (overviewOpen) setIsOverlayVisible(false)
   }, [overviewOpen])
 
-  useEffect(() => {
-    if (!deck.current) return
-
-    const timeout = setTimeout(() => {
-      if (process.env.NODE_ENV === "development") {
-        console.log(deck.current.getScale())
-        console.log(deck.current.getComputedSlideSize())
-      }
-
-      const { width, height } = deck.current.getComputedSlideSize()
-
-      if (
-        dimensions.current &&
-        (height !== dimensions.current.height ||
-          width !== dimensions.current.width)
-      ) {
-        deck.current.sync()
-        deck.current.layout()
-        deck.current.getRevealElement().focus()
-      }
-
-      dimensions.current = { width, height }
-    }, 1000)
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [isFullscreen, deck.current])
-
   return (
     <GraphicallyStyled.ButtonsContainer>
       {!isMobile && (
@@ -438,14 +408,16 @@ const UtilityButtons: React.FC<UtilityButtonsProps> = ({
           alt="Overview"
         />
       </GraphicallyStyled.MediaBtn>
-      <GraphicallyStyled.MediaBtn onClick={toggleFullscreen}>
-        <img
-          style={{ height: 16, width: "auto" }}
-          className="sizeable-icon"
-          src={isFullscreen ? FullscreenOnIcon : FullscreenOffIcon}
-          alt="Fulscreen"
-        />
-      </GraphicallyStyled.MediaBtn>
+      {!isSafari() && (
+        <GraphicallyStyled.MediaBtn onClick={toggleFullscreen}>
+          <img
+            style={{ height: 16, width: "auto" }}
+            className="sizeable-icon"
+            src={isFullscreen ? FullscreenOnIcon : FullscreenOffIcon}
+            alt="Fulscreen"
+          />
+        </GraphicallyStyled.MediaBtn>
+      )}
     </GraphicallyStyled.ButtonsContainer>
   )
 }
