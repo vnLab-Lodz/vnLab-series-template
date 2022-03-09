@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
+  <g id="Group_81" data-name="Group 81" transform="translate(-110 -742)">
+    <g id="Group_61" data-name="Group 61" transform="translate(119.022 742)">
+      <g id="Group_60" data-name="Group 60" transform="translate(0)">
+        <line id="Line_62" data-name="Line 62" x1="3.139" y2="3.139" transform="translate(0 2.84)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+        <g id="Group_59" data-name="Group 59" transform="translate(0.598)">
+          <path id="Path_26" data-name="Path 26" d="M12.8,1.42,18.18,0l-1.42,5.38Z" transform="translate(-12.8)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+    <g id="Group_64" data-name="Group 64" transform="translate(110 751.022)">
+      <g id="Group_63" data-name="Group 63" transform="translate(0 0)">
+        <line id="Line_63" data-name="Line 63" y1="3.139" x2="3.139" transform="translate(2.84)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="1"/>
+        <g id="Group_62" data-name="Group 62" transform="translate(0 0.598)">
+          <path id="Path_27" data-name="Path 27" d="M5.38,16.761,0,18.18,1.42,12.8Z" transform="translate(0 -12.8)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

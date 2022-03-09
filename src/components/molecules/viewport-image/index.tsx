@@ -24,13 +24,15 @@ interface PortalProps {
   toggle: () => void
   position: number
   caption: string
+  target?: HTMLElement
 }
 
-const CaptionPortal: React.FC<PortalProps> = ({
+export const CaptionPortal: React.FC<PortalProps> = ({
   children,
   position,
   toggle,
   caption,
+  target,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null)
 
@@ -68,7 +70,7 @@ const CaptionPortal: React.FC<PortalProps> = ({
         </Styled.CaptionParagraph>
       )}
     </Styled.CaptionContent>,
-    document.body
+    target ?? document.body
   )
 }
 

@@ -69,6 +69,8 @@ There are couple ways a publication can be structured:
 
 Main markdown files that render as pages with support for various components that can be seen in **Components** section.
 
+Information on how to compose graphical chapters can be found [here](/docs/graphical-chapters.md).
+
 ### Frontmatter
 
 The chapter/article frontmatter needs to contain the following.

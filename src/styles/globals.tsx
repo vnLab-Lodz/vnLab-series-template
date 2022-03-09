@@ -48,6 +48,7 @@ export const Globals = createGlobalStyle`
   body {
     line-height: 1;
     width: 100%;
+    overscroll-behavior-y: contain;
   }
   html, body {
     min-height: 100vh;
@@ -80,11 +81,11 @@ export const Globals = createGlobalStyle`
 
   .sizeable-icon {
     @media ${devices.desktop} {
-      width: auto;
-      height: 32px;
+      width: auto !important;
+      height: 32px !important;
       
       &--small {
-        height: 20px;
+        height: 20px !important;
   
       }
     }

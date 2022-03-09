@@ -1,4 +1,8 @@
-import { CreatePagesArgs, CreateSchemaCustomizationArgs } from "gatsby"
+import {
+  CreatePagesArgs,
+  CreateSchemaCustomizationArgs,
+  CreateWebpackConfigArgs,
+} from "gatsby"
 import { delocalizeSlug, localizeSlug } from "../src/util"
 
 const path = require(`path`)
@@ -9,6 +13,7 @@ interface Node {
   frontmatter: {
     title: string
     date: string
+    slideshow: boolean
   }
 }
 
@@ -19,12 +24,16 @@ interface Data {
 }
 
 function chaptersFilter(node: Node) {
-  const { slug } = node
+  const {
+    slug,
+    frontmatter: { slideshow },
+  } = node
 
   return (
     !slug.includes("bibliography") &&
     !slug.includes("biograms") &&
-    !slug.includes("hypothesis_tutorial")
+    !slug.includes("hypothesis_tutorial") &&
+    !slideshow
   )
 }
 
@@ -34,6 +43,10 @@ function bibliographiesFilter(node: Node) {
 
 function biogramsFilter(node: Node) {
   return node.slug.includes("biograms")
+}
+
+function slideshowFilter(node: Node) {
+  return !!node.frontmatter.slideshow
 }
 
 function hypothesisFilter(node: Node) {
@@ -71,6 +84,7 @@ export const createPages = async ({
           frontmatter {
             title
             date
+            slideshow
           }
           slug
         }
@@ -92,6 +106,14 @@ export const createPages = async ({
     .forEach(node =>
       createPage(
         composePageOptions(node, { template: "chapter", isPublication: true })
+      )
+    )
+
+  nodes
+    .filter(slideshowFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "slides", isPublication: true })
       )
     )
 
@@ -141,6 +163,7 @@ export const createSchemaCustomization = ({
       meta: Boolean
       locale: String
       menus: [MENUS]
+      slideshow: Boolean
     }
     enum MENUS {
       CONTENT
@@ -149,4 +172,27 @@ export const createSchemaCustomization = ({
       BIBLIOGRAPHY
     }
     `)
+}
+
+export const onCreateWebpackConfig = ({
+  stage,
+  loaders,
+  actions,
+}: CreateWebpackConfigArgs) => {
+  if (stage === "build-html") {
+    actions.setWebpackConfig({
+      module: {
+        rules: [
+          {
+            test: /reveal.js/,
+            use: loaders.null(),
+          },
+          {
+            test: /screenfull/,
+            use: loaders.null(),
+          },
+        ],
+      },
+    })
+  }
 }
