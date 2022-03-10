@@ -21,6 +21,15 @@ import ArrowDownSVG from "../images/icons/arrow_down.svg"
 import SearchSVG from "../images/icons/magnifying_glass.svg"
 //@ts-ignore
 import HamburgerSVG from "../images/icons/hamburger.svg"
+//@ts-ignore
+import TitleEN from "../images/title_en.svg"
+//@ts-ignore
+import TitlePL from "../images/title_pl.svg"
+
+const titleSVG = {
+  en: TitleEN,
+  pl: TitlePL,
+}
 
 const NavMenuToggle: React.FC = () => {
   const { toggleNav } = useNavMenuContext()
@@ -49,6 +58,8 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
       `${scrollbarWidth}px`
     )
   })
+
+  const title = titleSVG[locale as "en" | "pl"]
 
   const scrollToToC = () => {
     if (!ref || !ref.current) return
@@ -88,21 +99,11 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
                 standalone
                 currentPath={location.pathname}
               />
-              <Styled.SearchBtn flex>
-                <LocalizedLink to="/search" language={locale}>
-                  <img
-                    className="sizeable-icon"
-                    src={SearchSVG}
-                    alt="Magnifying glass"
-                    style={{ verticalAlign: "middle" }}
-                  />
-                </LocalizedLink>
-              </Styled.SearchBtn>
             </Styled.Header>
           )}
           <Styled.Center>
             <Styled.LogoImg src={Logo} alt="vnlab logo" />
-            <Styled.Title>{t("common:title")}</Styled.Title>
+            <Styled.Title src={title} alt="Title" />
             <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
             <Styled.Author type="primary">
               <Styled.BiogramLink

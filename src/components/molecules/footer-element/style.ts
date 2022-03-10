@@ -33,6 +33,10 @@ export const VariantHeader = styled(atoms.h3)`
 
 export const ArticleTitle = styled(LocalizedLink)`
   text-decoration: none;
+
+  p {
+    font-weight: 500;
+  }
 `
 
 export const ArticleNumber = styled(atoms.p)`
@@ -44,9 +48,20 @@ export const ArticleNumber = styled(atoms.p)`
   `}
 `
 export const ArticleAuthor = styled(atoms.h3)`
-  ${({ theme: { spacing } }) => css`
-    margin: ${spacing.xxs} 0px;
+  ${({ theme: { spacing, typography } }) => css`
+    font-weight: normal;
+    margin: ${spacing.xs} 0px;
     text-align: left;
+
+    font-size: calc(${typography.sm} * 1.2);
+
+    @media ${devices.tablet} {
+      font-size: calc(${typography.sm} * 1.4);
+    }
+
+    @media ${devices.desktop} {
+      font-size: calc(${typography.sm} * 1.1);
+    }
   `}
 `
 
