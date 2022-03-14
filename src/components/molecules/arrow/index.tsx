@@ -17,7 +17,11 @@ const Arrow: React.FC<Props> = ({ inverted }) => {
     }
   }, [inverted])
 
-  return <ArrowSpan style={{ rotate }}>{">"}</ArrowSpan>
+  return (
+    <ArrowSpan style={{ rotate }} className="character-arrow">
+      {">"}
+    </ArrowSpan>
+  )
 }
 
 export default Arrow

@@ -5,6 +5,7 @@ import atoms from "~components/atoms"
 import ToC from "~components/organisms/navigation-menu/tabs/toc"
 import LP from "~components/molecules/language-picker"
 import { LocalizedLink } from "gatsby-theme-i18n"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 
 export const ImageWrapper = styled.div`
   position: absolute;
@@ -127,23 +128,25 @@ export const Center = styled.div`
   }
 `
 
-export const LogoImg = styled.img`
+export const LogoImg = styled.img<{ themeMode?: THEME_MODES }>`
   transform: rotate(90deg) translateY(-35%);
   max-width: 1.3rem;
   filter: brightness(10);
 
   @media ${devices.laptop} {
-    filter: none;
+    filter: ${({ themeMode }) =>
+      themeMode === THEME_MODES.DARK ? "invert(1)" : "none"};
   }
 `
 
-export const Title = styled.img`
+export const Title = styled.img<{ themeMode?: THEME_MODES }>`
   margin-bottom: ${({ theme }) => theme.spacing.md};
 
   filter: brightness(10);
 
   @media ${devices.laptop} {
-    filter: none;
+    filter: ${({ themeMode }) =>
+      themeMode === THEME_MODES.DARK ? "invert(1)" : "none"};
   }
 `
 
@@ -264,11 +267,13 @@ export const TocBtnText = styled(atoms.p)`
   `}
 `
 
-export const ArrowDownImg = styled.img`
+export const ArrowDownImg = styled.img<{ themeMode?: THEME_MODES }>`
   margin-left: ${({ theme }) => `calc(${theme.spacing.xxs} * 0.3)`};
 
   @media ${devices.tablet} {
     margin-left: ${({ theme }) => theme.spacing.md};
+    filter: ${({ themeMode }) =>
+      themeMode === THEME_MODES.DARK ? "invert(1)" : "none"};
   }
 `
 

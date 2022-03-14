@@ -2,11 +2,13 @@ import { graphql, PageProps } from "gatsby"
 import { useLocalization } from "gatsby-theme-i18n"
 import React, { useMemo, useState } from "react"
 import { PublicationPage } from "src/hooks/usePublication"
+import { ThemeProvider } from "styled-components"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import SearchClient, {
   EngineOptions,
 } from "~components/organisms/search-client"
+import { lightTheme } from "~styles/theme"
 import { isUndefined } from "~util"
 import * as Styled from "../styles/page-styles/search"
 
@@ -87,11 +89,13 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
   return (
     <NavMenuProvider>
       <NavigationMenu currentPath={location.pathname} />
-      <Styled.Wrapper>
-        <Styled.SearchLayout>
-          <SearchClient data={pages} engine={options} />
-        </Styled.SearchLayout>
-      </Styled.Wrapper>
+      <ThemeProvider theme={lightTheme}>
+        <Styled.Wrapper>
+          <Styled.SearchLayout>
+            <SearchClient data={pages} engine={options} />
+          </Styled.SearchLayout>
+        </Styled.Wrapper>
+      </ThemeProvider>
     </NavMenuProvider>
   )
 }

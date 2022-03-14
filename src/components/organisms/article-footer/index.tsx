@@ -5,6 +5,8 @@ import usePublication from "src/hooks/usePublication"
 import FooterElement from "~components/molecules/footer-element"
 import { getCurrentPathIndex } from "~util"
 import { motion, useMotionTemplate, useSpring } from "framer-motion"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -19,6 +21,7 @@ interface Props {
 const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
   const pages = usePublication()
   const { t } = useTranslation("common")
+  const { themeMode } = useThemeSwitcherContext()
 
   const currentPathIndex = getCurrentPathIndex(pages, currentPath)
 
@@ -64,6 +67,9 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
               className="sizeable-icon--small"
               src={LeftArrowSVG}
               alt="Left arrow"
+              style={{
+                filter: themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
+              }}
             />
           </Styled.ArrowButton>
           <Styled.FooterPagesContainer>
@@ -98,6 +104,9 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
               className="sizeable-icon--small"
               src={RightArrowSVG}
               alt="Right arrow"
+              style={{
+                filter: themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
+              }}
             />
           </Styled.ArrowButton>
         </Styled.FooterContainer>

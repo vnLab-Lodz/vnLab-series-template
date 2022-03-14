@@ -13,6 +13,8 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { NAV_MODES } from "../navigation-menu/nav-menu-context"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 
 //@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -42,12 +44,23 @@ const FullscreenPortal: React.FC<Props> = ({
 }) => {
   const { hypothesis, hideHypothesis } = useHypothesis()
   const { setNavMode } = useNavMenuContext()
+  const { setThemeMode } = useThemeSwitcherContext()
 
   useLayoutEffect(() => {
+    let mode: THEME_MODES
+    let nav: NAV_MODES
+    setThemeMode(prev => {
+      mode = prev
+      return THEME_MODES.DARK
+    })
     document.body.classList.add("no-scroll")
-    setNavMode(NAV_MODES.DARK)
+    setNavMode(prev => {
+      nav = prev
+      return NAV_MODES.PERMANENT
+    })
     return () => {
-      setNavMode(NAV_MODES.LIGHT)
+      setThemeMode(mode)
+      setNavMode(nav)
       document.body.classList.remove("no-scroll")
     }
   }, [])

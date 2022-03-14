@@ -16,6 +16,9 @@ import { mdxComponents } from "src/templates/chapter"
 import useIsMobile from "src/hooks/useIsMobile"
 import { useInView } from "react-intersection-observer"
 import { useAnimation } from "framer-motion"
+import useIsClient from "src/hooks/useIsClient"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -24,7 +27,6 @@ import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 //@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
-import useIsClient from "src/hooks/useIsClient"
 
 interface Props {
   images: ImageDataLike[]
@@ -48,6 +50,8 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const controls = useAnimation()
 
   const carouselUid = useMemo(() => uuid(), [images])
+
+  const { themeMode } = useThemeSwitcherContext()
 
   const calcScrollPos = () => {
     if (!stickyRef || !stickyRef.current) return 0
@@ -160,16 +164,37 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
             <Styled.CarouselNav>
               <InnerGrid>
                 <Styled.Arrow side="left" onClick={previousImage}>
-                  <img src={LeftArrowSVG} alt="Left arrow" />
+                  <img
+                    src={LeftArrowSVG}
+                    alt="Left arrow"
+                    style={{
+                      filter:
+                        themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
+                    }}
+                  />
                 </Styled.Arrow>
                 <Styled.ImageCount>
                   {currentImage + 1}/{images.length}
                 </Styled.ImageCount>
                 <Styled.Arrow side="right" onClick={nextImage}>
-                  <img src={RightArrowSVG} alt="Right arrow" />
+                  <img
+                    src={RightArrowSVG}
+                    alt="Right arrow"
+                    style={{
+                      filter:
+                        themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
+                    }}
+                  />
                 </Styled.Arrow>
                 <Styled.Expand onClick={() => setFullscreen(true)}>
-                  <img src={ExpandArrow} alt="Expand arrow" />
+                  <img
+                    src={ExpandArrow}
+                    alt="Expand arrow"
+                    style={{
+                      filter:
+                        themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
+                    }}
+                  />
                 </Styled.Expand>
               </InnerGrid>
             </Styled.CarouselNav>

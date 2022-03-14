@@ -11,6 +11,8 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
 import { GatsbyImage } from "gatsby-plugin-image"
+import { ThemeProvider } from "styled-components"
+import lightTheme from "~styles/theme"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
@@ -37,39 +39,43 @@ export const CaptionPortal: React.FC<PortalProps> = ({
   const ref = useRef<HTMLDivElement | null>(null)
 
   return ReactDOM.createPortal(
-    <Styled.CaptionContent
-      ref={ref}
-      as={motion.article}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      style={{ bottom: `${position}px` }}
-    >
-      <Styled.CaptionHeader as="div">
-        <ReactMarkdown
-          components={{ ...mdxComponents, p: Styled.CaptionHeader } as any}
-        >
-          {caption}
-        </ReactMarkdown>
-      </Styled.CaptionHeader>
-      <Styled.CloseBtn onClick={toggle}>
-        <img src={XSVG} alt="Close" />
-      </Styled.CloseBtn>
-      {typeof children === "string" ? (
-        <Styled.CaptionParagraph as="div" padded={!!children}>
+    <ThemeProvider theme={lightTheme}>
+      <Styled.CaptionContent
+        ref={ref}
+        as={motion.article}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        style={{ bottom: `${position}px` }}
+      >
+        <Styled.CaptionHeader as="div">
           <ReactMarkdown
-            components={{ ...mdxComponents, p: Styled.CaptionParagraph } as any}
+            components={{ ...mdxComponents, p: Styled.CaptionHeader } as any}
           >
-            {children}
+            {caption}
           </ReactMarkdown>
-        </Styled.CaptionParagraph>
-      ) : (
-        <Styled.CaptionParagraph padded={!!children}>
-          <MDXProvider components={mdxComponents}>{children}</MDXProvider>
-        </Styled.CaptionParagraph>
-      )}
-    </Styled.CaptionContent>,
+        </Styled.CaptionHeader>
+        <Styled.CloseBtn onClick={toggle}>
+          <img src={XSVG} alt="Close" />
+        </Styled.CloseBtn>
+        {typeof children === "string" ? (
+          <Styled.CaptionParagraph as="div" padded={!!children}>
+            <ReactMarkdown
+              components={
+                { ...mdxComponents, p: Styled.CaptionParagraph } as any
+              }
+            >
+              {children}
+            </ReactMarkdown>
+          </Styled.CaptionParagraph>
+        ) : (
+          <Styled.CaptionParagraph padded={!!children}>
+            <MDXProvider components={mdxComponents}>{children}</MDXProvider>
+          </Styled.CaptionParagraph>
+        )}
+      </Styled.CaptionContent>
+    </ThemeProvider>,
     target ?? document.body
   )
 }

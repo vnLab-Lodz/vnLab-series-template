@@ -8,6 +8,8 @@ import MiscTabs from "./misc-tabs"
 import ActiveTab from "./active-tab"
 import NextTab from "./next-tab"
 import { useTranslation } from "react-i18next"
+import lightTheme from "~styles/theme"
+import { ThemeProvider } from "styled-components"
 
 interface Props {
   currentPath: string
@@ -69,20 +71,22 @@ const NavMenuContent: React.FC<Props> = ({
           </Styled.Tabs>
           <ActiveTab navState={navState} />
           <NextTab navState={navState} setNavState={setNavState} />
-          <Styled.AnnotationsButton
-            onClick={() =>
-              navigate(
-                localizedPath({
-                  locale,
-                  prefixDefault,
-                  defaultLang,
-                  path: "/hypothesis_tutorial",
-                })
-              )
-            }
-          >
-            {t("nav-menu:how_to_annotate")}
-          </Styled.AnnotationsButton>
+          <ThemeProvider theme={lightTheme}>
+            <Styled.AnnotationsButton
+              onClick={() =>
+                navigate(
+                  localizedPath({
+                    locale,
+                    prefixDefault,
+                    defaultLang,
+                    path: "/hypothesis_tutorial",
+                  })
+                )
+              }
+            >
+              {t("nav-menu:how_to_annotate")}
+            </Styled.AnnotationsButton>
+          </ThemeProvider>
         </Styled.NavMenuContent>
       )}
     </AnimatePresence>
