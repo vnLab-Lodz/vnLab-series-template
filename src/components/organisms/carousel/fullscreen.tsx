@@ -77,10 +77,18 @@ const FullscreenPortal: React.FC<Props> = ({
       animate={{ opacity: 1 }}
     >
       <Styled.CloseBtn onClick={exitFullscreen}>
-        <img src={CloseSVG} alt="Close fullscreen icon" />
+        <img
+          src={CloseSVG}
+          alt="Close fullscreen icon"
+          className="sizeable-icon"
+        />
       </Styled.CloseBtn>
       <Styled.FullscreenArrow side="left" onClick={previousImage}>
-        <img src={LeftArrowSVG} alt="Left arrow" />
+        <img
+          src={LeftArrowSVG}
+          alt="Left arrow"
+          className="sizeable-icon sizeable-icon--small"
+        />
       </Styled.FullscreenArrow>
       <Styled.FullscreenSlider>
         <AnimatePresence initial={false} exitBeforeEnter>
@@ -103,7 +111,11 @@ const FullscreenPortal: React.FC<Props> = ({
         </AnimatePresence>
       </Styled.FullscreenSlider>
       <Styled.FullscreenArrow side="right" onClick={nextImage}>
-        <img src={RightArrowSVG} alt="Right arrow" />
+        <img
+          src={RightArrowSVG}
+          alt="Right arrow"
+          className="sizeable-icon sizeable-icon--small"
+        />
       </Styled.FullscreenArrow>
       <Styled.FullscreenCount>
         {currentImage + 1}/{images.length}
