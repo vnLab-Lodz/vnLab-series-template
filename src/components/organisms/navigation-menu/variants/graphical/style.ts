@@ -5,6 +5,7 @@ import * as Styled from "../../style"
 
 export const Nav = styled(Styled.Nav)`
   background: ${({ theme }) => theme.palette.black};
+  border: none;
 
   @media ${devices.tablet} {
     background: ${({ theme }) => theme.palette.white};
