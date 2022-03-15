@@ -173,7 +173,7 @@ const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
         {caption && (
           <GridConstraint>
             <Styled.Caption ref={captionRef}>
-              <Styled.CaptionText as="div">
+              <Styled.CaptionText as="div" centered={!isExpandShown()}>
                 <ReactMarkdown
                   components={
                     { ...mdxComponents, p: Styled.CaptionText } as any

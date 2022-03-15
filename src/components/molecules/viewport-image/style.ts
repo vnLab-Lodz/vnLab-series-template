@@ -73,8 +73,8 @@ export const ExpandCaptionBtn = styled.button`
   `}
 `
 
-export const CaptionText = styled(atoms.p)`
-  ${({ theme: { typography } }) => css`
+export const CaptionText = styled(atoms.p)<{ centered?: boolean }>`
+  ${({ theme: { typography }, centered }) => css`
     grid-column: 1 / -6;
     font-size: ${typography.sm};
     text-align: left;
@@ -82,6 +82,15 @@ export const CaptionText = styled(atoms.p)`
     @media ${devices.tablet} {
       font-size: calc(${typography.sm} * 1.4);
     }
+
+    ${centered &&
+    css`
+      grid-column: 1 / last-col;
+
+      & > p {
+        text-align: center;
+      }
+    `};
   `}
 `
 
