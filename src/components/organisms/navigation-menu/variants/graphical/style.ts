@@ -3,13 +3,19 @@ import styled, { css } from "styled-components"
 import { breakpoints, devices } from "~styles/breakpoints"
 import * as Styled from "../../style"
 
-export const Nav = styled(Styled.Nav)`
+export const Nav = styled(Styled.Nav)<{ open?: boolean }>`
   background: ${({ theme }) => theme.palette.black};
-  border: none;
 
   @media ${devices.tablet} {
     background: ${({ theme }) => theme.palette.white};
+    border-right: none;
     position: relative;
+
+    ${({ open, theme }) =>
+      open &&
+      css`
+        border-right: solid 1px ${theme.palette.black};
+      `};
   }
 `
 
