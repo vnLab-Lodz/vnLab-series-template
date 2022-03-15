@@ -30,8 +30,8 @@ export const lightTheme = {
 export const darkTheme = {
   ...lightTheme,
   palette: {
-    white: "rgba(34, 34, 34, 1)",
-    light: "rgba(51, 51, 51, 1)",
+    white: "rgba(27, 27, 27, 1)",
+    light: "rgba(34, 34, 34, 1)",
     medium: "rgba(188, 188, 188, 1)",
     dark: "rgba(248, 248, 248, 1)",
     black: "rgba(255, 255, 255, 1)",
