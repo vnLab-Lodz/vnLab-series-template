@@ -8,6 +8,8 @@ import useIsClient from "src/hooks/useIsClient"
 import useIsMobile from "src/hooks/useIsMobile"
 import { AnimatePresence, motion, useSpring, useTransform } from "framer-motion"
 import { useTheme } from "styled-components"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 
 //@ts-ignore
 import HypothesisIcon from "../../../images/icons/hypothesis.svg"
@@ -41,6 +43,8 @@ const HypothesisBtn: React.FC<Props> = ({
   const isMobile = useIsMobile()
   const { palette } = useTheme()
 
+  const { themeMode } = useThemeSwitcherContext()
+
   const invertFactor = useSpring(invert ? 0 : 1)
   const backgroundColor = useTransform(
     invertFactor,
@@ -54,8 +58,10 @@ const HypothesisBtn: React.FC<Props> = ({
   )
   const filter = useTransform(
     invertFactor,
-    [0, 1],
-    ["brightness(0)", "brightness(10)"]
+    themeMode !== THEME_MODES.DARK ? [0, 1] : [0, 1],
+    themeMode !== THEME_MODES.DARK
+      ? ["brightness(0)", "brightness(10)"]
+      : ["brightness(10)", "brightness(0)"]
   )
 
   useEffect(() => {
@@ -109,7 +115,11 @@ const HypothesisBtn: React.FC<Props> = ({
       <AnimatePresence initial={false} exitBeforeEnter>
         <motion.img
           key={invert ? "inverted-icon" : "normal-icon"}
-          src={invert ? HypothesisIconInvert : HypothesisIcon}
+          src={
+            invert || themeMode === THEME_MODES.DARK
+              ? HypothesisIconInvert
+              : HypothesisIcon
+          }
           alt="Hypothesis Icon"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
