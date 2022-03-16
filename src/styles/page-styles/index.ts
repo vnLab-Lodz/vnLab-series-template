@@ -184,7 +184,15 @@ export const BiogramLink = styled(LocalizedLink)`
 `
 
 export const WrappedEdition = styled(Edition)`
-  margin-top: ${({ theme }) => theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing.md};
+
+  ${atoms.p} {
+    font-size: ${({ theme }) => theme.typography.sm};
+  }
+
+  button {
+    font-size: ${({ theme }) => theme.typography.sm};
+  }
 
   filter: brightness(10);
   grid-column: 2 / last-col;
