@@ -5,10 +5,20 @@ import { devices } from "~styles/breakpoints"
 
 export const ElementWrapper = styled.article`
   flex: 1;
+  position: relative;
 
-  ${({ theme: { spacing, palette } }) => css`
+  &:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 1px;
+    background: ${({ theme }) => theme.palette.black};
+  }
+
+  ${({ theme: { spacing } }) => css`
     padding: ${spacing.md};
-    outline: 1px solid ${palette.dark};
     min-width: 100%;
     width: 100%;
     max-width: 100%;

@@ -5,13 +5,15 @@ import { GridContainer } from "~styles/grid"
 import { StaticImage } from "gatsby-plugin-image"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import { PageProps } from "gatsby"
-import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
+import { useLocalization } from "gatsby-theme-i18n"
 import useHypothesis from "src/hooks/useHypothesis"
 import { useEffect } from "react"
 import * as Styled from "../styles/page-styles/index"
 import useIsMobile from "src/hooks/useIsMobile"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 
 //@ts-ignore
 import Logo from "../images/icons/vnlab_logo.svg"
@@ -33,9 +35,13 @@ const titleSVG = {
 
 const NavMenuToggle: React.FC = () => {
   const { toggleNav } = useNavMenuContext()
+  const { themeMode } = useThemeSwitcherContext()
 
   return (
-    <Styled.NavBtn onClick={() => setTimeout(() => toggleNav(), 180)}>
+    <Styled.NavBtn
+      onClick={() => setTimeout(() => toggleNav(), 180)}
+      style={{ filter: themeMode === THEME_MODES.DARK ? "invert(1)" : "none" }}
+    >
       <img
         className="sizeable-icon"
         src={HamburgerSVG}
@@ -50,6 +56,8 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
   const ref = useRef<HTMLDivElement | null>(null)
+
+  const { themeMode } = useThemeSwitcherContext()
 
   const isMobile = useIsMobile(() => {
     const scrollbarWidth = window.innerWidth - document.body.clientWidth
@@ -102,8 +110,8 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
             </Styled.Header>
           )}
           <Styled.Center>
-            <Styled.LogoImg src={Logo} alt="vnlab logo" />
-            <Styled.Title src={title} alt="Title" />
+            <Styled.LogoImg src={Logo} alt="vnlab logo" themeMode={themeMode} />
+            <Styled.Title src={title} alt="Title" themeMode={themeMode} />
             <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
             <Styled.Author type="primary">
               <Styled.BiogramLink
@@ -119,7 +127,11 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
           <Styled.TocButton onClick={scrollToToC}>
             <Styled.TocBtnContent>
               <Styled.TocBtnText>{t("home:toc")}</Styled.TocBtnText>
-              <Styled.ArrowDownImg src={ArrowDownSVG} alt="Arrow down" />
+              <Styled.ArrowDownImg
+                src={ArrowDownSVG}
+                alt="Arrow down"
+                themeMode={themeMode}
+              />
             </Styled.TocBtnContent>
           </Styled.TocButton>
         </Styled.ContentWrapper>

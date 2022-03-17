@@ -36,6 +36,7 @@ interface Props {
   noBibliography?: boolean
   className?: string
   menus?: MENUS[]
+  onStateChange?: (state: MENU_STATE) => void
 }
 
 enum MENU_STATE {
@@ -45,6 +46,8 @@ enum MENU_STATE {
   ANNOTATIONS,
   BIBLIOGRAPHY,
 }
+
+export { MENU_STATE as ARTICLE_MENU_STATE }
 
 const BibliographyButton: React.FC<{
   menuState: MENU_STATE
@@ -70,6 +73,7 @@ const BibliographyButton: React.FC<{
 const ArticleMenu: React.FC<Props> = ({
   currentPath,
   noBibliography,
+  onStateChange,
   className,
   menus,
   spaced,
@@ -100,7 +104,11 @@ const ArticleMenu: React.FC<Props> = ({
   const { annotations } = useContext(AnnotationContext)
 
   const setState = (value: MENU_STATE) => {
-    setMenuState(prev => (prev === value ? MENU_STATE.CLOSED : value))
+    setMenuState(prev => {
+      const newState = prev === value ? MENU_STATE.CLOSED : value
+      onStateChange?.(newState)
+      return newState
+    })
   }
 
   const closeMenu = (callback?: () => void) => {

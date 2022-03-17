@@ -26,7 +26,7 @@ export const Aside = styled(GridContainer)<{ open?: boolean }>`
 
 export const Nav = styled.nav<{ mode: NAV_MODES }>`
   ${({ mode, theme: { palette } }) => css`
-    background: ${mode === NAV_MODES.LIGHT ? palette.white : palette.black};
+    background: ${mode !== NAV_MODES.DARK ? palette.white : palette.black};
     display: flex;
     align-items: center;
     pointer-events: all;
@@ -43,7 +43,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
       height: -webkit-fill-available;
       border-bottom: none;
       border-right: solid 1px
-        ${mode === NAV_MODES.LIGHT ? palette.black : palette.white};
+        ${mode !== NAV_MODES.DARK ? palette.black : palette.white};
       padding: 0px;
       grid-column: 1 / 4;
       flex-direction: column;
@@ -262,7 +262,8 @@ export const TabButton = styled.button<{ small?: boolean }>`
   }
 
   @media ${devices.desktop} {
-    padding: 0px;
+    padding: ${({ theme: { spacing } }) => `0px ${spacing.xxs}`};
+    align-self: center;
   }
 `
 

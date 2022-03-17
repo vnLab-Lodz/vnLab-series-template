@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import atoms from "~components/atoms"
-import { devices } from "~styles/breakpoints"
 
 export const EditionWrapper = styled.div`
   margin-bottom: ${({ theme: { spacing } }) => spacing.sm};

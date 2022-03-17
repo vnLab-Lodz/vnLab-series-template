@@ -6,6 +6,8 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
 import { AnimatePresence, motion } from "framer-motion"
+import { ThemeProvider } from "styled-components"
+import lightTheme from "~styles/theme"
 
 //@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
@@ -27,22 +29,24 @@ const AnnotationPortal: React.FC<PortalProps> = ({
   toggle,
 }) => {
   return ReactDOM.createPortal(
-    <Styled.AnnotationContent
-      as={motion.article}
-      style={{ top: `${position}px` }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-    >
-      <Styled.CloseBtn onClick={toggle}>
-        <img src={XSVG} alt="Close" />
-      </Styled.CloseBtn>
-      <Styled.AnnotationNumber>{index}</Styled.AnnotationNumber>
-      <Styled.AnnotationParagraph as="div">
-        {children}
-      </Styled.AnnotationParagraph>
-    </Styled.AnnotationContent>,
+    <ThemeProvider theme={lightTheme}>
+      <Styled.AnnotationContent
+        as={motion.article}
+        style={{ top: `${position}px` }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
+        <Styled.CloseBtn onClick={toggle}>
+          <img src={XSVG} alt="Close" />
+        </Styled.CloseBtn>
+        <Styled.AnnotationNumber>{index}</Styled.AnnotationNumber>
+        <Styled.AnnotationParagraph as="div">
+          {children}
+        </Styled.AnnotationParagraph>
+      </Styled.AnnotationContent>
+    </ThemeProvider>,
     document.body
   )
 }

@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
-import Layout from "~components/organisms/layout"
-import ArticleMenu from "~components/organisms/article-menu"
-import styled from "styled-components"
+import ArticleMenu, {
+  ARTICLE_MENU_STATE,
+} from "~components/organisms/article-menu"
+import styled, { ThemeProvider } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
@@ -16,7 +17,11 @@ import { devices } from "~styles/breakpoints"
 import { mdxComponents } from "./chapter"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import { MENUS } from "~types"
-import { GridConstraint, GridContainer } from "~styles/grid"
+import { GridContainer } from "~styles/grid"
+import lightTheme from "~styles/theme"
+import { ButtonText } from "../components/organisms/article-menu/style"
+import { THEME_MODES } from "src/context/theme-switcher-context"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 
 interface Data {
   mdx: {
@@ -51,12 +56,33 @@ const StyledArticle = styled.article`
   background: ${({ theme: { palette } }) => palette.quaternary};
 `
 
-const StyledArticleMenu = styled(ArticleMenu)`
+const StyledArticleMenu = styled(ArticleMenu)<{
+  open: boolean
+  themeMode: THEME_MODES
+}>`
   background-color: ${({ theme }) => theme.palette.quaternary};
+
+  ${ButtonText} {
+    color: ${({ open, themeMode, theme }) =>
+      !open && themeMode === THEME_MODES.DARK
+        ? "rgb(31, 31, 31)"
+        : theme.palette.black};
+  }
+
+  .character-arrow {
+    color: ${({ open, themeMode, theme }) =>
+      !open && themeMode === THEME_MODES.DARK
+        ? "rgb(31, 31, 31)"
+        : theme.palette.black};
+  }
 `
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
+  const [articleMenuState, setArticleMenuState] = useState<ARTICLE_MENU_STATE>(
+    ARTICLE_MENU_STATE.CLOSED
+  )
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
+  const { themeMode } = useThemeSwitcherContext()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -81,20 +107,25 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             spaced={!headerImage}
             currentPath={location.pathname}
             menus={menus}
+            themeMode={themeMode}
+            open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
+            onStateChange={setArticleMenuState}
           />
-          <StyledArticle>
-            <StyledLayout flexible className="mdx-section">
-              <MDXProvider components={mdxComponents}>
-                <SeoMeta title={title} />
-                <MDXRenderer
-                  frontmatter={mdx.frontmatter}
-                  localImages={embeddedImagesLocal}
-                >
-                  {mdx.body}
-                </MDXRenderer>
-              </MDXProvider>
-            </StyledLayout>
-          </StyledArticle>
+          <ThemeProvider theme={lightTheme}>
+            <StyledArticle>
+              <StyledLayout flexible className="mdx-section">
+                <MDXProvider components={mdxComponents}>
+                  <SeoMeta title={title} />
+                  <MDXRenderer
+                    frontmatter={mdx.frontmatter}
+                    localImages={embeddedImagesLocal}
+                  >
+                    {mdx.body}
+                  </MDXRenderer>
+                </MDXProvider>
+              </StyledLayout>
+            </StyledArticle>
+          </ThemeProvider>
         </ImagesProvider>
       </AnnotationProvider>
     </NavMenuProvider>

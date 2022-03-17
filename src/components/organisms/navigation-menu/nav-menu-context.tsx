@@ -3,11 +3,12 @@ import React, { createContext, useState } from "react"
 export enum NAV_MODES {
   LIGHT,
   DARK,
+  PERMANENT,
 }
 
 interface Context {
   navMode: NAV_MODES
-  setNavMode: (mode: NAV_MODES) => void
+  setNavMode: React.Dispatch<React.SetStateAction<NAV_MODES>>
   toggleNav: () => void
   setToggleNav: React.Dispatch<React.SetStateAction<() => void>>
   isVisible: boolean
@@ -28,13 +29,11 @@ const NavMenuProvider: React.FC<NavMenuProviderProps> = ({
   const [isVisible, setIsVisible] = useState(true)
   const [toggleNav, setToggleNav] = useState<() => void>(() => {})
 
-  const setNavMode = (mode: NAV_MODES) => setMode(mode)
-
   return (
     <NavMenuContext.Provider
       value={{
         navMode: mode,
-        setNavMode,
+        setNavMode: setMode,
         toggleNav,
         setToggleNav,
         isVisible,

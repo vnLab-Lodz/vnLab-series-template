@@ -180,7 +180,7 @@ export const ImageCaption = styled(atoms.p)`
 export const Fullscreen = styled(GridContainer)`
   ${({ theme: { palette, spacing } }) => css`
     position: fixed;
-    background: ${palette.black};
+    background: ${palette.white};
     top: 0;
     bottom: 0;
     left: 0;
@@ -222,7 +222,7 @@ export const CloseBtn = styled.button`
 `
 
 export const FullscreenCount = styled(ImageCount)`
-  color: ${({ theme }) => theme.palette.white};
+  color: ${({ theme }) => theme.palette.black};
   grid-row: 3;
 
   @media ${devices.tablet} {
@@ -236,7 +236,7 @@ export const FullscreenCount = styled(ImageCount)`
 
 export const FullscreenCaption = styled(atoms.p)`
   ${({ theme: { palette, typography } }) => css`
-    color: ${palette.white};
+    color: ${palette.black};
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     grid-row: 3;

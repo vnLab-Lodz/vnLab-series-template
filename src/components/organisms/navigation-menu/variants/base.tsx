@@ -7,6 +7,8 @@ import { AnimatePresence, motion } from "framer-motion"
 import MiscTabs from "../components/misc-tabs"
 import NavMenuContent from "../components/content"
 import enhance, { NavVariantProps } from "../enhance"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
 
 //@ts-ignore
 import HamburgerSVG from "../../../../images/icons/hamburger.svg"
@@ -16,13 +18,6 @@ import CloseSVG from "../../../../images/icons/x.svg"
 import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
 //@ts-ignore
 import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
-
-interface Props {
-  currentPath: string
-  reduced?: boolean
-  ignoreHypothesis?: boolean
-  independentHiding?: boolean
-}
 
 const NavigationMenu: React.FC<NavVariantProps> = ({
   currentPath,
@@ -36,6 +31,14 @@ const NavigationMenu: React.FC<NavVariantProps> = ({
   const { locale } = useLocalization()
   const { t } = useTranslation(["common", "nav-menu"])
   const { isVisible, navMode } = useNavMenuContext()
+  const { themeMode } = useThemeSwitcherContext()
+
+  const getCloseIconFilter = () => {
+    if (themeMode === THEME_MODES.DARK && open) return "invert(0)"
+    else if (themeMode === THEME_MODES.LIGHT && open) return "invert(1)"
+
+    return themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
+  }
 
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
@@ -63,6 +66,7 @@ const NavigationMenu: React.FC<NavVariantProps> = ({
                 className="sizeable-icon"
                 src={open ? CloseSVG : HamburgerSVG}
                 alt="Toggle Menu Button"
+                style={{ filter: getCloseIconFilter() }}
               />
             </Styled.ToggleBtn>
             {!reduced ? (
@@ -77,7 +81,13 @@ const NavigationMenu: React.FC<NavVariantProps> = ({
               />
             )}
 
-            <Styled.Logo src={VnlabLogo} alt="vnLab logo" />
+            <Styled.Logo
+              src={VnlabLogo}
+              alt="vnLab logo"
+              style={{
+                filter: themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
+              }}
+            />
           </Styled.Nav>
           <NavMenuContent
             open={open}

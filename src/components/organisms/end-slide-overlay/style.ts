@@ -41,6 +41,10 @@ export const NextChapter = styled(FooterElement)`
   justify-content: center;
   flex-direction: column;
 
+  ::before {
+    display: none;
+  }
+
   ${SummaryButton} {
     text-align: left;
   }

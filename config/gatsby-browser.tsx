@@ -1,21 +1,31 @@
 import { WrapRootElementNodeArgs } from "gatsby"
 import { ThemeProvider } from "styled-components"
-import theme from "../src/styles/theme"
+import { darkTheme, lightTheme } from "../src/styles/theme"
 import React from "react"
 import { Globals } from "../src/styles/globals"
 import HypothesisManager from "~components/organisms/hypothesis-manager"
 import ScrollContextProvider from "src/context/scroll-context"
 import HypothesisContextProvider from "src/context/hypothesis-context"
+import {
+  ThemeSwitcherProvider,
+  THEME_MODES,
+} from "src/context/theme-switcher-context"
 
 export const wrapRootElement = ({ element }: WrapRootElementNodeArgs) => (
-  <ThemeProvider theme={theme}>
-    <HypothesisContextProvider>
-      <HypothesisManager>
-        <ScrollContextProvider>
-          <Globals />
-          {element}
-        </ScrollContextProvider>
-      </HypothesisManager>
-    </HypothesisContextProvider>
-  </ThemeProvider>
+  <ThemeSwitcherProvider>
+    {({ themeMode }: { themeMode: THEME_MODES }) => (
+      <ThemeProvider
+        theme={themeMode === THEME_MODES.LIGHT ? lightTheme : darkTheme}
+      >
+        <HypothesisContextProvider>
+          <HypothesisManager>
+            <ScrollContextProvider>
+              <Globals />
+              {element}
+            </ScrollContextProvider>
+          </HypothesisManager>
+        </HypothesisContextProvider>
+      </ThemeProvider>
+    )}
+  </ThemeSwitcherProvider>
 )

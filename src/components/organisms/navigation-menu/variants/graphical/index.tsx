@@ -120,7 +120,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
 
   return (
     <Styled.Aside noConstraint open={open}>
-      <GraphicallyStyled.Nav mode={NAV_MODES.LIGHT} id="menu-nav">
+      <GraphicallyStyled.Nav mode={NAV_MODES.LIGHT} open={open} id="menu-nav">
         <GraphicallyStyled.BaseContainer>
           <GraphicallyStyled.ToggleBtn
             as={motion.button}
