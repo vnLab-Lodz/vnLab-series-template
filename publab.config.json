@@ -1,0 +1,22 @@
+{
+  "id": "d82d2974-f4ff-4231-9082-ba6b0f504e8d",
+  "collaborators": [
+    {
+      "id": "2d740a21-12ed-4389-bde2-175f8f22e752",
+      "githubUsername": "karczewskiPiotr",
+      "role": "developer"
+    },
+    {
+      "id": "e800838d-aabd-4680-9f91-a5c0d70faf72",
+      "githubUsername": "tszabelski",
+      "role": "editor"
+    }
+  ],
+  "description": "This is a second test project wuja.",
+  "name": "Archiwum jako projekt",
+  "packageManager": "npm",
+  "useSass": true,
+  "useTypescript": true,
+  "creationDate": 1648729313575,
+  "tags": ["vnLab"]
+}
