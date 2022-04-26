@@ -53,7 +53,7 @@ const FooterElement: React.FC<Props> = ({
         exit={{ opacity: 0 }}
       >
         <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
-        <Styled.ArticleNumber>{number}</Styled.ArticleNumber>
+        <Styled.ArticleNumber>{number?.toFixed(2)}</Styled.ArticleNumber>
         <Styled.ArticleTitle to={path}>
           <atoms.p>
             <ReactMarkdown components={{ ...mdxComponents } as any}>

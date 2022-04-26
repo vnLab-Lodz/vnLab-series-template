@@ -31,11 +31,13 @@ const TocElement: React.FC<Props> = ({ page, last, current, hideDivider }) => {
 
   const isDividerVisible = getDividerVisibility()
 
+  const chapter = getChapterFromIndex(page.index ?? 0)
+
   return (
     <Styled.TocContainer highlighted={current}>
-      <Styled.ArticleNumber>
-        {getChapterFromIndex(page.index ?? 0)}
-      </Styled.ArticleNumber>
+      {chapter !== "00" && (
+        <Styled.ArticleNumber>{chapter}</Styled.ArticleNumber>
+      )}
       <Styled.ArticleTitle to={page.path} language={locale}>
         <ReactMarkdown components={mdxComponents as any}>
           {page.title}
