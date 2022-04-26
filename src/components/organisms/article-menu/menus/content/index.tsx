@@ -33,7 +33,7 @@ const Content: React.FC<Props> = ({ contents, closeMenu }) => {
               )
             }}
           >
-            {level === "h1" ? t("introduction") : text}
+            {text}
           </Component>
         )
       })}
