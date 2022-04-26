@@ -82,6 +82,14 @@ const FullscreenPortal: React.FC<Props> = ({
 
   const aspectRatio = `${image.width}/${image.height}`
 
+  const shouldDisplayButton = (variant: "left" | "right") => {
+    if (variant === "left") {
+      return currentImage > 0
+    } else {
+      return currentImage < images.length - 1
+    }
+  }
+
   return ReactDOM.createPortal(
     <Styled.Fullscreen
       noConstraint
@@ -96,13 +104,15 @@ const FullscreenPortal: React.FC<Props> = ({
           className="sizeable-icon"
         />
       </Styled.CloseBtn>
-      <Styled.FullscreenArrow side="left" onClick={previousImage}>
-        <img
-          src={LeftArrowSVG}
-          alt="Left arrow"
-          className="sizeable-icon sizeable-icon--small"
-        />
-      </Styled.FullscreenArrow>
+      {shouldDisplayButton("left") && (
+        <Styled.FullscreenArrow side="left" onClick={previousImage}>
+          <img
+            src={LeftArrowSVG}
+            alt="Left arrow"
+            className="sizeable-icon sizeable-icon--small"
+          />
+        </Styled.FullscreenArrow>
+      )}
       <Styled.FullscreenSlider>
         <AnimatePresence initial={false} exitBeforeEnter>
           <Styled.SliderImage
@@ -123,13 +133,15 @@ const FullscreenPortal: React.FC<Props> = ({
           </Styled.SliderImage>
         </AnimatePresence>
       </Styled.FullscreenSlider>
-      <Styled.FullscreenArrow side="right" onClick={nextImage}>
-        <img
-          src={RightArrowSVG}
-          alt="Right arrow"
-          className="sizeable-icon sizeable-icon--small"
-        />
-      </Styled.FullscreenArrow>
+      {shouldDisplayButton("right") && (
+        <Styled.FullscreenArrow side="right" onClick={nextImage}>
+          <img
+            src={RightArrowSVG}
+            alt="Right arrow"
+            className="sizeable-icon sizeable-icon--small"
+          />
+        </Styled.FullscreenArrow>
+      )}
       <Styled.FullscreenCount>
         {currentImage + 1}/{images.length}
       </Styled.FullscreenCount>

@@ -198,10 +198,10 @@ export const Fullscreen = styled(GridContainer)`
 export const FullscreenArrow = styled(Arrow)`
   filter: brightness(10);
   grid-row: 2;
-  grid-column: ${({ side }) => (side === "left" ? "2 / 3" : "-2 / last-col")};
+  grid-column: ${({ side }) => (side === "left" ? "2 / 4" : "-2 / last-col")};
 
   @media ${devices.tablet} {
-    grid-column: ${({ side }) => (side === "left" ? "4 / 5" : "-3 / last-col")};
+    grid-column: ${({ side }) => (side === "left" ? "4 / 6" : "-3 / last-col")};
   }
 
   @media ${devices.laptop} {
@@ -261,11 +261,11 @@ export const FullscreenSlider = styled(Slider)`
   overflow: hidden;
 
   @media ${devices.tablet} {
-    grid-column: 5 / -3;
+    grid-column: 6 / -3;
   }
 
   @media ${devices.laptop} {
-    grid-column: 7 / -5;
+    grid-column: 5 / 31;
   }
 `
 

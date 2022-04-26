@@ -19,6 +19,7 @@ import { useAnimation } from "framer-motion"
 import useIsClient from "src/hooks/useIsClient"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
+import useScrollDistance from "src/hooks/useScrollDistance"
 import * as Styled from "./style"
 
 //@ts-ignore
@@ -92,19 +93,31 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
     const left = getImagePosition(index)
 
-    ref.current.scrollTo({ left, behavior: "smooth" })
+    ref.current.scrollTo({ left, behavior: fullscreen ? undefined : "smooth" })
   }
 
-  const onScroll: React.UIEventHandler<HTMLDivElement> = e => {
-    if (!ref.current) return
+  const onScroll = useScrollDistance(
+    () => {
+      console.log(ref.current)
 
-    const { scrollLeft } = e.currentTarget
-    const imgPosition = getImagePosition(currentImage)
-    const distance = imgPosition - scrollLeft
+      if (!ref.current) return
 
-    if (distance > 300) setCurrentImage(getPrevIndex())
-    else if (distance < -300) setCurrentImage(getNextIndex())
-  }
+      const { scrollLeft } = ref.current
+      console.log(scrollLeft)
+
+      const imgPosition = getImagePosition(currentImage)
+      console.log(imgPosition)
+
+      const distance = imgPosition - scrollLeft
+
+      console.log(distance)
+
+      if (distance > 300) setCurrentImage(getPrevIndex())
+      else if (distance < -300) setCurrentImage(getNextIndex())
+    },
+    66,
+    "x"
+  )
 
   const onImgClick = useCallback(
     () => !isMobile && setFullscreen(true),
@@ -143,6 +156,11 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
     controls.start({ marginBottom, transition: { duration, ease: "easeIn" } })
   }, [sticky])
+
+  // useEffect(() => {
+  //   const removeListener = createScrollStopListener(ref.current, onScroll)
+  //   return () => removeListener()
+  // }, [ref, onScroll])
 
   return (
     <React.Fragment key={key}>
