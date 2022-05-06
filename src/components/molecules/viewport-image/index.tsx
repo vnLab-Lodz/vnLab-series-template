@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react"
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  PropsWithChildren,
+} from "react"
 import { ImagesContext } from "src/context/illustrations-context"
 import ReactDOM from "react-dom"
 import { getImage, IGatsbyImageData } from "gatsby-plugin-image"
@@ -29,7 +35,7 @@ interface PortalProps {
   target?: HTMLElement
 }
 
-export const CaptionPortal: React.FC<PortalProps> = ({
+export const CaptionPortal: React.FC<PropsWithChildren<PortalProps>> = ({
   children,
   position,
   toggle,
@@ -80,7 +86,11 @@ export const CaptionPortal: React.FC<PortalProps> = ({
   )
 }
 
-const ViewportImage: React.FC<Props> = ({ image, children, caption }) => {
+const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
+  image,
+  children,
+  caption,
+}) => {
   const captionRef = useRef<HTMLDivElement | null>(null)
   const ref = useRef<HTMLDivElement | null>(null)
   const stickyRef = useRef<HTMLDivElement | null>(null)

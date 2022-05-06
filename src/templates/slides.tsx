@@ -154,7 +154,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     [deck.current, isOverlayVisible]
   )
 
-  const fullscreenBinding = useCallback(e => {
+  const fullscreenBinding = useCallback((e: Event) => {
     if (!!e.preventDefault) e.preventDefault()
     if (isSafari() || !screenfull.isEnabled) return
 

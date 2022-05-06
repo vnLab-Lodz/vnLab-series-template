@@ -1,4 +1,4 @@
-import React from "react"
+import React, { PropsWithChildren } from "react"
 import { SwipeableHandlers, useSwipeable } from "react-swipeable"
 import { useTheme } from "styled-components"
 
@@ -8,7 +8,7 @@ interface Props {
   swipeHandlers?: SwipeableHandlers
 }
 
-const Slide: React.FC<Props> = ({
+const Slide: React.FC<PropsWithChildren<Props>> = ({
   children,
   background,
   swipeHandlers,

@@ -1,6 +1,6 @@
 import { graphql, PageProps } from "gatsby"
 import { useLocalization } from "gatsby-theme-i18n"
-import React, { useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import { PublicationPage } from "src/hooks/usePublication"
 import { ThemeProvider } from "styled-components"
 import NavigationMenu from "~components/organisms/navigation-menu"

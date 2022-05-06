@@ -5,7 +5,7 @@ export default function <T = any>(
     distance: number,
     start: number,
     end: number,
-    e: React.UIEvent<T, UIEvent>
+    e: T extends Element ? React.UIEvent<T, UIEvent> : Event
   ) => void,
   refresh?: number,
   axis: "x" | "y" = "y"
@@ -22,7 +22,7 @@ export default function <T = any>(
     []
   )
 
-  return (e: React.UIEvent<T, UIEvent>) => {
+  return (e: T extends Element ? React.UIEvent<T, UIEvent> : Event) => {
     if (!!!start.current) {
       start.current = axis === "y" ? window.scrollY : window.scrollX
     }

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, PropsWithChildren, useState } from "react"
 
 export enum NAV_MODES {
   LIGHT,
@@ -17,7 +17,7 @@ interface Context {
 
 export const NavMenuContext = createContext<Context | undefined>(undefined)
 
-interface NavMenuProviderProps {
+interface NavMenuProviderProps extends PropsWithChildren<unknown> {
   defaultMode?: NAV_MODES
 }
 

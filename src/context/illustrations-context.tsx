@@ -1,5 +1,5 @@
+import React, { createContext, useState, PropsWithChildren } from "react"
 import { IGatsbyImageData } from "gatsby-plugin-image"
-import React, { createContext, useState } from "react"
 
 export interface Image {
   imageData: IGatsbyImageData
@@ -25,7 +25,10 @@ export const ImagesContext = createContext<Context>({
   addImage: (_image, _position) => {},
 })
 
-const ImagesProvider: React.FC<Props> = ({ children, initialImages = [] }) => {
+const ImagesProvider: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  initialImages = [],
+}) => {
   const [images, setImages] = useState<Image[]>(initialImages)
 
   const addImage = (

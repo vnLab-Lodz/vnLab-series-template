@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, PropsWithChildren } from "react"
 
 export enum THEME_MODES {
   LIGHT = "light",
@@ -15,12 +15,14 @@ export type ThemeSwitcherContextType =
 export const ThemeSwitcherContext =
   createContext<ThemeSwitcherContextType>(undefined)
 
-interface Component extends React.FC {
-  children?: (props: {
-    themeMode: THEME_MODES
-    setThemeMode: React.Dispatch<React.SetStateAction<THEME_MODES>>
-  }) => React.ReactNode
-}
+type Component = React.FC<{
+  children?:
+    | ((props: {
+        themeMode: THEME_MODES
+        setThemeMode: React.Dispatch<React.SetStateAction<THEME_MODES>>
+      }) => React.ReactNode)
+    | React.ReactNode
+}>
 
 export const ThemeSwitcherProvider: Component = ({ children }) => {
   const [themeMode, setThemeMode] = useState(THEME_MODES.LIGHT)

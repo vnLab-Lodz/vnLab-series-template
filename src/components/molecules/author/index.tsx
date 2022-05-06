@@ -1,12 +1,12 @@
+import React, { PropsWithChildren } from "react"
 import { useLocalization } from "gatsby-theme-i18n"
-import React from "react"
 import * as Styled from "./style"
 
 interface Props {
   link?: string
 }
 
-const Author: React.FC<Props> = ({ children, link }) => {
+const Author: React.FC<PropsWithChildren<Props>> = ({ children, link }) => {
   const { locale } = useLocalization()
 
   return (

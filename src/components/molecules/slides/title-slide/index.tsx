@@ -1,4 +1,4 @@
-import React from "react"
+import React, { PropsWithChildren } from "react"
 import ReactMarkdown from "react-markdown"
 import { slidesMdxComponents } from "src/templates/slides"
 import Slide from "../slide"
@@ -8,7 +8,10 @@ interface Props {
   background?: string
 }
 
-const TitleSlide: React.FC<Props> = ({ children, background }) => (
+const TitleSlide: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  background,
+}) => (
   <Slide background={background}>
     <Styled.TextContainer>
       {typeof children === "string" ? (

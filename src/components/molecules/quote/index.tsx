@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react"
+import React, { CSSProperties, PropsWithChildren } from "react"
 import * as Styled from "./style"
 
 interface Props {
@@ -6,7 +6,11 @@ interface Props {
   author?: string
 }
 
-const Quote: React.FC<Props> = ({ children, author, style }) => {
+const Quote: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  author,
+  style,
+}) => {
   return (
     <Styled.QuoteContainer style={style}>
       <Styled.QuoteText>{children}</Styled.QuoteText>

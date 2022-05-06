@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useState, PropsWithChildren } from "react"
 
 interface Context {
   isPaused: boolean
@@ -7,7 +7,9 @@ interface Context {
 
 export const ScrollContext = createContext<Context | undefined>(undefined)
 
-const ScrollContextProvider: React.FC = ({ children }) => {
+const ScrollContextProvider: React.FC<PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const [isPaused, setIsPaused] = useState(false)
 
   return (

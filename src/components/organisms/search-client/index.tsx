@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, ComponentType } from "react"
 import SearchInput from "~components/molecules/search-input"
 import * as JsSearch from "js-search"
 import { WithTranslation, withTranslation } from "react-i18next"
@@ -69,7 +69,10 @@ class SearchClient extends Component<Props, State> {
     tab: SEARCH_TABS.EVERYWHERE,
   }
 
-  static getDerivedStateFromProps(nextProps: Props, prevState: State) {
+  static getDerivedStateFromProps(
+    nextProps: Readonly<Props>,
+    prevState: Readonly<State>
+  ) {
     if (prevState.search !== undefined) return null
 
     const { engine } = nextProps

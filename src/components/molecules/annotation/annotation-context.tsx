@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, PropsWithChildren, useState } from "react"
 
 export interface Annotation {
   target: string
@@ -23,7 +23,9 @@ export const AnnotationContext = createContext<Context>({
   addAnnotation: (_t, _a) => {},
 })
 
-const AnnotationProvider: React.FC = ({ children }) => {
+const AnnotationProvider: React.FC<PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const [annotations, setAnnotations] = useState<Annotation[]>([])
 
   const addAnnotation = (

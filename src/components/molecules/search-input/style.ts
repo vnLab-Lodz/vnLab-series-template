@@ -2,21 +2,21 @@ import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
 export const Form = styled.form`
-display: grid;
-height: fit-content;
-grid-column: 1 /last-col;
-grid-template-columns: repeat(16, 1fr);
-margin-top: 66.5px;
+  display: grid;
+  height: fit-content;
+  grid-column: 1 / last-col;
+  grid-template-columns: repeat(16, 1fr);
+  margin-top: 66.5px;
 
-@media ${devices.tablet} {
-  margin-top: ${({ theme }) => theme.spacing.sm};
-  grid-column 7 / -3;
-  grid-template-columns: repeat(14, 1fr)
-}
+  @media ${devices.tablet} {
+    margin-top: ${({ theme }) => theme.spacing.sm};
+    grid-column: 7 / -3;
+    grid-template-columns: repeat(14, 1fr);
+  }
 
-@media ${devices.laptop} {
-  grid-column 5 / 16;
-  grid-template-columns: repeat(12, 1fr)
+  @media ${devices.laptop} {
+    grid-column: 5 / 16;
+    grid-template-columns: repeat(12, 1fr);
   }
 `
 

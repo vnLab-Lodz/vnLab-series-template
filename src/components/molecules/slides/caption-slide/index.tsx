@@ -1,5 +1,5 @@
+import React, { useEffect, useRef, useState, PropsWithChildren } from "react"
 import { AnimatePresence } from "framer-motion"
-import React, { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
@@ -20,7 +20,7 @@ interface Props extends CaptionProps {
 
 const components = { ...mdxComponents, p: Styled.CaptionParagraph } as any
 
-const CaptionSlide: React.FC<Props> = ({
+const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
   extendedCaption,
   disableSwipe,
   background,

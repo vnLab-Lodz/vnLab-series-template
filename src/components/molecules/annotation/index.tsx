@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState, useContext } from "react"
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+  PropsWithChildren,
+} from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
 import { AnnotationContext } from "./annotation-context"
@@ -22,7 +28,7 @@ interface PortalProps {
   toggle: () => void
 }
 
-const AnnotationPortal: React.FC<PortalProps> = ({
+const AnnotationPortal: React.FC<PropsWithChildren<PortalProps>> = ({
   index,
   children,
   position,
@@ -51,7 +57,10 @@ const AnnotationPortal: React.FC<PortalProps> = ({
   )
 }
 
-const Annotation: React.FC<Props> = ({ target, children }) => {
+const Annotation: React.FC<PropsWithChildren<Props>> = ({
+  target,
+  children,
+}) => {
   const [open, setOpen] = useState(false)
   const [position, setPosition] = useState<number | undefined>(undefined)
   const ref = useRef<HTMLSpanElement | null>(null)

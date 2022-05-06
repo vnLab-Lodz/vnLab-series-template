@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, PropsWithChildren } from "react"
 import { useElementScroll } from "framer-motion"
 import ReactMarkdown from "react-markdown"
 import { slidesMdxComponents } from "src/templates/slides"
@@ -10,7 +10,7 @@ interface Props {
   background?: string
 }
 
-const TextSlide: React.FC<Props> = ({ children }) => {
+const TextSlide: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
   const moveConstrained = useRef(true)

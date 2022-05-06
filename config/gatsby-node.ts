@@ -171,6 +171,14 @@ export const createSchemaCustomization = ({
       FOOTNOTES
       BIBLIOGRAPHY
     }
+    type SitePage implements Node {
+      context: SitePageContext
+    }
+    type SitePageContext {
+        slugs: [String]
+        locale: String
+        publication: Boolean
+    }
     `)
 }
 

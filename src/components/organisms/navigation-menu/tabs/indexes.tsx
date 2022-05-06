@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, PropsWithChildren } from "react"
 import { useTranslation } from "react-i18next"
 import { useLocalization } from "gatsby-theme-i18n"
 import * as Styled from "../style"
@@ -21,7 +21,9 @@ enum TAB_STATES {
   PEOPLE = "people",
 }
 
-const IndexGroup: React.FC = ({ children }) => <>{children}</>
+const IndexGroup: React.FC<PropsWithChildren<unknown>> = ({ children }) => (
+  <>{children}</>
+)
 
 const Indexes: React.FC = () => {
   const [tabState, setTabState] = useState<TAB_STATES>(TAB_STATES.AUTHORS)

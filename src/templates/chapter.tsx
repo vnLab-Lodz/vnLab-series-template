@@ -1,4 +1,4 @@
-import React from "react"
+import React, { PropsWithChildren } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MdxLink } from "gatsby-theme-i18n"
@@ -29,9 +29,11 @@ import withGridConstraint from "src/hoc/withGridConstraint"
 
 export const addClass =
   (
-    Component: React.FC<{ className: string }> | StyledComponent<any, any>,
+    Component:
+      | React.FC<PropsWithChildren<{ className: string }>>
+      | StyledComponent<any, any>,
     className: string
-  ): React.FC =>
+  ): React.FC<PropsWithChildren<unknown>> =>
   ({ children }) =>
     <Component className={className}>{children}</Component>
 

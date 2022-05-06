@@ -1,4 +1,9 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  PropsWithChildren,
+} from "react"
 
 interface Context {
   hypothesis: Element | null
@@ -7,7 +12,9 @@ interface Context {
 
 export const HypothesisContext = createContext<Context | undefined>(undefined)
 
-const HypothesisContextProvider: React.FC = ({ children }) => {
+const HypothesisContextProvider: React.FC<PropsWithChildren<unknown>> = ({
+  children,
+}) => {
   const [hypothesis, setHypothesis] = useState<Element | null>(null)
 
   useEffect(() => {
