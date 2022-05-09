@@ -43,8 +43,8 @@ const FullscreenPortal: React.FC<Props> = ({
   exitFullscreen,
 }) => {
   const { hypothesis, hideHypothesis } = useHypothesis()
-  const { setNavMode } = useNavMenuContext()
-  const { setThemeMode } = useThemeSwitcherContext()
+  const { setNavMode, navMode } = useNavMenuContext()
+  const { setThemeMode, themeMode } = useThemeSwitcherContext()
 
   useLayoutEffect(() => {
     let mode: THEME_MODES
@@ -69,12 +69,14 @@ const FullscreenPortal: React.FC<Props> = ({
     hideHypothesis()
 
     const btn = document.getElementById("hypothesis-btn")
+    console.log(btn)
+
     btn?.classList.add("invisible")
 
     return () => {
       btn?.classList.remove("invisible")
     }
-  }, [hypothesis])
+  }, [hypothesis, themeMode, navMode])
 
   const uid = `fullscreen-carousel-${carouselUid}__image--${currentImage}`
 

@@ -76,7 +76,7 @@ export const Globals = createGlobalStyle`
   }
 
   .invisible {
-    display: none;
+    display: none !important;
   }
 
   .sizeable-icon {

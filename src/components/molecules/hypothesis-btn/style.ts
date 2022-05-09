@@ -2,7 +2,7 @@ import { motion } from "framer-motion"
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
-export const TextButton = styled(motion.button)`
+export const TextButton = styled(motion.div)`
   display: flex;
   align-items: center;
 

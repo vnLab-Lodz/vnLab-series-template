@@ -128,12 +128,8 @@ const HypothesisBtn: React.FC<Props> = ({
       </AnimatePresence>
     </Styled.IconButton>
   ) : (
-    <Styled.TextButton style={{ backgroundColor }}>
-      <Styled.VerticalText
-        style={{ color }}
-        id="hypothesis-btn"
-        onClick={handleTextBtnClick}
-      >
+    <Styled.TextButton id="hypothesis-btn" style={{ backgroundColor }}>
+      <Styled.VerticalText style={{ color }} onClick={handleTextBtnClick}>
         {t("hypothesis_btn")}
       </Styled.VerticalText>
       <Styled.CloseBtn

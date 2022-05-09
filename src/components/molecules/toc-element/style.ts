@@ -9,6 +9,9 @@ export const TocContainer = styled.article<{ highlighted?: boolean }>`
   grid-column: 1 / last-col;
   grid-template-rows: repeat(4, min-content);
   padding-block: ${({ theme }) => theme.spacing.xs};
+  /* old Safari does not handle block */
+  padding-top: ${({ theme }) => theme.spacing.xs};
+  padding-bottom: ${({ theme }) => theme.spacing.xs};
   grid-template-columns: repeat(16, 1fr);
 
   ${({ highlighted, theme }) =>

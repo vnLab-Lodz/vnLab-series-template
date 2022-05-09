@@ -188,6 +188,7 @@ export const Fullscreen = styled(GridContainer)`
     z-index: 4;
     grid-template-rows: auto 1fr auto;
     padding-bottom: ${spacing.sm};
+    height: 100vh;
 
     @media ${devices.desktop} {
       justify-content: center;

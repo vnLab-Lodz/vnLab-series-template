@@ -141,6 +141,7 @@ export const LogoImg = styled.img<{ themeMode?: THEME_MODES }>`
 
 export const Title = styled.img<{ themeMode?: THEME_MODES }>`
   margin-bottom: ${({ theme }) => theme.spacing.md};
+  align-self: flex-start;
 
   filter: brightness(10);
 
@@ -210,7 +211,8 @@ export const WrappedEdition = styled(Edition)`
   }
 `
 
-export const TocButton = styled.button`
+// This element is a div instead of button to support gird in Safari
+export const TocButton = styled.div`
   ${({ theme: { palette, spacing } }) => css`
     border: none;
     color: ${palette.white};
@@ -218,6 +220,7 @@ export const TocButton = styled.button`
     padding: ${spacing.sm} 0px;
     display: grid;
     cursor: pointer;
+    margin: 0;w
 
     grid-template-columns: repeat(32, 1fr);
     grid-column: 1 / last-col;
