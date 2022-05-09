@@ -218,8 +218,10 @@ export const CloseBtn = styled.button`
   background: none;
   border: none;
   grid-row: 1;
-  grid-column: -3 / last-col;
+  grid-column: -5 / last-col;
   margin: ${({ theme }) => theme.spacing.xs};
+  margin-left: auto;
+  width: fit-content;
 `
 
 export const FullscreenCount = styled(ImageCount)`
