@@ -36,26 +36,7 @@ export const Slider = styled(motion.div)`
   display: flex;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-
-  padding-left: calc(calc(100vw / 32) * 1);
-  padding-right: calc(calc(100vw / 32) * 1);
-
-  @media ${devices.tablet} {
-    grid-column: 4 / last-col;
-    padding-left: calc(calc(100vw / 32) * 3);
-    padding-right: calc(calc(100vw / 32) * 3);
-  }
-
-  @media ${devices.laptop} {
-    grid-column: 1 / last-col;
-    padding-left: calc(calc(100vw / 32) * 8);
-    padding-right: calc(calc(100vw / 32) * 8);
-  }
-
-  @media ${devices.laptop} {
-    padding-left: calc(calc(100vw / 32) * 12);
-    padding-right: calc(calc(100vw / 32) * 12);
-  }
+  -webkit-overflow-scrolling: touch; /* Needed to work on iOS Safari */
 
   overflow-x: -moz-scrollbars-none;
   overflow-x: scroll;
@@ -91,10 +72,50 @@ export const ImageWrapper = styled.div`
 
   &:first-child {
     margin-left: 0px;
+
+    margin-left: calc(calc(100vw / 32) * 1);
+    /* padding-right: calc(calc(100vw / 32) * 1); */
+
+    @media ${devices.tablet} {
+      grid-column: 4 / last-col;
+      margin-left: calc(calc(100vw / 32) * 3);
+      /* padding-right: calc(calc(100vw / 32) * 3); */
+    }
+
+    @media ${devices.laptop} {
+      grid-column: 1 / last-col;
+      margin-left: calc(calc(100vw / 32) * 8);
+      /* padding-right: calc(calc(100vw / 32) * 8); */
+    }
+
+    @media ${devices.laptop} {
+      margin-left: calc(calc(100vw / 32) * 12);
+      /* padding-right: calc(calc(100vw / 32) * 12); */
+    }
   }
 
   &:last-child {
     margin-right: 0px;
+
+    /* padding-left: calc(calc(100vw / 32) * 1); */
+    margin-right: calc(calc(100vw / 32) * 1);
+
+    @media ${devices.tablet} {
+      grid-column: 4 / last-col;
+      /* padding-left: calc(calc(100vw / 32) * 3); */
+      margin-right: calc(calc(100vw / 32) * 3);
+    }
+
+    @media ${devices.laptop} {
+      grid-column: 1 / last-col;
+      /* padding-left: calc(calc(100vw / 32) * 8); */
+      margin-right: calc(calc(100vw / 32) * 8);
+    }
+
+    @media ${devices.laptop} {
+      /* padding-left: calc(calc(100vw / 32) * 12); */
+      margin-right: calc(calc(100vw / 32) * 12);
+    }
   }
 `
 
