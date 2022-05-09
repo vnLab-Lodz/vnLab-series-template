@@ -220,7 +220,7 @@ export const TocButton = styled.div`
     padding: ${spacing.sm} 0px;
     display: grid;
     cursor: pointer;
-    margin: 0;w
+    margin: 0;
 
     grid-template-columns: repeat(32, 1fr);
     grid-column: 1 / last-col;
