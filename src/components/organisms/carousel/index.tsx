@@ -157,16 +157,12 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     controls.start({ marginBottom, transition: { duration, ease: "easeIn" } })
   }, [sticky])
 
-  // useEffect(() => {
-  //   const removeListener = createScrollStopListener(ref.current, onScroll)
-  //   return () => removeListener()
-  // }, [ref, onScroll])
-
   return (
     <React.Fragment key={key}>
       <Styled.ViewportConstraint ref={constraintRef} animate={controls}>
         <Styled.Absolute flexible ref={stickyRef} sticky={sticky}>
           <Styled.Slider ref={ref} onScroll={onScroll}>
+            <Styled.ImageSpacer />
             {images.map((image, index) => (
               <Image
                 key={getWrapperKey(index)}
@@ -177,6 +173,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                 image={image as IGatsbyImageData}
               />
             ))}
+            <Styled.ImageSpacer />
           </Styled.Slider>
           <Styled.Controls>
             <Styled.CarouselNav>

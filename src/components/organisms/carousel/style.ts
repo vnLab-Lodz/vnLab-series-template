@@ -72,50 +72,30 @@ export const ImageWrapper = styled.div`
 
   &:first-child {
     margin-left: 0px;
-
-    margin-left: calc(calc(100vw / 32) * 1);
-    /* padding-right: calc(calc(100vw / 32) * 1); */
-
-    @media ${devices.tablet} {
-      grid-column: 4 / last-col;
-      margin-left: calc(calc(100vw / 32) * 3);
-      /* padding-right: calc(calc(100vw / 32) * 3); */
-    }
-
-    @media ${devices.laptop} {
-      grid-column: 1 / last-col;
-      margin-left: calc(calc(100vw / 32) * 8);
-      /* padding-right: calc(calc(100vw / 32) * 8); */
-    }
-
-    @media ${devices.laptop} {
-      margin-left: calc(calc(100vw / 32) * 12);
-      /* padding-right: calc(calc(100vw / 32) * 12); */
-    }
   }
 
   &:last-child {
     margin-right: 0px;
+  }
+`
 
-    /* padding-left: calc(calc(100vw / 32) * 1); */
-    margin-right: calc(calc(100vw / 32) * 1);
+export const ImageSpacer = styled.div`
+  background: transparent;
+  flex: 1 0 auto;
+  height: 100%;
 
-    @media ${devices.tablet} {
-      grid-column: 4 / last-col;
-      /* padding-left: calc(calc(100vw / 32) * 3); */
-      margin-right: calc(calc(100vw / 32) * 3);
-    }
+  width: calc(calc(100vw / 32) * 1);
 
-    @media ${devices.laptop} {
-      grid-column: 1 / last-col;
-      /* padding-left: calc(calc(100vw / 32) * 8); */
-      margin-right: calc(calc(100vw / 32) * 8);
-    }
+  @media ${devices.tablet} {
+    width: calc(calc(100vw / 32) * 3);
+  }
 
-    @media ${devices.laptop} {
-      /* padding-left: calc(calc(100vw / 32) * 12); */
-      margin-right: calc(calc(100vw / 32) * 12);
-    }
+  @media ${devices.laptop} {
+    width: calc(calc(100vw / 32) * 8);
+  }
+
+  @media ${devices.desktop} {
+    width: calc(calc(100vw / 32) * 12);
   }
 `
 
