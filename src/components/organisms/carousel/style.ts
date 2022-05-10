@@ -102,13 +102,7 @@ export const ImageSpacer = styled.div`
   width: calc(calc(100vw / 32) * 1);
 
   @media ${devices.tablet} {
-    width: calc(calc(100vw / 32) * 6);
-  }
-
-  @media (min-width: ${breakpoints.tablet}) and (max-width: 1023px) {
-    &:last-child {
-      width: calc(calc(100vw / 32) * 3);
-    }
+    width: calc(calc(100vw / 32) * 3);
   }
 
   @media ${devices.laptop} {
