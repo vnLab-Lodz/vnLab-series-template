@@ -49,12 +49,11 @@ export const Slider = styled(motion.div)`
   }
 `
 
-export const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div<{ margin?: "both" | "left" | "right" }>`
   flex: 1 0 auto;
   width: calc(calc(100vw / 32) * 30);
   display: flex;
   flex-direction: column;
-  margin: 0px ${({ theme }) => theme.spacing.xs};
   overflow: hidden;
   scroll-snap-align: center;
 
@@ -70,13 +69,24 @@ export const ImageWrapper = styled.div`
     max-width: calc(3.125rem * 16);
   }
 
-  &:first-child {
-    margin-left: 0px;
-  }
-
-  &:last-child {
-    margin-right: 0px;
-  }
+  ${({ margin = "both", theme }) => {
+    switch (margin) {
+      case "both":
+        return css`
+          margin: 0px ${theme.spacing.xs};
+        `
+      case "right":
+        return css`
+          margin-right: ${theme.spacing.xs};
+          margin-left: 0px;
+        `
+      case "left":
+        return css`
+          margin-left: ${theme.spacing.xs};
+          margin-right: 0px;
+        `
+    }
+  }};
 `
 
 export const ImageSpacer = styled.div`
@@ -95,7 +105,15 @@ export const ImageSpacer = styled.div`
   }
 
   @media ${devices.desktop} {
-    width: calc(calc(100vw / 32) * 12);
+    width: calc(calc(100vw / 32) * 9);
+  }
+
+  @media (min-width: 2750px) {
+    width: calc(calc(100vw / 32) * 10);
+  }
+
+  @media (min-width: 3300px) {
+    width: calc(calc(100vw / 32) * 11);
   }
 `
 

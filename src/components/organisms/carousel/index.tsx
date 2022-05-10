@@ -127,6 +127,12 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   const getWrapperKey = (index: number) =>
     `carousel-${carouselUid}__wrapper--${index}`
 
+  const getImageMargin = (index: number) => {
+    if (index === 0) return "right"
+    if (index === images.length - 1) return "left"
+    return "both"
+  }
+
   useEffect(() => inViewRef(constraintRef.current), [constraintRef])
 
   useEffect(() => {
@@ -167,6 +173,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
               <Image
                 key={getWrapperKey(index)}
                 index={index}
+                margin={getImageMargin(index)}
                 onClick={onImgClick}
                 carouselUid={carouselUid}
                 caption={captions[index]}
@@ -232,13 +239,17 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 }
 
 const Image: React.FC<{
+  margin: "both" | "left" | "right"
   caption: string
   onClick: () => void
   image: IGatsbyImageData
   index: number
   carouselUid: string
-}> = React.memo(({ carouselUid, index, caption, image, onClick }) => (
-  <Styled.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
+}> = React.memo(({ carouselUid, index, caption, image, onClick, margin }) => (
+  <Styled.ImageWrapper
+    id={`carousel-${carouselUid}__wrapper--${index}`}
+    margin={margin}
+  >
     <Styled.Image
       objectFit="cover"
       alt={`${caption} | Carousel image ${index}`}
