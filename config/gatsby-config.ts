@@ -8,11 +8,11 @@ export default {
     siteUrl: `http://vnlab.filmschool.lodz.pl/`,
   },
   plugins: [
+    `gatsby-plugin-styled-components`,
     `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-sass`,
     `gatsby-plugin-image`,
-    `gatsby-plugin-styled-components`,
+    `gatsby-plugin-sass`,
     `gatsby-plugin-tsconfig-paths`,
     {
       resolve: `gatsby-plugin-sharp`,

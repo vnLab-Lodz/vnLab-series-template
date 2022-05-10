@@ -37,8 +37,14 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
 
   const forwardIndex = () =>
     setIndex(prev => {
-      let modifier = layoutMode === "base" ? 3 : 2
-      return pages.length - modifier === prev ? prev : prev + 1
+      const isBase = layoutMode === "base"
+      const modifier = isBase ? 3 : 2
+      const validIndex = pages.length - modifier
+      const canGoForward = isBase ? validIndex < prev : validIndex <= prev
+      let nextIndex = canGoForward ? prev : prev + 1
+      if (isBase && prev === 0) nextIndex = 2
+
+      return nextIndex
     })
 
   const determineLayoutMode = () => {
@@ -47,8 +53,11 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
   }
 
   useEffect(() => {
-    translationFactor.set(index)
+    const offset = layoutMode === "base" ? 1 : 0
+    const factor = index - offset
+    translationFactor.set(factor >= 0 ? factor : 0)
   }, [index])
+
   useLayoutEffect(() => {
     determineLayoutMode()
     window.addEventListener("resize", determineLayoutMode)
@@ -57,6 +66,16 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
       window.removeEventListener("resize", determineLayoutMode)
     }
   }, [])
+
+  useEffect(() => {
+    if (layoutMode === "compact") {
+      translationFactor.set(index)
+      return
+    }
+
+    const factor = index - 1
+    translationFactor.set(factor >= 0 ? factor : 0)
+  }, [layoutMode])
 
   return (
     <Styled.FooterSpacer>
