@@ -163,6 +163,12 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
     controls.start({ marginBottom, transition: { duration, ease: "easeIn" } })
   }, [sticky])
 
+  useEffect(() => {
+    const listener = () => scrollToImage(currentImage)
+    window.addEventListener("resize", listener)
+    return () => window.removeEventListener("resize", listener)
+  }, [currentImage])
+
   return (
     <React.Fragment key={key}>
       <Styled.ViewportConstraint ref={constraintRef} animate={controls}>
