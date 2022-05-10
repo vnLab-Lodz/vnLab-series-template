@@ -19,6 +19,9 @@ export const TocContainer = styled.article<{ highlighted?: boolean }>`
     css`
       background: ${theme.palette.light};
       border-block: 1px solid ${theme.palette.black};
+      /* old Safari does not handle block */
+      border-top: 1px solid ${theme.palette.black};
+      border-bottom: 1px solid ${theme.palette.black};
     `};
 
   @media ${devices.tablet} {
