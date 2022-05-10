@@ -2,7 +2,7 @@ import styled, { css } from "styled-components"
 import { motion } from "framer-motion"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { GridConstraint, GridContainer } from "~styles/grid"
-import { devices } from "~styles/breakpoints"
+import { breakpoints, devices } from "~styles/breakpoints"
 import atoms from "~components/atoms"
 
 export const ViewportConstraint = styled(motion.div)`
@@ -32,7 +32,6 @@ export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
 export const Slider = styled(motion.div)`
   grid-row: 1;
   max-height: 100%;
-  grid-column: 1 / last-col;
   display: flex;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
@@ -42,6 +41,12 @@ export const Slider = styled(motion.div)`
   overflow-x: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+
+  grid-column: 1 / last-col;
+
+  @media (min-width: ${breakpoints.tablet}) and (max-width: 1023px) {
+    grid-column: 4 / last-col;
+  }
 
   &::-webkit-scrollbar {
     width: 0 !important;
@@ -97,7 +102,13 @@ export const ImageSpacer = styled.div`
   width: calc(calc(100vw / 32) * 1);
 
   @media ${devices.tablet} {
-    width: calc(calc(100vw / 32) * 3);
+    width: calc(calc(100vw / 32) * 6);
+  }
+
+  @media (min-width: ${breakpoints.tablet}) and (max-width: 1023px) {
+    &:last-child {
+      width: calc(calc(100vw / 32) * 3);
+    }
   }
 
   @media ${devices.laptop} {
