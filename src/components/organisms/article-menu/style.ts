@@ -101,8 +101,8 @@ export const Button = styled.button`
   `}
 `
 
-export const MenuContent = styled(motion.div)`
-  ${({ theme: { palette } }) => css`
+export const MenuContent = styled(motion.div)<{ maxHeight: string }>`
+  ${({ maxHeight, theme: { palette } }) => css`
     position: absolute;
     left: 0px;
     right: 0px;
@@ -111,7 +111,7 @@ export const MenuContent = styled(motion.div)`
     background-color: ${palette.white};
     border-bottom: solid 1px ${palette.dark};
     overflow-y: scroll;
-    max-height: 88vh;
+    max-height: ${maxHeight};
   `}
 `
 

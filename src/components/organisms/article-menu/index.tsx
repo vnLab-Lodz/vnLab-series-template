@@ -81,6 +81,7 @@ const ArticleMenu: React.FC<Props> = ({
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
   const [isHidden, setIsHidden] = useState<boolean>(false)
+  const [maxContentHeight, setMaxContentHeight] = useState("88vh")
 
   const { setIsVisible } = useNavMenuContext()
   const isMobile = useIsMobile(mobile => !mobile && setIsVisible(true))
@@ -228,6 +229,21 @@ const ArticleMenu: React.FC<Props> = ({
     return () => controls.stop()
   }, [menuState])
 
+  useEffect(() => {
+    const listener = () => {
+      if (shouldStick || !ref || !ref.current) {
+        setMaxContentHeight("88vh")
+        return
+      }
+
+      const elementRect = ref.current.getBoundingClientRect()
+      setMaxContentHeight(`calc(88vh - ${elementRect.top}px)`)
+    }
+
+    window.addEventListener("scroll", listener)
+    return () => window.removeEventListener("scroll", listener)
+  }, [shouldStick, menuState, ref.current])
+
   const shouldRenderMenu = (
     menu: MENUS,
     resolver?: (value: boolean) => boolean
@@ -319,6 +335,7 @@ const ArticleMenu: React.FC<Props> = ({
             <AnimatePresence initial={false} exitBeforeEnter>
               {menuState !== MENU_STATE.CLOSED && (
                 <Styled.MenuContent
+                  maxHeight={maxContentHeight}
                   initial={{ height: 0 }}
                   animate={{ height: getSupportedFitContent() }}
                   exit={{ height: 0 }}
