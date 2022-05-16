@@ -10,13 +10,45 @@
       "id": "e800838d-aabd-4680-9f91-a5c0d70faf72",
       "githubUsername": "tszabelski",
       "role": "editor"
+    },
+    {
+      "id": "7dcfcb39-1795-4b72-b988-369cbce8d179",
+      "githubUsername": "LostInStatic",
+      "role": "developer"
     }
   ],
-  "description": "This is a second test project wuja.",
+  "description": "This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.",
   "name": "Archiwum jako projekt",
   "packageManager": "npm",
   "useSass": true,
   "useTypescript": true,
   "creationDate": 1648729313575,
-  "tags": ["vnLab"]
+  "tags": [
+    "vnLab"
+  ],
+  "status": "cloned",
+  "lastUpdate": 0,
+  "dirPath": "C:\\Users\\itsdz\\Documents\\Praca\\PWSFTviT\\vnLab-series-template",
+  "snippets": [
+    {
+      "id": "a8b18c76-44a7-4563-b4a7-dad96669b9cc",
+      "name": "Quote",
+      "code": "<Quote author=\"Agnes Vardy\">This is an example quote.</Quote>12341123123\n\n"
+    },
+    {
+      "id": "3f9f98d8-6e42-4a84-ac0f-87182dcea63d",
+      "name": "Edition",
+      "code": "<Edition />"
+    },
+    {
+      "id": "fd696724-6f21-4d8a-9bd1-6c5d9892265c",
+      "name": "Author",
+      "code": "<Author>Name of the author</Author>"
+    },
+    {
+      "id": "0b2a56d9-5538-422a-90bc-ff82652b487a",
+      "name": "Annotation",
+      "code": "<Annotation target=\"annotate\">This is an example annotation content.</Annotation>"
+    }
+  ]
 }
