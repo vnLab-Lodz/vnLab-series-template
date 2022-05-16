@@ -54,6 +54,11 @@ const SeoMeta: React.FC<Props> = ({
     return (
       [
         {
+          name: "og:image",
+          content:
+            "https://vnlabseriestemplategatsbydeplo.gatsbyjs.io/icons/icon-512x512.png",
+        },
+        {
           name: `description`,
           content: metaDescription,
         },
