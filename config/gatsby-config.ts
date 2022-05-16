@@ -2,8 +2,8 @@ import { GatsbyConfig } from "gatsby"
 
 export default {
   siteMetadata: {
-    title: `Publication-as-a-Website i18n Starter`,
-    description: `Kick off your next PaaW project with this basic starter.`,
+    title: `The Archive as Project`,
+    description: `This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.`,
     author: `@vnLab1`,
     siteUrl: `http://vnlab.filmschool.lodz.pl/`,
   },

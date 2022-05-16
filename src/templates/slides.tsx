@@ -36,6 +36,7 @@ import "reveal.js/dist/reveal.css"
 import "../styles/reveal-theme.css"
 import { lightTheme } from "~styles/theme"
 import { ThemeSwitcherProvider } from "src/context/theme-switcher-context"
+import { useLocalization } from "gatsby-theme-i18n"
 
 interface Data {
   mdx: {
@@ -80,6 +81,7 @@ export const slidesMdxComponents = {
 const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, title } = mdx.frontmatter
   const [isOverlayVisible, setIsOverlayVisible] = useState(false)
+  const { locale } = useLocalization()
   const deck = useRef<any>()
 
   useEffect(() => {
@@ -205,7 +207,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
               <RevealContainer className="reveal">
                 <div className="slides">
                   <MDXProvider components={slidesMdxComponents}>
-                    <SeoMeta title={title} />
+                    <SeoMeta title={title} lang={locale} />
                     <MDXRenderer
                       frontmatter={mdx.frontmatter}
                       localImages={embeddedImagesLocal}

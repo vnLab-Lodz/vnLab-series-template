@@ -22,6 +22,7 @@ import lightTheme from "~styles/theme"
 import { ButtonText } from "../components/organisms/article-menu/style"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { useLocalization } from "gatsby-theme-i18n"
 
 interface Data {
   mdx: {
@@ -82,6 +83,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     ARTICLE_MENU_STATE.CLOSED
   )
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
+  const { locale } = useLocalization()
   const { themeMode } = useThemeSwitcherContext()
 
   const getInitialImages = (): Image[] => {
@@ -115,7 +117,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             <StyledArticle>
               <StyledLayout flexible className="mdx-section">
                 <MDXProvider components={mdxComponents}>
-                  <SeoMeta title={title} />
+                  <SeoMeta title={title} lang={locale} />
                   <MDXRenderer
                     frontmatter={mdx.frontmatter}
                     localImages={embeddedImagesLocal}

@@ -1,8 +1,7 @@
-import * as React from "react"
+import React, { DetailedHTMLProps, MetaHTMLAttributes, useMemo } from "react"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
-import { DetailedHTMLProps, MetaHTMLAttributes } from "react"
-import { SiteMetadata } from "../../types"
+import { SiteMetadata } from "../../types/config"
 import { useTranslation } from "react-i18next"
 
 type Meta = DetailedHTMLProps<
@@ -44,52 +43,56 @@ const SeoMeta: React.FC<Props> = ({
   const { t } = useTranslation("common")
   const { site } = useStaticQuery<Query>(query)
   const defaultTitle = t("title", site.siteMetadata.title)
-  const metaDescription = description ?? site.siteMetadata.description
   const titleTemplate = defaultTitle ? `%s | ${defaultTitle}` : undefined
 
-  const getMeta = (): Meta[] => {
-    const metaPartial: Meta[] = [
-      {
-        name: `description`,
-        content: metaDescription,
-      },
-      {
-        property: `og:title`,
-        content: title,
-      },
-      {
-        property: `og:description`,
-        content: metaDescription,
-      },
-      {
-        property: `og:type`,
-        content: `website`,
-      },
-      {
-        name: `twitter:card`,
-        content: `summary`,
-      },
-      {
-        name: `twitter:creator`,
-        content: site.siteMetadata.author || ``,
-      },
-      {
-        name: `twitter:title`,
-        content: title,
-      },
-      {
-        name: `twitter:description`,
-        content: metaDescription,
-      },
-    ]
+  const metaDescription = useMemo(
+    () => description ?? site.siteMetadata.description,
+    [description, site.siteMetadata.description]
+  )
 
-    return metaPartial.concat(meta ?? [])
-  }
+  const metaData: Meta[] = useMemo(() => {
+    return (
+      [
+        {
+          name: `description`,
+          content: metaDescription,
+        },
+        {
+          property: `og:title`,
+          content: title,
+        },
+        {
+          property: `og:description`,
+          content: metaDescription,
+        },
+        {
+          property: `og:type`,
+          content: `website`,
+        },
+        {
+          name: `twitter:card`,
+          content: `summary`,
+        },
+        {
+          name: `twitter:creator`,
+          content: site.siteMetadata.author || ``,
+        },
+        {
+          name: `twitter:title`,
+          content: title,
+        },
+        {
+          name: `twitter:description`,
+          content: metaDescription,
+        },
+      ] as Meta[]
+    ).concat(meta ?? [])
+  }, [meta, metaDescription, title])
 
   return (
     <Helmet
       title={title}
-      meta={getMeta()}
+      meta={metaData}
       htmlAttributes={{ lang }}
       titleTemplate={titleTemplate}
     />

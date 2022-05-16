@@ -13,6 +13,7 @@ import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-cont
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import { mdxComponents } from "./chapter"
+import { useLocalization } from "gatsby-theme-i18n"
 
 interface Data {
   mdx: {
@@ -48,6 +49,7 @@ const StyledArticle = styled.article`
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
+  const { locale } = useLocalization()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -69,7 +71,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           <StyledArticle>
             <StyledLayout className="mdx-section">
               <MDXProvider components={mdxComponents}>
-                <SeoMeta title={title} />
+                <SeoMeta title={title} lang={locale} />
                 <MDXRenderer
                   frontmatter={mdx.frontmatter}
                   localImages={embeddedImagesLocal}

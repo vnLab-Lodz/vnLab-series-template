@@ -18,6 +18,7 @@ import { addClass, mdxComponents } from "./chapter"
 import { MENUS } from "~types"
 import withGridConstraint from "src/hoc/withGridConstraint"
 import { GridContainer } from "~styles/grid"
+import { useLocalization } from "gatsby-theme-i18n"
 
 interface Data {
   mdx: {
@@ -77,6 +78,7 @@ const components = {
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
+  const { locale } = useLocalization()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -103,7 +105,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           <StyledArticle>
             <StyledLayout flexible className="mdx-section">
               <MDXProvider components={components}>
-                <SeoMeta title={title} />
+                <SeoMeta title={title} lang={locale} />
                 <MDXRenderer
                   frontmatter={mdx.frontmatter}
                   localImages={embeddedImagesLocal}

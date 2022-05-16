@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
-import { MdxLink } from "gatsby-theme-i18n"
+import { MdxLink, useLocalization } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
 import Abstract from "~components/molecules/abstract"
@@ -68,6 +68,7 @@ interface Data {
       embeddedImagesLocal: ImageDataLike[]
       headerImage?: ImageDataLike
       menus?: MENUS[]
+      summary?: string
     }
   }
 }
@@ -88,6 +89,7 @@ const StyledArticle = styled.article`
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
+  const { locale } = useLocalization()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -115,7 +117,11 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           <StyledArticle>
             <StyledLayout flexible className="mdx-section">
               <MDXProvider components={mdxComponents}>
-                <SeoMeta title={title} />
+                <SeoMeta
+                  title={title}
+                  lang={locale}
+                  description={mdx.frontmatter.summary}
+                />
                 <MDXRenderer
                   frontmatter={mdx.frontmatter}
                   localImages={embeddedImagesLocal}
