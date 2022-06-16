@@ -12,7 +12,7 @@ const Edition: React.FC<Props> = ({ className }) => {
   return (
     <Styled.EditionWrapper className={className}>
       <Styled.Text>{t("edition", { vol: 1 })}</Styled.Text>
-      <Styled.Button>{t("changes")}</Styled.Button>
+      {/* <Styled.Button>{t("changes")}</Styled.Button> */}
     </Styled.EditionWrapper>
   )
 }
