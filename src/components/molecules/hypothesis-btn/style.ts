@@ -58,7 +58,8 @@ export const IconButton = styled.button<{ left: boolean }>`
     border: none;
     padding: ${spacing.xxs};
     bottom: ${spacing.xxs};
-    ${left ? `left: ${spacing.xs}` : `right: ${spacing.xs}`};
+    left: ${left ? spacing.xs : `calc(100vw - 2 * ${spacing.xs})`};
+    transform: ${left ? "translateX(0)" : "translateX(-100%)"};
 
     cursor: pointer;
 
