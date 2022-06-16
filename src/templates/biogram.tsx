@@ -6,7 +6,7 @@ import SeoMeta from "~components/meta"
 import Layout from "~components/organisms/layout"
 import atoms from "~components/atoms"
 import ArticleMenu from "~components/organisms/article-menu"
-import styled, { css } from "styled-components"
+import styled, { css, useTheme } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
@@ -19,6 +19,7 @@ import { MENUS } from "~types"
 import withGridConstraint from "src/hoc/withGridConstraint"
 import { GridContainer } from "~styles/grid"
 import { useLocalization } from "gatsby-theme-i18n"
+import { BackgroundGlobals } from "~styles/globals"
 
 interface Data {
   mdx: {
@@ -79,6 +80,7 @@ const components = {
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
   const { locale } = useLocalization()
+  const theme = useTheme()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -93,6 +95,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
+      <BackgroundGlobals color={theme.palette.light} />
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>

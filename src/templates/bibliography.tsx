@@ -4,7 +4,7 @@ import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
 import Layout from "~components/organisms/layout"
-import styled from "styled-components"
+import styled, { useTheme } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
@@ -14,6 +14,7 @@ import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import { mdxComponents } from "./chapter"
 import { useLocalization } from "gatsby-theme-i18n"
+import { BackgroundGlobals } from "~styles/globals"
 
 interface Data {
   mdx: {
@@ -50,6 +51,7 @@ const StyledArticle = styled.article`
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
   const { locale } = useLocalization()
+  const theme = useTheme()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -64,6 +66,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
+      <BackgroundGlobals color={theme.palette.light} />
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
         <ImagesProvider initialImages={getInitialImages()}>

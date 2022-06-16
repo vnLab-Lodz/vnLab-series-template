@@ -11,7 +11,7 @@ import atoms from "~components/atoms"
 import Author from "~components/molecules/author"
 import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
-import styled, { StyledComponent } from "styled-components"
+import styled, { StyledComponent, useTheme } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import ViewportImage from "~components/molecules/viewport-image"
 import HeaderImage from "~components/molecules/header-image"
@@ -26,6 +26,7 @@ import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import { MENUS } from "~types"
 import { GridContainer } from "~styles/grid"
 import withGridConstraint from "src/hoc/withGridConstraint"
+import { BackgroundGlobals } from "~styles/globals"
 
 export const addClass =
   (
@@ -90,6 +91,7 @@ const StyledArticle = styled.article`
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
   const { locale } = useLocalization()
+  const theme = useTheme()
 
   const getInitialImages = (): Image[] => {
     return !!headerImage
@@ -104,6 +106,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
+      <BackgroundGlobals color={theme.palette.light} />
       <HypothesisBtn />
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>

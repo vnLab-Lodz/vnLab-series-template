@@ -1,9 +1,4 @@
-import {
-  AnimatePresence,
-  motion,
-  useAnimation,
-  useViewportScroll,
-} from "framer-motion"
+import { AnimatePresence, motion, useAnimation, useSpring } from "framer-motion"
 import React, { useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -18,7 +13,6 @@ import Illustrations from "./menus/illustrations"
 import { useLocalization } from "gatsby-theme-i18n"
 import { SINGLE_AUTHOR_MODE } from "~util/constants"
 import * as Styled from "./style"
-import useScrollDistance from "src/hooks/useScrollDistance"
 import { MENUS } from "~types"
 import useBibliography from "src/hooks/useBibliography"
 import { ImagesContext } from "src/context/illustrations-context"
@@ -26,6 +20,9 @@ import { AnnotationContext } from "~components/molecules/annotation/annotation-c
 import useScrollPause from "src/hooks/useScrollPause"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import useIsMobile from "src/hooks/useIsMobile"
+import useScrollDirection, {
+  SCROLL_DIRECTION,
+} from "src/hooks/useScrollDirection"
 
 //@ts-ignore
 import ArrowDown from "src/images/icons/arrow_down.svg"
@@ -80,12 +77,10 @@ const ArticleMenu: React.FC<Props> = ({
 }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
-  const [isHidden, setIsHidden] = useState<boolean>(false)
   const [maxContentHeight, setMaxContentHeight] = useState("88vh")
 
   const { setIsVisible } = useNavMenuContext()
   const isMobile = useIsMobile(mobile => !mobile && setIsVisible(true))
-  const { scrollYProgress } = useViewportScroll()
 
   const theme = useTheme()
   const { pauseScroll, resumeScroll, isPaused } = useScrollPause({
@@ -93,7 +88,6 @@ const ArticleMenu: React.FC<Props> = ({
   })
 
   const ref = useRef<HTMLDivElement | null>(null)
-  const prevScrollPos = useRef<number | undefined>(undefined)
 
   const { palette } = useContext(ThemeContext)
   const { t } = useTranslation("common")
@@ -117,52 +111,6 @@ const ArticleMenu: React.FC<Props> = ({
       setState(MENU_STATE.CLOSED)
       if (callback) callback()
     })
-  }
-
-  const calcNavPosition = () => {
-    if (!ref || !ref.current) return Infinity
-
-    const doc = document.documentElement
-    const elementRect = ref.current.getBoundingClientRect()
-
-    return elementRect.top + doc.scrollTop
-  }
-
-  const onScrollEnd = useScrollDistance((distance, _, end) => {
-    const isBelowNav = end >= calcNavPosition() + 300
-
-    if (scrollYProgress.get() < 0.01) {
-      isMobile && setIsVisible(true)
-      setIsHidden(false)
-      return
-    }
-
-    if (distance <= -300) {
-      isBelowNav && setIsHidden(false)
-      isMobile && setIsVisible(true)
-    } else if (distance > 20) {
-      isBelowNav && setIsHidden(true)
-      isMobile && setIsVisible(false)
-    }
-  })
-
-  const onScroll = () => {
-    const currentScrollPos = window.pageYOffset
-    const navPosition = calcNavPosition()
-
-    const isSticky = currentScrollPos >= navPosition + 500
-    setShouldStick(isSticky)
-
-    if (prevScrollPos.current !== undefined && isSticky) {
-      if (menuState === MENU_STATE.CLOSED && prevScrollPos.current === 0) return
-
-      if (prevScrollPos.current >= currentScrollPos) return
-
-      setIsHidden(true)
-      if (isMobile) setIsVisible(false)
-    }
-
-    prevScrollPos.current = currentScrollPos
   }
 
   const getMenuContent = () => {
@@ -200,20 +148,49 @@ const ArticleMenu: React.FC<Props> = ({
     )
   }
 
+  const directionUp = useScrollDirection({ threshold: 300 })
+  const directionDown = useScrollDirection()
+  const translateY = useSpring(0)
+
   useEffect(() => {
-    window.addEventListener("scroll", onScroll)
-    window.addEventListener("scroll", onScrollEnd)
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-      window.removeEventListener("scroll", onScrollEnd)
+    if (!isMobile) setIsVisible(true)
+
+    if (!shouldStick) {
+      translateY.set(0)
+      if (isMobile) setIsVisible(true)
+      return
     }
-  }, [ref, menuState, isMobile, setIsVisible])
+
+    if (directionUp === SCROLL_DIRECTION.UP) {
+      translateY.set(0)
+      if (isMobile) setIsVisible(true)
+    } else if (directionDown === SCROLL_DIRECTION.DOWN) {
+      translateY.set(-170)
+      if (isMobile) setIsVisible(false)
+    }
+  }, [directionUp, directionDown, shouldStick])
+
+  useEffect(() => {
+    if (!ref || ref.current === null) return
+
+    const margin = isMobile ? "-66" : "-1"
+    const observer = new IntersectionObserver(
+      entries => setShouldStick(!entries[0].isIntersecting),
+      { rootMargin: `${margin}px 0px 0px 0px`, threshold: [1] }
+    )
+
+    observer.observe(ref.current)
+
+    return () => {
+      if (ref && ref.current !== null) observer.unobserve(ref.current)
+    }
+  }, [ref.current, isMobile])
 
   useEffect(() => {
     if (menuState !== MENU_STATE.CLOSED && !isPaused) {
       pauseScroll()
     } else if (menuState === MENU_STATE.CLOSED && isPaused) {
-      resumeScroll(() => setIsHidden(false))
+      resumeScroll()
     }
 
     controls.start(
@@ -240,6 +217,7 @@ const ArticleMenu: React.FC<Props> = ({
       setMaxContentHeight(`calc(88vh - ${elementRect.top}px)`)
     }
 
+    listener()
     window.addEventListener("scroll", listener)
     return () => window.removeEventListener("scroll", listener)
   }, [shouldStick, menuState, ref.current])
@@ -284,72 +262,53 @@ const ArticleMenu: React.FC<Props> = ({
       ref={ref}
       className={className}
       spaced={spaced}
+      as={motion.div}
+      style={{ translateY }}
     >
+      <Styled.Layout>
+        <Styled.MenuNav
+          open={menuState !== MENU_STATE.CLOSED}
+          as={motion.nav}
+          animate={controls}
+        >
+          {shouldRenderContent && (
+            <Styled.Button onClick={() => setState(MENU_STATE.CONTENT)}>
+              <Styled.ButtonText>{t("content")}</Styled.ButtonText>{" "}
+              <Arrow inverted={menuState === MENU_STATE.CONTENT} />
+            </Styled.Button>
+          )}
+          {shouldRenderIllustrations && (
+            <Styled.Button onClick={() => setState(MENU_STATE.ILLUSTRATIONS)}>
+              <Styled.ButtonText>{t("illustrations")}</Styled.ButtonText>{" "}
+              <Arrow inverted={menuState === MENU_STATE.ILLUSTRATIONS} />
+            </Styled.Button>
+          )}
+          {shouldRenderFootnotes && (
+            <Styled.Button onClick={() => setState(MENU_STATE.ANNOTATIONS)}>
+              <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
+              <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
+            </Styled.Button>
+          )}
+          {shouldRenderBibliography && (
+            <BibliographyButton menuState={menuState} setState={setState} />
+          )}
+        </Styled.MenuNav>
+      </Styled.Layout>
       <AnimatePresence initial={false} exitBeforeEnter>
-        {!isHidden && (
-          <Styled.StickyWrapper
-            as={motion.div}
-            sticky={shouldStick}
-            initial={{ translateY: -125, opacity: 0 }}
-            animate={{ translateY: 0, opacity: 1 }}
-            exit={{ translateY: -125, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className={className}
+        {menuState !== MENU_STATE.CLOSED && (
+          <Styled.MenuContent
+            maxHeight={maxContentHeight}
+            initial={{ height: 0 }}
+            animate={{ height: getSupportedFitContent() }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
           >
-            <Styled.Layout>
-              <Styled.MenuNav
-                open={menuState !== MENU_STATE.CLOSED}
-                as={motion.nav}
-                animate={controls}
-              >
-                {shouldRenderContent && (
-                  <Styled.Button onClick={() => setState(MENU_STATE.CONTENT)}>
-                    <Styled.ButtonText>{t("content")}</Styled.ButtonText>{" "}
-                    <Arrow inverted={menuState === MENU_STATE.CONTENT} />
-                  </Styled.Button>
-                )}
-                {shouldRenderIllustrations && (
-                  <Styled.Button
-                    onClick={() => setState(MENU_STATE.ILLUSTRATIONS)}
-                  >
-                    <Styled.ButtonText>{t("illustrations")}</Styled.ButtonText>{" "}
-                    <Arrow inverted={menuState === MENU_STATE.ILLUSTRATIONS} />
-                  </Styled.Button>
-                )}
-                {shouldRenderFootnotes && (
-                  <Styled.Button
-                    onClick={() => setState(MENU_STATE.ANNOTATIONS)}
-                  >
-                    <Styled.ButtonText>{t("annotations")}</Styled.ButtonText>{" "}
-                    <Arrow inverted={menuState === MENU_STATE.ANNOTATIONS} />
-                  </Styled.Button>
-                )}
-                {shouldRenderBibliography && (
-                  <BibliographyButton
-                    menuState={menuState}
-                    setState={setState}
-                  />
-                )}
-              </Styled.MenuNav>
-            </Styled.Layout>
-            <AnimatePresence initial={false} exitBeforeEnter>
-              {menuState !== MENU_STATE.CLOSED && (
-                <Styled.MenuContent
-                  maxHeight={maxContentHeight}
-                  initial={{ height: 0 }}
-                  animate={{ height: getSupportedFitContent() }}
-                  exit={{ height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut", delay: 0.1 }}
-                >
-                  <Styled.MenuLayout>
-                    <AnimatePresence initial={false}>
-                      {getMenuContent()}
-                    </AnimatePresence>
-                  </Styled.MenuLayout>
-                </Styled.MenuContent>
-              )}
-            </AnimatePresence>
-          </Styled.StickyWrapper>
+            <Styled.MenuLayout>
+              <AnimatePresence initial={false}>
+                {getMenuContent()}
+              </AnimatePresence>
+            </Styled.MenuLayout>
+          </Styled.MenuContent>
         )}
       </AnimatePresence>
     </Styled.ArticleMenuContainer>

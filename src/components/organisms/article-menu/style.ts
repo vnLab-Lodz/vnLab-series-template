@@ -5,9 +5,23 @@ import { devices } from "~styles/breakpoints"
 import BaseLayout from "../layout"
 
 export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
-  position: relative;
-  height: 250px;
+  position: sticky;
+  /* height: 250px; */
+  margin-bottom: 250px;
+  top: 65px;
+  height: 75px;
+  z-index: 7;
   background: ${({ theme: { palette } }) => palette.light};
+
+  @media ${devices.tablet} {
+    top: 0px;
+    height: 106px;
+  }
+
+  @media ${devices.desktopL} {
+    top: 0px;
+    height: 164px;
+  }
 
   ${({ spaced }) =>
     spaced &&
@@ -62,7 +76,7 @@ export const MenuNav = styled.nav<{ open: boolean }>`
     @media ${devices.tablet} {
       padding: ${spacing.sm};
       max-height: 106px;
-      justify-content: center;
+      justify-content: space-evenly;
       overflow-x: hidden;
     }
 

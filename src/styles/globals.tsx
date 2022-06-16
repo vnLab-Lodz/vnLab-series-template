@@ -1,3 +1,4 @@
+import { CSSProperties } from "react"
 import { createGlobalStyle } from "styled-components"
 import { devices } from "./breakpoints"
 
@@ -134,4 +135,12 @@ export const Globals = createGlobalStyle`
     }
   }
   
+`
+
+export const BackgroundGlobals = createGlobalStyle<{
+  color: CSSProperties["backgroundColor"]
+}>`
+  html, body {
+    background-color: ${({ color }) => color};
+  }
 `

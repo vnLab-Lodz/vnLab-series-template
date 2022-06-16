@@ -23,6 +23,7 @@ import { ButtonText } from "../components/organisms/article-menu/style"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { useLocalization } from "gatsby-theme-i18n"
+import { BackgroundGlobals } from "~styles/globals"
 
 interface Data {
   mdx: {
@@ -99,6 +100,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
 
   return (
     <NavMenuProvider>
+      <BackgroundGlobals color={lightTheme.palette.quaternary} />
       <HypothesisBtn />
       <NavigationMenu currentPath={location.pathname} />
       <AnnotationProvider>
