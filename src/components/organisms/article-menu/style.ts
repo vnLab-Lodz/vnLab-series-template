@@ -22,14 +22,6 @@ export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
     top: 0px;
     height: 164px;
   }
-
-  ${({ spaced }) =>
-    spaced &&
-    css`
-      @media (max-width: 767px) {
-        padding-top: 66px;
-      }
-    `};
 `
 
 export const StickyWrapper = styled.div<{ sticky?: boolean }>`
