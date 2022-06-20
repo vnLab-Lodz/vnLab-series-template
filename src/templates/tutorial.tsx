@@ -114,6 +114,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             themeMode={themeMode}
             open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
             onStateChange={setArticleMenuState}
+            bgColor={lightTheme.palette.quaternary}
           />
           <ThemeProvider theme={lightTheme}>
             <StyledArticle>

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useAnimation, useSpring } from "framer-motion"
-import React, { useContext, useEffect, useRef } from "react"
+import React, { CSSProperties, useContext, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import usePageContent from "src/hooks/usePageContent"
@@ -34,6 +34,7 @@ interface Props {
   className?: string
   menus?: MENUS[]
   onStateChange?: (state: MENU_STATE) => void
+  bgColor?: CSSProperties["backgroundColor"]
 }
 
 enum MENU_STATE {
@@ -74,6 +75,7 @@ const ArticleMenu: React.FC<Props> = ({
   className,
   menus,
   spaced,
+  bgColor,
 }) => {
   const [menuState, setMenuState] = useState(MENU_STATE.CLOSED)
   const [shouldStick, setShouldStick] = useState<boolean>(false)
@@ -84,7 +86,7 @@ const ArticleMenu: React.FC<Props> = ({
 
   const theme = useTheme()
   const { pauseScroll, resumeScroll, isPaused } = useScrollPause({
-    backgroundColor: theme.palette.light,
+    backgroundColor: bgColor ?? theme.palette.light,
   })
 
   const ref = useRef<HTMLDivElement | null>(null)
