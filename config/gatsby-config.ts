@@ -79,9 +79,9 @@ export default {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Default vnLab Publication-as-a-Website starter`,
-        short_name: `vnLab starter`,
-        description: `A simple starter for PaaW projects.`,
+        name: `Archive as project`,
+        short_name: `Archive as project`,
+        description: `This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#000000`,
