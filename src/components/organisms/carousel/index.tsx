@@ -22,11 +22,8 @@ import { THEME_MODES } from "src/context/theme-switcher-context"
 import useScrollDistance from "src/hooks/useScrollDistance"
 import * as Styled from "./style"
 
-//@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
-//@ts-ignore
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
-//@ts-ignore
 import ExpandArrow from "../../../images/icons/arrow_expand.svg"
 
 interface Props {
@@ -98,19 +95,11 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
   const onScroll = useScrollDistance(
     () => {
-      console.log(ref.current)
-
       if (!ref.current) return
 
       const { scrollLeft } = ref.current
-      console.log(scrollLeft)
-
       const imgPosition = getImagePosition(currentImage)
-      console.log(imgPosition)
-
       const distance = imgPosition - scrollLeft
-
-      console.log(distance)
 
       if (distance > 300) setCurrentImage(getPrevIndex())
       else if (distance < -300) setCurrentImage(getNextIndex())
