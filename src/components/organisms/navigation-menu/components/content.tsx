@@ -46,7 +46,8 @@ const NavMenuContent: React.FC<Props> = ({
                   {t("nav-menu:tabs.toc")}
                 </Styled.TabButtonText>
               </Styled.TabButton>
-              <Styled.TabButton
+              {/* // ! Temporarily disabled */}
+              {/* <Styled.TabButton
                 onClick={() => setNavState(NAV_MENU_STATES.INDEXES)}
               >
                 <Styled.TabButtonText
@@ -54,7 +55,7 @@ const NavMenuContent: React.FC<Props> = ({
                 >
                   {t("nav-menu:tabs.indexes")}
                 </Styled.TabButtonText>
-              </Styled.TabButton>
+              </Styled.TabButton> */}
               <Styled.TabButton
                 onClick={() => setNavState(NAV_MENU_STATES.ABOUT)}
               >
