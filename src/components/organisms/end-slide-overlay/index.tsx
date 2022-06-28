@@ -23,7 +23,7 @@ const EndSlideOverlay: React.FC<Props> = ({
   const { t } = useTranslation("common")
 
   const nextPage = useMemo(
-    () => pages[currentPathIndex + 1],
+    () => pages[currentPathIndex + 1] ?? pages[0],
     [pages, currentPathIndex, currentPath]
   )
 
