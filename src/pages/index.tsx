@@ -15,23 +15,13 @@ import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-cont
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 
-//@ts-ignore
 import Logo from "../images/icons/vnlab_logo.svg"
-//@ts-ignore
 import ArrowDownSVG from "../images/icons/arrow_down.svg"
-//@ts-ignore
-import SearchSVG from "../images/icons/magnifying_glass.svg"
-//@ts-ignore
 import HamburgerSVG from "../images/icons/hamburger.svg"
-//@ts-ignore
 import TitleEN from "../images/title_en.svg"
-//@ts-ignore
 import TitlePL from "../images/title_pl.svg"
 
-const titleSVG = {
-  en: TitleEN,
-  pl: TitlePL,
-}
+const titleSVG = { en: TitleEN, pl: TitlePL }
 
 const NavMenuToggle: React.FC = () => {
   const { toggleNav } = useNavMenuContext()
@@ -92,8 +82,8 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         <Styled.ImageWrapper>
           <StaticImage
             style={{ height: "100%", width: "100%" }}
-            src="../images/home.png"
-            alt="Figures on mirror"
+            src="../images/cover.jpg"
+            alt="PFOM map of objects"
             placeholder="blurred"
           />
         </Styled.ImageWrapper>
