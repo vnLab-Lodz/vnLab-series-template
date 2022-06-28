@@ -58,6 +58,16 @@ export const mdxComponents = {
   h2: withGridConstraint(addClass(atoms.h2, "mdx-heading")),
   h3: withGridConstraint(addClass(atoms.h3, "mdx-heading")),
   br: withGridConstraint(() => <br />),
+  blockquote: withGridConstraint(props => (
+    <MDXProvider
+      components={{
+        ...mdxComponents,
+        p: props => <React.Fragment {...props} />,
+      }}
+    >
+      <Quote {...props} />
+    </MDXProvider>
+  )),
 }
 
 interface Data {
