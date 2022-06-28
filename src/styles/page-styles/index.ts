@@ -149,6 +149,10 @@ export const Title = styled.img<{ themeMode?: THEME_MODES }>`
     filter: ${({ themeMode }) =>
       themeMode === THEME_MODES.DARK ? "invert(1)" : "none"};
   }
+
+  @media ${devices.desktop} {
+    height: 20vh;
+  }
 `
 
 export const Editorship = styled(atoms.p)`
