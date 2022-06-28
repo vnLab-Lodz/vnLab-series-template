@@ -1,7 +1,7 @@
 {
   "name": "vnlab-series-template",
   "private": true,
-  "description": "Graphical template for publications in vnLab series.",
+  "description": "This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.",
   "version": "0.1.0",
   "author": "Piotr Karczewski <p.karczewsk@gmail.com>",
   "dependencies": {
