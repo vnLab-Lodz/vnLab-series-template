@@ -26,27 +26,16 @@ import {
   useTransform,
 } from "framer-motion"
 
-//@ts-ignore
 import HamburgerSVG from "../../../../../images/icons/hamburger.svg"
-//@ts-ignore
 import CloseSVG from "../../../../../images/icons/x.svg"
-//@ts-ignore
 import VnlabLogo from "../../../../../images/icons/vnlab_logo.svg"
-//@ts-ignore
 import HypothesisIcon from "../../../../../images/icons/hypothesis_rewers.svg"
-//@ts-ignore
 import CCIcon from "../../../../../images/icons/CC.svg"
-//@ts-ignore
 import OverviewOffIcon from "../../../../../images/icons/overview_off.svg"
-//@ts-ignore
 import OverviewOnIcon from "../../../../../images/icons/overview_on.svg"
-//@ts-ignore
 import FullscreenOffIcon from "../../../../../images/icons/fullscreen_off.svg"
-//@ts-ignore
 import FullscreenOnIcon from "../../../../../images/icons/fullscreen_on.svg"
-//@ts-ignore
 import SoundOnIcon from "../../../../../images/icons/sound_on.svg"
-//@ts-ignore
 import ArrowDown from "../../../../../images/icons/arrow_down.svg"
 
 interface RenderProps {
