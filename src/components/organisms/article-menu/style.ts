@@ -6,8 +6,7 @@ import BaseLayout from "../layout"
 
 export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
   position: sticky;
-  /* height: 250px; */
-  margin-bottom: 250px;
+  margin-bottom: ${({ theme }) => theme.spacing.xxxl};
   top: 65px;
   height: 75px;
   z-index: 7;

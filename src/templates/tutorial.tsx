@@ -42,6 +42,8 @@ const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.quaternary};
   padding-bottom: ${({ theme }) => theme.spacing.xxxl};
   min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
+  padding-top: ${({ theme }) => theme.spacing.xxxl};
+  grid-auto-rows: min-content;
 
   @media ${devices.tablet} {
     padding-bottom: ${({ theme }) => theme.spacing.xxl};
