@@ -20,7 +20,6 @@ import { GatsbyImage } from "gatsby-plugin-image"
 import { ThemeProvider } from "styled-components"
 import lightTheme from "~styles/theme"
 
-//@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
 
 interface Props {
@@ -157,9 +156,9 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
 
     const proportions = stickyRef.current.offsetHeight / window.innerHeight
 
-    if (proportions > 0.8) setSticky(isInView)
+    if (proportions > 0.85) setSticky(true)
     else setSticky(false)
-  }, [isInView])
+  }, [stickyRef.current])
 
   useEffect(() => {
     const marginBottom = sticky ? "100px" : "0px"
