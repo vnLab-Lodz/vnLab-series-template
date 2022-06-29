@@ -54,7 +54,8 @@ export const Container = styled.div`
 
 export const Text = styled.div`
   all: initial;
-  ${({ theme: { typography } }) => css`
+  ${({ theme: { typography, palette } }) => css`
+    color: ${palette.white};
     margin: auto;
     font-family: ${typography.fonts.secondary};
     font-size: ${typography.md};
