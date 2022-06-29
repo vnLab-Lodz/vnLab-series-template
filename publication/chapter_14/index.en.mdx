@@ -3,13 +3,21 @@ title: "The Shattered Face of History"
 author: Zuzana Meisnerová-Wismerová
 index: 5.14
 date: "2021-07-29"
-summary: In Agnès Vardy's early, especially fictional films, death is an existential scandal for the protagonists - it comes out of nowhere, it is absurd, devoid of any sense and justification in a world where beauty and love are synonyms of life. Death appears to be something unthinkable or unimaginable in the strict sense, even if the protagonists have to - or only seemingly - confront it in an individual experience. In Szczęście (Le bonheur, 1965), the death (perhaps suicide) of one of the main characters is the only moment in which the intentionally artificial, overly cheerful and carefree tone of the film is briefly suspended - we see the corpse of a young, beautiful woman whose passing allows us to realize a male fantasy about the almost painless replacement of one woman by another, a wife by a mistress. Thus, dying is not a problem here, at best it deprives the survivors of the problem.
-headerImage: example.png
+summary: "The fate of my great-grandfather, Jan Langhans (1851–1928), is an example of the fate of the Czechs: the fruits of his labours, cultivated over generations, were destroyed when the Communists came to power in 1948. Trained as a chemist, Jan Langhans became enchanted with photography. He established a studio, Ateliér Langhans, in Prague in 1880, and worked his way to becoming one of the best-known portrait photographers in Bohemia. In the third generation after him, the studio was nationalized and then forgotten. The state-owned enterprise that took over the photography studio drew on the success of Jan Langhans’ studio, but the name of its founder seemed to have been forgotten in the dustbin of history. Only a few experts knew Langhans’ importance for photography."
 embeddedImagesLocal:
-  - example.png
+  - images/0_meisnerova.jpg
+  - images/1_meisnerova.jpg
+  - images/2_meisnerova.jpg
+  - images/3_meisnerova.jpg
+  - images/4_meisnerova.jpg
+  - images/5_meisnerova.jpg
+  - images/6_meisnerova.jpg
+  - images/7_meisnerova.jpg
+  - images/8_meisnerova.jpg
+  - images/9_meisnerova.jpg
+  - images/10_meisnerova.jpg
+  - images/11_meisnerova.jpg
 ---
-
-<Edition />
 
 # The Shattered Face of History
 
@@ -39,6 +47,10 @@ _We would like to thank Karolina Lewandowska from the Fundacja Archeologia Fotog
 > totalitarian regime had cut <Annotation target="short.">
 > Pavel Scheufler, _Jan Langhans_ (Praha: Torst, 2005).</Annotation>
 
+<ViewportImage image={props.localImages[5]} caption="An example fig caption">
+  An example expanded caption.
+</ViewportImage>
+
 The fate of my great-grandfather, Jan Langhans (1851–1928), is an example of the fate of the Czechs: the fruits of his labours, cultivated over generations, were destroyed when the Communists came to power in 1948.
 
 <br />
@@ -49,7 +61,14 @@ Trained as a chemist, Jan Langhans became enchanted with photography. He establi
 
 Langhans fully adapted the building in Vodičkova street (No. 37) to the photographer's craft. In the 1890s photographs were taken on the courtyard directly adjacent to the Franciscan Garden. An ingenious system of blinds regulated daylight. With time, and the discovery of new techniques, the possibilities of taking photographs expanded. New little buildings appeared on the courtyard, together with laboratories, a drying-room, and a retouching-room. In the course of almost seventy years, from 1880 to 1948, hundreds of thousands of people passed through Ateliér Langhans. In 1949 my father, Viktor Meisner, the last owner of the studio, had to leave his business in Vodičkova.
 
-<br />
+<Carousel
+  images={[props.localImages[11], props.localImages[6], props.localImages[7]]}
+  captions={[
+    "Caption for image 11",
+    "Caption for image 6",
+    "Caption for image 7",
+  ]}
+/>
 
 The nationalizing of the studio sent Ateliér Langhans into the family’s past. The archive of negatives, which for decades had been carefully built up, was destroyed. My father was left with only two cardboard boxes containing several photographs and some souvenirs. One of them is a folder which bears the title _Ateliér Langhans – Galerie význačných osobností_ (_Langhans Studio – A Gallery of Outstanding Personalities_), and comprises a list of important persons in the arts, culture, and politics of the Bohemian Lands, who once had had their portraits made in the studio. The list had been compiled in the late 1930s, when – evidently out of fear of the Nazis – the negatives with portraits of important persons were removed and deposited in a special place. In the early 1950s, when my father no longer had access to the studio, the whole archive, about 1.5 million glass plates, was taken to a dump in a village near Prague. All the glass negatives were smashed to pieces. The memory of generations, the faces of the proponents of spiritual values, suddenly became a pile of glass shards. All that remained was ten densely written pages with more than a thousand names.
 
@@ -61,7 +80,9 @@ When the building had been returned to the family in the beginning of the 90s, i
 
 It is this precise system of description above all that graphically illustrates the size of the find. It allows one to catch a glimpse of the extent of the tragedy recalled by this discovery. The Roman numerals indicate professional groups, the Arabic the number of boxes of the individual groups. What has remained preserved is the incomplete groups of photographs of actors and singers, writers, artists and musicians, scholars and scientists, aristocrats, politicians and industrialists, and foreigners in Bohemia. The amount of missing boxes, which can be deduced, makes apparent the irreplaceable loss of countless portraits, and thus makes the find a testimony to cultural barbarity.
 
-<br />
+<ViewportImage image={props.localImages[0]} caption="An example fig caption">
+  An example expanded caption.
+</ViewportImage>
 
 Obviously it would be wonderful if the archive of outstanding personalities was complete. But what is immensely valuable is that at least its torso was found. On the thousands of faces one sees the past with its external signs such as the clothing fashions, expressions, and postures of those being portrayed, and also the method of photography. The _Gallery of Personalities_, however, tells us something else: the photographs demonstrate what an essential crossroads of European culture Prague was in those days. In the discovered archive the portraits of Czechs, whose activity often went well beyond the borders of this country, mix with those of foreigners who lived, worked, or were just visiting here. In a natural way then, the collection demonstrates the importance of the Bohemian Lands for Europe, and becomes an eloquent testimony to the past. For countries with violently interrupted histories it is precisely this sort of knowledge of one’s past that opens up the way to the future. The old building in the centre of Prague, whose walls are permeated with a strong smell of developer, has revealed its secret. And it rehabilitated the photographer Jan Langhans.
 
@@ -81,7 +102,15 @@ The story of the rediscovered cultural treasure in the dusty basement of the run
 
 The Gallery is focused mainly on contemporary photography. The Gallery was opened in May of 2003. Since then, we have presented 40 exhibitions.
 
-<br />
+<Carousel
+  images={[props.localImages[1], props.localImages[2], props.localImages[3], props.localImages[4]]}
+  captions={[
+    "Caption for image 1",
+    "Caption for image 2",
+    "Caption for image 3",
+    "Caption for image 4",
+  ]}
+/>
 
 As for the archive, the 9,000 found glass plates are back at their original place, where they are kept in an air-conditioned room. We store and restore the glass plates to the best of our knowledge and ability. The restoration work is done “in house” – we therefore set up a special workplace, following expert recommendations from Herman Maes from Fotomuseum Rotterdam. Periodically, a highly qualified conservationist from Neuchatel, Switzerland closely monitors the work on site. Glass shards are being assembled and loose emulsions fixed. The negatives are cleaned by expert hands and prepared for a final digitalisation.
 
@@ -102,6 +131,15 @@ Consciousness of responsibility for this cultural treasure led to the establishm
 <br />
 
 There is no doubt that this continuity of place and origin is unique: today, the name Langhans stands for the interaction between old and new.
+
+<Carousel
+  images={[props.localImages[8], props.localImages[9], props.localImages[10]]}
+  captions={[
+    "Caption for image 8",
+    "Caption for image 9",
+    "Caption for image 10",
+  ]}
+/>
 
 ## Langhans in Dates
 
