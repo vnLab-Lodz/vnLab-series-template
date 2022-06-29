@@ -7,4 +7,4 @@ export const onRenderBody = ({ setPostBodyComponents }: RenderBodyArgs) => {
   ])
 }
 
-export { wrapRootElement } from "./gatsby-browser"
+export { wrapPageElement } from "./gatsby-browser"

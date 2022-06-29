@@ -1,5 +1,5 @@
-const { onRenderBody, wrapRootElement } = require("./config/gatsby-ssr")
+const { onRenderBody, wrapPageElement } = require("./config/gatsby-ssr")
 
 exports.onRenderBody = onRenderBody
 
-exports.wrapRootElement = wrapRootElement
+exports.wrapPageElement = wrapPageElement

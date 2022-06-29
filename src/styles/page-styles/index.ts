@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import { devices } from "~styles/breakpoints"
+import { breakpoints, devices } from "~styles/breakpoints"
 import Edition from "~components/molecules/edition"
 import atoms from "~components/atoms"
 import ToC from "~components/organisms/navigation-menu/tabs/toc"
@@ -140,6 +140,7 @@ export const LogoImg = styled.img<{ themeMode?: THEME_MODES }>`
 `
 
 export const Title = styled.img<{ themeMode?: THEME_MODES }>`
+  min-height: 130px;
   margin-bottom: ${({ theme }) => theme.spacing.md};
   align-self: flex-start;
 
@@ -331,4 +332,8 @@ export const Header = styled.div`
   display: flex;
   align-items: center;
   padding-right: ${({ theme }) => theme.spacing.xs};
+
+  @media (max-width: calc(${breakpoints.tablet} - 1px)) {
+    display: none;
+  }
 `

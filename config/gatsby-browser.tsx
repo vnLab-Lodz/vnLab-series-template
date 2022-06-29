@@ -1,4 +1,4 @@
-import { WrapRootElementNodeArgs } from "gatsby"
+import { WrapPageElementBrowserArgs } from "gatsby"
 import { ThemeProvider } from "styled-components"
 import { darkTheme, lightTheme } from "../src/styles/theme"
 import React from "react"
@@ -11,7 +11,7 @@ import {
   THEME_MODES,
 } from "src/context/theme-switcher-context"
 
-export const wrapRootElement = ({ element }: WrapRootElementNodeArgs) => (
+export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
   <ThemeSwitcherProvider>
     {({ themeMode }: { themeMode: THEME_MODES }) => (
       <ThemeProvider

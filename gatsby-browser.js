@@ -1,3 +1,3 @@
-const { wrapRootElement } = require("./config/gatsby-browser")
+const { wrapPageElement } = require("./config/gatsby-browser")
 
-exports.wrapRootElement = wrapRootElement
+exports.wrapPageElement = wrapPageElement
