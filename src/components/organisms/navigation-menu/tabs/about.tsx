@@ -19,7 +19,11 @@ interface Data {
 
 const query = graphql`
   {
-    allMdx(filter: { frontmatter: { meta: { eq: true } } }) {
+    allMdx(
+      filter: {
+        frontmatter: { meta: { eq: true }, meta_type: { eq: "about" } }
+      }
+    ) {
       nodes {
         frontmatter {
           locale
