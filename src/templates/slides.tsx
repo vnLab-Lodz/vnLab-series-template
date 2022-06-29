@@ -55,11 +55,19 @@ export const slidesMdxComponents = {
     margin: 8px;
     color: ${({ theme }) => theme.palette.white};
     font-weight: 300;
+
+    @media ${devices.tablet} {
+      margin-left: 71px;
+    }
   `,
   h2: styled(atoms.h2)`
     margin: 0;
     font-family: ${({ theme }) => theme.typography.fonts.primary};
     color: ${({ theme }) => theme.palette.white};
+
+    @media ${devices.tablet} {
+      margin-left: 71px;
+    }
   `,
   h3: styled(atoms.h3)`
     margin: 0;

@@ -3,7 +3,6 @@ import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
-import Layout from "~components/organisms/layout"
 import atoms from "~components/atoms"
 import ArticleMenu from "~components/organisms/article-menu"
 import styled, { css, useTheme } from "styled-components"
@@ -38,6 +37,7 @@ const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.light};
   padding-bottom: ${({ theme }) => theme.spacing.xxxl};
   min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
+  padding-top: ${({ theme }) => theme.spacing.xxxl};
 
   @media ${devices.tablet} {
     padding-bottom: ${({ theme }) => theme.spacing.xxl};

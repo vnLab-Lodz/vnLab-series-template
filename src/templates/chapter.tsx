@@ -68,6 +68,7 @@ export const mdxComponents = {
       <Quote {...props} />
     </MDXProvider>
   )),
+  button: withGridConstraint(atoms.button),
 }
 
 interface Data {
@@ -86,6 +87,7 @@ interface Data {
 
 const StyledLayout = styled(GridContainer)`
   background: ${({ theme: { palette } }) => palette.light};
+  padding-top: ${({ theme }) => theme.spacing.xxxl};
   overflow: initial;
 
   @media ${devices.desktop} {
