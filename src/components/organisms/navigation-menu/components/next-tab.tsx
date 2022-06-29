@@ -4,13 +4,14 @@ import { NAV_MENU_STATES } from "../types"
 import * as Styled from "../style"
 
 export const nextTabNames = (t: TFunction<"nav-menu">) => ({
-  [NAV_MENU_STATES.TOC]: t("tabs.indexes"),
+  // ! Due to indxes disabling toc leads to about
+  [NAV_MENU_STATES.TOC]: t("tabs.about"),
   [NAV_MENU_STATES.INDEXES]: t("tabs.about"),
   [NAV_MENU_STATES.ABOUT]: t("tabs.toc"),
 })
 
 export const nextTabNavState = {
-  [NAV_MENU_STATES.TOC]: NAV_MENU_STATES.INDEXES,
+  [NAV_MENU_STATES.TOC]: NAV_MENU_STATES.ABOUT,
   [NAV_MENU_STATES.INDEXES]: NAV_MENU_STATES.ABOUT,
   [NAV_MENU_STATES.ABOUT]: NAV_MENU_STATES.TOC,
 }
