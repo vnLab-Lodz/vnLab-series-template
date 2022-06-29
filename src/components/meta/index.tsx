@@ -52,13 +52,14 @@ const SeoMeta: React.FC<Props> = ({
     [description, site.siteMetadata.description]
   )
 
+  const image = `https://archiveasproject.gatsbyjs.io/images/card_${lang}.png`
+
   const metaData: Meta[] = useMemo(() => {
     return (
       [
         {
           name: "og:image",
-          content:
-            "https://archiveasproject.gatsbyjs.io/icons/icon-512x512.png",
+          content: image,
         },
         {
           name: `description`,
@@ -94,8 +95,7 @@ const SeoMeta: React.FC<Props> = ({
         },
         {
           name: "twitter:image",
-          content:
-            "https://archiveasproject.gatsbyjs.io/icons/icon-512x512.png",
+          content: image,
         },
         {
           name: "twitter:domain",
