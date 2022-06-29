@@ -119,8 +119,10 @@ export const Center = styled.div`
   user-select: none;
 
   grid-column: 2 / -2;
+  padding-top: 66px;
 
   @media ${devices.tablet} {
+    padding-top: initial;
     grid-column: 7 / -7;
   }
 
@@ -142,6 +144,9 @@ export const LogoImg = styled.img<{ themeMode?: THEME_MODES }>`
 
 export const Title = styled.img<{ themeMode?: THEME_MODES }>`
   min-height: 130px;
+  height: auto;
+  aspect-ratio: 320 / 132;
+  width: 100%;
   margin-bottom: ${({ theme }) => theme.spacing.md};
   align-self: flex-start;
 
