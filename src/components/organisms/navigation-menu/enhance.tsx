@@ -12,6 +12,7 @@ import React, {
   SetStateAction,
 } from "react"
 import useHypothesis from "src/hooks/useHypothesis"
+import useIsMobile from "src/hooks/useIsMobile"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import useScrollDirection, {
   SCROLL_DIRECTION,
@@ -59,6 +60,7 @@ export default function enhance<P = {}>(options: Options) {
       const theme = useTheme()
       const { hideHypothesis } = useHypothesis()
       const { setToggleNav, setIsVisible } = useNavMenuContext()
+      const isMobile = useIsMobile()
 
       const { pauseScroll, resumeScroll } = useScrollPause({
         backgroundColor: theme.palette.light,
@@ -74,6 +76,11 @@ export default function enhance<P = {}>(options: Options) {
       const directionDown = useScrollDirection()
 
       useEffect(() => {
+        if (!isMobile) {
+          setIsVisible(true)
+          return
+        }
+
         if (!options.hideOnMobile || !independentHiding) return
 
         console.log(scrollYProgress.get())
@@ -86,7 +93,13 @@ export default function enhance<P = {}>(options: Options) {
         } else if (directionDown === SCROLL_DIRECTION.DOWN) {
           setIsVisible(false)
         }
-      }, [directionUp, directionDown, options.hideOnMobile, independentHiding])
+      }, [
+        directionUp,
+        directionDown,
+        options.hideOnMobile,
+        independentHiding,
+        isMobile,
+      ])
 
       useEffect(() => setToggleNav(() => () => toggleMenu()), [])
 
