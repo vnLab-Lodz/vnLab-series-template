@@ -108,7 +108,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           <StyledArticle>
             <StyledLayout flexible className="mdx-section">
               <MDXProvider components={components}>
-                <SeoMeta title={title} lang={locale} />
+                <SeoMeta title={title} lang={locale} url={location.pathname} />
                 <MDXRenderer
                   frontmatter={mdx.frontmatter}
                   localImages={embeddedImagesLocal}

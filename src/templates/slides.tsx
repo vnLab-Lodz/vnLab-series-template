@@ -207,7 +207,11 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
               <RevealContainer className="reveal">
                 <div className="slides">
                   <MDXProvider components={slidesMdxComponents}>
-                    <SeoMeta title={title} lang={locale} />
+                    <SeoMeta
+                      title={title}
+                      lang={locale}
+                      url={location.pathname}
+                    />
                     <MDXRenderer
                       frontmatter={mdx.frontmatter}
                       localImages={embeddedImagesLocal}

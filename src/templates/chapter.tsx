@@ -134,6 +134,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
                   title={title}
                   lang={locale}
                   description={mdx.frontmatter.summary}
+                  url={location.pathname}
                 />
                 <MDXRenderer
                   frontmatter={mdx.frontmatter}

@@ -1,6 +1,6 @@
 import React, { DetailedHTMLProps, MetaHTMLAttributes, useMemo } from "react"
 import { Helmet } from "react-helmet"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql, PageProps } from "gatsby"
 import { SiteMetadata } from "../../types/config"
 import { useTranslation } from "react-i18next"
 
@@ -14,6 +14,7 @@ interface Props {
   title: string
   description?: string
   meta?: Meta[]
+  url: PageProps["location"]["pathname"]
 }
 
 interface Query {
@@ -36,6 +37,7 @@ const query = graphql`
 
 const SeoMeta: React.FC<Props> = ({
   description,
+  url,
   meta,
   title,
   lang = "en",
@@ -56,7 +58,7 @@ const SeoMeta: React.FC<Props> = ({
         {
           name: "og:image",
           content:
-            "https://vnlabseriestemplategatsbydeplo.gatsbyjs.io/icons/icon-512x512.png",
+            "https://archiveasproject.gatsbyjs.io/icons/icon-512x512.png",
         },
         {
           name: `description`,
@@ -89,6 +91,19 @@ const SeoMeta: React.FC<Props> = ({
         {
           name: `twitter:description`,
           content: metaDescription,
+        },
+        {
+          name: "twitter:image",
+          content:
+            "https://archiveasproject.gatsbyjs.io/icons/icon-512x512.png",
+        },
+        {
+          name: "twitter:domain",
+          content: "archiveasproject.gatsbyjs.io",
+        },
+        {
+          name: "twitter:url",
+          content: url,
         },
       ] as Meta[]
     ).concat(meta ?? [])

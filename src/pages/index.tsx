@@ -78,7 +78,11 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         currentPath={location.pathname}
       />
       <GridContainer style={{ minHeight: "100vh" }} noConstraint>
-        <SeoMeta title={t("home:title")} lang={locale} />
+        <SeoMeta
+          title={t("home:title")}
+          lang={locale}
+          url={location.pathname}
+        />
         <Styled.ImageWrapper>
           <StaticImage
             style={{ height: "100%", width: "100%" }}
