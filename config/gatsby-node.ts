@@ -161,6 +161,7 @@ export const createSchemaCustomization = ({
       headerImage: File @fileByRelativePath
       embeddedImagesLocal: [File] @fileByRelativePath
       meta: Boolean
+      meta_type: String
       locale: String
       menus: [MENUS]
       slideshow: Boolean
