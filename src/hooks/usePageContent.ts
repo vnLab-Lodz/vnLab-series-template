@@ -4,6 +4,7 @@ export interface Contents {
   text: string
   level: "h1" | "h2" | "h3"
   y: number
+  scrollIntoView: () => void
 }
 
 export default function (): Contents[] {
@@ -23,6 +24,7 @@ export default function (): Contents[] {
               text: e.textContent,
               level: e.localName,
               y: e.offsetTop,
+              scrollIntoView: () => e.scrollIntoView({ behavior: "smooth" }),
             } as Contents)
         )
       )

@@ -1,5 +1,4 @@
 import React from "react"
-import { useTranslation } from "react-i18next"
 import { Contents } from "src/hooks/usePageContent"
 import * as Styled from "./style"
 
@@ -15,11 +14,9 @@ const contentComponents = {
 } as const
 
 const Content: React.FC<Props> = ({ contents, closeMenu }) => {
-  const { t } = useTranslation("common")
-
   return (
     <div>
-      {contents.map(({ text, level, y }, index, array) => {
+      {contents.map(({ text, level, scrollIntoView }, index, array) => {
         const Component = contentComponents[level]
 
         return (
@@ -28,9 +25,7 @@ const Content: React.FC<Props> = ({ contents, closeMenu }) => {
             last={index === array.length - 1}
             key={index}
             onClick={() => {
-              closeMenu(() =>
-                window.scrollTo({ top: y - 130, behavior: "smooth" })
-              )
+              closeMenu(() => scrollIntoView())
             }}
           >
             {text}
