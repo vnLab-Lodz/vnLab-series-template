@@ -96,7 +96,11 @@ export default {
       options: {
         precachePages: [`/*`],
         workboxConfig: {
-          globPatterns: [`**/images/*`],
+          globPatterns: [
+            `**\/*.{js,css,html,svg,png,jpg,jpeg,webp,woff,woff2,ttf,eot}`,
+            `**/images/*`,
+            `**/icons/*`,
+          ],
         },
       },
     },
