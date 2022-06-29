@@ -24,9 +24,6 @@ import useScrollDirection, {
   SCROLL_DIRECTION,
 } from "src/hooks/useScrollDirection"
 
-//@ts-ignore
-import ArrowDown from "src/images/icons/arrow_down.svg"
-
 interface Props {
   spaced?: boolean
   currentPath: string
@@ -152,6 +149,7 @@ const ArticleMenu: React.FC<Props> = ({
 
   const directionUp = useScrollDirection({ threshold: 300 })
   const directionDown = useScrollDirection()
+
   const translateY = useSpring(0)
 
   useEffect(() => {
@@ -163,7 +161,10 @@ const ArticleMenu: React.FC<Props> = ({
       return
     }
 
-    if (directionUp === SCROLL_DIRECTION.UP) {
+    if (
+      directionUp === SCROLL_DIRECTION.UP &&
+      directionDown === SCROLL_DIRECTION.UP
+    ) {
       translateY.set(0)
       if (isMobile) setIsVisible(true)
     } else if (directionDown === SCROLL_DIRECTION.DOWN) {

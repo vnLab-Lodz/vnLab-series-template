@@ -6,16 +6,16 @@ import {
 } from "framer-motion"
 import React, {
   useState,
-  useRef,
   useEffect,
   useLayoutEffect,
   Dispatch,
   SetStateAction,
 } from "react"
 import useHypothesis from "src/hooks/useHypothesis"
-import useIsMobile from "src/hooks/useIsMobile"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
-import useScrollDistance from "src/hooks/useScrollDistance"
+import useScrollDirection, {
+  SCROLL_DIRECTION,
+} from "src/hooks/useScrollDirection"
 import useScrollPause from "src/hooks/useScrollPause"
 import { useTheme } from "styled-components"
 import { NAV_MENU_STATES } from "./types"
@@ -56,17 +56,9 @@ export default function enhance<P = {}>(options: Options) {
         NAV_MENU_STATES.TOC
       )
 
-      const prevScrollPos = useRef<number | undefined>(undefined)
-
       const theme = useTheme()
       const { hideHypothesis } = useHypothesis()
       const { setToggleNav, setIsVisible } = useNavMenuContext()
-
-      const isMobile = useIsMobile(mobile => {
-        if (!options.hideOnMobile) return
-
-        !mobile && setIsVisible(true)
-      })
 
       const { pauseScroll, resumeScroll } = useScrollPause({
         backgroundColor: theme.palette.light,
@@ -78,34 +70,23 @@ export default function enhance<P = {}>(options: Options) {
 
       const toggleMenu = () => setOpen(prev => !prev)
 
-      const onScroll = () => {
-        if (!independentHiding) return
-
-        const currentScrollPos = window.pageYOffset
-
-        if (prevScrollPos.current !== undefined && isMobile) {
-          if (open || prevScrollPos.current !== 0) {
-            if (prevScrollPos.current < currentScrollPos) setIsVisible(false)
-          }
-        }
-
-        prevScrollPos.current = currentScrollPos
-      }
-
-      const onScrollEnd = useScrollDistance(distance => {
-        if (distance <= -300 && isMobile) setIsVisible(true)
-      })
+      const directionUp = useScrollDirection({ threshold: 150 })
+      const directionDown = useScrollDirection()
 
       useEffect(() => {
-        if (!options.hideOnMobile) return
+        if (!options.hideOnMobile || !independentHiding) return
 
-        window.addEventListener("scroll", onScroll)
-        window.addEventListener("scroll", onScrollEnd)
-        return () => {
-          window.removeEventListener("scroll", onScroll)
-          window.addEventListener("scroll", onScrollEnd)
+        console.log(scrollYProgress.get())
+
+        if (
+          directionUp === SCROLL_DIRECTION.UP &&
+          directionDown === SCROLL_DIRECTION.UP
+        ) {
+          setIsVisible(true)
+        } else if (directionDown === SCROLL_DIRECTION.DOWN) {
+          setIsVisible(false)
         }
-      }, [isMobile, setIsVisible])
+      }, [directionUp, directionDown, options.hideOnMobile, independentHiding])
 
       useEffect(() => setToggleNav(() => () => toggleMenu()), [])
 
