@@ -148,7 +148,7 @@ const ArticleMenu: React.FC<Props> = ({
   }
 
   const directionUp = useScrollDirection({ threshold: 300 })
-  const directionDown = useScrollDirection()
+  const directionDown = useScrollDirection({ threshold: 5 })
 
   const translateY = useSpring(0)
 

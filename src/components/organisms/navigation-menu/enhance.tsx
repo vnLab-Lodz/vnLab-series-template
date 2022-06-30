@@ -72,8 +72,8 @@ export default function enhance<P = {}>(options: Options) {
 
       const toggleMenu = () => setOpen(prev => !prev)
 
-      const directionUp = useScrollDirection({ threshold: 150 })
-      const directionDown = useScrollDirection()
+      const directionUp = useScrollDirection({ threshold: 300 })
+      const directionDown = useScrollDirection({ threshold: 5 })
 
       useEffect(() => {
         if (!isMobile) {
@@ -82,8 +82,6 @@ export default function enhance<P = {}>(options: Options) {
         }
 
         if (!options.hideOnMobile || !independentHiding) return
-
-        console.log(scrollYProgress.get())
 
         if (
           directionUp === SCROLL_DIRECTION.UP &&
@@ -100,6 +98,14 @@ export default function enhance<P = {}>(options: Options) {
         independentHiding,
         isMobile,
       ])
+
+      useEffect(
+        () =>
+          scrollYProgress.onChange(e => {
+            if (e < 0.005) setIsVisible(true)
+          }),
+        []
+      )
 
       useEffect(() => setToggleNav(() => () => toggleMenu()), [])
 
