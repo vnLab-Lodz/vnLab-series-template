@@ -25,9 +25,9 @@ embeddedImagesLocal:
 
 # The Fortepan Open Archive
 
-<Author>Miklós Tamási</Author>
+<Author link="/chapter_22">Miklós Tamási</Author>
 
-Although a typographer by profession, I have worked with old photographs for more than 20 years. The Open Society Archives at Central European University, my current employer, houses one of the most significant collections of documents on the Cold War and an extensive archive of the Radio Free Europe/Radio Liberty (RFE/RL). The latter contains several thousand photographs, but the OSA’s most extensive photographic resource is an archive of 20,000 photographs from a Hungarian periodical called *Magyar Rendőr* (*Hungarian Policeman*). However, it is not these “official” collections, connected to my professional life, that I would like to address here. Work on them follows the strict traditional methods of archival processing: snapshot by snapshot, series by series, preparing thumbnails and professional descriptions.
+Although a typographer by profession, I have worked with old photographs for more than 20 years. The Open Society Archives at Central European University, my current employer, houses one of the most significant collections of documents on the Cold War and an extensive archive of the Radio Free Europe/Radio Liberty (RFE/RL). The latter contains several thousand photographs, but the OSA’s most extensive photographic resource is an archive of 20,000 photographs from a Hungarian periodical called _Magyar Rendőr_ (_Hungarian Policeman_). However, it is not these “official” collections, connected to my professional life, that I would like to address here. Work on them follows the strict traditional methods of archival processing: snapshot by snapshot, series by series, preparing thumbnails and professional descriptions.
 
 <br />
 
@@ -37,8 +37,10 @@ Rather, I would like to use this occasion to present an unofficial, private init
 
 Every inhabitant of Budapest is allocated one day per year to put the things they no longer need in the street, where they will be collected by street cleaners. In practice, this means that from spring to autumn, week after week, different parts of the city are covered by garbage heaps. Furniture of no use, worn shoes, outgrown clothes, and of course a lot of garbage. When I was a secondary school student, my friend Ákos Szepessy and I decided to go and have a look at the “clear-outs”. At first it was rather haphazard, but later, from the 1990s on, we made a regular practice of attending those clear-outs, and it slowly became our passion. From the very beginning, when rummaging through the garbage, we took home every object related to photography: cameras, negatives and printed photos. Over time we formed relationships with others like us who collected something specific, as we did. Sometimes we bought photos and scrapbooks from homeless people. During those years we found photos thrown away by hundreds of families. The majority of them were on negatives, but a few thousand were on paper. With time, our collection had become rather chaotic; none of us knew its precise content, and we had no clue at all what was on the negatives. In 2009, we agreed to look through all of them and try to scan them. At least we, the collectors, should know who or what was in the photos. Over the next year I spent almost each and every night scanning and cutting photos. My only companions in this phase of work were PJ Harvey, Cat Power and other rock musicians, whose records I listened to.
 
-<ViewportImage image={props.localImages[0]} caption="ca. 1905; [www.fortepan.hu](http://www.fortepan.hu).">
-</ViewportImage>
+<ViewportImage
+  image={props.localImages[0]}
+  caption="ca. 1905; [www.fortepan.hu](http://www.fortepan.hu)."
+></ViewportImage>
 
 During these long nights I had plenty of time to think carefully about what we should do with the thousands of photos we had acquired. It was obvious from the very beginning that the Internet would be the optimal solution. The first idea that Ákos and I had was to set up a website where all of our photos could be seen and searched on-line, as in a depository. At the time it seemed to be a handy solution, because we thought that each and every photo was important. But after reconsidering the first few hundreds of the images we had, we both felt that the collection was full of uninspiring, sad, and also disturbing photos that seemed to ruin the really important ones, of which there were much less. In other words, if we wanted to have a collection we were emotionally involved with, we would have to personally select it from amongst the many photos we had acquired. So in parallel with scanning, we started the selection process. We kept only the ones that we decided were “good.” We realized that this was a somewhat vague category, so we decided to clarify and describe the character of Fortepan in the following way: as a collection photos that we would like to remember and make others remember. So everything that we would like to forget won’t be seen. I know very well that this attitude is unacceptable to an archivist, but that is what we chose to undertake, and it gives a very special charm and character to the website. By the spring of 2010 we had thousands of “good” digitized photos ready for display. The aforementioned long nights with Cat Power and PJ Harvey gave me time to think of the next steps. After browsing the Internet looking for similar collections, we determined the following:
 
@@ -55,7 +57,12 @@ The second thought was to make all the photos downloadable. This was not an easy
 The third thing we decided is the most difficult one to explain: we wanted to show the photos as linked or connected to each other. In other words, we wanted to make a film or write a novel using the pictures: watching a slide show of the photos should simultaneously suggest a connection between them. We were not interested in the thematically separated units of what we call a gallery approach. This method would have been the most simple to realize. Take the example of family photos: we could have kept the different family scrapbooks and negatives together and the photos could have been presented with each family as a separate gallery. The problem with this attitude was that the origin of many photos was completely unknown to us, as they did not belong to any album, or were single photos without a pair. This method also would have kept the photos separate, without the feeling of continuity and connection. So we had to discover a systemic method that somehow produced cohesion in a collection of photos with no common origin. Hence, the time scroll, or chronological slider.
 
 <Carousel
-  images={[props.localImages[1], props.localImages[2], props.localImages[3], props.localImages[4]]}
+  images={[
+    props.localImages[1],
+    props.localImages[2],
+    props.localImages[3],
+    props.localImages[4],
+  ]}
   captions={[
     "ca. 1914; [www.fortepan.hu](http://www.fortepan.hu).",
     "ca. 1920; [www.fortepan.hu](http://www.fortepan.hu).",
@@ -81,8 +88,10 @@ The above mentioned four principles:
 
 As can be seen immediately upon entering the site, we had to insert a few menu options. First of all, we had to introduce ourselves and the collection in a few sentences, to make it clear for readers that it is not a selection from a state owned museum’s collection. This text can be found by clicking on “Fortepan.” This screen also provides a short history of the collection. The following 3 buttons work as a filter; we created three thematic groups that the photos could easily be put into: People, Objects and Places. Since an overlapping is unavoidable – for example there are photos in which both the person and the place are very characteristic – the same photo can be put into several categories (thanks to recent statistical figures, we know that the most popular thematic filter is “Places”). The 6th button is “New.” Here one can find the most recent additions to the website. Usually 1000–1500 new photos are put on the website every other month, so a separate menu entry for those seemed appropriate.
 
-<ViewportImage image={props.localImages[5]} caption="ca. 1945; [www.fortepan.hu](http://www.fortepan.hu).">
-</ViewportImage>
+<ViewportImage
+  image={props.localImages[5]}
+  caption="ca. 1945; [www.fortepan.hu](http://www.fortepan.hu)."
+></ViewportImage>
 
 The most interesting element of the menu options is the search. In the early days of the website, the collection was not searchable, as we had no data about the photos. Sometimes we had the data, but did not feel like typing it in, having neither time nor the energy. Priority was given to the photos as visual objects. Less attention was paid to the content, though we knew very well that more people would be interested in exactly that. We were prepared for questions like: Do you have photos of Buda Castle? Will I find a photo of János Kádár, a football match, Zeppelin balloon, synagogue, etc.? And even more complicated ones like, do you have photos in your collection of a “Raketa” vacuum cleaner, Skoda car, or luxury model Skoda 100, or Orion color TV? These were questions we could not answer; maybe we would remember something, but were unable to find the photo, or we could only find it by accident. We were prepared for these questions, but at that time we did not know yet that we wouldn’t have to answer them.
 
@@ -99,7 +108,12 @@ The search engine searches these descriptions. It is very useful to those who ar
 I would like to say a few words about the names that can be seen in the bottom left corner of the website. Today the Fortepan collection contains approximately 10.000 photos, so in 6 months we doubled the original number of images. There are two sources of this expansion. Part of it comes from scanning images from our own collection. The second source has to do with those names. Early on it turned out that there were people who wanted to share their family photos with our assistance. They accepted and agreed with the above mentioned subjective selection condition and so we became the ones who take care of their photos. In practice this means that every week someone contacts us asking if she or he could send us some photos, and also asks to meet with us. The most important issue is the copyright, which is discussed with the donor at the outset of our cooperation. Fortepan’s copyright policy means that anyone can download the photos for any reason, even for commercial use. This is extremely important to the donor or collector, as we put high resolution versions of his/her photos on the website, and it could happen that this person later finds his/her parents or fairy cycle or dog, on a CD cover or poster.
 
 <Carousel
-  images={[props.localImages[6], props.localImages[7], props.localImages[8], props.localImages[9]]}
+  images={[
+    props.localImages[6],
+    props.localImages[7],
+    props.localImages[8],
+    props.localImages[9],
+  ]}
   captions={[
     "ca. 1960; [www.fortepan.hu](http://www.fortepan.hu).",
     "ca. 1960; [www.fortepan.hu](http://www.fortepan.hu).",
@@ -122,8 +136,10 @@ However, there are more hints of authorship in our archive. Not long ago Tamas U
 
 Let me share some details of the website’s reception. According to statistics, the site receives 600–900 visitors per day. They generally spend 15 minutes on the website, and I am completely satisfied with this figure. In this 15 minutes a reader can browse through approximately 100 photos, so around 60 000 photos are looked at daily. The number of visitors of the website generates different kinds of continuities, and so we were very glad to see “our” pictures in articles, advertisements, books and calendars, on the web or on CD covers. In fact, the reception of the Fortepan website has vastly exceeded our expectations; after almost every expansion, articles about us appear in the most popular Internet media. What still surprises me is that users cite us in their publications, which is very kind of them. What is more, people devote their spare time to think of captions to our photos; middle aged or elderly people personally bring their family photos to us; journalists send us copies of their newspapers. If someone spends 15 minutes searching Fortepan, then maybe he comes to understand the mission of the founders.
 
-<ViewportImage image={props.localImages[10]} caption="ca. 1979; [www.fortepan.hu](http://www.fortepan.hu).">
-</ViewportImage>
+<ViewportImage
+  image={props.localImages[10]}
+  caption="ca. 1979; [www.fortepan.hu](http://www.fortepan.hu)."
+></ViewportImage>
 
 It also seems that nearly all of our visitors appreciate the fact that some individuals made their collection available to the public, spending their nights scanning and selecting photos without receiving any payment. Others appreciate it that the final result is downloadable free in high resolution without even having to send an email, simply by clicking on the “Download” button. Still others have memories and experiences of photo archives of public institutions and their slow, expensive, badly catalogued and bureaucratic mode of operation, and this mode seems a viable alternative to them. And last but not least, there are people who simply believe that not everything in our lives has to be about money.
 
@@ -136,7 +152,13 @@ I would like to finish by saying something about feedback from official and prof
 Will Fortepan continue to exist, will there be new functions on the website, how long will we (and the server) be able to run the program? Hard to say. Or easy, maybe. We have been collecting photos for 23 years, so most likely that will not change. There is nothing more fantastic than to see a 60 year old negative developed for the first time. I am very lucky that I could share this feeling, and that these forgotten but saved photos can be now seen in the window of a florist’s shop, or on the wall of a teenage girl’s room. That is enough to encourage us to once again spend our nights in the sole company of PJ Harvey or Cat Power.
 
 <Carousel
-  images={[props.localImages[11], props.localImages[12], props.localImages[13], props.localImages[14], props.localImages[15]]}
+  images={[
+    props.localImages[11],
+    props.localImages[12],
+    props.localImages[13],
+    props.localImages[14],
+    props.localImages[15],
+  ]}
   captions={[
     "ca. 1980; [www.fortepan.hu](http://www.fortepan.hu).",
     "ca. 1985; [www.fortepan.hu](http://www.fortepan.hu).",
