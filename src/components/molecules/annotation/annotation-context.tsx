@@ -1,6 +1,7 @@
 import React, { createContext, PropsWithChildren, useState } from "react"
 
 export interface Annotation {
+  id: string
   target: string
   content: any
   index: number
@@ -11,6 +12,7 @@ export interface Annotation {
 interface Context {
   annotations: Array<Annotation>
   addAnnotation: (
+    id: string,
     target: string,
     content: any,
     position: number,
@@ -20,7 +22,7 @@ interface Context {
 
 export const AnnotationContext = createContext<Context>({
   annotations: [],
-  addAnnotation: (_t, _a) => {},
+  addAnnotation: (_id, _t, _a) => {},
 })
 
 const AnnotationProvider: React.FC<PropsWithChildren<unknown>> = ({
@@ -29,6 +31,7 @@ const AnnotationProvider: React.FC<PropsWithChildren<unknown>> = ({
   const [annotations, setAnnotations] = useState<Annotation[]>([])
 
   const addAnnotation = (
+    id: string,
     target: string,
     content: any,
     position: number,
@@ -36,7 +39,7 @@ const AnnotationProvider: React.FC<PropsWithChildren<unknown>> = ({
   ) => {
     setAnnotations(prev => {
       const index = prev.length + 1
-      return [...prev, { target, content, index, position, scrollIntoView }]
+      return [...prev, { id, target, content, index, position, scrollIntoView }]
     })
   }
 
