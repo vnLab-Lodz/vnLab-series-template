@@ -209,7 +209,7 @@ export const Fullscreen = styled(GridContainer)`
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 4;
+    z-index: 7;
     grid-template-rows: auto 1fr auto;
     padding-bottom: ${spacing.sm};
     height: 100vh;
