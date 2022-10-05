@@ -1,5 +1,6 @@
 {
   "id": "d82d2974-f4ff-4231-9082-ba6b0f504e8d",
+  "owner": "vnLab=Lodz",
   "collaborators": [
     {
       "id": "2d740a21-12ed-4389-bde2-175f8f22e752",
@@ -23,9 +24,7 @@
   "useSass": true,
   "useTypescript": true,
   "creationDate": 1648729313575,
-  "tags": [
-    "vnLab"
-  ],
+  "tags": ["vnLab"],
   "status": "cloned",
   "lastUpdate": 0,
   "dirPath": "C:\\Users\\itsdz\\Documents\\Praca\\PWSFTviT\\vnLab-series-template",
