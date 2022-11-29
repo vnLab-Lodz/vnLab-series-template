@@ -82,6 +82,6 @@ export const CloseBtn = styled.button`
   }
 `
 
-export const InheritParagraph = styled.p`
+export const InheritParagraph = styled.p.attrs({ as: "span" })`
   all: inherit;
 `

@@ -4,12 +4,8 @@ import { MDXProvider } from "@mdx-js/react"
 import { MdxLink, useLocalization } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
-import Abstract from "~components/molecules/abstract"
 import Annotation from "~components/molecules/annotation"
-import Quote from "~components/molecules/quote"
 import atoms from "~components/atoms"
-import Author from "~components/molecules/author"
-import Edition from "~components/molecules/edition"
 import ArticleMenu from "~components/organisms/article-menu"
 import styled, { StyledComponent, useTheme } from "styled-components"
 import AnnotationProvider from "~components/molecules/annotation/annotation-context"
@@ -25,50 +21,35 @@ import { devices } from "~styles/breakpoints"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import { MENUS } from "~types"
 import { GridContainer } from "~styles/grid"
-import withGridConstraint from "src/hoc/withGridConstraint"
 import { BackgroundGlobals } from "~styles/globals"
-
-export const addClass =
-  (
-    Component:
-      | React.FC<PropsWithChildren<{ className: string }>>
-      | StyledComponent<any, any>,
-    className: string
-  ): React.FC<PropsWithChildren<unknown>> =>
-  ({ children }) =>
-    <Component className={className}>{children}</Component>
+import { components } from "~components/mdx"
 
 export const mdxComponents = {
-  Link: MdxLink,
-  Author: withGridConstraint(Author),
-  Abstract: withGridConstraint(Abstract),
-  Annotation: Annotation,
-  Edition: withGridConstraint(Edition),
-  Quote: withGridConstraint(Quote),
-  ViewportImage: ViewportImage,
-  Carousel: Carousel,
-  p: withGridConstraint(atoms.p),
-  ul: withGridConstraint(atoms.ul),
-  ol: withGridConstraint(atoms.ol),
   strong: atoms.strong,
   em: atoms.em,
   del: atoms.del,
   a: atoms.a,
-  h1: withGridConstraint(addClass(atoms.h1, "mdx-heading")),
-  h2: withGridConstraint(addClass(atoms.h2, "mdx-heading")),
-  h3: withGridConstraint(addClass(atoms.h3, "mdx-heading")),
-  br: withGridConstraint(() => <br />),
-  blockquote: withGridConstraint(props => (
-    <MDXProvider
-      components={{
-        ...mdxComponents,
-        p: props => <React.Fragment {...props} />,
-      }}
-    >
-      <Quote {...props} />
-    </MDXProvider>
-  )),
-  button: withGridConstraint(atoms.button),
+  // ---- ---- ---- ----
+  Link: MdxLink,
+  // --------
+  p: components.p,
+  h1: components.h1,
+  h2: components.h2,
+  h3: components.h3,
+  blockquote: components.blockquote,
+  ul: components.ul,
+  ol: components.ol,
+  button: components.button,
+  br: components.br,
+  // ---------
+  Quote: components.blockquote,
+  Abstract: components.Abstract,
+  Author: components.Author,
+  Edition: components.Edition,
+  // ---- ---- ---- ----
+  Annotation: Annotation,
+  Carousel: Carousel,
+  ViewportImage: ViewportImage,
 }
 
 interface Data {
@@ -84,21 +65,6 @@ interface Data {
     }
   }
 }
-
-const StyledLayout = styled(GridContainer)`
-  background: ${({ theme: { palette } }) => palette.light};
-  padding-top: ${({ theme }) => theme.spacing.xxxl};
-  overflow: initial;
-
-  @media ${devices.desktop} {
-    justify-content: center;
-    margin: auto;
-  }
-`
-
-const StyledArticle = styled.article`
-  background: ${({ theme: { palette } }) => palette.light};
-`
 
 const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
@@ -130,7 +96,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             spaced={!headerImage}
           />
           <StyledArticle>
-            <StyledLayout flexible className="mdx-section">
+            <StyledLayout $flexible className="mdx-section">
               <MDXProvider components={mdxComponents}>
                 <SeoMeta
                   title={title}
@@ -181,3 +147,28 @@ export const query = graphql`
 `
 
 export default Section
+
+const StyledLayout = styled(GridContainer)`
+  background: ${({ theme: { palette } }) => palette.light};
+  padding-top: ${({ theme }) => theme.spacing.xxxl};
+  overflow: initial;
+
+  @media ${devices.desktop} {
+    justify-content: center;
+    margin: auto;
+  }
+`
+
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.light};
+`
+
+export const addClass =
+  (
+    Component:
+      | React.FC<PropsWithChildren<{ className: string }>>
+      | StyledComponent<any, any>,
+    className: string
+  ): React.FC<PropsWithChildren<unknown>> =>
+  ({ children }) =>
+    <Component className={className}>{children}</Component>

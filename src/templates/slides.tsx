@@ -211,7 +211,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             renderProps={{ deck, isOverlayVisible, setIsOverlayVisible }}
           />
           <StyledArticle>
-            <StyledLayout noConstraint>
+            <StyledLayout $noConstraint>
               <RevealContainer className="reveal">
                 <div className="slides">
                   <MDXProvider components={slidesMdxComponents}>

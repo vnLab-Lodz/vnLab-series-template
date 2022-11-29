@@ -79,7 +79,7 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
 
   return (
     <Styled.FooterSpacer>
-      <Styled.FooterGrid noConstraint>
+      <Styled.FooterGrid $noConstraint>
         <Styled.FooterContainer>
           <Styled.ArrowButton side="left" onClick={rewindIndex}>
             <img

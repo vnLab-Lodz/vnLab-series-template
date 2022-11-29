@@ -10,7 +10,7 @@ const Layout: React.FC<PropsWithChildren<Props>> = ({
   className,
 }) => {
   return (
-    <GridContainer flexible className={className}>
+    <GridContainer $flexible className={className}>
       <GridConstraint>{children}</GridConstraint>
     </GridContainer>
   )

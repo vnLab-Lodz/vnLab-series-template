@@ -4,7 +4,7 @@ import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 import BaseLayout from "../layout"
 
-export const ArticleMenuContainer = styled.div<{ spaced?: boolean }>`
+export const ArticleMenuContainer = styled.div<{ $spaced?: boolean }>`
   position: sticky;
   top: 65px;
   height: 75px;

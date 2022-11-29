@@ -120,7 +120,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           />
           <ThemeProvider theme={lightTheme}>
             <StyledArticle>
-              <StyledLayout flexible className="mdx-section">
+              <StyledLayout $flexible className="mdx-section">
                 <MDXProvider components={mdxComponents}>
                   <SeoMeta
                     title={title}

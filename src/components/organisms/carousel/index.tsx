@@ -160,8 +160,12 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
 
   return (
     <React.Fragment key={key}>
-      <Styled.ViewportConstraint ref={constraintRef} animate={controls}>
-        <Styled.Absolute flexible ref={stickyRef} sticky={sticky}>
+      <Styled.ViewportConstraint
+        ref={constraintRef}
+        animate={controls}
+        className="carousel"
+      >
+        <Styled.Absolute $flexible ref={stickyRef} sticky={sticky}>
           <Styled.Slider ref={ref} onScroll={onScroll}>
             <Styled.ImageSpacer />
             {images.map((image, index) => (

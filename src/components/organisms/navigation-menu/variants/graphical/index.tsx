@@ -108,7 +108,7 @@ const GraphicalNavMenu: React.FC<NavVariantProps<RenderProps>> = ({
   }, [deck.current, handleSlideChange])
 
   return (
-    <Styled.Aside noConstraint open={open}>
+    <Styled.Aside $noConstraint open={open}>
       <GraphicallyStyled.Nav mode={NAV_MODES.LIGHT} open={open} id="menu-nav">
         <GraphicallyStyled.BaseContainer>
           <GraphicallyStyled.ToggleBtn
@@ -270,7 +270,7 @@ const NavigationButtons: React.FC<NavigationButtonsProps> = ({
   }, [deck.current, handleSlideChange])
 
   return (
-    <GraphicallyStyled.ButtonsContainer spaced={!isMobile}>
+    <GraphicallyStyled.ButtonsContainer $spaced={!isMobile}>
       <GraphicallyStyled.ArrowBtn onClick={moveUp}>
         <motion.img
           style={{
