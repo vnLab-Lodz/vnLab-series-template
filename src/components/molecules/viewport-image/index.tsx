@@ -170,7 +170,11 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
   const img = getImage(image) as IGatsbyImageData
 
   return (
-    <Styled.ViewportConstraint ref={ref} animate={controls}>
+    <Styled.ViewportConstraint
+      ref={ref}
+      animate={controls}
+      className="viewport-image"
+    >
       <Styled.Absolute ref={stickyRef} sticky={sticky}>
         <Styled.ImageWrapper>
           <GatsbyImage

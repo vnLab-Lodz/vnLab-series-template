@@ -12,7 +12,7 @@ export const QuoteContainer = styled.article`
   `}
 `
 
-export const QuoteText = styled(atoms.p)`
+export const QuoteText = styled(atoms.p).attrs({ as: "div" })`
   ${({ theme: { typography, palette } }) => css`
     font-family: ${typography.fonts.secondary};
     font-size: ${typography.lg};
