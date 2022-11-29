@@ -55,7 +55,7 @@ const FooterElement: React.FC<Props> = ({
         <Styled.VariantHeader type="primary">{header}:</Styled.VariantHeader>
         <Styled.ArticleNumber>{number?.toFixed(2)}</Styled.ArticleNumber>
         <Styled.ArticleTitle to={path}>
-          <atoms.p>
+          <atoms.p as="div">
             <ReactMarkdown components={{ ...mdxComponents } as any}>
               {title}
             </ReactMarkdown>

@@ -96,7 +96,7 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
             spaced={!headerImage}
           />
           <StyledArticle>
-            <StyledLayout flexible className="mdx-section">
+            <StyledLayout $flexible className="mdx-section">
               <MDXProvider components={mdxComponents}>
                 <SeoMeta
                   title={title}

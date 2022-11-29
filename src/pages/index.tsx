@@ -77,7 +77,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         reduced={isMobile}
         currentPath={location.pathname}
       />
-      <GridContainer style={{ minHeight: "100vh" }} noConstraint>
+      <GridContainer style={{ minHeight: "100vh" }} $noConstraint>
         <SeoMeta
           title={t("home:title")}
           lang={locale}

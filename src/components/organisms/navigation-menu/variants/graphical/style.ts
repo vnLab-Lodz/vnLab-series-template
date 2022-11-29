@@ -60,9 +60,10 @@ export const SlideNavContainer = styled(motion.div)<{
     disablePointerEvents && "pointer-events: none;"};
 `
 
-export const ButtonsContainer = styled.div<{ spaced?: boolean }>`
+export const ButtonsContainer = styled.div<{ $spaced?: boolean }>`
   display: flex;
-  margin-bottom: ${({ spaced, theme }) => (spaced ? theme.spacing.xxl : 0)};
+  margin-bottom: ${({ $spaced: spaced, theme }) =>
+    spaced ? theme.spacing.xxl : 0};
   flex-direction: row;
   height: 100%;
 
