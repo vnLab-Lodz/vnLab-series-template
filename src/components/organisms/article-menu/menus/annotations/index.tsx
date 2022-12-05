@@ -54,9 +54,9 @@ const Annotations: React.FC<{
   annotations: AnnotationType[]
 }> = ({ closeMenu, annotations }) => (
   <Styled.AnnotationsGrid>
-    {annotations.map(({ index, content, position, scrollIntoView }) => (
+    {annotations.map(({ id, index, content, position, scrollIntoView }) => (
       <Annotation
-        key={`inmenu-annotation_${index}`}
+        key={`inmenu-annotation_${id}`}
         index={index}
         content={content}
         position={position}

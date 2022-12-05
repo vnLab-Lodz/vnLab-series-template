@@ -14,11 +14,12 @@ import { MDXProvider } from "@mdx-js/react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ThemeProvider } from "styled-components"
 import lightTheme from "~styles/theme"
+import { v4 } from "uuid"
 
-//@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
 
 interface Props {
+  id?: string
   target: string
 }
 
@@ -58,6 +59,7 @@ const AnnotationPortal: React.FC<PropsWithChildren<PortalProps>> = ({
 }
 
 const Annotation: React.FC<PropsWithChildren<Props>> = ({
+  id,
   target,
   children,
 }) => {
@@ -80,22 +82,18 @@ const Annotation: React.FC<PropsWithChildren<Props>> = ({
     setPosition(elementRect.top + doc.scrollTop + offset)
   }
 
-  useEffect(() => {
-    calculatePosition()
-  }, [ref])
+  useEffect(() => calculatePosition(), [ref])
 
   useEffect(() => {
     if (
       children &&
       ref &&
       typeof position === "number" &&
-      !annotations.find(
-        a => a.target === target && a.content === children.toString()
-      )
+      !annotations.find(a => a.id)
     ) {
       const pos = !!position ? position - offsetRef.current : 0
 
-      addAnnotation(target, children, pos, () =>
+      addAnnotation(id ?? v4(), target, children, pos, () =>
         ref.current?.scrollIntoView({ behavior: "smooth" })
       )
     }
@@ -115,7 +113,11 @@ const Annotation: React.FC<PropsWithChildren<Props>> = ({
       >
         {target}
       </ReactMarkdown>
-      <Styled.AnnotationIndex ref={ref} onClick={handleIndexClick}>
+      <Styled.AnnotationIndex
+        ref={ref}
+        onClick={handleIndexClick}
+        id={id ?? v4()}
+      >
         {annotation?.index}
       </Styled.AnnotationIndex>
       <AnimatePresence>

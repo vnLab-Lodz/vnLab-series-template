@@ -264,7 +264,7 @@ const ArticleMenu: React.FC<Props> = ({
     <Styled.ArticleMenuContainer
       ref={ref}
       className={className}
-      spaced={spaced}
+      $spaced={spaced}
       as={motion.div}
       style={{ translateY }}
     >

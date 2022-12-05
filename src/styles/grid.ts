@@ -2,15 +2,15 @@ import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
 interface ContainerProps {
-  noConstraint?: boolean
-  left?: boolean
-  right?: boolean
-  flexible?: boolean
+  $noConstraint?: boolean
+  $left?: boolean
+  $right?: boolean
+  $flexible?: boolean
 }
 
-function getContainerMargin(options: Pick<ContainerProps, "left" | "right">) {
-  if (options.left) return "0 auto 0 0"
-  if (options.right) return "0 0 0 auto"
+function getContainerMargin(options: Pick<ContainerProps, "$left" | "$right">) {
+  if (options.$left) return "0 auto 0 0"
+  if (options.$right) return "0 0 0 auto"
   return "auto"
 }
 
@@ -19,17 +19,17 @@ export const GridContainer = styled.div<ContainerProps>`
   grid-template-columns: repeat(32, 1fr);
   overflow: hidden;
 
-  ${({ noConstraint, left, right }) =>
+  ${({ $noConstraint: noConstraint, $left: left, $right: right }) =>
     !noConstraint &&
     css`
       @media ${devices.desktop} {
         grid-template-columns: repeat(32, max(3.125rem));
         max-width: calc(3.125rem * 32);
-        margin: ${getContainerMargin({ left, right })};
+        margin: ${getContainerMargin({ $left: left, $right: right })};
       }
     `}
 
-  ${({ flexible }) =>
+  ${({ $flexible: flexible }) =>
     flexible &&
     css`
       @media ${devices.desktop} {

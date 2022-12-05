@@ -94,7 +94,7 @@ const FullscreenPortal: React.FC<Props> = ({
 
   return ReactDOM.createPortal(
     <Styled.Fullscreen
-      noConstraint
+      $noConstraint
       as={motion.div}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

@@ -35,7 +35,7 @@ const EndSlideOverlay: React.FC<Props> = ({
 
   return (
     <Styled.SlideOverlay
-      right
+      $right
       as={motion.div}
       initial={{ translateX: "100%" }}
       animate={{ translateX: "0%" }}
