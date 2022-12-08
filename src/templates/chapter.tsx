@@ -40,7 +40,7 @@ export const mdxComponents = {
   ul: components.ul,
   ol: components.ol,
   button: components.button,
-  br: components.br,
+  hr: components.hr,
   // ---------
   Quote: components.blockquote,
   Abstract: components.Abstract,

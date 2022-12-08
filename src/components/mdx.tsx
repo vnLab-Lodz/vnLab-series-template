@@ -42,6 +42,10 @@ const marginRules = css`
       }
     }
 
+    p.mdx-paragraph + &.mdx-paragraph {
+      margin-top: ${({ theme }) => `clamp(0px, ${theme.spacing.xs}, 20px)`};
+    }
+
     // ! If element above is a blockquote
     *.mdx-blockquote + & {
       margin-top: ${({ theme }) => theme.spacing.xl};
@@ -50,10 +54,9 @@ const marginRules = css`
     // ! Override for when element above is
     // ! carousel, viewport image, br
     // ! or if the element itself is a br
-    div.mdx-break + &,
+    hr.mdx-hr + &,
     div.carousel + &,
-    div.viewport-image + &,
-    &.mdx-break {
+    div.viewport-image + & {
       margin-top: 0 !important;
     }
   }
@@ -107,17 +110,14 @@ const button = styled(atoms.button).attrs({ className: "mdx-button" })`
   ${marginRules}
 `
 
-const br: React.FC = () => (
-  <div
-    className="mdx-break"
-    css={`
-      ${gridConstraint}
-      ${marginRules}
-    `}
-  >
-    <br />
-  </div>
-)
+const hr = styled.hr.attrs({ className: "mdx-hr" })`
+  ${gridConstraint}
+
+  margin: ${({ theme }) => theme.spacing.sm} 0;
+  width: 100%;
+  height: 0;
+  opacity: 0;
+`
 
 const Abstract = styled(AbstractMolecule).attrs({ className: "mdx-abstract" })`
   ${gridConstraint}
@@ -143,7 +143,7 @@ export const components = {
   ul,
   ol,
   button,
-  br,
+  hr,
   Abstract,
   Author,
   Edition,

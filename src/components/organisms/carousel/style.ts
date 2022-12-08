@@ -154,7 +154,7 @@ export const Arrow = styled.button<{ side: "left" | "right" }>`
   }
 
   @media ${devices.laptop} {
-    grid-column: ${({ side }) => (side === "left" ? 7 : 12)};
+    grid-column: ${({ side }) => (side === "left" ? "6 / 8" : "11 / 13")};
   }
 `
 
@@ -164,7 +164,6 @@ export const Expand = styled.button`
   grid-column: last-col;
   cursor: pointer;
   display: none;
-
   @media ${devices.tablet} {
     display: block;
   }
@@ -184,7 +183,7 @@ export const ImageCount = styled(atoms.p)`
     }
 
     @media ${devices.laptop} {
-      grid-column: 8/ 12;
+      grid-column: 8 / 11;
     }
   `}
 `

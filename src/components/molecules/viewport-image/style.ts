@@ -76,12 +76,10 @@ export const ExpandCaptionBtn = styled.button`
 export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     grid-column: 1 / -6;
+    font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     text-align: left;
-
-    @media ${devices.tablet} {
-      font-size: calc(${typography.sm} * 1.4);
-    }
+    font-weight: normal;
   `}
 `
 
@@ -110,6 +108,8 @@ export const CaptionHeader = styled(CaptionText)`
   grid-column: 3 / 30;
   grid-row: 1;
   font-size: ${({ theme: { typography } }) => typography.md};
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
+  font-weight: 300;
 
   @media ${devices.tablet} {
     grid-column: 8 / 28;
