@@ -16,7 +16,7 @@ const visitTypes = [
 ]
 
 function traverse(node, tags) {
-  const regexp = new RegExp(/\((.*?)\):{{#([\w\s]*)}}/, "g")
+  const regexp = new RegExp(/(?:\(([^\(\)]*)\)|\({2}([^\(\)]*)\){2}):{{#([\w\s]+)}}/, "g")
 
   const children = node.children.map(child => {
     if (child.type !== "text") return child
@@ -31,8 +31,8 @@ function traverse(node, tags) {
 
 function extractData(match, regexp, tags) {
   const [text, category, anchorId] = [
-    match[1],
-    match[2],
+    match[1] || match[2],
+    match[3],
     `tag-anchor-${nanoid()}`,
   ]
   const { displayText, keyword } = extractKeyword(text)
