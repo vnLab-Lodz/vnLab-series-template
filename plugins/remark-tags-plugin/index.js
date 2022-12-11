@@ -15,21 +15,24 @@ const visitTypes = [
   "linkReference",
 ]
 
-function traverse(node, tags) {
-  const regexp = new RegExp(/(?:\(([^\(\)]*)\)|\({2}([^\(\)]*)\){2}):{{#([\w\s]+)}}/, "g")
+function traverse(node, tags, util) {
+  const regexp = new RegExp(
+    /(?:\(([^\(\)]*)\)|\({2}([^\(\)]*)\){2}):{{#([\w\s]+)}}/,
+    "g"
+  )
 
   const children = node.children.map(child => {
     if (child.type !== "text") return child
     const match = regexp.exec(child.value)
     if (match === null) return child
 
-    return u("jsx", extractData(match, regexp, tags))
+    return u("jsx", extractData(match, regexp, tags, util))
   })
 
   node.children = children
 }
 
-function extractData(match, regexp, tags) {
+function extractData(match, regexp, tags, util) {
   const [text, category, anchorId] = [
     match[1] || match[2],
     match[3],
@@ -37,12 +40,12 @@ function extractData(match, regexp, tags) {
   ]
   const { displayText, keyword } = extractKeyword(text)
 
-  tags.push({ keyword, category, anchorId })
+  insertTag(tags, { keyword, category, anchorId, util })
 
   const nextMatch = regexp.exec(match.input)
 
   return insertAnchorElement(
-    nextMatch ? extractData(nextMatch, regexp, tags) : match.input,
+    nextMatch ? extractData(nextMatch, regexp, tags, util) : match.input,
     match,
     anchorId,
     displayText
@@ -62,47 +65,59 @@ function insertAnchorElement(string, match, anchorId, displayText) {
   return `${before}<span style="font-family: inherit;" id="${anchorId}">${displayText}</span>${after}`
 }
 
-async function createNodesFromAnchors(anchors, util) {
-  for (const currentAnchor of anchors) {
-    const existingTag = util.getNode(
-      util.createNodeId(`TAGS__${currentAnchor.category}`)
-    )
+const insertTag = (tags, { keyword, category, anchorId, util }) => {
+  const anchor = { id: anchorId, mdx: util.markdownNode.id }
+  let keywords = tags.get(category)
+  if (!keywords) {
+    tags.set(category, new Map())
+    keywords = tags.get(category)
+  }
 
-    const [existingKeyword, otherKeywords] = extractElement(
-      existingTag?.keywords || [],
-      keyword => keyword.keyword === currentAnchor.keyword
-    )
+  let anchors = keywords.get(keyword)
+  if (!anchors) {
+    keywords.set(keyword, new Map([[anchor.id, anchor]]))
+    anchors = keywords.get(keyword)
+  } else {
+    anchors.set(anchor.id, anchor)
+  }
 
-    const tagContent = {
-      ...(existingTag || { category: currentAnchor.category }),
-      keywords: [
-        {
-          keyword: currentAnchor.keyword,
-          anchors: [
-            ...(existingKeyword?.anchors || []),
-            { id: currentAnchor.anchorId, mdx: util.markdownNode.id },
-          ],
-        },
-        ...otherKeywords,
-      ],
-      children: [],
-    }
+  const existingTag = util.getNode(util.createNodeId(`TAGS__${category}`))
+  if (!existingTag) return
 
-    const tagNode = {
-      ...tagContent,
-      id: util.createNodeId(`TAGS__${tagContent.category}`),
-      internal: {
-        type: "Tags",
-        contentDigest: util.createContentDigest(tagContent),
-      },
-    }
-    await util.actions.createNode(tagNode)
+  const existingKeyword =
+    existingTag.keywords.find(el => el.keyword === keyword) || undefined
+
+  if (existingKeyword) {
+    existingKeyword.anchors.forEach(anchor => {
+      anchors.set(anchor.id, anchor)
+    })
   }
 }
 
+const createNodesFromAnchors = async (tags, util) => {
+  const promises = []
+
+  for (const [category, keywords] of tags) {
+    const tag = { category, keywords: [] }
+
+    for (const [keyword, anchors] of keywords) {
+      tag.keywords.push({
+        keyword,
+        anchors: Array.from(anchors.values()),
+      })
+    }
+    const contentDigest = util.createContentDigest(tag)
+    tag.id = util.createNodeId(`TAGS__${tag.category}`)
+    tag.internal = { type: "Tags", contentDigest }
+    promises.push(util.actions.createNode(tag))
+  }
+
+  await Promise.all(promises)
+}
+
 module.exports = async ({ markdownAST: tree, ...util }) => {
-  const tags = []
-  visit(tree, visitTypes, node => traverse(node, tags))
+  const tags = new Map()
+  visit(tree, visitTypes, node => traverse(node, tags, util))
   await createNodesFromAnchors(tags, util)
   return tree
 }
