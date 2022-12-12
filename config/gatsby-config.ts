@@ -34,6 +34,7 @@ export default {
               disableBgImageOnAlpha: true,
             },
           },
+          `remark-footnotes-plugin`,
           `remark-tags-plugin`,
           {
             resolve: `gatsby-remark-orphans`,
