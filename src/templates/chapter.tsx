@@ -1,10 +1,13 @@
-import React, { PropsWithChildren } from "react"
+import React, { PropsWithChildren, useMemo } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MdxLink, useLocalization } from "gatsby-theme-i18n"
 import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
-import Annotation from "~components/molecules/annotation"
+import Annotation, {
+  FootnoteIndex,
+  FootnoteTarget,
+} from "~components/molecules/annotation"
 import atoms from "~components/atoms"
 import ArticleMenu from "~components/organisms/article-menu"
 import styled, { StyledComponent, useTheme } from "styled-components"
@@ -23,6 +26,7 @@ import { MENUS } from "~types"
 import { GridContainer } from "~styles/grid"
 import { BackgroundGlobals } from "~styles/globals"
 import { components } from "~components/mdx"
+import { MdxContext } from "src/context/mdx-provider"
 
 export const mdxComponents = {
   strong: atoms.strong,
@@ -30,8 +34,6 @@ export const mdxComponents = {
   del: atoms.del,
   a: atoms.a,
   // ---- ---- ---- ----
-  Link: MdxLink,
-  // --------
   p: components.p,
   h1: components.h1,
   h2: components.h2,
@@ -41,6 +43,8 @@ export const mdxComponents = {
   ol: components.ol,
   button: components.button,
   hr: components.hr,
+  // ---- ---- ---- ----
+  Link: MdxLink,
   // ---------
   Quote: components.blockquote,
   Abstract: components.Abstract,
@@ -50,6 +54,9 @@ export const mdxComponents = {
   Annotation: Annotation,
   Carousel: Carousel,
   ViewportImage: ViewportImage,
+  // ---- ---- ---- ----
+  FootnoteTarget: FootnoteTarget,
+  FootnoteIndex: FootnoteIndex,
 }
 
 interface Data {
@@ -82,6 +89,8 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       : []
   }
 
+  const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
+
   return (
     <NavMenuProvider>
       <BackgroundGlobals color={theme.palette.light} />
@@ -97,20 +106,22 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
           />
           <StyledArticle>
             <StyledLayout $flexible className="mdx-section">
-              <MDXProvider components={mdxComponents}>
-                <SeoMeta
-                  title={title}
-                  lang={locale}
-                  description={mdx.frontmatter.summary}
-                  url={location.pathname}
-                />
-                <MDXRenderer
-                  frontmatter={mdx.frontmatter}
-                  localImages={embeddedImagesLocal}
-                >
-                  {mdx.body}
-                </MDXRenderer>
-              </MDXProvider>
+              <MdxContext.Provider value={mdxContext}>
+                <MDXProvider components={mdxComponents}>
+                  <SeoMeta
+                    title={title}
+                    lang={locale}
+                    description={mdx.frontmatter.summary}
+                    url={location.pathname}
+                  />
+                  <MDXRenderer
+                    frontmatter={mdx.frontmatter}
+                    localImages={embeddedImagesLocal}
+                  >
+                    {mdx.body}
+                  </MDXRenderer>
+                </MDXProvider>
+              </MdxContext.Provider>
             </StyledLayout>
           </StyledArticle>
           <ArticleFooter currentPath={location.pathname} />

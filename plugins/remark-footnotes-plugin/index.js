@@ -60,7 +60,7 @@ function constructNewChildren(textNode, util, footnotesNodes, children = []) {
     u("text", parts[0]),
     u(
       "jsx",
-      `<FootnoteTarget id="footnote__anchor--${footnote}" to="#footnote--${footnote}">`
+      `<FootnoteTarget id="footnote__anchor--${footnote}" index="${footnote}">`
     ),
     u("text", word),
     u("jsx", `<FootnoteIndex>${footnote}</FootnoteIndex></FootnoteTarget>`),

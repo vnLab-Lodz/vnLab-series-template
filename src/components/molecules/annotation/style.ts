@@ -3,12 +3,13 @@ import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 
-export const AnnotationTarget = styled.span`
+export const FootnoteTarget = styled.span`
   font-family: inherit;
   font-size: inherit;
+  cursor: pointer;
 `
 
-export const AnnotationIndex = styled.span`
+export const FootnoteIndex = styled.span`
   ${({ theme: { typography } }) => css`
     font-size: ${typography.sm};
     font-family: ${typography.fonts.secondary};
@@ -18,7 +19,7 @@ export const AnnotationIndex = styled.span`
   `}
 `
 
-export const AnnotationContent = styled(GridContainer)`
+export const FootnoteContent = styled(GridContainer)`
   ${({ theme: { palette, typography, spacing } }) => css`
     grid-template-rows: auto auto;
     background: ${palette.secondary};
@@ -38,7 +39,7 @@ export const AnnotationContent = styled(GridContainer)`
   `}
 `
 
-export const AnnotationNumber = styled(atoms.p)`
+export const FootnoteNumber = styled(atoms.p)`
   grid-column: 2;
   grid-row: 2;
 
@@ -51,7 +52,7 @@ export const AnnotationNumber = styled(atoms.p)`
   }
 `
 
-export const AnnotationParagraph = styled(atoms.p)`
+export const FootnoteParagraph = styled(atoms.p)`
   grid-column: 4 / 32;
   grid-row: 2;
 

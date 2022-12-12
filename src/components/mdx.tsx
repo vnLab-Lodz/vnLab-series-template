@@ -135,6 +135,10 @@ const Edition = styled(EditionMolecule).attrs({ className: "mdx-edition" })`
 `
 
 export const components = {
+  strong: atoms.strong,
+  em: atoms.em,
+  del: atoms.del,
+  a: atoms.a,
   p,
   h1,
   h2,
