@@ -182,19 +182,22 @@ export const FootnoteTarget: React.FC<FootnoteProps> = props => {
 
   const toggle = useCallback(() => setOpen(prev => !prev), [])
 
-  const [_, setRef] = useRefEffect<HTMLSpanElement>(node => {
-    const listener = () => setPosition(node.offsetTop + node.offsetHeight)
+  const [_, setRef] = useRefEffect<HTMLSpanElement>(
+    node => {
+      const listener = () => setPosition(node.offsetTop + node.offsetHeight)
 
-    listener()
-    const observer = new ResizeObserver(listener)
-    window.addEventListener("resize", listener)
-    observer.observe(node)
+      listener()
+      const observer = new ResizeObserver(listener)
+      window.addEventListener("resize", listener)
+      observer.observe(node)
 
-    return () => {
-      window.removeEventListener("resize", listener)
-      observer.unobserve(node)
-    }
-  }, [])
+      return () => {
+        window.removeEventListener("resize", listener)
+        observer.unobserve(node)
+      }
+    },
+    [open]
+  )
 
   return (
     <Styled.FootnoteTarget
