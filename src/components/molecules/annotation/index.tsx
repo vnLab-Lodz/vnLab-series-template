@@ -201,6 +201,7 @@ export const FootnoteTarget: React.FC<FootnoteProps> = props => {
 
   return (
     <Styled.FootnoteTarget
+      style={{ background: "turquoise" }}
       ref={setRef}
       id={props.id}
       onClick={toggle}
