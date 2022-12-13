@@ -105,8 +105,8 @@ export const Button = styled.button`
   `}
 `
 
-export const MenuContent = styled(motion.div)<{ maxHeight: string }>`
-  ${({ maxHeight, theme: { palette } }) => css`
+export const MenuContent = styled(motion.div)<{ $maxHeight: string }>`
+  ${({ $maxHeight: maxHeight, theme: { palette } }) => css`
     position: absolute;
     left: 0px;
     right: 0px;

@@ -1,70 +1,113 @@
-import { MDXProvider } from "@mdx-js/react"
-import React from "react"
+import { graphql, useStaticQuery } from "gatsby"
+import React, { createElement } from "react"
 import ReactMarkdown from "react-markdown"
-import useIsMobile from "src/hooks/useIsMobile"
-import { mdxComponents } from "src/templates/chapter"
-import { Annotation as AnnotationType } from "~components/molecules/annotation/annotation-context"
+import { ReactMarkdownOptions } from "react-markdown/lib/react-markdown"
+import { useMdxContext } from "src/context/mdx-provider"
+import { components as mdxComponents } from "~components/mdx"
 import * as Styled from "./style"
 
-const Annotation: React.FC<{
-  index: number
-  content: any
-  position: number
+type FootnoteProps = {
+  index: string
+  link: string
+  content: string
   closeMenu: (callback?: () => void) => void
-  scrollIntoView?: () => void
-}> = ({ index, content, position, closeMenu, scrollIntoView }) => {
-  const isMobile = useIsMobile()
-  // * Offset the width of the menu bar on mobile
-  const scrollOffset = isMobile ? 70 : 0
+}
+
+const Footnote: React.FC<FootnoteProps> = props => {
+  const handleClick = () => {
+    props.closeMenu(() => {
+      const element: HTMLElement | null = document.querySelector(props.link)
+      if (!element) return
+
+      element.focus()
+      element.scrollIntoView({ behavior: "smooth", block: "start" })
+    })
+  }
 
   return (
     <>
-      <Styled.AnnotationNumber>{index}</Styled.AnnotationNumber>
-      <Styled.AnnotationParagraph
-        onClick={() =>
-          closeMenu(() => {
-            if (scrollIntoView) {
-              scrollIntoView()
-              return
-            }
-
-            window.scrollTo({
-              top: position - scrollOffset,
-              behavior: "smooth",
-            })
-          })
-        }
+      <Styled.FootnoteNumber>{props.index}</Styled.FootnoteNumber>
+      <Styled.FootnoteParagraph
+        as="div"
+        role="link"
+        data-href={props.link}
+        onClick={handleClick}
       >
-        {typeof content === "string" ? (
-          <ReactMarkdown
-            components={{ ...mdxComponents, p: Styled.InheritParagraph } as any}
-          >
-            {content}
-          </ReactMarkdown>
-        ) : (
-          <MDXProvider components={mdxComponents}>{content}</MDXProvider>
-        )}
-      </Styled.AnnotationParagraph>
+        <ReactMarkdown components={components}>{props.content}</ReactMarkdown>
+      </Styled.FootnoteParagraph>
     </>
   )
 }
 
-const Annotations: React.FC<{
+type Props = {
   closeMenu: (callback?: () => void) => void
-  annotations: AnnotationType[]
-}> = ({ closeMenu, annotations }) => (
-  <Styled.AnnotationsGrid>
-    {annotations.map(({ id, index, content, position, scrollIntoView }) => (
-      <Annotation
-        key={`inmenu-annotation_${id}`}
-        index={index}
-        content={content}
-        position={position}
+  footnotes?: Footnote[]
+}
+
+const Footnotes: React.FC<Props> = ({ closeMenu, footnotes = [] }) => (
+  <Styled.FootnotesGrid>
+    {footnotes.map(footnote => (
+      <Footnote
+        key={`inmenu-annotation_${footnote.id}`}
+        index={footnote.index}
+        link={footnote.link}
+        content={footnote.content}
         closeMenu={closeMenu}
-        scrollIntoView={scrollIntoView}
       />
     ))}
-  </Styled.AnnotationsGrid>
+  </Styled.FootnotesGrid>
 )
 
-export default Annotations
+export default Footnotes
+
+const wrapComponentsForReactMarkdown = (o: object) => {
+  return Object.entries(o).reduce(
+    (acc, [key, el]) => ({ ...acc, [key]: (p: any) => createElement(el, p) }),
+    {}
+  )
+}
+
+const components: ReactMarkdownOptions["components"] = {
+  ...wrapComponentsForReactMarkdown(mdxComponents),
+  p: props => <Styled.InheritParagraph {...props} />,
+}
+
+export const useFootnotes = () => {
+  const data = useStaticQuery<Data>(query)
+  const { id } = useMdxContext()
+  const group = data.allFootnotes.group.find(node => node.mdxId === id)
+  if (!group) return undefined
+  return group.footnotes
+}
+
+type Footnote = {
+  id: string
+  link: string
+  index: string
+  content: string
+}
+
+type Data = {
+  allFootnotes: {
+    group: Array<{
+      mdxId: string
+      footnotes: Footnote[]
+    }>
+  }
+}
+
+const query = graphql`
+  {
+    allFootnotes {
+      group(field: parent___id) {
+        footnotes: nodes {
+          id
+          link
+          index
+          content
+        }
+        mdxId: fieldValue
+      }
+    }
+  }
+`

@@ -6,7 +6,7 @@ import usePageContent from "src/hooks/usePageContent"
 import { ThemeContext, useTheme } from "styled-components"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent, isUndefined } from "~util"
-import Annotations from "./menus/annotations"
+import Footnotes, { useFootnotes } from "./menus/annotations"
 import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
 import Illustrations from "./menus/illustrations"
@@ -16,7 +16,6 @@ import * as Styled from "./style"
 import { MENUS } from "~types"
 import useBibliography from "src/hooks/useBibliography"
 import { ImagesContext } from "src/context/illustrations-context"
-import { AnnotationContext } from "~components/molecules/annotation/annotation-context"
 import useScrollPause from "src/hooks/useScrollPause"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import useIsMobile from "src/hooks/useIsMobile"
@@ -95,8 +94,7 @@ const ArticleMenu: React.FC<Props> = ({
   const pageContent = usePageContent()
   const bibliography = useBibliography(currentPath)
   const { images } = useContext(ImagesContext)
-  const { annotations } = useContext(AnnotationContext)
-
+  const footnotes = useFootnotes()
   const setState = (value: MENU_STATE) => {
     setMenuState(prev => {
       const newState = prev === value ? MENU_STATE.CLOSED : value
@@ -123,9 +121,7 @@ const ArticleMenu: React.FC<Props> = ({
         content = <Illustrations images={images} closeMenu={closeMenu} />
         break
       case MENU_STATE.ANNOTATIONS:
-        content = (
-          <Annotations annotations={annotations} closeMenu={closeMenu} />
-        )
+        content = <Footnotes footnotes={footnotes} closeMenu={closeMenu} />
         break
       case MENU_STATE.BIBLIOGRAPHY:
         content = <Bibliography bibliography={bibliography} />
@@ -245,7 +241,7 @@ const ArticleMenu: React.FC<Props> = ({
   )
 
   const shouldRenderFootnotes = shouldRenderMenu(MENUS.FOOTNOTES, value =>
-    !!!menus ? annotations.length !== 0 : value
+    !!!menus ? !!footnotes && footnotes.length !== 0 : value
   )
 
   const shouldRenderBibliography = shouldRenderMenu(MENUS.BIBLIOGRAPHY, value =>
@@ -300,7 +296,7 @@ const ArticleMenu: React.FC<Props> = ({
       <AnimatePresence initial={false} exitBeforeEnter>
         {menuState !== MENU_STATE.CLOSED && (
           <Styled.MenuContent
-            maxHeight={maxContentHeight}
+            $maxHeight={maxContentHeight}
             initial={{ height: 0 }}
             animate={{ height: getSupportedFitContent() }}
             exit={{ height: 0 }}

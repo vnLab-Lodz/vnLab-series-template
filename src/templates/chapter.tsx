@@ -95,18 +95,18 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     <NavMenuProvider>
       <BackgroundGlobals color={theme.palette.light} />
       <HypothesisBtn />
-      <NavigationMenu currentPath={location.pathname} />
-      <AnnotationProvider>
-        <ImagesProvider initialImages={getInitialImages()}>
-          {headerImage && <HeaderImage image={headerImage} />}
-          <ArticleMenu
-            currentPath={location.pathname}
-            menus={menus}
-            spaced={!headerImage}
-          />
-          <StyledArticle>
-            <StyledLayout $flexible className="mdx-section">
-              <MdxContext.Provider value={mdxContext}>
+      <MdxContext.Provider value={mdxContext}>
+        <NavigationMenu currentPath={location.pathname} />
+        <AnnotationProvider>
+          <ImagesProvider initialImages={getInitialImages()}>
+            {headerImage && <HeaderImage image={headerImage} />}
+            <ArticleMenu
+              currentPath={location.pathname}
+              menus={menus}
+              spaced={!headerImage}
+            />
+            <StyledArticle>
+              <StyledLayout $flexible className="mdx-section">
                 <MDXProvider components={mdxComponents}>
                   <SeoMeta
                     title={title}
@@ -121,12 +121,12 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
                     {mdx.body}
                   </MDXRenderer>
                 </MDXProvider>
-              </MdxContext.Provider>
-            </StyledLayout>
-          </StyledArticle>
-          <ArticleFooter currentPath={location.pathname} />
-        </ImagesProvider>
-      </AnnotationProvider>
+              </StyledLayout>
+            </StyledArticle>
+            <ArticleFooter currentPath={location.pathname} />
+          </ImagesProvider>
+        </AnnotationProvider>
+      </MdxContext.Provider>
     </NavMenuProvider>
   )
 }

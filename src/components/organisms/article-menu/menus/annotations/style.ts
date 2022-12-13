@@ -3,11 +3,11 @@ import styled from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
 
-export const AnnotationsGrid = styled(InnerGrid)`
+export const FootnotesGrid = styled(InnerGrid)`
   row-gap: ${({ theme: { spacing } }) => spacing.xs};
 `
 
-export const AnnotationNumber = styled(atoms.p)`
+export const FootnoteNumber = styled(atoms.p)`
   font-size: calc(1.4 * ${({ theme }) => theme.typography.sm});
   grid-column: 1 / 2;
 
@@ -16,7 +16,7 @@ export const AnnotationNumber = styled(atoms.p)`
   }
 `
 
-export const AnnotationParagraph = styled(atoms.p)`
+export const FootnoteParagraph = styled(atoms.p)`
   font-size: calc(1.4 * ${({ theme }) => theme.typography.sm});
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
   cursor: pointer;

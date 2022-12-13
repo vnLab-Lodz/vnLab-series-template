@@ -8,6 +8,24 @@ export const FootnoteTarget = styled.span`
   font-size: inherit;
   cursor: pointer;
   background: pink;
+
+  scroll-margin-top: 145px;
+
+  @media ${devices.tablet} {
+    scroll-margin-top: 110px;
+  }
+
+  @media ${devices.desktopL} {
+    scroll-margin-top: 170px;
+  }
+
+  :focus {
+    & span:last-of-type {
+      outline: 1px black solid;
+      background: #fbfdbc;
+      color: #222222;
+    }
+  }
 `
 
 export const FootnoteIndex = styled.span`
