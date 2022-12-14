@@ -8,9 +8,9 @@ import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { flushSync } from "react-dom"
 
 const Indexes: React.FC = () => {
+  const tags = useTags()
   const [tabState, setTabState] = useState<string>(tags[0]?.category ?? "")
   const { toggleNav } = useNavMenuContext()
-  const tags = useTags()
 
   const activeTag = useMemo(
     () => tags.find(t => t.category === tabState),
