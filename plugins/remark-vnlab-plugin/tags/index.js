@@ -1,21 +1,6 @@
-const visit = require(`unist-util-visit`)
 const u = require("unist-builder")
-import { v4 as nanoid } from "uuid"
-import { extractElement } from "./utils"
 
-const visitTypes = [
-  "heading",
-  "paragraph",
-  "blockquote",
-  "list",
-  "listItem",
-  "emphasis",
-  "strong",
-  "link",
-  "linkReference",
-]
-
-function traverse(node, tags, util) {
+function traverse(node, tags, util, index, marker) {
   const regexp = new RegExp(
     /(?:\(([^\(\)]*)\)|\({2}([^\(\)]*)\){2}):{{#([\w\s]+)}}/,
     "g"
@@ -26,17 +11,17 @@ function traverse(node, tags, util) {
     const match = regexp.exec(child.value)
     if (match === null) return child
 
-    return u("jsx", extractData(match, regexp, tags, util))
+    return u("jsx", extractData(match, regexp, tags, util, index, marker++))
   })
 
   node.children = children
 }
 
-function extractData(match, regexp, tags, util) {
+function extractData(match, regexp, tags, util, index, marker) {
   const [text, category, anchorId] = [
     match[1] || match[2],
     match[3],
-    `tag-anchor-${nanoid()}`,
+    `tag-anchor__${util.markdownNode.id}--${index}-${marker}`,
   ]
   const { displayText, keyword } = extractKeyword(text)
 
@@ -45,7 +30,9 @@ function extractData(match, regexp, tags, util) {
   const nextMatch = regexp.exec(match.input)
 
   return insertAnchorElement(
-    nextMatch ? extractData(nextMatch, regexp, tags, util) : match.input,
+    nextMatch
+      ? extractData(nextMatch, regexp, tags, util, index, marker++)
+      : match.input,
     match,
     anchorId,
     displayText
@@ -62,7 +49,7 @@ function insertAnchorElement(string, match, anchorId, displayText) {
     string.substring(0, match.index),
     string.substring(match.index + match[0].length),
   ]
-  return `${before}<span style="font-family: inherit;" id="${anchorId}">${displayText}</span>${after}`
+  return `${before}<Tag style="font-family: inherit;" id="${anchorId}">${displayText}</Tag>${after}`
 }
 
 const insertTag = (tags, { keyword, category, anchorId, util }) => {
@@ -94,9 +81,7 @@ const insertTag = (tags, { keyword, category, anchorId, util }) => {
   }
 }
 
-const createNodesFromAnchors = async (tags, util) => {
-  const promises = []
-
+const createNodesFromAnchors = (tags, util) => {
   for (const [category, keywords] of tags) {
     const tag = { category, keywords: [] }
 
@@ -109,15 +94,8 @@ const createNodesFromAnchors = async (tags, util) => {
     const contentDigest = util.createContentDigest(tag)
     tag.id = util.createNodeId(`TAGS__${tag.category}`)
     tag.internal = { type: "Tags", contentDigest }
-    promises.push(util.actions.createNode(tag))
+    util.actions.createNode(tag)
   }
-
-  await Promise.all(promises)
 }
 
-module.exports = async ({ markdownAST: tree, ...util }) => {
-  const tags = new Map()
-  visit(tree, visitTypes, node => traverse(node, tags, util))
-  await createNodesFromAnchors(tags, util)
-  return tree
-}
+export { traverse, createNodesFromAnchors }

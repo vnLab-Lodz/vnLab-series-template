@@ -134,6 +134,16 @@ const Edition = styled(EditionMolecule).attrs({ className: "mdx-edition" })`
   ${marginRules}
 `
 
+const Tag = styled.span`
+  @media ${devices.tablet} {
+    scroll-margin-top: 110px;
+  }
+
+  @media ${devices.desktopL} {
+    scroll-margin-top: 170px;
+  }
+`
+
 export const components = {
   strong: atoms.strong,
   em: atoms.em,
@@ -151,4 +161,5 @@ export const components = {
   Abstract,
   Author,
   Edition,
+  Tag,
 }

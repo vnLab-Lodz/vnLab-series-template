@@ -10,6 +10,7 @@ import NextTab from "./next-tab"
 import { useTranslation } from "react-i18next"
 import lightTheme from "~styles/theme"
 import { ThemeProvider } from "styled-components"
+import { useTags } from "../tabs/indexes"
 
 interface Props {
   currentPath: string
@@ -27,6 +28,8 @@ const NavMenuContent: React.FC<Props> = ({
   const { t } = useTranslation(["common", "nav-menu"])
   const { locale, localizedPath, defaultLang, prefixDefault } =
     useLocalization()
+
+  const tags = useTags()
 
   return (
     <AnimatePresence>
@@ -46,16 +49,17 @@ const NavMenuContent: React.FC<Props> = ({
                   {t("nav-menu:tabs.toc")}
                 </Styled.TabButtonText>
               </Styled.TabButton>
-              {/* // ! Temporarily disabled */}
-              {/* <Styled.TabButton
-                onClick={() => setNavState(NAV_MENU_STATES.INDEXES)}
-              >
-                <Styled.TabButtonText
-                  active={navState === NAV_MENU_STATES.INDEXES}
+              {tags.length > 0 ? (
+                <Styled.TabButton
+                  onClick={() => setNavState(NAV_MENU_STATES.INDEXES)}
                 >
-                  {t("nav-menu:tabs.indexes")}
-                </Styled.TabButtonText>
-              </Styled.TabButton> */}
+                  <Styled.TabButtonText
+                    active={navState === NAV_MENU_STATES.INDEXES}
+                  >
+                    {t("nav-menu:tabs.indexes")}
+                  </Styled.TabButtonText>
+                </Styled.TabButton>
+              ) : null}
               <Styled.TabButton
                 onClick={() => setNavState(NAV_MENU_STATES.ABOUT)}
               >

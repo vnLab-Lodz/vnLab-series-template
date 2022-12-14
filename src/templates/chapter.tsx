@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useMemo } from "react"
+import React, { PropsWithChildren, useEffect, useMemo } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MdxLink, useLocalization } from "gatsby-theme-i18n"
@@ -27,6 +27,7 @@ import { GridContainer } from "~styles/grid"
 import { BackgroundGlobals } from "~styles/globals"
 import { components } from "~components/mdx"
 import { MdxContext } from "src/context/mdx-provider"
+import { flushSync } from "react-dom"
 
 export const mdxComponents = {
   strong: atoms.strong,
@@ -57,6 +58,7 @@ export const mdxComponents = {
   // ---- ---- ---- ----
   FootnoteTarget: FootnoteTarget,
   FootnoteIndex: FootnoteIndex,
+  Tag: components.Tag,
 }
 
 interface Data {

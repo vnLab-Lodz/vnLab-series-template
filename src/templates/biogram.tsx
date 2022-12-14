@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
@@ -19,6 +19,7 @@ import withGridConstraint from "src/hoc/withGridConstraint"
 import { GridContainer } from "~styles/grid"
 import { useLocalization } from "gatsby-theme-i18n"
 import { BackgroundGlobals } from "~styles/globals"
+import { MdxContext } from "src/context/mdx-provider"
 
 interface Data {
   mdx: {
@@ -93,33 +94,41 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       : []
   }
 
+  const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
+
   return (
     <NavMenuProvider>
       <BackgroundGlobals color={theme.palette.light} />
-      <NavigationMenu currentPath={location.pathname} />
-      <AnnotationProvider>
-        <ImagesProvider initialImages={getInitialImages()}>
-          {headerImage && <HeaderImage image={headerImage} />}
-          <ArticleMenu
-            currentPath={location.pathname}
-            menus={menus}
-            spaced={!headerImage}
-          />
-          <StyledArticle>
-            <StyledLayout $flexible className="mdx-section">
-              <MDXProvider components={components}>
-                <SeoMeta title={title} lang={locale} url={location.pathname} />
-                <MDXRenderer
-                  frontmatter={mdx.frontmatter}
-                  localImages={embeddedImagesLocal}
-                >
-                  {mdx.body}
-                </MDXRenderer>
-              </MDXProvider>
-            </StyledLayout>
-          </StyledArticle>
-        </ImagesProvider>
-      </AnnotationProvider>
+      <MdxContext.Provider value={mdxContext}>
+        <NavigationMenu currentPath={location.pathname} />
+        <AnnotationProvider>
+          <ImagesProvider initialImages={getInitialImages()}>
+            {headerImage && <HeaderImage image={headerImage} />}
+            <ArticleMenu
+              currentPath={location.pathname}
+              menus={menus}
+              spaced={!headerImage}
+            />
+            <StyledArticle>
+              <StyledLayout $flexible className="mdx-section">
+                <MDXProvider components={components}>
+                  <SeoMeta
+                    title={title}
+                    lang={locale}
+                    url={location.pathname}
+                  />
+                  <MDXRenderer
+                    frontmatter={mdx.frontmatter}
+                    localImages={embeddedImagesLocal}
+                  >
+                    {mdx.body}
+                  </MDXRenderer>
+                </MDXProvider>
+              </StyledLayout>
+            </StyledArticle>
+          </ImagesProvider>
+        </AnnotationProvider>
+      </MdxContext.Provider>
     </NavMenuProvider>
   )
 }

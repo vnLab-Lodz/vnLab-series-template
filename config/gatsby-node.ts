@@ -62,10 +62,7 @@ function composePageOptions(
   return {
     path: slug.replace("index", ""),
     component: path.resolve(`./src/templates/${options.template}.tsx`),
-    context: {
-      slugs: localizeSlug(slug),
-      publication: options.isPublication,
-    },
+    context: { slugs: localizeSlug(slug), publication: options.isPublication },
   }
 }
 

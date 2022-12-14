@@ -1,97 +1,85 @@
-import React, { useState, PropsWithChildren } from "react"
-import { useTranslation } from "react-i18next"
+import React, { useState, useMemo, useCallback } from "react"
 import { useLocalization } from "gatsby-theme-i18n"
+import { graphql, navigate, useStaticQuery } from "gatsby"
+import { delocalizeSlug } from "~util/slug"
 import * as Styled from "../style"
-
-import indexes from "../../../../../meta/indexes.json"
-
-interface IndexWithUID {
-  label: string
-  uid: string
-}
-
-interface IndexType {
-  [key: string]: Array<string | IndexWithUID>
-}
-
-enum TAB_STATES {
-  AUTHORS = "authors",
-  ILLUSTRATIONS = "illustrations",
-  PLACES = "places",
-  PEOPLE = "people",
-}
-
-const IndexGroup: React.FC<PropsWithChildren<unknown>> = ({ children }) => (
-  <>{children}</>
-)
+import atoms from "~components/atoms"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import { flushSync } from "react-dom"
 
 const Indexes: React.FC = () => {
-  const [tabState, setTabState] = useState<TAB_STATES>(TAB_STATES.AUTHORS)
-  const { locale } = useLocalization()
-  const { t } = useTranslation("nav-menu")
+  const [tabState, setTabState] = useState<string>(tags[0]?.category ?? "")
+  const { toggleNav } = useNavMenuContext()
+  const tags = useTags()
 
-  const sortedIndexes = sortIndexes(indexes[tabState])
+  const activeTag = useMemo(
+    () => tags.find(t => t.category === tabState),
+    [tabState]
+  )
+
+  const keys = useMemo(
+    () =>
+      Object.keys(activeTag?.keywords ?? {}).sort((a, b) => a.localeCompare(b)),
+    [activeTag]
+  )
 
   return (
     <Styled.IndexesWrapper>
       <Styled.IndexesTabs>
         <Styled.TabItems>
-          {!checkIfIndexEmpty(indexes[TAB_STATES.AUTHORS]) && (
-            <Styled.TabButton onClick={() => setTabState(TAB_STATES.AUTHORS)}>
-              <Styled.TabButtonText active={tabState === TAB_STATES.AUTHORS}>
-                {t("index_tabs.authors")}
+          {tags.map(tag => (
+            <Styled.TabButton onClick={() => setTabState(tag.category)}>
+              <Styled.TabButtonText active={tabState === tag.category}>
+                {tag.category}
               </Styled.TabButtonText>
             </Styled.TabButton>
-          )}
-          {!checkIfIndexEmpty(indexes[TAB_STATES.ILLUSTRATIONS]) && (
-            <Styled.TabButton
-              onClick={() => setTabState(TAB_STATES.ILLUSTRATIONS)}
-            >
-              <Styled.TabButtonText
-                active={tabState === TAB_STATES.ILLUSTRATIONS}
-              >
-                {t("index_tabs.illustrations")}
-              </Styled.TabButtonText>
-            </Styled.TabButton>
-          )}
-          {!checkIfIndexEmpty(indexes[TAB_STATES.PLACES]) && (
-            <Styled.TabButton onClick={() => setTabState(TAB_STATES.PLACES)}>
-              <Styled.TabButtonText active={tabState === TAB_STATES.PLACES}>
-                {t("index_tabs.places")}
-              </Styled.TabButtonText>
-            </Styled.TabButton>
-          )}
-          {!checkIfIndexEmpty(indexes[TAB_STATES.PEOPLE]) && (
-            <Styled.TabButton onClick={() => setTabState(TAB_STATES.PEOPLE)}>
-              <Styled.TabButtonText active={tabState === TAB_STATES.PEOPLE}>
-                {t("index_tabs.people")}
-              </Styled.TabButtonText>
-            </Styled.TabButton>
-          )}
+          ))}
         </Styled.TabItems>
       </Styled.IndexesTabs>
       <Styled.ActiveTabWrapper>
-        {Object.keys(sortedIndexes).map((key, i) => {
+        {keys.map(key => {
           return (
-            <IndexGroup key={`index-group__${i}--${key}`}>
+            <React.Fragment key={key}>
               <Styled.IndexLetter>{key.toUpperCase()}</Styled.IndexLetter>
-              {sortedIndexes[key].map((index, j) => {
+              {activeTag?.keywords[key].map(keyword => {
                 return (
-                  <Styled.IndexText key={`index-group__${i}--${key}-${j}`}>
-                    {typeof index === "string" ? (
-                      index
-                    ) : (
-                      <Styled.BiogramLink
-                        to={`/biograms/${(index as IndexWithUID).uid}`}
-                        language={locale}
-                      >
-                        {(index as IndexWithUID).label}
-                      </Styled.BiogramLink>
-                    )}
+                  <Styled.IndexText key={keyword.keyword} as="div">
+                    <atoms.p>{keyword.keyword}</atoms.p>
+                    {keyword.anchors.map(anchor => (
+                      <React.Fragment key={anchor.id}>
+                        <Styled.BiogramLink
+                          role="link"
+                          data-href={anchor.link}
+                          title={`${anchor.mdx.frontmatter.index} - ${anchor.mdx.frontmatter.title}`}
+                          onClick={() => {
+                            flushSync(() => {
+                              toggleNav()
+                            })
+                            setTimeout(() => {
+                              const element = document.querySelector(
+                                `#${anchor.id}`
+                              )
+                              if (!element) {
+                                navigate(anchor.link)
+                                return
+                              }
+
+                              element.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                              })
+                            }, 0)
+                          }}
+                        >
+                          {anchor.mdx.frontmatter.index} -{" "}
+                          {anchor.mdx.frontmatter.title}
+                        </Styled.BiogramLink>
+                      </React.Fragment>
+                    ))}
                   </Styled.IndexText>
                 )
               })}
-            </IndexGroup>
+            </React.Fragment>
           )
         })}
       </Styled.ActiveTabWrapper>
@@ -99,22 +87,104 @@ const Indexes: React.FC = () => {
   )
 }
 
-function alphabetSort(a: string | IndexWithUID, b: string | IndexWithUID) {
-  if (typeof a === "string" && typeof b === "string") return a.localeCompare(b)
-
-  return (a as IndexWithUID).label.localeCompare((b as IndexWithUID).label)
-}
-
-function sortIndexes(indexes: IndexType): IndexType {
-  const sortedKeys = Object.keys(indexes).sort(alphabetSort)
-
-  return sortedKeys.reduce((prev, key) => {
-    return { ...prev, [key]: indexes[key].sort(alphabetSort) }
-  }, {})
-}
-
-function checkIfIndexEmpty(index: IndexType): boolean {
-  return Object.keys(index).length === 0
-}
-
 export default Indexes
+
+export const useTags = () => {
+  const data = useStaticQuery<Data>(query)
+  const { locale, localizedPath, defaultLang, prefixDefault } =
+    useLocalization()
+
+  console.log(data)
+
+  const filterByLocale = useCallback(
+    (acc: LinkedTag[], tag: Tag) => {
+      if (tag.keywords.length === 0) return acc
+
+      const keywords = tag.keywords.reduce((acc, keyword) => {
+        if (keyword.anchors.length === 0) return acc
+
+        const anchors = keyword.anchors.reduce((acc, anchor) => {
+          if (!anchor.mdx.slug.includes(`.${locale}`)) return acc
+
+          const path = localizedPath({
+            path: `/${delocalizeSlug(anchor.mdx.slug).replace("index", "")}#${
+              anchor.id
+            }`,
+            defaultLang,
+            locale,
+            prefixDefault,
+          })
+
+          acc.push({ ...anchor, link: path })
+          return acc
+        }, [] as LinkedAnchor[])
+        if (anchors.length === 0) return acc
+
+        const key = keyword.keyword[0]
+        if (!key) return acc
+
+        const array = acc[key] ?? []
+        array.push({ ...keyword, anchors })
+        acc[key] = array.sort((a, b) => a.keyword.localeCompare(b.keyword))
+
+        return acc
+      }, {} as Record<string, LinkedKeyword[]>)
+      if (Object.entries(keywords).length === 0) return acc
+
+      acc.push({ ...tag, keywords })
+      return acc
+    },
+    [locale]
+  )
+
+  const tags = useMemo(
+    () => data.allTags.nodes.reduce(filterByLocale, [] as LinkedTag[]),
+    [data, filterByLocale]
+  )
+
+  return tags
+}
+
+interface LinkedTag {
+  id: string
+  category: string
+  keywords: Record<string, LinkedKeyword[]>
+}
+interface LinkedKeyword extends Keyword {
+  anchors: LinkedAnchor[]
+}
+interface LinkedAnchor extends Anchor {
+  link: string
+}
+
+type Data = { allTags: { nodes: Tag[] } }
+type Tag = { id: string; category: string; keywords: Keyword[] }
+type Keyword = { keyword: string; anchors: Anchor[] }
+type Anchor = { id: string; mdx: Mdx }
+type Mdx = { id: string; slug: string; frontmatter: Frontmatter }
+type Frontmatter = { index: string; title: string }
+
+const query = graphql`
+  {
+    allTags {
+      nodes {
+        category
+        id
+        keywords {
+          keyword
+          anchors {
+            id
+            mdx {
+              id
+              slug
+              frontmatter {
+                title
+                index
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`

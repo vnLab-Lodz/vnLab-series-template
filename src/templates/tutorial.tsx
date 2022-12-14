@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
@@ -24,6 +24,7 @@ import { THEME_MODES } from "src/context/theme-switcher-context"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { useLocalization } from "gatsby-theme-i18n"
 import { BackgroundGlobals } from "~styles/globals"
+import { MdxContext } from "src/context/mdx-provider"
 
 interface Data {
   mdx: {
@@ -100,45 +101,49 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       : []
   }
 
+  const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
+
   return (
     <NavMenuProvider>
       <BackgroundGlobals color={lightTheme.palette.quaternary} />
       <HypothesisBtn />
-      <NavigationMenu currentPath={location.pathname} />
-      <AnnotationProvider>
-        <ImagesProvider initialImages={getInitialImages()}>
-          {headerImage && <HeaderImage image={headerImage} />}
-          <StyledArticleMenu
-            noBibliography
-            spaced={!headerImage}
-            currentPath={location.pathname}
-            menus={menus}
-            themeMode={themeMode}
-            open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
-            onStateChange={setArticleMenuState}
-            bgColor={lightTheme.palette.quaternary}
-          />
-          <ThemeProvider theme={lightTheme}>
-            <StyledArticle>
-              <StyledLayout $flexible className="mdx-section">
-                <MDXProvider components={mdxComponents}>
-                  <SeoMeta
-                    title={title}
-                    lang={locale}
-                    url={location.pathname}
-                  />
-                  <MDXRenderer
-                    frontmatter={mdx.frontmatter}
-                    localImages={embeddedImagesLocal}
-                  >
-                    {mdx.body}
-                  </MDXRenderer>
-                </MDXProvider>
-              </StyledLayout>
-            </StyledArticle>
-          </ThemeProvider>
-        </ImagesProvider>
-      </AnnotationProvider>
+      <MdxContext.Provider value={mdxContext}>
+        <NavigationMenu currentPath={location.pathname} />
+        <AnnotationProvider>
+          <ImagesProvider initialImages={getInitialImages()}>
+            {headerImage && <HeaderImage image={headerImage} />}
+            <StyledArticleMenu
+              noBibliography
+              spaced={!headerImage}
+              currentPath={location.pathname}
+              menus={menus}
+              themeMode={themeMode}
+              open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
+              onStateChange={setArticleMenuState}
+              bgColor={lightTheme.palette.quaternary}
+            />
+            <ThemeProvider theme={lightTheme}>
+              <StyledArticle>
+                <StyledLayout $flexible className="mdx-section">
+                  <MDXProvider components={mdxComponents}>
+                    <SeoMeta
+                      title={title}
+                      lang={locale}
+                      url={location.pathname}
+                    />
+                    <MDXRenderer
+                      frontmatter={mdx.frontmatter}
+                      localImages={embeddedImagesLocal}
+                    >
+                      {mdx.body}
+                    </MDXRenderer>
+                  </MDXProvider>
+                </StyledLayout>
+              </StyledArticle>
+            </ThemeProvider>
+          </ImagesProvider>
+        </AnnotationProvider>
+      </MdxContext.Provider>
     </NavMenuProvider>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import NavMenuProvider, {
   NAV_MODES,
 } from "~components/organisms/navigation-menu/nav-menu-context"
@@ -37,6 +37,7 @@ import "../styles/reveal-theme.css"
 import { lightTheme } from "~styles/theme"
 import { ThemeSwitcherProvider } from "src/context/theme-switcher-context"
 import { useLocalization } from "gatsby-theme-i18n"
+import { MdxContext } from "src/context/mdx-provider"
 
 interface Data {
   mdx: {
@@ -201,44 +202,48 @@ const Slides: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
     }
   }, [deck.current, handleKeyBinding, fullscreenBinding, verifyLastSlideState])
 
+  const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
+
   return (
     <ThemeSwitcherProvider>
       <ThemeProvider theme={lightTheme}>
         <NavMenuProvider defaultMode={NAV_MODES.PERMANENT}>
-          <HypothesisBtn hiddenOnMobile invert={!isOverlayVisible} />
-          <NavigationMenu
-            currentPath={location.pathname}
-            renderProps={{ deck, isOverlayVisible, setIsOverlayVisible }}
-          />
-          <StyledArticle>
-            <StyledLayout $noConstraint>
-              <RevealContainer className="reveal">
-                <div className="slides">
-                  <MDXProvider components={slidesMdxComponents}>
-                    <SeoMeta
-                      title={title}
-                      lang={locale}
-                      url={location.pathname}
-                    />
-                    <MDXRenderer
-                      frontmatter={mdx.frontmatter}
-                      localImages={embeddedImagesLocal}
-                    >
-                      {mdx.body}
-                    </MDXRenderer>
-                  </MDXProvider>
-                </div>
-                <AnimatePresence>
-                  {isOverlayVisible && (
-                    <EndSlideOverlay
-                      currentPath={location.pathname}
-                      setIsOverlayVisible={setIsOverlayVisible}
-                    />
-                  )}
-                </AnimatePresence>
-              </RevealContainer>
-            </StyledLayout>
-          </StyledArticle>
+          <MdxContext.Provider value={mdxContext}>
+            <HypothesisBtn hiddenOnMobile invert={!isOverlayVisible} />
+            <NavigationMenu
+              currentPath={location.pathname}
+              renderProps={{ deck, isOverlayVisible, setIsOverlayVisible }}
+            />
+            <StyledArticle>
+              <StyledLayout $noConstraint>
+                <RevealContainer className="reveal">
+                  <div className="slides">
+                    <MDXProvider components={slidesMdxComponents}>
+                      <SeoMeta
+                        title={title}
+                        lang={locale}
+                        url={location.pathname}
+                      />
+                      <MDXRenderer
+                        frontmatter={mdx.frontmatter}
+                        localImages={embeddedImagesLocal}
+                      >
+                        {mdx.body}
+                      </MDXRenderer>
+                    </MDXProvider>
+                  </div>
+                  <AnimatePresence>
+                    {isOverlayVisible && (
+                      <EndSlideOverlay
+                        currentPath={location.pathname}
+                        setIsOverlayVisible={setIsOverlayVisible}
+                      />
+                    )}
+                  </AnimatePresence>
+                </RevealContainer>
+              </StyledLayout>
+            </StyledArticle>
+          </MdxContext.Provider>
         </NavMenuProvider>
       </ThemeProvider>
     </ThemeSwitcherProvider>

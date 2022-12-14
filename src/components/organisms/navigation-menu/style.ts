@@ -413,6 +413,7 @@ export const IndexLetter = styled(atoms.p)`
     font-size: ${typography.sm};
     font-weight: bold;
     grid-column: 2;
+    align-self: start;
     margin-top: ${spacing.md};
 
     @media ${devices.tablet} {
@@ -425,18 +426,30 @@ export const IndexText = styled(atoms.p)`
   grid-column: 6 / -2;
   height: fit-content;
   align-self: end;
+  margin-top: ${({ theme }) => theme.spacing.md};
+  line-height: 100%;
 
   @media ${devices.tablet} {
     grid-column: 5 / -2;
   }
 `
 
-export const BiogramLink = styled(LocalizedLink)`
+export const BiogramLink = styled(atoms.p)`
+  font-size: calc(${({ theme }) => theme.typography.sm} * 1.2);
   text-decoration: none;
   color: inherit;
   font-family: inherit;
-  font-size: inherit;
   font-weight: inherit;
+  display: block;
+  cursor: pointer;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 //#endregion

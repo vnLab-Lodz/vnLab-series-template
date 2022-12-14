@@ -1,20 +1,5 @@
-const visit = require(`unist-util-visit`)
-const toString = require(`mdast-util-to-string`)
 const u = require("unist-builder")
-const remove = require("unist-util-remove")
-import { v4 as nanoid } from "uuid"
-
-const visitTypes = [
-  "heading",
-  "paragraph",
-  "blockquote",
-  "list",
-  "listItem",
-  "emphasis",
-  "strong",
-  "link",
-  "linkReference",
-]
+import { v4 } from "uuid"
 
 // ? Could be interesting to look at this ↓
 // ? https://gitlab.com/staltz/unist-util-flatmap
@@ -54,7 +39,7 @@ function constructNewChildren(textNode, util, footnotesNodes, children = []) {
     throw new Error("There might be two of the same footnote in the text")
   }
 
-  footnotesNodes.push({ word, footnote, content: "", uid: nanoid() })
+  footnotesNodes.push({ word, footnote, content: "", uid: v4() })
 
   const newChildren = [
     u("text", parts[0]),
@@ -120,11 +105,4 @@ function isFootnotes(node) {
   return node.type === "code" && node.lang === "footnotes"
 }
 
-module.exports = ({ markdownAST: tree, ...util }, pluginOptions) => {
-  const footnotes = []
-  visit(tree, visitTypes, node => traverse(node, footnotes, util))
-  visit(tree, isFootnotes, node => extractContents(node, footnotes, util))
-  remove(tree, isFootnotes)
-  createNodesFromFootnotes(footnotes, util.markdownNode, util)
-  return tree
-}
+export { traverse, isFootnotes, extractContents, createNodesFromFootnotes }

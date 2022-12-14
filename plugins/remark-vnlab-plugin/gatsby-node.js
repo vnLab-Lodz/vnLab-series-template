@@ -14,5 +14,5 @@ type Anchor {
 }
 `
 exports.createSchemaCustomization = ({ actions }) => {
-    actions.createTypes(graphQLTypes)
-  }
+  actions.createTypes(graphQLTypes)
+}
