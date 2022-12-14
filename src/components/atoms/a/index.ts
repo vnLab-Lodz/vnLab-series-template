@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 export const a = styled.a.attrs({
   target: "_blank",
-  onClick: e => e.stopPropagation(),
+  onClick: (e: any) => e.stopPropagation(),
 })`
   font-size: inherit;
   font-weight: inherit;
