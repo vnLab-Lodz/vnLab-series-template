@@ -19,7 +19,7 @@ export default {
       options: {
         defaults: {
           quality: 90,
-          formats: ["auto", "webp", "avif"],
+          formats: ["auto", "webp"],
           placeholder: "blurred",
         },
       },
@@ -95,7 +95,7 @@ export default {
     {
       resolve: `gatsby-plugin-offline`,
       options: {
-        precachePages: [`/*`],
+        precachePages: [`/*`, `/pl/*`],
         workboxConfig: {
           globPatterns: [
             `**\/*.{js,css,html,svg,png,jpg,jpeg,webp,woff,woff2,ttf,eot}`,
