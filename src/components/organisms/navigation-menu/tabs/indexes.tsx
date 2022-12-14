@@ -94,8 +94,6 @@ export const useTags = () => {
   const { locale, localizedPath, defaultLang, prefixDefault } =
     useLocalization()
 
-  console.log(data)
-
   const filterByLocale = useCallback(
     (acc: LinkedTag[], tag: Tag) => {
       if (tag.keywords.length === 0) return acc

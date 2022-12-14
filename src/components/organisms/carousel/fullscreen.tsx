@@ -69,8 +69,6 @@ const FullscreenPortal: React.FC<Props> = ({
     hideHypothesis()
 
     const btn = document.getElementById("hypothesis-btn")
-    console.log(btn)
-
     btn?.classList.add("invisible")
 
     return () => {
