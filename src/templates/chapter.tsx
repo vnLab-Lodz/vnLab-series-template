@@ -27,6 +27,7 @@ import { GridContainer } from "~styles/grid"
 import { BackgroundGlobals } from "~styles/globals"
 import { components } from "~components/mdx"
 import { MdxContext } from "src/context/mdx-provider"
+import { flushSync } from "react-dom"
 
 export const mdxComponents = {
   strong: atoms.strong,
@@ -139,6 +140,8 @@ export const query = graphql`
       body
       frontmatter {
         title
+        author
+        index
         summary
         menus
         headerImage {
