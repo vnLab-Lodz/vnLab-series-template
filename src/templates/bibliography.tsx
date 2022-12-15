@@ -16,6 +16,7 @@ import { mdxComponents } from "./chapter"
 import { useLocalization } from "gatsby-theme-i18n"
 import { BackgroundGlobals } from "~styles/globals"
 import { MdxContext } from "src/context/mdx-provider"
+import { Footnote, FootnotesContext } from "src/context/footnotes-context"
 
 interface Data {
   mdx: {
@@ -26,6 +27,9 @@ interface Data {
       embeddedImagesLocal: ImageDataLike[]
       headerImage?: ImageDataLike
     }
+  }
+  footnotes: {
+    nodes: Footnote[]
   }
 }
 
@@ -49,7 +53,9 @@ const StyledArticle = styled.article`
   background: ${({ theme: { palette } }) => palette.light};
 `
 
-const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
+const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
+  const { mdx, footnotes } = data
+
   const { embeddedImagesLocal, headerImage, title } = mdx.frontmatter
   const { locale } = useLocalization()
   const theme = useTheme()
@@ -73,26 +79,28 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <MdxContext.Provider value={mdxContext}>
         <NavigationMenu currentPath={location.pathname} />
         <AnnotationProvider>
-          <ImagesProvider initialImages={getInitialImages()}>
-            {headerImage && <HeaderImage image={headerImage} />}
-            <StyledArticle>
-              <StyledLayout className="mdx-section">
-                <MDXProvider components={mdxComponents}>
-                  <SeoMeta
-                    title={title}
-                    lang={locale}
-                    url={location.pathname}
-                  />
-                  <MDXRenderer
-                    frontmatter={mdx.frontmatter}
-                    localImages={embeddedImagesLocal}
-                  >
-                    {mdx.body}
-                  </MDXRenderer>
-                </MDXProvider>
-              </StyledLayout>
-            </StyledArticle>
-          </ImagesProvider>
+          <FootnotesContext.Provider value={footnotes.nodes}>
+            <ImagesProvider initialImages={getInitialImages()}>
+              {headerImage && <HeaderImage image={headerImage} />}
+              <StyledArticle>
+                <StyledLayout className="mdx-section">
+                  <MDXProvider components={mdxComponents}>
+                    <SeoMeta
+                      title={title}
+                      lang={locale}
+                      url={location.pathname}
+                    />
+                    <MDXRenderer
+                      frontmatter={mdx.frontmatter}
+                      localImages={embeddedImagesLocal}
+                    >
+                      {mdx.body}
+                    </MDXRenderer>
+                  </MDXProvider>
+                </StyledLayout>
+              </StyledArticle>
+            </ImagesProvider>
+          </FootnotesContext.Provider>
         </AnnotationProvider>
       </MdxContext.Provider>
     </NavMenuProvider>
@@ -119,6 +127,18 @@ export const query = graphql`
             gatsbyImageData(layout: CONSTRAINED)
           }
         }
+      }
+    }
+    footnotes: allFootnotes(
+      filter: {
+        mdx: { fields: { locale: { eq: $locale } }, slug: { in: $slugs } }
+      }
+    ) {
+      nodes {
+        id
+        link
+        index
+        content
       }
     }
   }

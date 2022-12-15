@@ -81,7 +81,8 @@ const insertTag = (tags, { keyword, category, anchorId, util }) => {
   }
 }
 
-const createNodesFromAnchors = (tags, util) => {
+const createNodesFromAnchors = async (tags, util) => {
+  const promises = []
   for (const [category, keywords] of tags) {
     const tag = { category, keywords: [] }
 
@@ -94,8 +95,10 @@ const createNodesFromAnchors = (tags, util) => {
     const contentDigest = util.createContentDigest(tag)
     tag.id = util.createNodeId(`TAGS__${tag.category}`)
     tag.internal = { type: "Tags", contentDigest }
-    util.actions.createNode(tag)
+    promises.push(util.actions.createNode(tag))
   }
+
+  await Promise.all(promises)
 }
 
 export { traverse, createNodesFromAnchors }

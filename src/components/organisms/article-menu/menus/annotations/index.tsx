@@ -1,10 +1,9 @@
-import { graphql, useStaticQuery } from "gatsby"
 import React, { createElement } from "react"
 import ReactMarkdown from "react-markdown"
 import { ReactMarkdownOptions } from "react-markdown/lib/react-markdown"
-import { useMdxContext } from "src/context/mdx-provider"
 import { components as mdxComponents } from "~components/mdx"
 import * as Styled from "./style"
+import { Footnote as FootnoteType } from "src/context/footnotes-context"
 
 type FootnoteProps = {
   index: string
@@ -41,7 +40,7 @@ const Footnote: React.FC<FootnoteProps> = props => {
 
 type Props = {
   closeMenu: (callback?: () => void) => void
-  footnotes?: Footnote[]
+  footnotes?: FootnoteType[]
 }
 
 const Footnotes: React.FC<Props> = ({ closeMenu, footnotes = [] }) => (
@@ -71,43 +70,3 @@ const components: ReactMarkdownOptions["components"] = {
   ...wrapComponentsForReactMarkdown(mdxComponents),
   p: props => <Styled.InheritParagraph {...props} />,
 }
-
-export const useFootnotes = () => {
-  const data = useStaticQuery<Data>(query)
-  const { id } = useMdxContext()
-  const group = data.allFootnotes.group.find(node => node.mdxId === id)
-  if (!group) return undefined
-  return group.footnotes
-}
-
-type Footnote = {
-  id: string
-  link: string
-  index: string
-  content: string
-}
-
-type Data = {
-  allFootnotes: {
-    group: Array<{
-      mdxId: string
-      footnotes: Footnote[]
-    }>
-  }
-}
-
-const query = graphql`
-  {
-    allFootnotes {
-      group(field: parent___id) {
-        footnotes: nodes {
-          id
-          link
-          index
-          content
-        }
-        mdxId: fieldValue
-      }
-    }
-  }
-`

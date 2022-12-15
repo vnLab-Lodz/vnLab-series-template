@@ -16,13 +16,12 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ThemeProvider } from "styled-components"
 import lightTheme from "~styles/theme"
 import { v4 } from "uuid"
-import { useRefEffect } from "src/hooks/useRefEffect"
-import { useStaticQuery, graphql } from "gatsby"
-
-import XSVG from "../../../images/icons/x.svg"
-import { useMdxContext } from "src/context/mdx-provider"
 import { ReactMarkdownOptions } from "react-markdown/lib/react-markdown"
 import { components as mdxComponents } from "~components/mdx"
+import { useRefEffect } from "src/hooks/useRefEffect"
+import { useFootnote } from "src/context/footnotes-context"
+
+import XSVG from "../../../images/icons/x.svg"
 
 interface Props {
   id?: string
@@ -228,34 +227,3 @@ export const FootnoteTarget: React.FC<FootnoteProps> = props => {
     </Styled.FootnoteTarget>
   )
 }
-
-const useFootnote = (index: string) => {
-  const data = useStaticQuery<Data>(query)
-  const { id } = useMdxContext()
-  const group = data.allFootnotes.group.find(node => node.mdxId === id)
-  if (!group) return undefined
-  return group.footnotes.find(f => f.index === index)
-}
-
-type Data = {
-  allFootnotes: {
-    group: Array<{
-      mdxId: string
-      footnotes: Array<{ index: string; content: string }>
-    }>
-  }
-}
-
-const query = graphql`
-  {
-    allFootnotes {
-      group(field: parent___id) {
-        footnotes: nodes {
-          content
-          index
-        }
-        mdxId: fieldValue
-      }
-    }
-  }
-`
