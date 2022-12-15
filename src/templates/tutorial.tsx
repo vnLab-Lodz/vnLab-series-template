@@ -25,6 +25,7 @@ import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { useLocalization } from "gatsby-theme-i18n"
 import { BackgroundGlobals } from "~styles/globals"
 import { MdxContext } from "src/context/mdx-provider"
+import { Footnote, FootnotesContext } from "src/context/footnotes-context"
 
 interface Data {
   mdx: {
@@ -36,6 +37,9 @@ interface Data {
       embeddedImagesLocal: ImageDataLike[]
       headerImage?: ImageDataLike
     }
+  }
+  footnotes: {
+    nodes: Footnote[]
   }
 }
 
@@ -82,7 +86,8 @@ const StyledArticleMenu = styled(ArticleMenu)<{
   }
 `
 
-const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
+const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
+  const { mdx, footnotes } = data
   const [articleMenuState, setArticleMenuState] = useState<ARTICLE_MENU_STATE>(
     ARTICLE_MENU_STATE.CLOSED
   )
@@ -110,38 +115,40 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <MdxContext.Provider value={mdxContext}>
         <NavigationMenu currentPath={location.pathname} />
         <AnnotationProvider>
-          <ImagesProvider initialImages={getInitialImages()}>
-            {headerImage && <HeaderImage image={headerImage} />}
-            <StyledArticleMenu
-              noBibliography
-              spaced={!headerImage}
-              currentPath={location.pathname}
-              menus={menus}
-              themeMode={themeMode}
-              open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
-              onStateChange={setArticleMenuState}
-              bgColor={lightTheme.palette.quaternary}
-            />
-            <ThemeProvider theme={lightTheme}>
-              <StyledArticle>
-                <StyledLayout $flexible className="mdx-section">
-                  <MDXProvider components={mdxComponents}>
-                    <SeoMeta
-                      title={title}
-                      lang={locale}
-                      url={location.pathname}
-                    />
-                    <MDXRenderer
-                      frontmatter={mdx.frontmatter}
-                      localImages={embeddedImagesLocal}
-                    >
-                      {mdx.body}
-                    </MDXRenderer>
-                  </MDXProvider>
-                </StyledLayout>
-              </StyledArticle>
-            </ThemeProvider>
-          </ImagesProvider>
+          <FootnotesContext.Provider value={footnotes.nodes}>
+            <ImagesProvider initialImages={getInitialImages()}>
+              {headerImage && <HeaderImage image={headerImage} />}
+              <StyledArticleMenu
+                noBibliography
+                spaced={!headerImage}
+                currentPath={location.pathname}
+                menus={menus}
+                themeMode={themeMode}
+                open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
+                onStateChange={setArticleMenuState}
+                bgColor={lightTheme.palette.quaternary}
+              />
+              <ThemeProvider theme={lightTheme}>
+                <StyledArticle>
+                  <StyledLayout $flexible className="mdx-section">
+                    <MDXProvider components={mdxComponents}>
+                      <SeoMeta
+                        title={title}
+                        lang={locale}
+                        url={location.pathname}
+                      />
+                      <MDXRenderer
+                        frontmatter={mdx.frontmatter}
+                        localImages={embeddedImagesLocal}
+                      >
+                        {mdx.body}
+                      </MDXRenderer>
+                    </MDXProvider>
+                  </StyledLayout>
+                </StyledArticle>
+              </ThemeProvider>
+            </ImagesProvider>
+          </FootnotesContext.Provider>
         </AnnotationProvider>
       </MdxContext.Provider>
     </NavMenuProvider>
@@ -169,6 +176,18 @@ export const query = graphql`
             gatsbyImageData(layout: CONSTRAINED)
           }
         }
+      }
+    }
+    footnotes: allFootnotes(
+      filter: {
+        mdx: { fields: { locale: { eq: $locale } }, slug: { in: $slugs } }
+      }
+    ) {
+      nodes {
+        id
+        link
+        index
+        content
       }
     }
   }

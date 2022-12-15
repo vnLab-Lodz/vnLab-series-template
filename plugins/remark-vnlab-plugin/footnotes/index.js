@@ -77,7 +77,8 @@ function extractContents(node, footnotesNodes, util) {
   })
 }
 
-function createNodesFromFootnotes(footnotes, parent, util) {
+async function createNodesFromFootnotes(footnotes, parent, util) {
+  const promises = []
   footnotes.forEach(({ word, footnote, content: footnoteContent, uid }) => {
     // TODO: Make unique across all files
     const id = `footnote__${uid}--${footnote}`
@@ -87,18 +88,22 @@ function createNodesFromFootnotes(footnotes, parent, util) {
       target: word,
       link: `#footnote--${footnote}`,
     }
-    util.actions.createNode({
-      ...content,
-      id: util.createNodeId(`FOOTNOTES__${id}`),
-      children: [],
-      parent: parent.id,
-      internal: {
-        type: "Footnotes",
-        content: JSON.stringify(content),
-        contentDigest: util.createContentDigest(content),
-      },
-    })
+    promises.push(
+      util.actions.createNode({
+        ...content,
+        id: util.createNodeId(`FOOTNOTES__${id}`),
+        children: [],
+        mdx: parent.id,
+        internal: {
+          type: "Footnotes",
+          content: JSON.stringify(content),
+          contentDigest: util.createContentDigest(content),
+        },
+      })
+    )
   })
+
+  await Promise.all(promises)
 }
 
 function isFootnotes(node) {

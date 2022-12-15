@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useMemo } from "react"
+import React, { PropsWithChildren, useMemo } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MdxLink, useLocalization } from "gatsby-theme-i18n"
@@ -27,7 +27,7 @@ import { GridContainer } from "~styles/grid"
 import { BackgroundGlobals } from "~styles/globals"
 import { components } from "~components/mdx"
 import { MdxContext } from "src/context/mdx-provider"
-import { flushSync } from "react-dom"
+import { Footnote, FootnotesContext } from "src/context/footnotes-context"
 
 export const mdxComponents = {
   strong: atoms.strong,
@@ -73,9 +73,13 @@ interface Data {
       summary?: string
     }
   }
+  footnotes: {
+    nodes: Footnote[]
+  }
 }
 
-const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
+const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
+  const { mdx, footnotes } = data
   const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
   const { locale } = useLocalization()
   const theme = useTheme()
@@ -100,33 +104,35 @@ const Section: React.FC<PageProps<Data>> = ({ data: { mdx }, location }) => {
       <MdxContext.Provider value={mdxContext}>
         <NavigationMenu currentPath={location.pathname} />
         <AnnotationProvider>
-          <ImagesProvider initialImages={getInitialImages()}>
-            {headerImage && <HeaderImage image={headerImage} />}
-            <ArticleMenu
-              currentPath={location.pathname}
-              menus={menus}
-              spaced={!headerImage}
-            />
-            <StyledArticle>
-              <StyledLayout $flexible className="mdx-section">
-                <MDXProvider components={mdxComponents}>
-                  <SeoMeta
-                    title={title}
-                    lang={locale}
-                    description={mdx.frontmatter.summary}
-                    url={location.pathname}
-                  />
-                  <MDXRenderer
-                    frontmatter={mdx.frontmatter}
-                    localImages={embeddedImagesLocal}
-                  >
-                    {mdx.body}
-                  </MDXRenderer>
-                </MDXProvider>
-              </StyledLayout>
-            </StyledArticle>
-            <ArticleFooter currentPath={location.pathname} />
-          </ImagesProvider>
+          <FootnotesContext.Provider value={footnotes.nodes}>
+            <ImagesProvider initialImages={getInitialImages()}>
+              {headerImage && <HeaderImage image={headerImage} />}
+              <ArticleMenu
+                currentPath={location.pathname}
+                menus={menus}
+                spaced={!headerImage}
+              />
+              <StyledArticle>
+                <StyledLayout $flexible className="mdx-section">
+                  <MDXProvider components={mdxComponents}>
+                    <SeoMeta
+                      title={title}
+                      lang={locale}
+                      description={mdx.frontmatter.summary}
+                      url={location.pathname}
+                    />
+                    <MDXRenderer
+                      frontmatter={mdx.frontmatter}
+                      localImages={embeddedImagesLocal}
+                    >
+                      {mdx.body}
+                    </MDXRenderer>
+                  </MDXProvider>
+                </StyledLayout>
+              </StyledArticle>
+              <ArticleFooter currentPath={location.pathname} />
+            </ImagesProvider>
+          </FootnotesContext.Provider>
         </AnnotationProvider>
       </MdxContext.Provider>
     </NavMenuProvider>
@@ -154,6 +160,18 @@ export const query = graphql`
             gatsbyImageData(layout: CONSTRAINED)
           }
         }
+      }
+    }
+    footnotes: allFootnotes(
+      filter: {
+        mdx: { fields: { locale: { eq: $locale } }, slug: { in: $slugs } }
+      }
+    ) {
+      nodes {
+        id
+        link
+        index
+        content
       }
     }
   }

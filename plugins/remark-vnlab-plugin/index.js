@@ -16,21 +16,21 @@ const visitTypes = [
   "linkReference",
 ]
 
-module.exports = ({ markdownAST: tree, ...util }) => {
+module.exports = async ({ markdownAST: tree, ...util }) => {
   const footnotes = []
   visit(tree, visitTypes, node => Footnotes.traverse(node, footnotes, util))
   visit(tree, Footnotes.isFootnotes, node =>
     Footnotes.extractContents(node, footnotes, util)
   )
   remove(tree, Footnotes.isFootnotes)
-  Footnotes.createNodesFromFootnotes(footnotes, util.markdownNode, util)
+  await Footnotes.createNodesFromFootnotes(footnotes, util.markdownNode, util)
 
   const tags = new Map()
   let marker = 0
   visit(tree, visitTypes, (node, index) =>
     Tags.traverse(node, tags, util, index, marker++)
   )
-  Tags.createNodesFromAnchors(tags, util)
+  await Tags.createNodesFromAnchors(tags, util)
 
   return tree
 }

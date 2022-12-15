@@ -6,7 +6,7 @@ import usePageContent from "src/hooks/usePageContent"
 import { ThemeContext, useTheme } from "styled-components"
 import Arrow from "~components/molecules/arrow"
 import { getSupportedFitContent, isUndefined } from "~util"
-import Footnotes, { useFootnotes } from "./menus/annotations"
+import Footnotes from "./menus/annotations"
 import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
 import Illustrations from "./menus/illustrations"
@@ -22,6 +22,7 @@ import useIsMobile from "src/hooks/useIsMobile"
 import useScrollDirection, {
   SCROLL_DIRECTION,
 } from "src/hooks/useScrollDirection"
+import { useFootnotes } from "src/context/footnotes-context"
 
 interface Props {
   spaced?: boolean
