@@ -96,6 +96,7 @@ const ArticleMenu: React.FC<Props> = ({
   const bibliography = useBibliography(currentPath)
   const { images } = useContext(ImagesContext)
   const footnotes = useFootnotes()
+
   const setState = (value: MENU_STATE) => {
     setMenuState(prev => {
       const newState = prev === value ? MENU_STATE.CLOSED : value
@@ -144,7 +145,7 @@ const ArticleMenu: React.FC<Props> = ({
     )
   }
 
-  const directionUp = useScrollDirection({ threshold: 300 })
+  const directionUp = useScrollDirection({ threshold: 150 })
   const directionDown = useScrollDirection({ threshold: 5 })
 
   const translateY = useSpring(0)
