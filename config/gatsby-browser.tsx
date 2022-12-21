@@ -1,7 +1,12 @@
-import { WrapPageElementBrowserArgs, Script, ScriptStrategy } from "gatsby"
+import React from "react"
+import {
+  WrapPageElementBrowserArgs,
+  Script,
+  ScriptStrategy,
+  ServiceWorkerArgs,
+} from "gatsby"
 import { ThemeProvider } from "styled-components"
 import { darkTheme, lightTheme } from "../src/styles/theme"
-import React from "react"
 import { Globals } from "../src/styles/globals"
 import HypothesisManager from "~components/organisms/hypothesis-manager"
 import ScrollContextProvider from "src/context/scroll-context"
@@ -35,3 +40,13 @@ export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
     )}
   </ThemeSwitcherProvider>
 )
+
+export const onServiceWorkerUpdateReady = async (args: ServiceWorkerArgs) => {
+  const permissionResponse = await Notification.requestPermission()
+  if (permissionResponse === "granted") {
+    await args.serviceWorker.showNotification("Archive as project - update", {
+      body: "Publication has been updated to the newest release. Page reloaded to show the latest version.",
+    })
+  }
+  window.location.reload()
+}
