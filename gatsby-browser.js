@@ -1,3 +1,7 @@
-const { wrapPageElement } = require("./config/gatsby-browser")
+const {
+  wrapPageElement,
+  onServiceWorkerUpdateReady,
+} = require("./config/gatsby-browser")
 
 exports.wrapPageElement = wrapPageElement
+exports.onServiceWorkerUpdateReady = onServiceWorkerUpdateReady
