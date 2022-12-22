@@ -136,11 +136,10 @@ export const Controls = styled(GridConstraint)`
 `
 
 export const CarouselNav = styled.nav`
-  ${({ theme: { palette, spacing } }) => css`
-    border-bottom: solid 1px ${palette.dark};
+  ${({ theme: { spacing } }) => css`
     grid-column: 1 / last-col;
     padding-bottom: ${spacing.xxs};
-  `}
+  `};
 `
 
 export const Arrow = styled.button<{ side: "left" | "right" }>`
