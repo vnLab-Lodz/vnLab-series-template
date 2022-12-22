@@ -76,6 +76,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         ignoreHypothesis
         reduced={isMobile}
         currentPath={location.pathname}
+        renderProps={{ disableProgressText: true }}
       />
       <GridContainer style={{ minHeight: "100vh" }} $noConstraint>
         <SeoMeta

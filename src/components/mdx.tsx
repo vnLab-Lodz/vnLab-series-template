@@ -5,7 +5,7 @@ import atoms from "./atoms"
 import AbstractMolecule from "./molecules/abstract"
 import AuthorMolecule from "./molecules/author"
 import EditionMolecule from "./molecules/edition"
-import Quote from "./molecules/quote"
+import Quote, { BlockQuote } from "./molecules/quote"
 
 const gridConstraint = css`
   max-width: -moz-available;
@@ -34,6 +34,14 @@ const marginRules = css`
       margin-top: ${({ theme }) => theme.spacing.lg};
 
       &.mdx-blockquote {
+        margin-top: 30px;
+
+        @media ${devices.laptop} {
+          margin-top: 40px;
+        }
+      }
+
+      &.mdx-quote {
         margin-top: ${({ theme }) => theme.spacing.xl};
       }
 
@@ -48,7 +56,15 @@ const marginRules = css`
 
     // ! If element above is a blockquote
     *.mdx-blockquote + & {
-      margin-top: ${({ theme }) => theme.spacing.xl};
+      margin-top: ${({ theme }) => theme.spacing.md};
+    }
+
+    *.mdx-quote + & {
+      margin-top: 30px;
+
+      @media ${devices.laptop} {
+        margin-top: 40px;
+      }
     }
 
     // ! Override for when element above is
@@ -88,8 +104,15 @@ const h3 = styled(atoms.h3).attrs({ className: "mdx-heading" })`
   ${marginRules}
 `
 
-const blockquote = styled(Quote).attrs({
+const blockquote = styled(BlockQuote).attrs({
   className: "mdx-blockquote",
+})`
+  ${gridConstraint}
+  ${marginRules}
+`
+
+const quote = styled(Quote).attrs({
+  className: "mdx-quote",
 })`
   ${gridConstraint}
   ${marginRules}
@@ -153,6 +176,7 @@ export const components = {
   h1,
   h2,
   h3,
+  quote,
   blockquote,
   ul,
   ol,

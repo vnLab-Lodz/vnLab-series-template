@@ -69,19 +69,36 @@ export const Progress = styled(motion.div)<{ light?: boolean }>`
   position: absolute;
 
   @media (max-width: calc(${breakpoints.tablet} - 1px)) {
-    top: 0px;
-    left: 0px;
-    height: 2px !important;
+    display: none;
   }
 
   @media ${devices.tablet} {
     top: 0px;
-    right: -1.5px;
-    width: 2px !important;
-  }
-
-  @media ${devices.laptopL} {
     right: -2px;
+    width: 3px !important;
+  }
+`
+
+export const ProgressText = styled(motion.span)<{ $light?: boolean }>`
+  position: absolute;
+  left: calc(100% + 5px);
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  color: ${({ theme, $light: light = false }) =>
+    light ? theme.palette.white : theme.palette.black};
+  font-size: ${({ theme }) => theme.typography.sm};
+  transform: translateY(-100%);
+`
+
+export const MobileProgress = styled(motion.div)<{ light?: boolean }>`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 5px !important;
+  background: #bcbcbc;
+  z-index: 9;
+
+  @media ${devices.tablet} {
+    display: none;
   }
 `
 

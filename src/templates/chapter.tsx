@@ -47,7 +47,8 @@ export const mdxComponents = {
   // ---- ---- ---- ----
   Link: MdxLink,
   // ---------
-  Quote: components.blockquote,
+  BlockQuote: components.blockquote,
+  Quote: components.quote,
   Abstract: components.Abstract,
   Author: components.Author,
   Edition: components.Edition,

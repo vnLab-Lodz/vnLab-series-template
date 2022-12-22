@@ -79,7 +79,7 @@ export const CaptionText = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     text-align: left;
-    font-weight: normal;
+    font-weight: 300;
   `}
 `
 
