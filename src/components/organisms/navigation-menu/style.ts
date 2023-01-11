@@ -346,7 +346,7 @@ export const TocHeader = styled(atoms.h3)`
 export const Part = styled(atoms.h3)<{ first?: boolean }>`
   margin: 0px 0px ${({ theme }) => theme.spacing.md} 0px;
   text-align: start;
-  grid-column: 2 / last-col;
+  grid-column: 2 / -2;
   margin-bottom: 80px;
   margin-top: 80px;
 
@@ -357,7 +357,7 @@ export const Part = styled(atoms.h3)<{ first?: boolean }>`
     `}
 
   @media ${devices.tablet} {
-    grid-column: 3 / last-col;
+    grid-column: 3 / -2;
   }
 `
 
