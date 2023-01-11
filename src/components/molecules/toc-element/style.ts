@@ -7,7 +7,7 @@ export const TocContainer = styled.article<{ highlighted?: boolean }>`
   position: relative;
   display: grid;
   grid-column: 1 / last-col;
-  grid-template-rows: repeat(4, min-content);
+  grid-template-rows: repeat(5, min-content);
   padding-block: ${({ theme }) => theme.spacing.xs};
   /* old Safari does not handle block */
   padding-top: ${({ theme }) => theme.spacing.xs};
@@ -33,9 +33,16 @@ export const TocContainer = styled.article<{ highlighted?: boolean }>`
   }
 `
 
+export const SlidshowTitle = styled(atoms.p)`
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
+  font-size: ${({ theme }) => theme.typography.sm};
+  font-weight: lighter;
+  grid-column: 4 / -3;
+  align-self: end;
+`
+
 export const ArticleTitle = styled(LocalizedLink)`
   text-decoration: none;
-  grid-row: 1;
   grid-column: 4 / -3;
   p {
     font-weight: 500;
@@ -58,7 +65,6 @@ export const ArticleNumber = styled(atoms.p)`
 `
 export const ArticleAuthor = styled(atoms.h3)`
   ${({ theme: { spacing, typography } }) => css`
-    grid-row: 2;
     grid-column: 4 / -3;
     margin: ${spacing.xs} 0px;
     text-align: left;
@@ -81,7 +87,6 @@ export const SummaryButton = styled.button`
     background: none;
     padding: 0;
     cursor: pointer;
-    grid-row: 3;
     grid-column: 4 / -3;
     text-align: left;
     color: ${palette.black};
@@ -102,7 +107,6 @@ export const SummaryButton = styled.button`
 export const Summary = styled(atoms.p)`
   font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.153)`};
   margin-top: ${({ theme }) => theme.spacing.xxs};
-  grid-row: 4;
   grid-column: 4 / -3;
   overflow: hidden;
 `

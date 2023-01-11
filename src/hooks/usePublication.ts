@@ -14,6 +14,7 @@ interface MdxNode {
     summary: string
     index: number
     author: string
+    slideshow: boolean | null
   }
 }
 
@@ -41,6 +42,7 @@ export interface PublicationPage {
   summary?: string
   index?: number
   author?: string
+  slideshow: boolean
 }
 
 const defaultSort = (a: PublicationPage, b: PublicationPage) =>
@@ -59,6 +61,7 @@ const query = graphql`
           summary
           index
           author
+          slideshow
         }
         id
       }
@@ -92,10 +95,13 @@ export default function usePublication(orderCallback = defaultSort) {
       pageNodes
         .reduce((prev, page) => {
           const mdx = getPageMdx(page)
+          if (isUndefined(mdx)) return prev
 
-          return isUndefined(mdx)
-            ? prev
-            : [...prev, { id: mdx.id, path: page.path, ...mdx.frontmatter }]
+          const id = mdx.id
+          const path = page.path
+          const slideshow = !!mdx?.frontmatter.slideshow
+
+          return [...prev, { ...mdx.frontmatter, id, path, slideshow }]
         }, [] as PublicationPage[])
         .sort(orderCallback),
     [data]

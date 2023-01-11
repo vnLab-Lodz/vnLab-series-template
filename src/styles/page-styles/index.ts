@@ -27,7 +27,7 @@ export const ImageWrapper = styled.div`
     position: fixed;
     z-index: 0;
     display: block;
-    width: 51vw; // ! 1 for scroll pause compatibility
+    width: 50%;
   }
 `
 

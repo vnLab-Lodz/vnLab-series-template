@@ -38,6 +38,9 @@ const TocElement: React.FC<Props> = ({ page, last, current, hideDivider }) => {
       {chapter !== "00" && (
         <Styled.ArticleNumber>{chapter}</Styled.ArticleNumber>
       )}
+      {page.slideshow ? (
+        <Styled.SlidshowTitle>{t("graphical")}</Styled.SlidshowTitle>
+      ) : null}
       <Styled.ArticleTitle to={page.path} language={locale}>
         <ReactMarkdown components={mdxComponents as any}>
           {page.title}
