@@ -25,10 +25,6 @@ const MiscTabs: React.FC<Props> = ({
   aside,
   disableThemeSwitching = false,
 }) => {
-  console.log(
-    "🚀 ~ file: misc-tabs.tsx:28 ~ disableThemeSwitching",
-    disableThemeSwitching
-  )
   const { themeMode, setThemeMode } = useThemeSwitcherContext()
   const { navMode } = useNavMenuContext()
 
@@ -61,7 +57,7 @@ const MiscTabs: React.FC<Props> = ({
         currentPath={currentPath}
         compact={aside}
       />
-      {!disableThemeSwitching && (
+      {navMode !== NAV_MODES.PERMANENT && !disableThemeSwitching && (
         <Styled.TabButton onClick={changeThemeMode}>
           <img
             style={themeIconStyles}

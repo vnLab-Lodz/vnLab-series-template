@@ -40,10 +40,6 @@ const NavigationMenu: React.FC<
   const { themeMode } = useThemeSwitcherContext()
   const { disableProgressText = false, disableThemeSwitching = false } =
     renderProps
-  console.log(
-    "🚀 ~ file: base.tsx:42 ~ disableThemeSwitching",
-    disableThemeSwitching
-  )
 
   const getCloseIconFilter = () => {
     if (themeMode === THEME_MODES.DARK && open) return "invert(0)"
