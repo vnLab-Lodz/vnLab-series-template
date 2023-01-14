@@ -69,6 +69,8 @@ export const slidesMdxComponents = {
   Slide,
   TitleSlide,
   TextSlide,
+  CenterImageSlide,
+  FullscreenImageSlide,
   //   h1: styled(atoms.h1)`
   //     margin: 8px;
   //     color: ${({ theme }) => theme.palette.white};
@@ -95,8 +97,6 @@ export const slidesMdxComponents = {
   //   p: styled(atoms.p)`
   //     color: ${({ theme }) => theme.palette.white};
   //   `,
-  //   CenterImageSlide,
-  //   FullscreenImageSlide,
   //   TwoImageSlide,
   //   VerticalSlides,
 }

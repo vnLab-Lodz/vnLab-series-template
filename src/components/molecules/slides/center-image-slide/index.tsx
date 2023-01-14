@@ -5,12 +5,10 @@ import * as Styled from "./style"
 
 interface Props {
   image: IGatsbyImageData
-  background?: string
   fit?: "cover" | "contain"
 }
 
 const CenterImageSlide: React.FC<Props & CaptionProps> = ({
-  background,
   image,
   fit = "contain",
   caption,
@@ -21,12 +19,7 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
   const isFullscreen = fit === "cover"
 
   return (
-    <CaptionSlide
-      fullscreen={isFullscreen}
-      background={background}
-      caption={caption}
-      extendedCaption={extendedCaption}
-    >
+    <CaptionSlide caption={caption} extendedCaption={extendedCaption}>
       <Styled.SlideImageWrapper
         fullscreen={isFullscreen}
         withCaption={!!caption}

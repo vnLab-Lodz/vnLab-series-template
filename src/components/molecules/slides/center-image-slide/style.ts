@@ -7,25 +7,38 @@ export const SlideImageWrapper = styled.div<{
 }>`
   display: flex;
   justify-content: center;
-  max-height: calc(100vh - 260px);
+  grid-column-end: -2;
+  grid-column-start: 2;
 
-  @media (${devices.tablet}) {
-    max-height: calc(100vh - 200px);
+  @media ${devices.tablet} {
+    grid-column-start: 5;
+    grid-column-end: -2;
   }
 
-  ${({ fullscreen, withCaption }) =>
+  @media ${devices.laptop} {
+    grid-column-start: 5;
+    grid-column-end: -5;
+  }
+
+  margin: 80px 0;
+  max-height: calc(100vh - 2 * 80px);
+
+  ${({ fullscreen }) =>
     fullscreen &&
     css`
-      width: 100%;
-      max-width: 100% !important;
-      height: calc(100% - 65px);
-      max-height: calc(100% - 65px);
-      margin: 65px 0px 0px 0px;
+      margin: 0;
+      max-height: 100vh;
+      grid-column-end: last-col;
+      grid-column-start: first-col;
 
       @media ${devices.tablet} {
-        height: ${withCaption ? "calc(100vh - 100px)" : "100vh"};
-        max-height: ${withCaption ? "calc(100vh - 100px)" : "100vh"};
-        margin: 0;
+        grid-column-start: 4;
+        grid-column-end: last-col;
+      }
+
+      @media ${devices.laptop} {
+        grid-column-start: 3;
+        grid-column-end: last-col;
       }
     `}
 `
