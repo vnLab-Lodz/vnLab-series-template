@@ -68,6 +68,7 @@ export const slidesMdxComponents = {
   ...mdxComponents,
   Slide,
   TitleSlide,
+  TextSlide,
   //   h1: styled(atoms.h1)`
   //     margin: 8px;
   //     color: ${({ theme }) => theme.palette.white};
@@ -98,7 +99,6 @@ export const slidesMdxComponents = {
   //   FullscreenImageSlide,
   //   TwoImageSlide,
   //   VerticalSlides,
-  // TextSlide,
 }
 
 const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
