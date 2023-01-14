@@ -7,7 +7,7 @@ import AuthorMolecule from "./molecules/author"
 import EditionMolecule from "./molecules/edition"
 import Quote, { BlockQuote } from "./molecules/quote"
 
-const gridConstraint = css`
+export const gridConstraint = css`
   max-width: -moz-available;
   grid-column: 2 / 32;
 

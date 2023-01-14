@@ -20,7 +20,10 @@ import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
 import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
 
 const NavigationMenu: React.FC<
-  NavVariantProps<{ disableProgressText?: boolean }>
+  NavVariantProps<{
+    disableProgressText?: boolean
+    disableThemeSwitching?: boolean
+  }>
 > = ({
   currentPath,
   reduced,
@@ -35,7 +38,12 @@ const NavigationMenu: React.FC<
   const { t } = useTranslation(["common", "nav-menu"])
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
-  const { disableProgressText = false } = renderProps
+  const { disableProgressText = false, disableThemeSwitching = false } =
+    renderProps
+  console.log(
+    "🚀 ~ file: base.tsx:42 ~ disableThemeSwitching",
+    disableThemeSwitching
+  )
 
   const getCloseIconFilter = () => {
     if (themeMode === THEME_MODES.DARK && open) return "invert(0)"
@@ -89,6 +97,7 @@ const NavigationMenu: React.FC<
                   currentPath={currentPath}
                   locale={locale}
                   aside={reduced}
+                  disableThemeSwitching={disableThemeSwitching}
                 />
               )}
 
@@ -105,6 +114,7 @@ const NavigationMenu: React.FC<
               navState={navState}
               setNavState={setNavState}
               currentPath={currentPath}
+              disableThemeSwitching={disableThemeSwitching}
             />
           </Styled.Aside>
         )}
@@ -113,6 +123,9 @@ const NavigationMenu: React.FC<
   )
 }
 
-export default enhance<{ disableProgressText?: boolean }>({
+export default enhance<{
+  disableProgressText?: boolean
+  disableThemeSwitching?: boolean
+}>({
   hideOnMobile: true,
 })(NavigationMenu)

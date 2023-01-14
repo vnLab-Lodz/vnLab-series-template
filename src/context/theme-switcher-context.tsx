@@ -22,10 +22,14 @@ type Component = React.FC<{
         setThemeMode: React.Dispatch<React.SetStateAction<THEME_MODES>>
       }) => React.ReactNode)
     | React.ReactNode
+  defaultMode?: THEME_MODES
 }>
 
-export const ThemeSwitcherProvider: Component = ({ children }) => {
-  const [themeMode, setThemeMode] = useState(THEME_MODES.LIGHT)
+export const ThemeSwitcherProvider: Component = ({
+  children,
+  defaultMode = THEME_MODES.LIGHT,
+}) => {
+  const [themeMode, setThemeMode] = useState(defaultMode)
 
   return (
     <ThemeSwitcherContext.Provider value={{ themeMode, setThemeMode }}>

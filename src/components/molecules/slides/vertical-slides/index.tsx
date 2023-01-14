@@ -9,11 +9,7 @@ const VerticalSlides: React.FC<PropsWithChildren<Props>> = ({
   children,
   background,
 }) => {
-  return (
-    <Slide disableSwipe background={background}>
-      {children}
-    </Slide>
-  )
+  return <Slide>{children}</Slide>
 }
 
 export default VerticalSlides

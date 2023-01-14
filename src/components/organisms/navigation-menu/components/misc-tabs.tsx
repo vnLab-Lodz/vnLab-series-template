@@ -16,9 +16,19 @@ interface Props {
   currentPath: string
   locale: string
   aside?: boolean
+  disableThemeSwitching?: boolean
 }
 
-const MiscTabs: React.FC<Props> = ({ currentPath, locale, aside }) => {
+const MiscTabs: React.FC<Props> = ({
+  currentPath,
+  locale,
+  aside,
+  disableThemeSwitching = false,
+}) => {
+  console.log(
+    "🚀 ~ file: misc-tabs.tsx:28 ~ disableThemeSwitching",
+    disableThemeSwitching
+  )
   const { themeMode, setThemeMode } = useThemeSwitcherContext()
   const { navMode } = useNavMenuContext()
 
@@ -51,7 +61,7 @@ const MiscTabs: React.FC<Props> = ({ currentPath, locale, aside }) => {
         currentPath={currentPath}
         compact={aside}
       />
-      {navMode !== NAV_MODES.PERMANENT && (
+      {!disableThemeSwitching && (
         <Styled.TabButton onClick={changeThemeMode}>
           <img
             style={themeIconStyles}

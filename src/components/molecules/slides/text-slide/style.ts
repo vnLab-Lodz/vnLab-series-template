@@ -13,7 +13,7 @@ export const Container = styled.div`
   padding-top: 100px;
   padding-bottom: 100px;
 
-  &::before {
+  /* &::before {
     position: absolute;
     content: "";
     top: 0;
@@ -49,7 +49,7 @@ export const Container = styled.div`
       left: 30px;
       right: 30px;
     }
-  }
+  } */
 `
 
 export const Text = styled.div`

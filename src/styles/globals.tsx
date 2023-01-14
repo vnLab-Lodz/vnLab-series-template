@@ -144,3 +144,21 @@ export const BackgroundGlobals = createGlobalStyle<{
     background-color: ${({ color }) => color};
   }
 `
+
+export const GraphicalChapterGlobals = createGlobalStyle<{
+  color: CSSProperties["backgroundColor"]
+}>`
+  html, body {
+    background-color: ${({ color }) => color};
+  }
+
+  html {
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    scroll-behavior: smooth;
+    overflow: auto;
+    scroll-snap-type: y mandatory;
+  }
+`

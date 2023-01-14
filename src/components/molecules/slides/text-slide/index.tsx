@@ -73,7 +73,7 @@ const TextSlide: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   )
 
   return (
-    <Slide swipeHandlers={handlers}>
+    <Slide>
       <Styled.Container ref={containerRef}>
         <Styled.Text ref={textRef}>
           {typeof children === "string" ? (

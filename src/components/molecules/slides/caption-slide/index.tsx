@@ -65,7 +65,7 @@ const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
   }, [ref])
 
   return (
-    <Slide background={background} disableSwipe={disableSwipe}>
+    <Slide>
       <Styled.SlideWrapper
         ref={ref}
         withPadding={!caption}
