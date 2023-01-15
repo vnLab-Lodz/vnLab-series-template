@@ -24,7 +24,7 @@ type Props = ExtendStyledProps<
   ForwardRefComponent<HTMLButtonElement, HTMLMotionProps<"button">>
 >
 
-export const button: React.FC<Props> = props => {
+export const button: React.FC<Props> = ({ style, ...props }) => {
   const { palette } = useContext(ThemeContext)
 
   return (
@@ -33,6 +33,7 @@ export const button: React.FC<Props> = props => {
         backgroundColor: `${palette.transparentBlack}`,
         borderColor: palette.black,
         color: palette.black,
+        ...style,
       }}
       whileHover={{
         backgroundColor: palette.black,
