@@ -73,7 +73,7 @@ const NavigationMenu: React.FC<
               <Styled.Progress style={{ height: progress, width: progress }} />
               {!disableProgressText ? (
                 <Styled.ProgressText style={{ top: progress }}>
-                  {progress.get().split(".")[0]}%
+                  {Math.ceil(Number(progress.get().replace("%", "")))}%
                 </Styled.ProgressText>
               ) : null}
               <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
