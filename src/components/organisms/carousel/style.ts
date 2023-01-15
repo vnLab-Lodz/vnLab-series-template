@@ -88,6 +88,8 @@ export const Image = styled(GatsbyImage)`
 export const Caption = styled.article`
   min-height: 2rem;
   flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
 `
 
 export const Controls = styled(GridConstraint)`
@@ -123,6 +125,12 @@ export const Expand = styled.button`
   grid-column: last-col;
   cursor: pointer;
   display: none;
+  margin-left: auto;
+
+  img {
+    vertical-align: middle;
+  }
+
   @media ${devices.tablet} {
     display: block;
   }
@@ -152,7 +160,7 @@ export const ImageCaption = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     margin-top: ${spacing.xs};
-    width: 100%;
+    width: 90%;
     white-space: break-spaces;
   `}
 `

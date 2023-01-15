@@ -58,10 +58,11 @@ export const Caption = styled(InnerGrid)`
 
 export const ExpandCaptionBtn = styled.button`
   ${({ theme: { typography, palette } }) => css`
-    grid-column: -5 / span 4;
+    grid-row: 2;
+    grid-column: 1 / span 5;
 
     @media ${devices.tablet} {
-      grid-column: -3 / span 2;
+      grid-column: 1 / span 4;
     }
 
     font-family: ${typography.fonts.primary};
@@ -70,7 +71,8 @@ export const ExpandCaptionBtn = styled.button`
     text-transform: lowercase;
     line-height: 115%;
     padding: 0px;
-    text-align: right;
+    margin-top: ${({ theme }) => theme.spacing.xxs};
+    text-align: left;
     background: transparent;
     border: none;
     cursor: pointer;
@@ -81,7 +83,7 @@ export const ExpandCaptionBtn = styled.button`
 
 export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
-    grid-column: 1 / -6;
+    grid-column: 1 / -4;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     text-align: left;
@@ -165,4 +167,16 @@ export const CloseBtn = styled.button`
   @media ${devices.laptop} {
     grid-column: 24;
   }
+`
+
+export const Expand = styled.button`
+  background: none;
+  border: none;
+  grid-column: last-col;
+  cursor: pointer;
+  display: block;
+
+  grid-row: 1;
+  grid-column: last-col;
+  align-self: center;
 `

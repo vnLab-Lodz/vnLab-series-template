@@ -12,6 +12,7 @@ import { THEME_MODES } from "src/context/theme-switcher-context"
 import * as Styled from "./style"
 
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
+import ExpandArrow from "src/images/icons/arrow_expand.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 import { SwiperSlide } from "swiper/react"
@@ -19,6 +20,8 @@ import { Navigation, A11y, Swiper } from "swiper"
 
 import "swiper/css"
 import "swiper/css/navigation"
+import Fullsize from "~components/molecules/fullsize"
+import ReactDOM from "react-dom"
 
 interface Props {
   images: ImageDataLike[]
@@ -168,21 +171,48 @@ const Image: React.FC<{
   image: IGatsbyImageData
   index: number
   carouselUid: string
-}> = React.memo(({ carouselUid, index, caption, image }) => (
-  <Styled.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
-    <Styled.Image
-      objectFit="cover"
-      alt={`${caption} | Carousel image ${index}`}
-      image={getImage(image) as IGatsbyImageData}
-    />
-    <Styled.Caption>
-      <ReactMarkdown
-        components={{ ...mdxComponents, p: Styled.ImageCaption } as any}
-      >
-        {caption}
-      </ReactMarkdown>
-    </Styled.Caption>
-  </Styled.ImageWrapper>
-))
+}> = ({ carouselUid, index, caption, image }) => {
+  const [isFullsize, setIsFullsize] = useState(false)
+  const { themeMode } = useThemeSwitcherContext()
+  const filter = themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
+
+  const img = getImage(image) as IGatsbyImageData
+
+  return (
+    <>
+      <Styled.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
+        <Styled.Image
+          objectFit="cover"
+          alt={`${caption} | Carousel image ${index}`}
+          image={img}
+        />
+        <Styled.Caption>
+          <ReactMarkdown
+            components={{ ...mdxComponents, p: Styled.ImageCaption } as any}
+          >
+            {caption}
+          </ReactMarkdown>
+          <Styled.Expand onClick={() => setIsFullsize(true)}>
+            <img
+              src={ExpandArrow}
+              alt="Fullsize"
+              style={{ filter, height: 16, width: 16 }}
+            />
+          </Styled.Expand>
+        </Styled.Caption>
+      </Styled.ImageWrapper>
+      {isFullsize
+        ? ReactDOM.createPortal(
+            <Fullsize
+              image={img}
+              alt={caption}
+              close={() => setIsFullsize(false)}
+            />,
+            document.body
+          )
+        : null}
+    </>
+  )
+}
 
 export default Carousel
