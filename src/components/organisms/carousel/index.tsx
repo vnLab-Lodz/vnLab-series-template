@@ -1,30 +1,26 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
 import { getImage, IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import { ImagesContext } from "src/context/illustrations-context"
 import { InnerGrid } from "~styles/grid"
-import FullscreenPortal from "./fullscreen"
 import { v4 as uuid } from "uuid"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
-import useIsMobile from "src/hooks/useIsMobile"
 import { useInView } from "react-intersection-observer"
 import { useAnimation } from "framer-motion"
-import useIsClient from "src/hooks/useIsClient"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
-import useScrollDistance from "src/hooks/useScrollDistance"
 import * as Styled from "./style"
 
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
-import ExpandArrow from "../../../images/icons/arrow_expand.svg"
+
+import { SwiperSlide } from "swiper/react"
+import { Navigation, A11y, Keyboard, Swiper } from "swiper"
+
+import "swiper/css"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "swiper/css/scrollbar"
 
 interface Props {
   images: ImageDataLike[]
@@ -32,115 +28,38 @@ interface Props {
 }
 
 const Carousel: React.FC<Props> = ({ images, captions }) => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const constraintRef = useRef<HTMLDivElement | null>(null)
   const stickyRef = useRef<HTMLDivElement | null>(null)
-
-  const [currentImage, setCurrentImage] = useState(0)
-  const [fullscreen, setFullscreen] = useState(false)
   const [sticky, setSticky] = useState(false)
-
+  const [swiper, setSwiper] = useState<Swiper | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number>(0)
   const [inViewRef, isInView] = useInView({ threshold: 0.1 })
   const { addImage } = useContext(ImagesContext)
-  const isMobile = useIsMobile()
-  const { key } = useIsClient()
-
   const controls = useAnimation()
+  const { themeMode } = useThemeSwitcherContext()
 
   const carouselUid = useMemo(() => uuid(), [images])
 
-  const { themeMode } = useThemeSwitcherContext()
+  const nextImage = () => swiper?.slideNext()
 
-  const calcScrollPos = () => {
+  const previousImage = () => swiper?.slidePrev()
+
+  const calcScrollPosition = () => {
     if (!stickyRef || !stickyRef.current) return 0
-
     return stickyRef.current.offsetTop
   }
 
-  const getNextIndex = () =>
-    currentImage >= images.length - 1 ? currentImage : currentImage + 1
-
-  const getPrevIndex = () =>
-    currentImage <= 0 ? currentImage : currentImage - 1
-
-  const nextImage = () => scrollToImage(getNextIndex())
-
-  const previousImage = () => scrollToImage(getPrevIndex())
-
-  const getScrollOffset = () => {
-    const { innerWidth } = window
-    const unit = innerWidth / 32
-    if (innerWidth < 768) return unit
-
-    return innerWidth < 1024 ? unit * 6 : unit * 8
-  }
-
-  const getImagePosition = (index: number) => {
-    if (!ref.current) return 0
-
-    const offset = getScrollOffset()
-    const selector = `#${getWrapperKey(index)}`
-    const wrapper = ref.current.querySelector<HTMLDivElement>(selector)
-
-    return wrapper ? wrapper.offsetLeft - offset : 0
-  }
-
-  const scrollToImage = (index: number) => {
-    if (!ref.current) return
-
-    const left = getImagePosition(index)
-
-    ref.current.scrollTo({ left, behavior: fullscreen ? undefined : "smooth" })
-  }
-
-  const onScroll = useScrollDistance(
-    () => {
-      if (!ref.current) return
-
-      const { scrollLeft } = ref.current
-      const imgPosition = getImagePosition(currentImage)
-      const distance = imgPosition - scrollLeft
-
-      if (distance > 300) setCurrentImage(getPrevIndex())
-      else if (distance < -300) setCurrentImage(getNextIndex())
-    },
-    66,
-    "x"
-  )
-
-  const onImgClick = useCallback(
-    () => !isMobile && setFullscreen(true),
-    [isMobile, setFullscreen]
-  )
-
-  const getWrapperKey = (index: number) =>
-    `carousel-${carouselUid}__wrapper--${index}`
-
-  const getImageMargin = (index: number) => {
-    if (index === 0) return "right"
-    if (index === images.length - 1) return "left"
-    return "both"
-  }
-
-  useEffect(() => inViewRef(constraintRef.current), [constraintRef])
-
   useEffect(() => {
     images.forEach(img =>
-      addImage(img as IGatsbyImageData, calcScrollPos, () => {
+      addImage(img as IGatsbyImageData, calcScrollPosition, () => {
         stickyRef.current?.scrollIntoView({ behavior: "smooth" })
       })
     )
   }, [stickyRef])
 
   useEffect(() => {
-    if (isMobile && fullscreen) setFullscreen(false)
-  }, [isMobile])
-
-  useEffect(() => {
     if (!stickyRef.current) return setSticky(isInView)
 
     const proportions = stickyRef.current.offsetHeight / window.innerHeight
-
     if (proportions > 0.8) setSticky(isInView)
     else setSticky(false)
   }, [isInView])
@@ -148,38 +67,68 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
   useEffect(() => {
     const marginBottom = sticky ? "100px" : "0px"
     const duration = sticky ? 0.1 : 0.2
-
     controls.start({ marginBottom, transition: { duration, ease: "easeIn" } })
   }, [sticky])
 
   useEffect(() => {
-    const listener = () => scrollToImage(currentImage)
-    window.addEventListener("resize", listener)
-    return () => window.removeEventListener("resize", listener)
-  }, [currentImage])
+    if (!swiper) return
+
+    const handleSlideChange = (e: Swiper) => {
+      setActiveIndex(e.activeIndex)
+    }
+
+    swiper.on("slideChange", handleSlideChange)
+    return () => {
+      swiper.off("slideChange", handleSlideChange)
+    }
+  }, [swiper, images])
+
+  useEffect(() => {
+    if (!swiper) return
+
+    const listener = (e: KeyboardEvent) => {
+      if (!isInView) return
+
+      switch (e.key) {
+        case "ArrowRight":
+          swiper.slideNext()
+          break
+        case "ArrowLeft":
+          swiper.slidePrev()
+          break
+      }
+    }
+
+    window.addEventListener("keydown", listener)
+    return () => window.removeEventListener("keydown", listener)
+  }, [swiper, isInView])
 
   return (
-    <React.Fragment key={key}>
+    <React.Fragment>
       <Styled.ViewportConstraint
-        ref={constraintRef}
+        ref={inViewRef}
         animate={controls}
         className="carousel"
       >
         <Styled.Absolute $flexible ref={stickyRef} sticky={sticky}>
-          <Styled.Slider ref={ref} onScroll={onScroll}>
-            <Styled.ImageSpacer />
+          <Styled.Slider
+            modules={[Navigation, Keyboard, A11y]}
+            spaceBetween={50}
+            slidesPerView={1}
+            onSwiper={setSwiper}
+          >
             {images.map((image, index) => (
-              <Image
-                key={getWrapperKey(index)}
-                index={index}
-                margin={getImageMargin(index)}
-                onClick={onImgClick}
-                carouselUid={carouselUid}
-                caption={captions[index]}
-                image={image as IGatsbyImageData}
-              />
+              <SwiperSlide key={`carousel-${carouselUid}__wrapper--${index}`}>
+                <Styled.Slide>
+                  <Image
+                    index={index}
+                    carouselUid={carouselUid}
+                    caption={captions[index]}
+                    image={image as IGatsbyImageData}
+                  />
+                </Styled.Slide>
+              </SwiperSlide>
             ))}
-            <Styled.ImageSpacer />
           </Styled.Slider>
           <Styled.Controls>
             <Styled.CarouselNav>
@@ -195,7 +144,7 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                   />
                 </Styled.Arrow>
                 <Styled.ImageCount>
-                  {currentImage + 1}/{images.length}
+                  {activeIndex + 1}/{images.length}
                 </Styled.ImageCount>
                 <Styled.Arrow side="right" onClick={nextImage}>
                   <img
@@ -207,53 +156,26 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
                     }}
                   />
                 </Styled.Arrow>
-                <Styled.Expand onClick={() => setFullscreen(true)}>
-                  <img
-                    src={ExpandArrow}
-                    alt="Expand arrow"
-                    style={{
-                      filter:
-                        themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
-                    }}
-                  />
-                </Styled.Expand>
               </InnerGrid>
             </Styled.CarouselNav>
           </Styled.Controls>
         </Styled.Absolute>
       </Styled.ViewportConstraint>
-      {fullscreen && (
-        <FullscreenPortal
-          carouselUid={carouselUid}
-          images={images}
-          captions={captions}
-          currentImage={currentImage}
-          nextImage={nextImage}
-          previousImage={previousImage}
-          exitFullscreen={() => setFullscreen(false)}
-        />
-      )}
     </React.Fragment>
   )
 }
 
 const Image: React.FC<{
-  margin: "both" | "left" | "right"
   caption: string
-  onClick: () => void
   image: IGatsbyImageData
   index: number
   carouselUid: string
-}> = React.memo(({ carouselUid, index, caption, image, onClick, margin }) => (
-  <Styled.ImageWrapper
-    id={`carousel-${carouselUid}__wrapper--${index}`}
-    margin={margin}
-  >
+}> = React.memo(({ carouselUid, index, caption, image }) => (
+  <Styled.ImageWrapper id={`carousel-${carouselUid}__wrapper--${index}`}>
     <Styled.Image
       objectFit="cover"
       alt={`${caption} | Carousel image ${index}`}
       image={getImage(image) as IGatsbyImageData}
-      onClick={onClick}
     />
     <Styled.Caption>
       <ReactMarkdown
