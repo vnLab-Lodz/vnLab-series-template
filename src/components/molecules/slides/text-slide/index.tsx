@@ -9,7 +9,7 @@ interface Props {
 
 const TextSlide: React.FC<PropsWithChildren<Props>> = ({ children }) => {
   return (
-    <Styled.SlideContainer>
+    <Styled.TextSlideContainer>
       {typeof children === "string" ? (
         <ReactMarkdown components={slidesMdxComponents as any}>
           {children?.toString() ?? ""}
@@ -17,7 +17,7 @@ const TextSlide: React.FC<PropsWithChildren<Props>> = ({ children }) => {
       ) : (
         children
       )}
-    </Styled.SlideContainer>
+    </Styled.TextSlideContainer>
   )
 }
 

@@ -12,7 +12,6 @@ interface Props {
 }
 
 const TwoImageSlide: React.FC<Props & CaptionProps> = ({
-  background,
   caption,
   extendedCaption,
   image1,
@@ -37,11 +36,7 @@ const TwoImageSlide: React.FC<Props & CaptionProps> = ({
   const img2 = getImage(image2) as IGatsbyImageData
 
   return (
-    <CaptionSlide
-      background={background}
-      caption={caption}
-      extendedCaption={extendedCaption}
-    >
+    <CaptionSlide caption={caption} extendedCaption={extendedCaption}>
       <Styled.ImagesContainer direction={layout}>
         <Styled.SlideImageWrapper direction={layout}>
           <GatsbyImage

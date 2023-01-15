@@ -12,7 +12,8 @@ export const CaptionSlideContainer = styled(Slide)`
 export const CaptionButton = styled.button`
   position: absolute;
   right: ${({ theme }) => theme.spacing.sm};
-  bottom: ${({ theme }) => theme.spacing.md};
+  top: 100vh;
+  transform: ${({ theme }) => `translateY(calc(-100% - ${theme.spacing.md}))`};
   background: ${({ theme }) => theme.palette.black};
   border-radius: 50%;
   height: 20px;
@@ -33,6 +34,7 @@ export const Caption = styled(GridContainer).attrs({
   transition: { duration: 0.3, ease: "easeInOut" },
 })`
   ${({ theme: { palette, typography, spacing } }) => css`
+    z-index: 1;
     grid-template-rows: auto auto;
     background: ${palette.white};
     border-top: solid 1px ${palette.dark};

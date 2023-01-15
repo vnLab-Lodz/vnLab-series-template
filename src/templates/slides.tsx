@@ -48,6 +48,7 @@ import ArticleMenu from "~components/organisms/article-menu"
 import { MENUS } from "~types/index"
 import ImagesProvider from "src/context/illustrations-context"
 import ArticleFooter from "~components/organisms/article-footer"
+import SplitSlide from "~components/molecules/slides/split-slide"
 
 interface Data {
   mdx: {
@@ -71,6 +72,7 @@ export const slidesMdxComponents = {
   TextSlide,
   CenterImageSlide,
   FullscreenImageSlide,
+  SplitSlide,
   //   h1: styled(atoms.h1)`
   //     margin: 8px;
   //     color: ${({ theme }) => theme.palette.white};

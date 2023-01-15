@@ -21,6 +21,7 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
   return (
     <CaptionSlide caption={caption} extendedCaption={extendedCaption}>
       <Styled.SlideImageWrapper
+        data-fullscreen={isFullscreen}
         fullscreen={isFullscreen}
         withCaption={!!caption}
       >

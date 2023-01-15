@@ -6,10 +6,18 @@ import * as Styled from "./style"
 
 import XSVG from "src/images/icons/x.svg"
 
-export type CaptionProps = { caption?: string; extendedCaption?: string }
+export type CaptionProps = {
+  caption?: string
+  extendedCaption?: string
+}
 
 interface Props extends CaptionProps {
-  children?: React.ReactNode | ((button: React.ReactNode) => React.ReactNode)
+  children?:
+    | React.ReactNode
+    | ((props: {
+        button: React.ReactNode
+        caption: React.ReactNode
+      }) => React.ReactNode)
 }
 
 const hComponents = { ...mdxComponents, p: Styled.CaptionHeader } as any
@@ -33,33 +41,34 @@ const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
     <Styled.CaptionButton onClick={toggle}>i</Styled.CaptionButton>
   ) : null
 
+  const captionComponent =
+    open && !!caption ? (
+      <Styled.Caption>
+        <Styled.CaptionHeader as="div">
+          {renderMarkdown(hComponents, caption)}
+        </Styled.CaptionHeader>
+        <Styled.CloseBtn onClick={toggle}>
+          <img src={XSVG} alt="Close" />
+        </Styled.CloseBtn>
+        {!!extendedCaption ? (
+          <Styled.CaptionParagraph as="div" padded={!!children}>
+            {renderMarkdown(pComponents, extendedCaption)}
+          </Styled.CaptionParagraph>
+        ) : null}
+      </Styled.Caption>
+    ) : null
+
   return (
     <Styled.CaptionSlideContainer $noConstraint>
       {typeof children === "function" ? (
-        children(button)
+        children({ button, caption: captionComponent })
       ) : (
         <>
           {children}
           {button}
         </>
       )}
-      <AnimatePresence>
-        {open && !!caption && (
-          <Styled.Caption>
-            <Styled.CaptionHeader as="div">
-              {renderMarkdown(hComponents, caption)}
-            </Styled.CaptionHeader>
-            <Styled.CloseBtn onClick={toggle}>
-              <img src={XSVG} alt="Close" />
-            </Styled.CloseBtn>
-            {!!extendedCaption ? (
-              <Styled.CaptionParagraph as="div" padded={!!children}>
-                {renderMarkdown(pComponents, extendedCaption)}
-              </Styled.CaptionParagraph>
-            ) : null}
-          </Styled.Caption>
-        )}
-      </AnimatePresence>
+      <AnimatePresence>{captionComponent}</AnimatePresence>
     </Styled.CaptionSlideContainer>
   )
 }
