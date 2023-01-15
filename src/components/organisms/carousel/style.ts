@@ -81,7 +81,7 @@ export const ImageWrapper = styled.div`
 `
 
 export const Image = styled(GatsbyImage)`
-  cursor: pointer;
+  cursor: grab;
   flex: 1 1 auto;
 `
 
