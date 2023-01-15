@@ -1,6 +1,10 @@
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
-import { CaptionButton, CaptionSlideContainer } from "../caption-slide/style"
+import {
+  Caption,
+  CaptionButton,
+  CaptionSlideContainer,
+} from "../caption-slide/style"
 import { SlideImageWrapper } from "../center-image-slide/style"
 import Slide from "../slide"
 import { TextSlideContainer } from "../text-slide/style"
@@ -62,6 +66,11 @@ export const HalfSlide = styled.section<{
       position: sticky;
       top: 0px;
       scroll-snap-align: none !important;
+
+      & ${Caption} {
+        width: 200%;
+        transform: translate(-50%, -100%);
+      }
 
       & ${CaptionSlideContainer} {
         scroll-snap-align: none !important;
