@@ -176,7 +176,7 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
       className="viewport-image"
     >
       <Styled.Absolute ref={stickyRef} sticky={sticky}>
-        <Styled.ImageWrapper>
+        <Styled.ImageWrapper $withVerticalPadding={!caption}>
           <GatsbyImage
             objectFit="contain"
             image={img}

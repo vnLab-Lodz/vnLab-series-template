@@ -27,12 +27,18 @@ export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
   }
 `
 
-export const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div<{ $withVerticalPadding?: boolean }>`
   justify-content: center;
   overflow: hidden;
   display: flex;
   flex: 1;
   padding-top: ${({ theme }) => theme.spacing.xs};
+
+  ${({ $withVerticalPadding, theme }) =>
+    $withVerticalPadding &&
+    css`
+      padding-bottom: ${theme.spacing.xs};
+    `};
 
   grid-column: 1 / last-col;
 
