@@ -20,13 +20,14 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
   const { isPaused, setIsPaused } = useScrollContext()
   const originalValues = useRef<OriginalValuesRef | undefined>(undefined)
 
-  const setOriginalValues = () =>
-    (originalValues.current = {
+  const setOriginalValues = () => {
+    originalValues.current = {
       top: document.body.style.top,
       paddingRight: document.body.style.paddingRight,
       position: document.body.style.position,
       backgroundColor: document.body.style.backgroundColor,
-    })
+    }
+  }
 
   const pauseScroll = (callback?: () => void) => {
     if (isPaused) return
@@ -34,16 +35,16 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
     setIsPaused(true)
     setOriginalValues()
 
+    const top = window.scrollY
     const scrollbarWidth = getScrollbarWidth()
-    document.body.style.paddingRight = `${scrollbarWidth}px`
 
     if (options?.backgroundColor) {
       document.body.style.backgroundColor = options?.backgroundColor
     }
 
-    const top = window.scrollY
-    document.body.style.top = `-${top}px`
     document.body.style.position = "fixed"
+    document.body.style.top = `-${top}px`
+    document.body.style.paddingRight = `${scrollbarWidth}px`
 
     if (callback) callback()
   }
