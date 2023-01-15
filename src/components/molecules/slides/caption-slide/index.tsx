@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState, PropsWithChildren } from "react"
+import React, { useState, PropsWithChildren } from "react"
 import { AnimatePresence } from "framer-motion"
-import { useTranslation } from "react-i18next"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
-import { CaptionPortal } from "~components/molecules/viewport-image"
-import Slide from "../slide"
 import * as Styled from "./style"
+
+import XSVG from "src/images/icons/x.svg"
 
 export type CaptionProps = {
   caption?: string
@@ -13,91 +12,64 @@ export type CaptionProps = {
 }
 
 interface Props extends CaptionProps {
-  background?: string
-  disableSwipe?: boolean
-  fullscreen?: boolean
+  children?:
+    | React.ReactNode
+    | ((props: {
+        button: React.ReactNode
+        caption: React.ReactNode
+      }) => React.ReactNode)
 }
 
-const components = { ...mdxComponents, p: Styled.CaptionParagraph } as any
+const hComponents = { ...mdxComponents, p: Styled.CaptionHeader } as any
+const pComponents = { ...mdxComponents, p: Styled.CaptionParagraph } as any
 
 const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
   extendedCaption,
-  disableSwipe,
-  background,
-  fullscreen,
   children,
   caption,
 }) => {
-  const { t } = useTranslation("common")
-
   const [open, setOpen] = useState(false)
-  const [position, setPosition] = useState(0)
-  const ref = useRef<HTMLDivElement | null>(null)
 
-  const expandCaption = () => {
-    const position = calculatePosition()
-    setPosition(position)
-    setOpen(true)
+  const toggle = () => setOpen(prev => !prev)
+
+  const renderMarkdown = (components: any, markdown?: string) => {
+    if (!markdown) return null
+    return <ReactMarkdown components={components}>{markdown}</ReactMarkdown>
   }
 
-  const minimizeCaption = () => setOpen(false)
+  const button = !!caption ? (
+    <Styled.CaptionButton onClick={toggle}>i</Styled.CaptionButton>
+  ) : null
 
-  const calculatePosition = () => {
-    if (!ref || !ref.current) return 0
-
-    const bodyHeight = document.body.clientHeight
-    const captionHeight = ref.current.offsetHeight
-
-    return bodyHeight - captionHeight
-  }
-
-  useEffect(() => {
-    const determinePosition = () => {
-      const position = calculatePosition()
-      setPosition(position)
-    }
-
-    determinePosition()
-    window.addEventListener("resize", determinePosition)
-    return () => {
-      window.removeEventListener("resize", determinePosition)
-    }
-  }, [ref])
+  const captionComponent =
+    open && !!caption ? (
+      <Styled.Caption>
+        <Styled.CaptionHeader as="div">
+          {renderMarkdown(hComponents, caption)}
+        </Styled.CaptionHeader>
+        <Styled.CloseBtn onClick={toggle}>
+          <img src={XSVG} alt="Close" />
+        </Styled.CloseBtn>
+        {!!extendedCaption ? (
+          <Styled.CaptionParagraph as="div" $padded={!!children}>
+            {renderMarkdown(pComponents, extendedCaption)}
+          </Styled.CaptionParagraph>
+        ) : null}
+      </Styled.Caption>
+    ) : null
 
   return (
-    <Slide background={background} disableSwipe={disableSwipe}>
-      <Styled.SlideWrapper
-        ref={ref}
-        withPadding={!caption}
-        fullscreen={fullscreen}
-      >
-        <Styled.SlideContainer fullscreen={fullscreen}>
+    <Styled.CaptionSlideContainer $noConstraint>
+      {typeof children === "function" ? (
+        children({ button, caption: captionComponent })
+      ) : (
+        <>
           {children}
-        </Styled.SlideContainer>
-        {!!caption && (
-          <Styled.SlideCaption centered={!!caption && !extendedCaption}>
-            <ReactMarkdown components={components}>{caption}</ReactMarkdown>
-            {!!extendedCaption && (
-              <Styled.ExpandCaptionButton onClick={expandCaption}>
-                {t("expand")}
-              </Styled.ExpandCaptionButton>
-            )}
-          </Styled.SlideCaption>
-        )}
-        <AnimatePresence>
-          {open && !!caption && (
-            <CaptionPortal
-              caption={caption}
-              toggle={minimizeCaption}
-              position={position}
-              target={ref.current ?? undefined}
-            >
-              {extendedCaption}
-            </CaptionPortal>
-          )}
-        </AnimatePresence>
-      </Styled.SlideWrapper>
-    </Slide>
+          {button}
+        </>
+      )}
+      <AnimatePresence>{captionComponent}</AnimatePresence>
+    </Styled.CaptionSlideContainer>
   )
 }
 

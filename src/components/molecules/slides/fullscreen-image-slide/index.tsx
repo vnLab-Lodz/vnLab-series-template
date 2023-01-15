@@ -9,14 +9,12 @@ interface Props {
 }
 
 const FullscreenImageSlide: React.FC<Props & CaptionProps> = ({
-  background,
   extendedCaption,
   caption,
   image,
 }) => {
   return (
     <CenterImageSlide
-      background={background}
       image={image}
       fit="cover"
       caption={caption}

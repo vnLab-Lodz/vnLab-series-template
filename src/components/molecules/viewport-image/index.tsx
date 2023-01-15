@@ -17,10 +17,14 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { ThemeProvider } from "styled-components"
+import { ThemeProvider, useTheme } from "styled-components"
 import lightTheme from "~styles/theme"
 
 import XSVG from "../../../images/icons/x.svg"
+import ExpandArrow from "src/images/icons/arrow_expand.svg"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
+import Fullsize from "../fullsize"
 
 interface Props {
   image: IGatsbyImageData
@@ -96,7 +100,10 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
 
   const [position, setPosition] = useState<number | undefined>(undefined)
   const [open, setOpen] = useState<boolean | undefined>(undefined)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const [sticky, setSticky] = useState(false)
+
+  const { themeMode } = useThemeSwitcherContext()
 
   const controls = useAnimation()
 
@@ -169,53 +176,71 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
 
   const img = getImage(image) as IGatsbyImageData
 
+  const filter = themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
+
   return (
-    <Styled.ViewportConstraint
-      ref={ref}
-      animate={controls}
-      className="viewport-image"
-    >
-      <Styled.Absolute ref={stickyRef} sticky={sticky}>
-        <Styled.ImageWrapper>
-          <GatsbyImage
-            objectFit="contain"
-            image={img}
-            alt={caption ?? "Viewport image without a caption"}
-          />
-        </Styled.ImageWrapper>
-        {caption && (
-          <GridConstraint>
-            <Styled.Caption ref={captionRef}>
-              <Styled.CaptionText as="div">
-                <ReactMarkdown
-                  components={
-                    { ...mdxComponents, p: Styled.CaptionText } as any
-                  }
-                >
-                  {getFormattedCaption()}
-                </ReactMarkdown>
-              </Styled.CaptionText>
-              {isExpandShown() && (
-                <Styled.ExpandCaptionBtn onClick={handleClick}>
-                  {t("expand")}
-                </Styled.ExpandCaptionBtn>
-              )}
-            </Styled.Caption>
-            <AnimatePresence>
-              {open && position && (
-                <CaptionPortal
-                  caption={caption}
-                  toggle={() => setOpen(false)}
-                  position={position}
-                >
-                  {children}
-                </CaptionPortal>
-              )}
-            </AnimatePresence>
-          </GridConstraint>
-        )}
-      </Styled.Absolute>
-    </Styled.ViewportConstraint>
+    <>
+      <Styled.ViewportConstraint
+        ref={ref}
+        animate={controls}
+        className="viewport-image"
+      >
+        <Styled.Absolute ref={stickyRef} sticky={sticky}>
+          <Styled.ImageWrapper $withVerticalPadding={!caption}>
+            <GatsbyImage
+              objectFit="contain"
+              image={img}
+              alt={caption ?? "Viewport image without a caption"}
+            />
+          </Styled.ImageWrapper>
+          {caption && (
+            <GridConstraint>
+              <Styled.Caption ref={captionRef}>
+                <Styled.CaptionText as="div">
+                  <ReactMarkdown
+                    components={
+                      { ...mdxComponents, p: Styled.CaptionText } as any
+                    }
+                  >
+                    {getFormattedCaption()}
+                  </ReactMarkdown>
+                </Styled.CaptionText>
+                <Styled.Expand onClick={() => setIsFullscreen(true)}>
+                  <img
+                    src={ExpandArrow}
+                    alt="Fullsize"
+                    style={{ filter, height: 16, width: 16 }}
+                  />
+                </Styled.Expand>
+                {isExpandShown() && (
+                  <Styled.ExpandCaptionBtn onClick={handleClick}>
+                    {t("expand")}
+                  </Styled.ExpandCaptionBtn>
+                )}
+              </Styled.Caption>
+              <AnimatePresence>
+                {open && position && (
+                  <CaptionPortal
+                    caption={caption}
+                    toggle={() => setOpen(false)}
+                    position={position}
+                  >
+                    {children}
+                  </CaptionPortal>
+                )}
+              </AnimatePresence>
+            </GridConstraint>
+          )}
+        </Styled.Absolute>
+      </Styled.ViewportConstraint>
+      {isFullscreen ? (
+        <Fullsize
+          image={img}
+          alt={caption ?? "Viewport image without a caption"}
+          close={() => setIsFullscreen(false)}
+        />
+      ) : null}
+    </>
   )
 }
 

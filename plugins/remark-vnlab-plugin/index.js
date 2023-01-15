@@ -23,14 +23,17 @@ module.exports = async ({ markdownAST: tree, ...util }) => {
     Footnotes.extractContents(node, footnotes, util)
   )
   remove(tree, Footnotes.isFootnotes)
-  await Footnotes.createNodesFromFootnotes(footnotes, util.markdownNode, util)
 
   const tags = new Map()
   let marker = 0
   visit(tree, visitTypes, (node, index) =>
     Tags.traverse(node, tags, util, index, marker++)
   )
-  await Tags.createNodesFromAnchors(tags, util)
+
+  await Promise.all([
+    Footnotes.createNodesFromFootnotes(footnotes, util.markdownNode, util),
+    Tags.createNodesFromAnchors(tags, util),
+  ])
 
   return tree
 }

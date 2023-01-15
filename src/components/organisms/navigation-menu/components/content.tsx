@@ -17,6 +17,7 @@ interface Props {
   open: boolean
   navState: NAV_MENU_STATES
   setNavState: React.Dispatch<React.SetStateAction<NAV_MENU_STATES>>
+  disableThemeSwitching?: boolean
 }
 
 const NavMenuContent: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const NavMenuContent: React.FC<Props> = ({
   currentPath,
   navState,
   setNavState,
+  disableThemeSwitching = false,
 }) => {
   const { t } = useTranslation(["common", "nav-menu"])
   const { locale, localizedPath, defaultLang, prefixDefault } =
@@ -71,7 +73,11 @@ const NavMenuContent: React.FC<Props> = ({
               </Styled.TabButton>
             </Styled.TabItems>
             <Styled.TabItems noFlex>
-              <MiscTabs currentPath={currentPath} locale={locale} />
+              <MiscTabs
+                currentPath={currentPath}
+                locale={locale}
+                disableThemeSwitching={disableThemeSwitching}
+              />
             </Styled.TabItems>
           </Styled.Tabs>
           <ActiveTab navState={navState} />
