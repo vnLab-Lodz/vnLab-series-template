@@ -84,12 +84,12 @@ export const CaptionHeader = styled(CaptionText)`
   }
 `
 
-export const CaptionParagraph = styled(atoms.p)<{ padded?: boolean }>`
+export const CaptionParagraph = styled(atoms.p)<{ $padded?: boolean }>`
   grid-column: 3 / 32;
   grid-row: 2;
   text-align: left;
 
-  ${({ padded, theme }) =>
+  ${({ $padded: padded, theme }) =>
     padded &&
     css`
       padding-bottom: ${theme.spacing.xs};

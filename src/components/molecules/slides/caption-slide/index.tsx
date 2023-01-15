@@ -51,7 +51,7 @@ const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
           <img src={XSVG} alt="Close" />
         </Styled.CloseBtn>
         {!!extendedCaption ? (
-          <Styled.CaptionParagraph as="div" padded={!!children}>
+          <Styled.CaptionParagraph as="div" $padded={!!children}>
             {renderMarkdown(pComponents, extendedCaption)}
           </Styled.CaptionParagraph>
         ) : null}

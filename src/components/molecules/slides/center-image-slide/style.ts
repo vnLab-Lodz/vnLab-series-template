@@ -2,8 +2,8 @@ import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
 export const SlideImageWrapper = styled.div<{
-  fullscreen?: boolean
-  withCaption?: boolean
+  $fullscreen?: boolean
+  $withCaption?: boolean
 }>`
   display: flex;
   justify-content: center;
@@ -23,7 +23,7 @@ export const SlideImageWrapper = styled.div<{
   margin: 80px 0;
   max-height: calc(100vh - 2 * 80px);
 
-  ${({ fullscreen }) =>
+  ${({ $fullscreen: fullscreen }) =>
     fullscreen &&
     css`
       margin: 0;

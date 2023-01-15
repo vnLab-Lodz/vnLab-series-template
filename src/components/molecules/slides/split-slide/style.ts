@@ -19,8 +19,8 @@ export const SplitSlideContainer = styled(Slide)`
 `
 
 export const HalfSlide = styled.section<{
-  left?: boolean
-  right?: boolean
+  $left?: boolean
+  $right?: boolean
 }>`
   margin: 0;
   display: grid;
@@ -78,7 +78,7 @@ export const HalfSlide = styled.section<{
     }
   }
 
-  ${({ left = false }) =>
+  ${({ $left: left = false }) =>
     left &&
     css`
       grid-column-start: first-col;
@@ -98,7 +98,7 @@ export const HalfSlide = styled.section<{
       }
     `};
 
-  ${({ right = false }) =>
+  ${({ $right: right = false }) =>
     right &&
     css`
       grid-column-start: first-col;
