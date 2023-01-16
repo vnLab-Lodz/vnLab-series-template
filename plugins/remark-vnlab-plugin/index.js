@@ -31,7 +31,7 @@ module.exports = async ({ markdownAST: tree, ...util }) => {
   )
 
   await Promise.all([
-    Footnotes.createNodesFromFootnotes(footnotes, util.markdownNode, util),
+    Footnotes.createNodesFromFootnotes(footnotes, util),
     Tags.createNodesFromAnchors(tags, util),
   ])
 

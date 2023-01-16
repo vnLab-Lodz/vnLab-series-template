@@ -24,26 +24,7 @@ export default {
         },
       },
     },
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        gatsbyRemarkPlugins: [
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              disableBgImageOnAlpha: true,
-            },
-          },
-          `remark-vnlab-plugin`,
-          {
-            resolve: `gatsby-remark-orphans`,
-            options: {
-              silenceReporting: true,
-            },
-          },
-        ],
-      },
-    },
+
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -63,6 +44,43 @@ export default {
       options: {
         name: `meta`,
         path: `${__dirname}/../meta`,
+      },
+    },
+    {
+      resolve: `gatsby-theme-i18n`,
+      options: {
+        defaultLang: `en`,
+        configPath: require.resolve(`../i18n/config.json`),
+      },
+    },
+    {
+      resolve: `gatsby-theme-i18n-react-i18next`,
+      options: {
+        locales: `./i18n/locale`,
+        i18nextOptions: {
+          ns: ["common", "404", "home", "nav-menu", "search"],
+        },
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        gatsbyRemarkPlugins: [
+          `remark-vnlab-plugin`,
+          {
+            resolve: `gatsby-remark-orphans`,
+            options: {
+              silenceReporting: true,
+              disableDefaultLocaleResolver: true,
+              customLocaleResolver: (markdownNode: any) => {
+                const parts = markdownNode.fileAbsolutePath.split(".")
+                const fileLocale = parts[parts.length - 2]
+                const { fields, frontmatter } = markdownNode
+                return fields?.locale ?? frontmatter?.locale ?? fileLocale
+              },
+            },
+          },
+        ],
       },
     },
     {
@@ -102,22 +120,6 @@ export default {
             `**/images/*`,
             `**/icons/*`,
           ],
-        },
-      },
-    },
-    {
-      resolve: `gatsby-theme-i18n`,
-      options: {
-        defaultLang: `en`,
-        configPath: require.resolve(`../i18n/config.json`),
-      },
-    },
-    {
-      resolve: `gatsby-theme-i18n-react-i18next`,
-      options: {
-        locales: `./i18n/locale`,
-        i18nextOptions: {
-          ns: ["common", "404", "home", "nav-menu", "search"],
         },
       },
     },
