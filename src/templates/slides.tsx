@@ -14,14 +14,6 @@ import CenterImageSlide from "~components/molecules/slides/center-image-slide"
 import TitleSlide from "~components/molecules/slides/title-slide"
 import FullscreenImageSlide from "~components/molecules/slides/fullscreen-image-slide"
 import TextSlide from "~components/molecules/slides/text-slide"
-
-//@ts-ignore
-import Reveal from "reveal.js"
-//@ts-ignore
-import Markdown from "reveal.js/plugin/markdown/markdown.esm.js"
-
-import "reveal.js/dist/reveal.css"
-import "../styles/reveal-theme.css"
 import { darkTheme } from "~styles/theme"
 import {
   ThemeSwitcherProvider,
