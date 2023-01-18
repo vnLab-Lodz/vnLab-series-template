@@ -1,118 +1,121 @@
+import { motion } from "framer-motion"
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
+import { GridContainer } from "~styles/grid"
+import Slide from "../slide"
 
-export const SlideWrapper = styled.div<{
-  withPadding: boolean
-  fullscreen?: boolean
-}>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+export const CaptionSlideContainer = styled(Slide)`
+  position: relative;
+`
 
-  //If the slide is fullscreen then remove padding
-  padding-top: ${({ fullscreen }) => (fullscreen ? "0" : "100px")};
+export const CaptionButton = styled.button`
+  position: absolute;
+  right: ${({ theme }) => theme.spacing.sm};
+  top: 100vh;
+  transform: ${({ theme }) => `translateY(calc(-100% - ${theme.spacing.md}))`};
+  background: ${({ theme }) => theme.palette.black};
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  cursor: pointer;
 
-  // If there is no caption, we need to add some padding
-  padding-bottom: ${({ withPadding, fullscreen }) =>
-    withPadding && !fullscreen ? "100px" : "0"};
-
-  // Margin the size of the bottom bar on mobile
-  margin-bottom: 60px;
-  // Height smaller by the height of the bottom bar
-  height: calc(100vh - 60px);
-
-  @media ${devices.tablet} {
-    height: 100vh;
-    margin-bottom: 0px;
+  @media ${devices.laptop} {
+    right: ${({ theme }) => theme.spacing.md};
   }
 `
 
-export const SlideContainer = styled.div<{ fullscreen?: boolean }>`
-  flex: 1 0 auto;
-  display: flex;
-  align-items: center;
+export const Caption = styled(GridContainer).attrs({
+  as: motion.article,
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+  transition: { duration: 0.3, ease: "easeInOut" },
+})`
+  ${({ theme: { palette, typography, spacing } }) => css`
+    z-index: 1;
+    grid-template-rows: auto auto;
+    background: ${palette.white};
+    border-top: solid 1px ${palette.dark};
+    border-bottom: solid 1px ${palette.dark};
+    font-family: ${typography.fonts.secondary};
+    padding-top: ${spacing.sm};
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 100vh;
+    transform: translateY(-100%);
+    max-height: 60vh;
+    row-gap: ${spacing.xs};
+    overflow-y: auto;
+    overscroll-behavior: contain;
 
-  max-height: calc(100vh - 260px);
-
-  @media ${devices.tablet} {
-    max-height: calc(100vh - 200px);
-  }
-
-  ${({ fullscreen }) =>
-    fullscreen &&
-    css`
-      max-height: calc(100vh - 60px);
-
-      @media ${devices.tablet} {
-        max-height: 100vh;
-      }
-    `}
-
-  ${({ fullscreen }) =>
-    !fullscreen &&
-    css`
-      max-width: calc(100vw / 32 * 30);
-
-      @media ${devices.tablet} {
-        max-width: calc(100vw / 32 * 23);
-      }
-
-      @media ${devices.laptop} {
-        max-width: calc(100vw / 32 * 26);
-      }
-    `};
+    @media ${devices.desktop} {
+      justify-content: center;
+      max-width: none;
+    }
+  `}
 `
 
-export const SlideCaption = styled.article<{ centered?: boolean }>`
-  min-height: 100px;
-  display: flex;
-  justify-content: ${({ centered }) => (centered ? "center" : "space-between")};
-  align-items: center;
+export const CaptionText = styled(atoms.p)`
+  ${({ theme: { typography } }) => css`
+    grid-column: 1 / -6;
+    font-family: ${typography.fonts.primary};
+    font-size: ${typography.sm};
+    text-align: left;
+    font-weight: 300;
+  `}
+`
 
-  min-width: calc(100vw / 32 * 30);
-  max-width: calc(100vw / 32 * 30);
+export const CaptionHeader = styled(CaptionText)`
+  grid-column: 3 / 30;
+  grid-row: 1;
+  font-size: ${({ theme: { typography } }) => typography.md};
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
+  font-weight: 300;
 
   @media ${devices.tablet} {
-    min-width: calc(100vw / 32 * 23);
-    max-width: calc(100vw / 32 * 23);
+    grid-column: 8 / 28;
   }
 
   @media ${devices.laptop} {
-    min-width: calc(100vw / 32 * 19);
-    max-width: calc(100vw / 32 * 19);
-  }
-
-  @media ${devices.desktop} {
-    min-width: clamp(0px, calc(100vw / 32 * 26), calc(26 * 1.5rem));
-    max-width: clamp(0px, calc(100vw / 32 * 26), calc(26 * 1.5rem));
+    grid-column: 9 / 23;
   }
 `
 
-export const CaptionParagraph = styled(atoms.p)`
+export const CaptionParagraph = styled(atoms.p)<{ $padded?: boolean }>`
+  grid-column: 3 / 32;
+  grid-row: 2;
   text-align: left;
-  font-size: ${({ theme: { typography } }) =>
-    `calc(${typography.sm} * 1.3) !important`};
-  color: ${({ theme: { palette } }) => palette.white};
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+
+  ${({ $padded: padded, theme }) =>
+    padded &&
+    css`
+      padding-bottom: ${theme.spacing.xs};
+    `};
+
+  @media ${devices.tablet} {
+    grid-column: 8 / 30;
+  }
+
+  @media ${devices.laptop} {
+    grid-column: 9 / 25;
+  }
 `
 
-export const ExpandCaptionButton = styled.button`
-  ${({ theme: { typography, palette } }) => css`
-    font-familty: ${typography.fonts.primary};
-    font-size: ${typography.sm};
-    font-weight: normal;
-    text-transform: lowercase;
-    line-height: 115%;
-    padding: 0px;
-    text-align: right;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    height: fit-content;
-    color: ${palette.white};
-    margin-left: ${({ theme: { spacing } }) => spacing.md};
-  `}
+export const CloseBtn = styled.button`
+  position: sticky;
+  top: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  padding: 0px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  height: fit-content;
+
+  grid-column: 31;
+  grid-row: 1;
+
+  filter: invert(1);
 `

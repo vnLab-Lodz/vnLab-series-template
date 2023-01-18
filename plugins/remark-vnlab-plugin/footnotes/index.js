@@ -39,7 +39,12 @@ function constructNewChildren(textNode, util, footnotesNodes, children = []) {
     throw new Error("There might be two of the same footnote in the text")
   }
 
-  footnotesNodes.push({ word, footnote, content: "", uid: v4() })
+  footnotesNodes.push({
+    word,
+    footnote,
+    content: "",
+    uid: `footnote__${util.markdownNode.id}--${footnote}`,
+  })
 
   const newChildren = [
     u("text", parts[0]),
@@ -77,11 +82,9 @@ function extractContents(node, footnotesNodes, util) {
   })
 }
 
-async function createNodesFromFootnotes(footnotes, parent, util) {
+async function createNodesFromFootnotes(footnotes, util) {
   const promises = []
   footnotes.forEach(({ word, footnote, content: footnoteContent, uid }) => {
-    // TODO: Make unique across all files
-    const id = `footnote__${uid}--${footnote}`
     const content = {
       index: footnote,
       content: footnoteContent,
@@ -91,9 +94,9 @@ async function createNodesFromFootnotes(footnotes, parent, util) {
     promises.push(
       util.actions.createNode({
         ...content,
-        id: util.createNodeId(`FOOTNOTES__${id}`),
+        id: util.createNodeId(`FOOTNOTES__${uid}`),
         children: [],
-        mdx: parent.id,
+        mdx: util.markdownNode.id,
         internal: {
           type: "Footnotes",
           content: JSON.stringify(content),

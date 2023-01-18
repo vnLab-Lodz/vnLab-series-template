@@ -2,8 +2,10 @@ import styled, { css } from "styled-components"
 import { motion } from "framer-motion"
 import { GatsbyImage } from "gatsby-plugin-image"
 import { GridConstraint, GridContainer } from "~styles/grid"
-import { breakpoints, devices } from "~styles/breakpoints"
+import { devices } from "~styles/breakpoints"
 import atoms from "~components/atoms"
+
+import { Swiper } from "swiper/react"
 
 export const ViewportConstraint = styled(motion.div)`
   display: grid;
@@ -29,38 +31,41 @@ export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
   }
 `
 
-export const Slider = styled(motion.div)`
+export const Slider = styled(Swiper)`
   grid-row: 1;
-  max-height: 100%;
-  display: flex;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; /* Needed to work on iOS Safari */
+  width: 100%;
+  max-width: -moz-available;
 
-  overflow-x: -moz-scrollbars-none;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  max-height: 90vh;
 
-  grid-column: 1 / last-col;
+  grid-column: 2 / 32;
 
-  @media (min-width: ${breakpoints.tablet}) and (max-width: 1023px) {
-    grid-column: 4 / last-col;
+  @media ${devices.tablet} {
+    grid-column: 7 / 30;
   }
 
-  &::-webkit-scrollbar {
-    width: 0 !important;
-    height: 0 !important;
+  @media ${devices.laptop} {
+    grid-column: 9 / 25;
   }
+
+  overflow: visible;
+
+  max-height: calc(100vh - 30px - ${({ theme }) => theme.spacing.xs});
 `
 
-export const ImageWrapper = styled.div<{ margin?: "both" | "left" | "right" }>`
+export const Slide = styled.div`
+  height: 100%;
+  max-height: calc(100vh - 30px - ${({ theme }) => theme.spacing.xs});
+  width: 100%;
+  display: flex;
+`
+
+export const ImageWrapper = styled.div`
   flex: 1 0 auto;
-  width: calc(calc(100vw / 32) * 30);
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  scroll-snap-align: center;
+
+  width: calc(calc(100vw / 32) * 30);
 
   @media ${devices.tablet} {
     width: calc(calc(100vw / 32) * 23);
@@ -73,66 +78,23 @@ export const ImageWrapper = styled.div<{ margin?: "both" | "left" | "right" }>`
   @media ${devices.desktop} {
     max-width: calc(3.125rem * 16);
   }
-
-  ${({ margin = "both", theme }) => {
-    switch (margin) {
-      case "both":
-        return css`
-          margin: 0px ${theme.spacing.xs};
-        `
-      case "right":
-        return css`
-          margin-right: ${theme.spacing.xs};
-          margin-left: 0px;
-        `
-      case "left":
-        return css`
-          margin-left: ${theme.spacing.xs};
-          margin-right: 0px;
-        `
-    }
-  }};
-`
-
-export const ImageSpacer = styled.div`
-  background: transparent;
-  flex: 1 0 auto;
-  height: 100%;
-
-  width: calc(calc(100vw / 32) * 1);
-
-  @media ${devices.tablet} {
-    width: calc(calc(100vw / 32) * 3);
-  }
-
-  @media ${devices.laptop} {
-    width: calc(calc(100vw / 32) * 8);
-  }
-
-  @media ${devices.desktop} {
-    width: calc(calc(100vw / 32) * 9);
-  }
-
-  @media (min-width: 2750px) {
-    width: calc(calc(100vw / 32) * 10);
-  }
-
-  @media (min-width: 3300px) {
-    width: calc(calc(100vw / 32) * 11);
-  }
 `
 
 export const Image = styled(GatsbyImage)`
-  cursor: pointer;
+  cursor: grab;
   flex: 1 1 auto;
 `
 
 export const Caption = styled.article`
   min-height: 2rem;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: baseline;
 `
 
 export const Controls = styled(GridConstraint)`
   margin-top: ${({ theme }) => theme.spacing.xs};
+  height: 30px;
 `
 
 export const CarouselNav = styled.nav`
@@ -163,6 +125,12 @@ export const Expand = styled.button`
   grid-column: last-col;
   cursor: pointer;
   display: none;
+  margin-left: auto;
+
+  img {
+    vertical-align: middle;
+  }
+
   @media ${devices.tablet} {
     display: block;
   }
@@ -192,7 +160,7 @@ export const ImageCaption = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     margin-top: ${spacing.xs};
-    width: 100%;
+    width: 90%;
     white-space: break-spaces;
   `}
 `

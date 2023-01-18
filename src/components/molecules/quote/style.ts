@@ -29,6 +29,7 @@ export const Author = styled(atoms.h3)`
 `
 
 export const BlockQuoteIcon = styled.span`
+  color: ${({ theme }) => theme.palette.black};
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
 `
 
@@ -54,6 +55,13 @@ export const BlockQuoteText = styled(atoms.p).attrs({ as: "div" })`
       p {
         font-size: 18px;
         line-height: 30px;
+      }
+    }
+
+    @media ${devices.desktopL} {
+      p {
+        font-size: 30px;
+        line-height: 40px;
       }
     }
   `}
