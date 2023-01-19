@@ -20,4 +20,8 @@ export const ResultsWrapper = styled.div`
       text-align: justify;
     }
   }
+
+  mark {
+    background: #fbfdbc;
+  }
 `

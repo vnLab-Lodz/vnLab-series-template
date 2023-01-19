@@ -1,4 +1,5 @@
 import { GatsbyConfig } from "gatsby"
+const visit = require(`unist-util-visit`)
 
 export default {
   siteMetadata: {
@@ -79,6 +80,18 @@ export default {
                 return fields?.locale ?? frontmatter?.locale ?? fileLocale
               },
             },
+          },
+        ],
+        rehypePlugins: [
+          function rehypeAddIdToParagraphs() {
+            return function transformParagraphs(tree: any) {
+              visit(tree, { type: "element", tagName: "p" }, (node: any) => {
+                node.properties = {
+                  ...node.properties,
+                  id: `paragraph__${node.position.start.line}`,
+                }
+              })
+            }
           },
         ],
       },

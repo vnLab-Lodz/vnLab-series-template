@@ -115,6 +115,21 @@ export const p = styled(atoms.p)`
   font-size: inherit;
 `
 
+export const Children = styled(atoms.p).attrs({ as: "div" })`
+  &,
+  div,
+  mark {
+    font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.3)`};
+    margin-top: ${({ theme }) => theme.spacing.xxs};
+    grid-column: 4 / -3;
+  }
+  & > div {
+    @media ${devices.laptop} {
+      min-width: 40vw;
+    }
+  }
+`
+
 export const Divider = styled.div`
   position: absolute;
   left: 0;

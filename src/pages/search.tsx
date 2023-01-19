@@ -1,16 +1,20 @@
 import { graphql, PageProps } from "gatsby"
 import { useLocalization } from "gatsby-theme-i18n"
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 import { PublicationPage } from "src/hooks/usePublication"
 import { ThemeProvider } from "styled-components"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
-import SearchClient, {
-  EngineOptions,
-} from "~components/organisms/search-client"
 import { lightTheme } from "~styles/theme"
 import { isUndefined } from "~util"
 import * as Styled from "../styles/page-styles/search"
+import SearchInput from "~components/molecules/search-input"
+import SearchTabs from "~components/molecules/search-tabs"
+import { useTranslation } from "react-i18next"
+import SearchResults from "~components/molecules/search-results"
+import visit from "unist-util-visit"
+import { toString } from "~util/toString"
+import { create, insert, search } from "@lyrasearch/lyra"
 
 interface SitePageNode {
   path: string
@@ -25,6 +29,7 @@ interface QueryData {
     nodes: Array<{
       id: string
       slug: string
+      mdxAST: any
       rawBody: string
       fields: {
         locale: string
@@ -44,17 +49,20 @@ interface QueryData {
 }
 
 export interface SearchNode extends PublicationPage {
-  rawBody: string
+  mdxAST: any
 }
 
-const options: EngineOptions = {
-  indexStrategy: "Prefix match",
-  searchSanitizer: "Lower Case",
-  indexes: ["author", "title", "summary", "rawBody"],
+export enum TABS {
+  TITLES,
+  EVERYWHERE,
 }
 
 const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
+  const [query, setQuery] = useState("")
+  const [tab, setTab] = useState(TABS.EVERYWHERE)
+
   const { locale } = useLocalization()
+  const { t } = useTranslation("common")
 
   const mdxNodes = data.allMdx.nodes.filter(n => n.fields.locale === locale)
   const pageNodes = data.allSitePage.nodes.filter(
@@ -80,7 +88,7 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
                 author: mdx.frontmatter.author,
                 summary: mdx.frontmatter.summary,
                 index: mdx.frontmatter.index,
-                rawBody: mdx.rawBody,
+                mdxAST: mdx.mdxAST,
                 slideshow: mdx.frontmatter.slideshow,
               },
             ]
@@ -88,13 +96,78 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
     [data]
   )
 
+  const db = useMemo(() => {
+    const database = create({
+      schema: {
+        uid: "string",
+        link: "string",
+        text: "string",
+        isTitle: "boolean",
+        pageId: "string",
+      },
+    })
+
+    for (const page of pages) {
+      visit(page.mdxAST, ["paragraph"], mdxNode => {
+        const text = toString(mdxNode, { includeImageAlt: false })
+        if (!text) return
+
+        const uid = `paragraph__${mdxNode.position?.start.line}`
+        const link = `${page.path}#${uid}`
+        const isTitle = false
+        const pageId = page.id
+        insert(database, { uid, link, text, isTitle, pageId })
+      })
+
+      const text = page.title
+      const uid = page.id
+      const link = `/${page.path}`
+      const isTitle = true
+      const pageId = page.id
+      insert(database, { uid, link, text, isTitle, pageId })
+    }
+
+    return database
+  }, [pages])
+
+  const results = useMemo(() => {
+    const searchResults = search(db, {
+      term: query,
+      properties: ["text"],
+      limit: 1000,
+    })
+
+    const resultsForMapping =
+      tab === TABS.TITLES
+        ? searchResults.hits.filter(r => r.document.isTitle)
+        : searchResults.hits
+
+    return resultsForMapping
+      .map(
+        r =>
+          [
+            r,
+            {
+              ...pages.find(p => p.id === r.document.pageId)!,
+              path: r.document.link,
+            },
+          ] as const
+      )
+      .sort(([_a, a], [_b, b]) => ((a.index ?? 0) < (b.index ?? 0) ? -1 : 1))
+  }, [db, query, tab, pages])
+
   return (
     <NavMenuProvider>
       <NavigationMenu currentPath={location.pathname} />
       <ThemeProvider theme={lightTheme}>
         <Styled.Wrapper>
           <Styled.SearchLayout>
-            <SearchClient data={pages} engine={options} />
+            <SearchInput onSubmit={setQuery} />
+            <Styled.FoundItems>
+              {t("found_articles")} <strong>{results.length}</strong>
+            </Styled.FoundItems>
+            <SearchTabs tab={tab} setTab={setTab} />
+            <SearchResults query={query} results={results} />
           </Styled.SearchLayout>
         </Styled.Wrapper>
       </ThemeProvider>
@@ -108,7 +181,7 @@ export const query = graphql`
       nodes {
         id
         slug
-        rawBody
+        mdxAST
         fields {
           locale
         }
