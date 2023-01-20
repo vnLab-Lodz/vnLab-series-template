@@ -3,7 +3,6 @@ import { useLocalization } from "gatsby-theme-i18n"
 import { graphql, navigate, useStaticQuery } from "gatsby"
 import { delocalizeSlug } from "~util/slug"
 import * as Styled from "../style"
-import atoms from "~components/atoms"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { flushSync } from "react-dom"
 
@@ -12,10 +11,11 @@ const Indexes: React.FC = () => {
   const [tabState, setTabState] = useState<string>(tags[0]?.category ?? "")
   const { toggleNav } = useNavMenuContext()
 
-  const activeTag = useMemo(
-    () => tags.find(t => t.category === tabState),
-    [tabState]
-  )
+  const activeTag = useMemo(() => {
+    const tag = tags.find(t => t.category === tabState)
+    if (!tag) return undefined
+    return tag
+  }, [tabState])
 
   const keys = useMemo(
     () =>
@@ -28,7 +28,10 @@ const Indexes: React.FC = () => {
       <Styled.IndexesTabs>
         <Styled.TabItems>
           {tags.map(tag => (
-            <Styled.TabButton onClick={() => setTabState(tag.category)}>
+            <Styled.TabButton
+              key={tag.category}
+              onClick={() => setTabState(tag.category)}
+            >
               <Styled.TabButtonText active={tabState === tag.category}>
                 {tag.category}
               </Styled.TabButtonText>
@@ -40,40 +43,53 @@ const Indexes: React.FC = () => {
         {keys.map(key => {
           return (
             <React.Fragment key={key}>
-              <Styled.IndexLetter>{key.toUpperCase()}</Styled.IndexLetter>
+              <Styled.IndexLetter>
+                <span>{key.toUpperCase()}</span>
+              </Styled.IndexLetter>
               {activeTag?.keywords[key].map(keyword => {
                 return (
                   <Styled.IndexText key={keyword.keyword} as="div">
-                    <atoms.p>{keyword.keyword}</atoms.p>
-                    {keyword.anchors.map(anchor => (
-                      <React.Fragment key={anchor.id}>
-                        <Styled.BiogramLink
-                          role="link"
-                          data-href={anchor.link}
-                          title={`${anchor.mdx.frontmatter.index} - ${anchor.mdx.frontmatter.title}`}
-                          onClick={() => {
-                            flushSync(() => {
-                              toggleNav()
-                            })
-                            setTimeout(() => {
-                              const element = document.querySelector(
-                                `#${anchor.id}`
-                              )
-                              if (!element) {
-                                navigate(anchor.link)
-                                return
-                              }
+                    <Styled.Keyword>{keyword.keyword}</Styled.Keyword>
+                    {keyword.anchors.map(([mdx, anchors], i) => (
+                      <React.Fragment
+                        key={`${keyword.keyword}__${mdx.id}--${i}`}
+                      >
+                        <Styled.ChapterTitle>{mdx.title}</Styled.ChapterTitle>
+                        <Styled.Mentions>
+                          WYSTĄPIENIA: {anchors.length}
+                        </Styled.Mentions>
+                        <Styled.Anchors>
+                          {anchors.map((anchor, j) => (
+                            <React.Fragment key={anchor.id}>
+                              <Styled.BiogramLink
+                                role="link"
+                                data-href={anchor.link}
+                                title={`${j} - ${anchor.mdx.frontmatter.title}`}
+                                onClick={() => {
+                                  flushSync(() => {
+                                    toggleNav()
+                                  })
+                                  setTimeout(() => {
+                                    const element = document.querySelector(
+                                      `#${anchor.id}`
+                                    )
+                                    if (!element) {
+                                      navigate(anchor.link)
+                                      return
+                                    }
 
-                              element.scrollIntoView({
-                                behavior: "smooth",
-                                block: "start",
-                              })
-                            }, 0)
-                          }}
-                        >
-                          {anchor.mdx.frontmatter.index} -{" "}
-                          {anchor.mdx.frontmatter.title}
-                        </Styled.BiogramLink>
+                                    element.scrollIntoView({
+                                      behavior: "smooth",
+                                      block: "start",
+                                    })
+                                  }, 0)
+                                }}
+                              >
+                                {j + 1}
+                              </Styled.BiogramLink>
+                            </React.Fragment>
+                          ))}
+                        </Styled.Anchors>
                       </React.Fragment>
                     ))}
                   </Styled.IndexText>
@@ -113,9 +129,24 @@ export const useTags = () => {
             prefixDefault,
           })
 
-          acc.push({ ...anchor, link: path })
+          const group = acc.find(
+            a => a[0].title === anchor.mdx.frontmatter.title
+          )
+          if (group) {
+            group[1].push({ ...anchor, link: path })
+          } else {
+            acc.push([
+              {
+                id: anchor.mdx.id,
+                title: anchor.mdx.frontmatter.title,
+                link: anchor.mdx.slug,
+              },
+              [{ ...anchor, link: path }],
+            ])
+          }
+
           return acc
-        }, [] as LinkedAnchor[])
+        }, [] as LinkedKeyword["anchors"])
         if (anchors.length === 0) return acc
 
         const key = keyword.keyword[0]
@@ -148,8 +179,16 @@ interface LinkedTag {
   category: string
   keywords: Record<string, LinkedKeyword[]>
 }
-interface LinkedKeyword extends Keyword {
-  anchors: LinkedAnchor[]
+interface LinkedKeyword {
+  keyword: string
+  anchors: [
+    {
+      id: string
+      title: string
+      link: string
+    },
+    LinkedAnchor[]
+  ][]
 }
 interface LinkedAnchor extends Anchor {
   link: string

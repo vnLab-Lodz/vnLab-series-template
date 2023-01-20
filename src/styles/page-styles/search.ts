@@ -18,7 +18,6 @@ export const Wrapper = styled.article`
 export const FoundItems = styled(atoms.p)`
   ${({ theme: { spacing, typography, palette } }) => css`
   margin-top: ${spacing.md};
-  color: ${palette.accentDark};
   font-family: ${typography.fonts.primary};
   font-size: ${typography.sm};
   text-transform: uppercase;

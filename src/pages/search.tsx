@@ -62,7 +62,7 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
   const [tab, setTab] = useState(TABS.EVERYWHERE)
 
   const { locale } = useLocalization()
-  const { t } = useTranslation("common")
+  const { t } = useTranslation("search")
 
   const mdxNodes = data.allMdx.nodes.filter(n => n.fields.locale === locale)
   const pageNodes = data.allSitePage.nodes.filter(

@@ -427,16 +427,37 @@ export const IndexLetter = styled(atoms.p)`
   ${({ theme: { typography, spacing } }) => css`
     align-self: center;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
     font-weight: bold;
     grid-column: 2;
     align-self: start;
     margin-top: ${spacing.md};
 
+    height: calc(${({ theme }) => theme.typography.md});
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    span {
+      display: block;
+      font-size: ${typography.sm};
+      line-height: 110%;
+    }
+
     @media ${devices.tablet} {
       grid-column: 3;
     }
   `}
+`
+
+export const Keyword = styled(atoms.p)`
+  line-height: 100%;
+`
+
+export const Mentions = styled(atoms.p)`
+  font-size: calc(${({ theme }) => theme.typography.sm});
+  font-weight: normal;
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-weight: 500;
 `
 
 export const IndexText = styled(atoms.p)`
@@ -451,11 +472,27 @@ export const IndexText = styled(atoms.p)`
   }
 `
 
+export const Anchors = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: calc(4px + 1ch);
+`
+
+export const ChapterTitle = styled(atoms.h3)`
+  margin: 0;
+  margin-top: ${({ theme }) => theme.spacing.xxs};
+  margin-bottom: 4px;
+  text-align: start;
+  font-size: calc(${({ theme }) => theme.typography.sm} * 1.2);
+`
+
 export const BiogramLink = styled(atoms.p)`
+  width: fit-content;
+  display: inline-block;
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
   font-size: calc(${({ theme }) => theme.typography.sm} * 1.2);
   text-decoration: none;
   color: inherit;
-  font-family: inherit;
   font-weight: inherit;
   display: block;
   cursor: pointer;
