@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { useLocalization } from "gatsby-theme-i18n"
-import React, { useState } from "react"
+import React, { PropsWithChildren, useState } from "react"
 import { useTranslation } from "react-i18next"
 import ReactMarkdown from "react-markdown"
 import { PublicationPage } from "src/hooks/usePublication"
@@ -9,14 +9,20 @@ import { getChapterFromIndex, getSupportedFitContent } from "~util"
 import Arrow from "../arrow"
 import * as Styled from "./style"
 
-interface Props {
+type Props = PropsWithChildren<{
   page: PublicationPage
   last?: boolean
   current?: boolean
   hideDivider?: boolean
-}
+}>
 
-const TocElement: React.FC<Props> = ({ page, last, current, hideDivider }) => {
+const TocElement: React.FC<Props> = ({
+  page,
+  last,
+  current,
+  hideDivider,
+  children,
+}) => {
   const { t } = useTranslation("common")
   const [isSummaryExpanded, setIsSummaryExpanded] = useState(false)
   const { locale } = useLocalization()
@@ -60,7 +66,7 @@ const TocElement: React.FC<Props> = ({ page, last, current, hideDivider }) => {
           <AnimatePresence initial={false} exitBeforeEnter>
             {isSummaryExpanded && (
               <Styled.Summary
-                as={motion.p}
+                as={motion.div}
                 initial={{ opacity: 0, height: 0 }}
                 animate={{
                   opacity: 1,
@@ -79,6 +85,7 @@ const TocElement: React.FC<Props> = ({ page, last, current, hideDivider }) => {
           </AnimatePresence>
         </>
       )}
+      {!!children ? <Styled.Children>{children}</Styled.Children> : null}
       {isDividerVisible && <Styled.Divider />}
     </Styled.TocContainer>
   )

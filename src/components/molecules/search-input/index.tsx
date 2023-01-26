@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react"
+import React, { ChangeEventHandler, useState } from "react"
 import * as Styled from "./style"
 import { useTranslation } from "react-i18next"
 
@@ -6,23 +6,28 @@ import { useTranslation } from "react-i18next"
 import SearchSVG from "../../../images/icons/magnifying_glass.svg"
 
 interface Props {
-  setQuery: (query: string) => void
-  onSubmit?: () => void
+  setQuery?: (query: string) => void
+  onSubmit?: (value: string) => void
 }
 
 const SearchInput: React.FC<Props> = ({ setQuery, onSubmit }) => {
+  const [value, setValue] = useState("")
   const { t } = useTranslation("common")
 
   return (
     <Styled.Form
       onSubmit={e => {
         e.preventDefault()
-        onSubmit && onSubmit()
+        if (onSubmit) onSubmit(value)
       }}
     >
       <Styled.Input
         placeholder={t("search_phrase")}
-        onChange={e => setQuery(e.target.value)}
+        value={value}
+        onChange={e => {
+          setValue(e.target.value)
+          if (setQuery) setQuery(e.target.value)
+        }}
       />
       <Styled.SubmitBtn>
         <img src={SearchSVG} alt="Magnifying glass" />
