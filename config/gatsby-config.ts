@@ -136,5 +136,42 @@ export default {
         },
       },
     },
+    {
+      resolve: "gatsby-plugin-multi-language-sitemap",
+      options: {
+        query: `
+        {
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+        }
+      `,
+        resolveSiteUrl: () => `https://archive-as-project.pl`,
+        //@ts-ignore
+        resolvePages: ({ allSitePage: { nodes: allPages } }) => allPages,
+        //@ts-ignore
+        serialize: ({ path, context }) => ({
+          url: path,
+          lastmod: new Date().toLocaleDateString("sv"),
+        }),
+        langs: [`en`, `pl`],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        host: `https://archive-as-project.pl`,
+        env: {
+          development: {
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+          },
+          production: {
+            policy: [{ userAgent: "*", allow: "/" }],
+          },
+        },
+      },
+    },
   ],
 } as GatsbyConfig
