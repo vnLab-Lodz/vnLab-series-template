@@ -9,6 +9,8 @@ import { useInView } from "react-intersection-observer"
 import { useAnimation } from "framer-motion"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
+import Fullsize from "~components/molecules/fullsize"
+import ReactDOM from "react-dom"
 import * as Styled from "./style"
 
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
@@ -16,12 +18,10 @@ import ExpandArrow from "src/images/icons/arrow_expand.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 import { SwiperSlide } from "swiper/react"
-import { Navigation, A11y, Swiper } from "swiper"
+import { A11y, Swiper, Mousewheel } from "swiper"
 
 import "swiper/css"
 import "swiper/css/navigation"
-import Fullsize from "~components/molecules/fullsize"
-import ReactDOM from "react-dom"
 
 interface Props {
   images: ImageDataLike[]
@@ -113,7 +113,15 @@ const Carousel: React.FC<Props> = ({ images, captions }) => {
       >
         <Styled.Absolute $flexible ref={stickyRef} sticky={sticky}>
           <Styled.Slider
-            modules={[Navigation, A11y]}
+            a11y={{
+              nextSlideMessage: "Next slide",
+              prevSlideMessage: "Previous slide",
+            }}
+            mousewheel={{
+              forceToAxis: true,
+              sensitivity: 2,
+            }}
+            modules={[A11y, Mousewheel]}
             spaceBetween={50}
             slidesPerView={1}
             onSwiper={setSwiper}

@@ -2,11 +2,13 @@ import React, { useEffect } from "react"
 import * as Styled from "./style"
 import { useMotionTemplate, useSpring } from "framer-motion"
 import { useTranslation } from "react-i18next"
-import { SEARCH_TABS } from "~components/organisms/search-client"
+import { TABS as SEARCH_TABS } from "src/pages/search"
 
 interface Props {
   tab: SEARCH_TABS
-  setTab: (tab: SEARCH_TABS) => void
+  setTab:
+    | ((tab: SEARCH_TABS) => void)
+    | React.Dispatch<React.SetStateAction<SEARCH_TABS>>
 }
 
 const SearchTabs: React.FC<Props> = ({ tab, setTab }) => {

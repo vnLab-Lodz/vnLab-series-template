@@ -1,4 +1,5 @@
 import { GatsbyConfig } from "gatsby"
+const visit = require(`unist-util-visit`)
 
 export default {
   siteMetadata: {
@@ -81,6 +82,18 @@ export default {
             },
           },
         ],
+        rehypePlugins: [
+          function rehypeAddIdToParagraphs() {
+            return function transformParagraphs(tree: any) {
+              visit(tree, { type: "element", tagName: "p" }, (node: any) => {
+                node.properties = {
+                  ...node.properties,
+                  id: `paragraph__${node.position.start.line}`,
+                }
+              })
+            }
+          },
+        ],
       },
     },
     {
@@ -120,6 +133,43 @@ export default {
             `**/images/*`,
             `**/icons/*`,
           ],
+        },
+      },
+    },
+    {
+      resolve: "gatsby-plugin-multi-language-sitemap",
+      options: {
+        query: `
+        {
+          allSitePage {
+            nodes {
+              path
+            }
+          }
+        }
+      `,
+        resolveSiteUrl: () => `https://archive-as-project.pl`,
+        //@ts-ignore
+        resolvePages: ({ allSitePage: { nodes: allPages } }) => allPages,
+        //@ts-ignore
+        serialize: ({ path, context }) => ({
+          url: path,
+          lastmod: new Date().toLocaleDateString("sv"),
+        }),
+        langs: [`en`, `pl`],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        host: `https://archive-as-project.pl`,
+        env: {
+          development: {
+            policy: [{ userAgent: "*", disallow: ["/"] }],
+          },
+          production: {
+            policy: [{ userAgent: "*", allow: "/" }],
+          },
         },
       },
     },

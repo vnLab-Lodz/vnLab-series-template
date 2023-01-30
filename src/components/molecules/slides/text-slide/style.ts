@@ -9,4 +9,7 @@ export const TextSlideContainer = styled(Slide)`
   @media ${devices.tablet} {
     padding: 120px 0px;
   }
+
+  grid-template-rows: min-content;
+  align-content: center;
 `
