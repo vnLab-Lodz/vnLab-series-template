@@ -105,7 +105,12 @@ export const Button = styled.button`
   `}
 `
 
-export const MenuContent = styled(motion.div)<{ $maxHeight: string }>`
+export const MenuContent = styled(motion.div).attrs({
+  initial: { height: 0 },
+  animate: { height: "auto" },
+  exit: { height: 0 },
+  transition: { duration: 0.3, ease: "easeInOut", delay: 0.1 },
+})<{ $maxHeight: string }>`
   ${({ $maxHeight: maxHeight, theme: { palette } }) => css`
     position: absolute;
     left: 0px;
@@ -116,8 +121,16 @@ export const MenuContent = styled(motion.div)<{ $maxHeight: string }>`
     border-bottom: solid 1px ${palette.dark};
     overflow-y: scroll;
     max-height: ${maxHeight};
+    overscroll-behavior: contain;
   `}
 `
+
+export const AnimatedContent = styled(motion.div).attrs({
+  initial: { height: 0, opacity: 0 },
+  animate: { height: "auto", opacity: 1 },
+  exit: { height: 0, opacity: 0 },
+  transition: { duration: 0.4, ease: "easeInOut" },
+})({})
 
 export const MenuLayout = styled(Layout)`
   margin-top: ${({ theme: { spacing } }) => spacing.xxxl};

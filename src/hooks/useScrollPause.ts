@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { isFirefox } from "~util/isFirefox"
 import useScrollContext from "./useScrollContext"
 
 function getScrollbarWidth() {
@@ -30,7 +31,7 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
   }
 
   const pauseScroll = (callback?: () => void) => {
-    if (isPaused) return
+    if (isPaused || isFirefox()) return
 
     setIsPaused(true)
     setOriginalValues()
@@ -50,7 +51,7 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
   }
 
   const resumeScroll = (callback?: () => void) => {
-    if (!isPaused) return
+    if (!isPaused || isFirefox()) return
 
     setIsPaused(false)
 

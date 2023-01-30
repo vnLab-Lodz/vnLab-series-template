@@ -7,10 +7,11 @@ interface Options {
 export enum SCROLL_DIRECTION {
   UP = "up",
   DOWN = "down",
+  NONE = "none",
 }
 
 const useScrollDirection = ({ threshold = 0 }: Options = {}) => {
-  const [scrollDir, setScrollDir] = useState(SCROLL_DIRECTION.UP)
+  const [scrollDir, setScrollDir] = useState(SCROLL_DIRECTION.NONE)
 
   useEffect(() => {
     let previousScrollYPosition = window.scrollY
