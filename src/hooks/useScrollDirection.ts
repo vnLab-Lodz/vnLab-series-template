@@ -7,7 +7,6 @@ interface Options {
 export enum SCROLL_DIRECTION {
   UP = "up",
   DOWN = "down",
-  NONE = "none",
 }
 
 const useScrollDirection = ({ threshold = 0 }: Options = {}) => {
@@ -34,8 +33,6 @@ const useScrollDirection = ({ threshold = 0 }: Options = {}) => {
         setScrollDir(newScrollDirection)
         previousScrollYPosition =
           currentScrollYPosition > 0 ? currentScrollYPosition : 0
-      } else {
-        setScrollDir(SCROLL_DIRECTION.NONE)
       }
     }
 
