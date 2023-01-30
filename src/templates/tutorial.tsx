@@ -7,7 +7,6 @@ import ArticleMenu, {
   ARTICLE_MENU_STATE,
 } from "~components/organisms/article-menu"
 import styled, { ThemeProvider } from "styled-components"
-import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import NavigationMenu from "~components/organisms/navigation-menu"
@@ -43,49 +42,6 @@ interface Data {
   }
 }
 
-const StyledLayout = styled(GridContainer)`
-  background: ${({ theme: { palette } }) => palette.quaternary};
-  padding-bottom: ${({ theme }) => theme.spacing.xxxl};
-  min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
-  padding-top: ${({ theme }) => theme.spacing.xxxl};
-  grid-auto-rows: min-content;
-
-  @media ${devices.tablet} {
-    padding-bottom: ${({ theme }) => theme.spacing.xxl};
-    min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxl})`};
-  }
-
-  @media ${devices.desktop} {
-    grid-template-columns: repeat(32, max(3.125rem));
-    justify-content: center;
-  }
-`
-
-const StyledArticle = styled.article`
-  background: ${({ theme: { palette } }) => palette.quaternary};
-`
-
-const StyledArticleMenu = styled(ArticleMenu)<{
-  open: boolean
-  themeMode: THEME_MODES
-}>`
-  background-color: ${({ theme }) => theme.palette.quaternary};
-
-  ${ButtonText} {
-    color: ${({ open, themeMode, theme }) =>
-      !open && themeMode === THEME_MODES.DARK
-        ? "rgb(31, 31, 31)"
-        : theme.palette.black};
-  }
-
-  .character-arrow {
-    color: ${({ open, themeMode, theme }) =>
-      !open && themeMode === THEME_MODES.DARK
-        ? "rgb(31, 31, 31)"
-        : theme.palette.black};
-  }
-`
-
 const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
   const { mdx, footnotes } = data
   const [articleMenuState, setArticleMenuState] = useState<ARTICLE_MENU_STATE>(
@@ -114,42 +70,40 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
       <HypothesisBtn />
       <MdxContext.Provider value={mdxContext}>
         <NavigationMenu currentPath={location.pathname} />
-        <AnnotationProvider>
-          <FootnotesContext.Provider value={footnotes.nodes}>
-            <ImagesProvider initialImages={getInitialImages()}>
-              {headerImage && <HeaderImage image={headerImage} />}
-              <StyledArticleMenu
-                noBibliography
-                spaced={!headerImage}
-                currentPath={location.pathname}
-                menus={menus}
-                themeMode={themeMode}
-                open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
-                onStateChange={setArticleMenuState}
-                bgColor={lightTheme.palette.quaternary}
-              />
-              <ThemeProvider theme={lightTheme}>
-                <StyledArticle>
-                  <StyledLayout $flexible className="mdx-section">
-                    <MDXProvider components={mdxComponents}>
-                      <SeoMeta
-                        title={title}
-                        lang={locale}
-                        url={location.pathname}
-                      />
-                      <MDXRenderer
-                        frontmatter={mdx.frontmatter}
-                        localImages={embeddedImagesLocal}
-                      >
-                        {mdx.body}
-                      </MDXRenderer>
-                    </MDXProvider>
-                  </StyledLayout>
-                </StyledArticle>
-              </ThemeProvider>
-            </ImagesProvider>
-          </FootnotesContext.Provider>
-        </AnnotationProvider>
+        <FootnotesContext.Provider value={footnotes.nodes}>
+          <ImagesProvider initialImages={getInitialImages()}>
+            {headerImage && <HeaderImage image={headerImage} />}
+            <StyledArticleMenu
+              noBibliography
+              spaced={!headerImage}
+              currentPath={location.pathname}
+              menus={menus}
+              themeMode={themeMode}
+              open={articleMenuState !== ARTICLE_MENU_STATE.CLOSED}
+              onStateChange={setArticleMenuState}
+              bgColor={lightTheme.palette.quaternary}
+            />
+            <ThemeProvider theme={lightTheme}>
+              <StyledArticle>
+                <StyledLayout $flexible className="mdx-section">
+                  <MDXProvider components={mdxComponents}>
+                    <SeoMeta
+                      title={title}
+                      lang={locale}
+                      url={location.pathname}
+                    />
+                    <MDXRenderer
+                      frontmatter={mdx.frontmatter}
+                      localImages={embeddedImagesLocal}
+                    >
+                      {mdx.body}
+                    </MDXRenderer>
+                  </MDXProvider>
+                </StyledLayout>
+              </StyledArticle>
+            </ThemeProvider>
+          </ImagesProvider>
+        </FootnotesContext.Provider>
       </MdxContext.Provider>
     </NavMenuProvider>
   )
@@ -194,3 +148,46 @@ export const query = graphql`
 `
 
 export default Section
+
+const StyledLayout = styled(GridContainer)`
+  background: ${({ theme: { palette } }) => palette.quaternary};
+  padding-bottom: ${({ theme }) => theme.spacing.xxxl};
+  min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxxl})`};
+  padding-top: ${({ theme }) => theme.spacing.xxxl};
+  grid-auto-rows: min-content;
+
+  @media ${devices.tablet} {
+    padding-bottom: ${({ theme }) => theme.spacing.xxl};
+    min-height: ${({ theme }) => `calc(100vh - ${theme.spacing.xxl})`};
+  }
+
+  @media ${devices.desktop} {
+    grid-template-columns: repeat(32, max(3.125rem));
+    justify-content: center;
+  }
+`
+
+const StyledArticle = styled.article`
+  background: ${({ theme: { palette } }) => palette.quaternary};
+`
+
+const StyledArticleMenu = styled(ArticleMenu)<{
+  open: boolean
+  themeMode: THEME_MODES
+}>`
+  background-color: ${({ theme }) => theme.palette.quaternary};
+
+  ${ButtonText} {
+    color: ${({ open, themeMode, theme }) =>
+      !open && themeMode === THEME_MODES.DARK
+        ? "rgb(31, 31, 31)"
+        : theme.palette.black};
+  }
+
+  .character-arrow {
+    color: ${({ open, themeMode, theme }) =>
+      !open && themeMode === THEME_MODES.DARK
+        ? "rgb(31, 31, 31)"
+        : theme.palette.black};
+  }
+`

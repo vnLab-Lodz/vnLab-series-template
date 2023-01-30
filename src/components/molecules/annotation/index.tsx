@@ -1,32 +1,21 @@
 import React, {
-  useEffect,
-  useRef,
   useState,
-  useContext,
   PropsWithChildren,
   useCallback,
   createElement,
 } from "react"
 import ReactDOM from "react-dom"
 import * as Styled from "./style"
-import { AnnotationContext } from "./annotation-context"
 import ReactMarkdown from "react-markdown"
-import { MDXProvider } from "@mdx-js/react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ThemeProvider } from "styled-components"
 import lightTheme from "~styles/theme"
-import { v4 } from "uuid"
 import { ReactMarkdownOptions } from "react-markdown/lib/react-markdown"
 import { components as mdxComponents } from "~components/mdx"
 import { useRefEffect } from "src/hooks/useRefEffect"
 import { useFootnote } from "src/context/footnotes-context"
 
 import XSVG from "../../../images/icons/x.svg"
-
-interface Props {
-  id?: string
-  target: string
-}
 
 interface PortalProps {
   index: number | string
@@ -66,97 +55,6 @@ const FootnotePortal: React.FC<PropsWithChildren<PortalProps>> = ({
     document.body
   )
 }
-
-const Annotation: React.FC<PropsWithChildren<Props>> = ({
-  id,
-  target,
-  children,
-}) => {
-  const [open, setOpen] = useState(false)
-  const [position, setPosition] = useState<number | undefined>(undefined)
-  const ref = useRef<HTMLSpanElement | null>(null)
-  const offsetRef = useRef<number>(0)
-  const { annotations, addAnnotation } = useContext(AnnotationContext)
-  const annotation = annotations.find(a => a.target === target)
-
-  const calculatePosition = () => {
-    if (!ref || !ref.current) return
-
-    const doc = document.documentElement
-    const elementRect = ref.current.getBoundingClientRect()
-    const parentRect = ref.current.parentElement?.getBoundingClientRect()
-    const offset = parentRect?.height ?? elementRect.height
-
-    offsetRef.current = offset
-    setPosition(elementRect.top + doc.scrollTop + offset)
-  }
-
-  useEffect(() => calculatePosition(), [ref])
-
-  useEffect(() => {
-    if (
-      children &&
-      ref &&
-      typeof position === "number" &&
-      !annotations.find(a => a.id)
-    ) {
-      const pos = !!position ? position - offsetRef.current : 0
-
-      addAnnotation(id ?? v4(), target, children, pos, () =>
-        ref.current?.scrollIntoView({ behavior: "smooth" })
-      )
-    }
-  }, [ref, position])
-
-  const toggleAnnotation = () => setOpen(prev => !prev)
-
-  const handleIndexClick = () => {
-    calculatePosition()
-    toggleAnnotation()
-  }
-
-  return (
-    <Styled.FootnoteTarget>
-      <ReactMarkdown
-        components={{ ...mdxComponents, p: Styled.InheritParagraph } as any}
-      >
-        {target}
-      </ReactMarkdown>
-      <Styled.FootnoteIndex
-        ref={ref}
-        onClick={handleIndexClick}
-        id={id ?? v4()}
-      >
-        {annotation?.index}
-      </Styled.FootnoteIndex>
-      <AnimatePresence>
-        {open && (
-          <FootnotePortal
-            index={annotation?.index ?? 0}
-            position={position}
-            toggle={toggleAnnotation}
-          >
-            {typeof children === "string" ? (
-              <ReactMarkdown
-                components={
-                  { ...mdxComponents, p: Styled.InheritParagraph } as any
-                }
-              >
-                {children}
-              </ReactMarkdown>
-            ) : (
-              <MDXProvider components={mdxComponents}>{children}</MDXProvider>
-            )}
-          </FootnotePortal>
-        )}
-      </AnimatePresence>
-    </Styled.FootnoteTarget>
-  )
-}
-
-export default Annotation
-
-/// ---------------Footnote
 
 export const FootnoteIndex = Styled.FootnoteIndex
 
@@ -200,7 +98,6 @@ export const FootnoteTarget: React.FC<FootnoteProps> = props => {
 
   return (
     <Styled.FootnoteTarget
-      style={{ background: "turquoise" }}
       ref={setRef}
       id={props.id}
       onClick={toggle}

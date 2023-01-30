@@ -6,7 +6,6 @@ import SeoMeta from "~components/meta"
 import atoms from "~components/atoms"
 import ArticleMenu from "~components/organisms/article-menu"
 import styled, { css, useTheme } from "styled-components"
-import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import NavigationMenu from "~components/organisms/navigation-menu"
@@ -107,35 +106,33 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
       <BackgroundGlobals color={theme.palette.light} />
       <MdxContext.Provider value={mdxContext}>
         <NavigationMenu currentPath={location.pathname} />
-        <AnnotationProvider>
-          <FootnotesContext.Provider value={footnotes.nodes}>
-            <ImagesProvider initialImages={getInitialImages()}>
-              {headerImage && <HeaderImage image={headerImage} />}
-              <ArticleMenu
-                currentPath={location.pathname}
-                menus={menus}
-                spaced={!headerImage}
-              />
-              <StyledArticle>
-                <StyledLayout $flexible className="mdx-section">
-                  <MDXProvider components={components}>
-                    <SeoMeta
-                      title={title}
-                      lang={locale}
-                      url={location.pathname}
-                    />
-                    <MDXRenderer
-                      frontmatter={mdx.frontmatter}
-                      localImages={embeddedImagesLocal}
-                    >
-                      {mdx.body}
-                    </MDXRenderer>
-                  </MDXProvider>
-                </StyledLayout>
-              </StyledArticle>
-            </ImagesProvider>
-          </FootnotesContext.Provider>
-        </AnnotationProvider>
+        <FootnotesContext.Provider value={footnotes.nodes}>
+          <ImagesProvider initialImages={getInitialImages()}>
+            {headerImage && <HeaderImage image={headerImage} />}
+            <ArticleMenu
+              currentPath={location.pathname}
+              menus={menus}
+              spaced={!headerImage}
+            />
+            <StyledArticle>
+              <StyledLayout $flexible className="mdx-section">
+                <MDXProvider components={components}>
+                  <SeoMeta
+                    title={title}
+                    lang={locale}
+                    url={location.pathname}
+                  />
+                  <MDXRenderer
+                    frontmatter={mdx.frontmatter}
+                    localImages={embeddedImagesLocal}
+                  >
+                    {mdx.body}
+                  </MDXRenderer>
+                </MDXProvider>
+              </StyledLayout>
+            </StyledArticle>
+          </ImagesProvider>
+        </FootnotesContext.Provider>
       </MdxContext.Provider>
     </NavMenuProvider>
   )

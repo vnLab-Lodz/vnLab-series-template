@@ -7,7 +7,6 @@ export const FootnoteTarget = styled.span`
   font-family: inherit;
   font-size: inherit;
   cursor: pointer;
-  background: pink;
 
   scroll-margin-top: 145px;
 

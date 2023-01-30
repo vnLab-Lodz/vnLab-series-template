@@ -5,7 +5,6 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import SeoMeta from "~components/meta"
 import Layout from "~components/organisms/layout"
 import styled, { useTheme } from "styled-components"
-import AnnotationProvider from "~components/molecules/annotation/annotation-context"
 import HeaderImage from "~components/molecules/header-image"
 import { IGatsbyImageData, ImageDataLike } from "gatsby-plugin-image"
 import NavigationMenu from "~components/organisms/navigation-menu"
@@ -78,30 +77,28 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
       <BackgroundGlobals color={theme.palette.light} />
       <MdxContext.Provider value={mdxContext}>
         <NavigationMenu currentPath={location.pathname} />
-        <AnnotationProvider>
-          <FootnotesContext.Provider value={footnotes.nodes}>
-            <ImagesProvider initialImages={getInitialImages()}>
-              {headerImage && <HeaderImage image={headerImage} />}
-              <StyledArticle>
-                <StyledLayout className="mdx-section">
-                  <MDXProvider components={mdxComponents}>
-                    <SeoMeta
-                      title={title}
-                      lang={locale}
-                      url={location.pathname}
-                    />
-                    <MDXRenderer
-                      frontmatter={mdx.frontmatter}
-                      localImages={embeddedImagesLocal}
-                    >
-                      {mdx.body}
-                    </MDXRenderer>
-                  </MDXProvider>
-                </StyledLayout>
-              </StyledArticle>
-            </ImagesProvider>
-          </FootnotesContext.Provider>
-        </AnnotationProvider>
+        <FootnotesContext.Provider value={footnotes.nodes}>
+          <ImagesProvider initialImages={getInitialImages()}>
+            {headerImage && <HeaderImage image={headerImage} />}
+            <StyledArticle>
+              <StyledLayout className="mdx-section">
+                <MDXProvider components={mdxComponents}>
+                  <SeoMeta
+                    title={title}
+                    lang={locale}
+                    url={location.pathname}
+                  />
+                  <MDXRenderer
+                    frontmatter={mdx.frontmatter}
+                    localImages={embeddedImagesLocal}
+                  >
+                    {mdx.body}
+                  </MDXRenderer>
+                </MDXProvider>
+              </StyledLayout>
+            </StyledArticle>
+          </ImagesProvider>
+        </FootnotesContext.Provider>
       </MdxContext.Provider>
     </NavMenuProvider>
   )
