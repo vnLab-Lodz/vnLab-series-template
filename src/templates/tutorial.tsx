@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react"
 import { graphql, PageProps } from "gatsby"
 import { MDXProvider } from "@mdx-js/react"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import SeoMeta from "~components/meta"
+import SeoMeta from "~components/molecules/seo-meta"
 import ArticleMenu, {
   ARTICLE_MENU_STATE,
 } from "~components/organisms/article-menu"

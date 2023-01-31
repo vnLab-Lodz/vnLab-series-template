@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, MetaHTMLAttributes, useMemo } from "react"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql, PageProps } from "gatsby"
-import { SiteMetadata } from "../../types/config"
+import { SiteMetadata } from "../../../types/config"
 import { useTranslation } from "react-i18next"
 
 type Meta = DetailedHTMLProps<

@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import SeoMeta from "~components/meta"
+import SeoMeta from "~components/molecules/seo-meta"
 import { useTranslation } from "react-i18next"
 import { GridContainer } from "~styles/grid"
 import { StaticImage } from "gatsby-plugin-image"

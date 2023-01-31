@@ -1,7 +1,7 @@
 import { PageProps } from "gatsby"
 import * as React from "react"
 import { useTranslation } from "react-i18next"
-import SeoMeta from "~components/meta"
+import SeoMeta from "~components/molecules/seo-meta"
 import { GridConstraint, GridContainer } from "~styles/grid"
 
 const NotFoundPage: React.FC<PageProps> = ({ location }) => {
