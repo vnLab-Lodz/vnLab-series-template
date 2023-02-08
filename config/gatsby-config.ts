@@ -121,6 +121,17 @@ export default {
         orientation: `portrait`,
         icon: `${__dirname}/../static/images/favicon3.png`,
         cache_busting_mode: `none`,
+        lang: "en",
+        localize: [
+          {
+            start_url: "/pl/",
+            lang: "pl",
+            name: "Archiwum jako projekt",
+            short_name: "Archiwum jako projekt",
+            description:
+              "Projekt ten jest próbą ponownego przemyślenia archiwum w postsocjalistycznej Europie Środkowo-Wschodniej, która wciąż stoi przed koniecznością przepracowania swojej dwudziestowiecznej przeszłości.",
+          },
+        ],
       },
     },
     {
