@@ -15,7 +15,7 @@ import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import { mdxComponents } from "./chapter"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
-import { MENUS } from "~types"
+import { LangKey, MENUS } from "~types"
 import { GridContainer } from "~styles/grid"
 import lightTheme from "~styles/theme"
 import { ButtonText } from "../components/organisms/article-menu/style"
@@ -89,7 +89,7 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
                   <MDXProvider components={mdxComponents}>
                     <SeoMeta
                       title={title}
-                      lang={locale}
+                      lang={locale as LangKey}
                       url={location.pathname}
                     />
                     <MDXRenderer

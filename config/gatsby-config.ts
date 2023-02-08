@@ -3,10 +3,18 @@ const visit = require(`unist-util-visit`)
 
 export default {
   siteMetadata: {
-    title: `The Archive as Project`,
-    description: `This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.`,
-    author: `@vnLab1`,
-    siteUrl: `http://vnlab.filmschool.lodz.pl/`,
+    siteUrl: "https://archive-as-project.vnlab.org",
+    en: {
+      title: `The Archive as Project`,
+      description: `This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.`,
+      author: `@vnLab1`,
+    },
+    pl: {
+      title: `Archiwum jako projekt`,
+      description:
+        "Projekt ten jest próbą ponownego przemyślenia archiwum w postsocjalistycznej Europie Środkowo-Wschodniej, która wciąż stoi przed koniecznością przepracowania swojej dwudziestowiecznej przeszłości.",
+      author: `@vnLab1`,
+    },
   },
   plugins: [
     `gatsby-plugin-styled-components`,
@@ -159,7 +167,7 @@ export default {
           }
         }
       `,
-        resolveSiteUrl: () => `https://archive-as-project.pl`,
+        resolveSiteUrl: () => `https://archive-as-project.vnlab.org`,
         //@ts-ignore
         resolvePages: ({ allSitePage: { nodes: allPages } }) => allPages,
         //@ts-ignore
@@ -173,7 +181,7 @@ export default {
     {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
-        host: `https://archive-as-project.pl`,
+        host: `https://archive-as-project.vnlab.org`,
         env: {
           development: {
             policy: [{ userAgent: "*", disallow: ["/"] }],

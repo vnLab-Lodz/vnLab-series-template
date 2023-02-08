@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, MetaHTMLAttributes, useMemo } from "react"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql, PageProps } from "gatsby"
-import { SiteMetadata } from "../../../types/config"
+import { LangKey, SiteMetadata } from "../../../types/config"
 import { useTranslation } from "react-i18next"
 
 type Meta = DetailedHTMLProps<
@@ -10,7 +10,7 @@ type Meta = DetailedHTMLProps<
 >
 
 interface Props {
-  lang?: string
+  lang?: LangKey
   title: string
   description?: string
   meta?: Meta[]
@@ -19,7 +19,7 @@ interface Props {
 
 interface Query {
   site: {
-    siteMetadata: Omit<SiteMetadata, "siteUrl">
+    siteMetadata: SiteMetadata
   }
 }
 
@@ -27,9 +27,16 @@ const query = graphql`
   query {
     site {
       siteMetadata {
-        title
-        description
-        author
+        en {
+          title
+          description
+          author
+        }
+        pl {
+          title
+          description
+          author
+        }
       }
     }
   }
@@ -44,15 +51,15 @@ const SeoMeta: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation("common")
   const { site } = useStaticQuery<Query>(query)
-  const defaultTitle = t("title", site.siteMetadata.title)
+  const defaultTitle = t("title", site.siteMetadata[lang].title)
   const titleTemplate = defaultTitle ? `%s | ${defaultTitle}` : undefined
 
   const metaDescription = useMemo(
-    () => description ?? site.siteMetadata.description,
-    [description, site.siteMetadata.description]
+    () => description ?? site.siteMetadata[lang].description,
+    [description, site.siteMetadata[lang].description]
   )
 
-  const image = `https://archiveasproject.gatsbyjs.io/images/card_${lang}.png`
+  const image = `https://archive-as-project.vnlab.org/images/card_${lang}.png`
 
   const metaData: Meta[] = useMemo(() => {
     return (
@@ -83,7 +90,7 @@ const SeoMeta: React.FC<Props> = ({
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata.author || ``,
+          content: site.siteMetadata[lang].author || ``,
         },
         {
           name: `twitter:title`,
@@ -99,7 +106,7 @@ const SeoMeta: React.FC<Props> = ({
         },
         {
           name: "twitter:domain",
-          content: "archiveasproject.gatsbyjs.io",
+          content: "https://archive-as-project.vnlab.org",
         },
         {
           name: "twitter:url",

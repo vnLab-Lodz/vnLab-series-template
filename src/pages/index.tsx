@@ -20,6 +20,7 @@ import ArrowDownSVG from "../images/icons/arrow_down.svg"
 import HamburgerSVG from "../images/icons/hamburger.svg"
 import TitleEN from "../images/title_en.svg"
 import TitlePL from "../images/title_pl.svg"
+import { LangKey } from "~types/config"
 
 const titleSVG = { en: TitleEN, pl: TitlePL }
 
@@ -81,7 +82,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
       <GridContainer style={{ minHeight: "100vh" }} $noConstraint>
         <SeoMeta
           title={t("home:title")}
-          lang={locale}
+          lang={locale as LangKey}
           url={location.pathname}
         />
         <Styled.ImageWrapper>

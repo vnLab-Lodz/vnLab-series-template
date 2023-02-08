@@ -16,6 +16,7 @@ import { useLocalization } from "gatsby-theme-i18n"
 import { BackgroundGlobals } from "~styles/globals"
 import { MdxContext } from "src/context/mdx-provider"
 import { Footnote, FootnotesContext } from "src/context/footnotes-context"
+import { LangKey } from "~types/config"
 
 interface Data {
   mdx: {
@@ -85,7 +86,7 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
                 <MDXProvider components={mdxComponents}>
                   <SeoMeta
                     title={title}
-                    lang={locale}
+                    lang={locale as LangKey}
                     url={location.pathname}
                   />
                   <MDXRenderer

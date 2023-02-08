@@ -13,7 +13,7 @@ import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-cont
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import { addClass, mdxComponents } from "./chapter"
-import { MENUS } from "~types"
+import { LangKey, MENUS } from "~types"
 import withGridConstraint from "src/hoc/withGridConstraint"
 import { GridContainer } from "~styles/grid"
 import { useLocalization } from "gatsby-theme-i18n"
@@ -119,7 +119,7 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
                 <MDXProvider components={components}>
                   <SeoMeta
                     title={title}
-                    lang={locale}
+                    lang={locale as LangKey}
                     url={location.pathname}
                   />
                   <MDXRenderer

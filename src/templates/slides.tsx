@@ -24,7 +24,7 @@ import { MdxContext } from "src/context/mdx-provider"
 import { GraphicalChapterGlobals } from "~styles/globals"
 import { Footnote, FootnotesContext } from "src/context/footnotes-context"
 import ArticleMenu from "~components/organisms/article-menu"
-import { MENUS } from "~types/index"
+import { LangKey, MENUS } from "~types/index"
 import ImagesProvider from "src/context/illustrations-context"
 import ArticleFooter from "~components/organisms/article-footer"
 import SplitSlide from "~components/molecules/slides/split-slide"
@@ -73,7 +73,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
         <NavMenuProvider>
           <SeoMeta
             title={title}
-            lang={locale}
+            lang={locale as LangKey}
             description={summary}
             url={location.pathname}
           />

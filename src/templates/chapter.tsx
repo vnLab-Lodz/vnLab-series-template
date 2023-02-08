@@ -18,7 +18,7 @@ import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-cont
 import ImagesProvider, { Image } from "src/context/illustrations-context"
 import { devices } from "~styles/breakpoints"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
-import { MENUS } from "~types"
+import { LangKey, MENUS } from "~types"
 import { GridContainer } from "~styles/grid"
 import { BackgroundGlobals } from "~styles/globals"
 import { components } from "~components/mdx"
@@ -112,7 +112,7 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
                 <MDXProvider components={mdxComponents}>
                   <SeoMeta
                     title={title}
-                    lang={locale}
+                    lang={locale as LangKey}
                     description={mdx.frontmatter.summary}
                     url={location.pathname}
                   />
