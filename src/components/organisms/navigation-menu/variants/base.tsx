@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { useTranslation } from "react-i18next"
 import * as Styled from "../style"
 import { useLocalization } from "gatsby-theme-i18n"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, motion, MotionValue } from "framer-motion"
 import MiscTabs from "../components/misc-tabs"
 import NavMenuContent from "../components/content"
 import enhance, { NavVariantProps } from "../enhance"
@@ -71,11 +71,10 @@ const NavigationMenu: React.FC<
           >
             <Styled.Nav mode={navMode} id="menu-nav">
               <Styled.Progress style={{ height: progress, width: progress }} />
-              {!disableProgressText ? (
-                <Styled.ProgressText style={{ top: progress }}>
-                  {Math.ceil(Number(progress.get().replace("%", "")))}%
-                </Styled.ProgressText>
-              ) : null}
+              <ProgressText
+                progress={progress}
+                disableProgressText={disableProgressText}
+              />
               <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
                 <img
                   className="sizeable-icon"
@@ -125,3 +124,24 @@ export default enhance<{
 }>({
   hideOnMobile: true,
 })(NavigationMenu)
+
+const ProgressText: React.FC<{
+  disableProgressText?: boolean
+  progress: MotionValue<string>
+}> = ({ progress, disableProgressText }) => {
+  const [progressText, setProgressText] = useState("")
+
+  useEffect(() =>
+    progress.onChange(value => {
+      setProgressText(`${Math.ceil(Number(value.replace("%", "")))}%`)
+    })
+  )
+
+  if (disableProgressText) return null
+
+  return (
+    <Styled.ProgressText style={{ top: progress }}>
+      {progressText}
+    </Styled.ProgressText>
+  )
+}
