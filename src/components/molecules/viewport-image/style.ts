@@ -6,14 +6,19 @@ import { motion } from "framer-motion"
 
 export const ViewportConstraint = styled(motion.div)`
   display: grid;
+  overflow: initial;
   grid-column: 1 / last-col;
   grid-template-columns: repeat(32, 1fr);
   grid-template-rows: ${({ theme: { spacing } }) =>
-    `${spacing.xxxl} 1fr ${spacing.xxxl}`};
-  max-height: ${({ theme: { spacing } }) =>
-    `calc(100vh + 2 * ${spacing.xxxl})`};
+    `${spacing.xl} 1fr ${spacing.xl}`};
+  max-height: ${({ theme: { spacing } }) => `calc(100vh + 2 * ${spacing.xl})`};
 
-  overflow: initial;
+  @media ${devices.tablet} {
+    grid-template-rows: ${({ theme: { spacing } }) =>
+      `${spacing.xxxl} 1fr ${spacing.xxxl}`};
+    max-height: ${({ theme: { spacing } }) =>
+      `calc(100vh + 2 * ${spacing.xxxl})`};
+  }
 `
 
 export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
@@ -59,7 +64,8 @@ export const Caption = styled(InnerGrid)`
 export const ExpandCaptionBtn = styled.button`
   ${({ theme: { typography, palette } }) => css`
     grid-row: 2;
-    grid-column: 1 / span 5;
+    grid-column: 1 / auto;
+    white-space: nowrap;
 
     @media ${devices.tablet} {
       grid-column: 1 / span 4;

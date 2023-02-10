@@ -9,13 +9,19 @@ import { Swiper } from "swiper/react"
 
 export const ViewportConstraint = styled(motion.div)`
   display: grid;
+  overflow: initial;
   grid-column: 1 / last-col;
   grid-template-columns: repeat(32, 1fr);
   grid-template-rows: ${({ theme: { spacing } }) =>
-    `${spacing.xxxl} 1fr ${spacing.xxxl}`};
-  max-height: ${({ theme: { spacing } }) =>
-    `calc(100vh + 2 * ${spacing.xxxl})`};
-  overflow: initial;
+    `${spacing.xl} 1fr ${spacing.xl}`};
+  max-height: ${({ theme: { spacing } }) => `calc(100vh + 2 * ${spacing.xl})`};
+
+  @media ${devices.tablet} {
+    grid-template-rows: ${({ theme: { spacing } }) =>
+      `${spacing.xxxl} 1fr ${spacing.xxxl}`};
+    max-height: ${({ theme: { spacing } }) =>
+      `calc(100vh + 2 * ${spacing.xxxl})`};
+  }
 `
 
 export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
