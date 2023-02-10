@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { useTranslation } from "react-i18next"
 import * as Styled from "../style"
@@ -41,12 +41,17 @@ const NavigationMenu: React.FC<
   const { disableProgressText = false, disableThemeSwitching = false } =
     renderProps
 
-  const getCloseIconFilter = () => {
+  const iconFilter = useMemo(() => {
     if (themeMode === THEME_MODES.DARK && open) return "invert(0)"
     else if (themeMode === THEME_MODES.LIGHT && open) return "invert(1)"
 
     return themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
-  }
+  }, [themeMode, open])
+
+  const logoFilter = useMemo(
+    () => (themeMode === THEME_MODES.DARK ? "invert(1)" : "none"),
+    [themeMode]
+  )
 
   return (
     <>
@@ -80,7 +85,7 @@ const NavigationMenu: React.FC<
                   className="sizeable-icon"
                   src={open ? CloseSVG : HamburgerSVG}
                   alt="Toggle Menu Button"
-                  style={{ filter: getCloseIconFilter() }}
+                  style={{ filter: iconFilter }}
                 />
               </Styled.ToggleBtn>
               {!reduced ? (
@@ -99,9 +104,7 @@ const NavigationMenu: React.FC<
               <Styled.Logo
                 src={VnlabLogo}
                 alt="vnLab logo"
-                style={{
-                  filter: themeMode === THEME_MODES.DARK ? "invert(1)" : "none",
-                }}
+                style={{ filter: logoFilter }}
               />
             </Styled.Nav>
             <NavMenuContent

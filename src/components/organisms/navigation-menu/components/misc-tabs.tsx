@@ -1,5 +1,5 @@
 import { LocalizedLink } from "gatsby-theme-i18n"
-import React from "react"
+import React, { useMemo } from "react"
 import LanguagePicker from "~components/molecules/language-picker"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
@@ -47,8 +47,8 @@ const MiscTabs: React.FC<Props> = ({
     )
   }
 
-  const themeIconStyles = getIconStyles(1)
-  const searchIconStyles = getIconStyles(0)
+  const themeIconStyles = useMemo(() => getIconStyles(1), [themeMode])
+  const searchIconStyles = useMemo(() => getIconStyles(0), [themeMode])
 
   return (
     <>

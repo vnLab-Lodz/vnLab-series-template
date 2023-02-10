@@ -25,6 +25,7 @@ export const SearchInBtn = styled.button`
     border-bottom: solid 1px ${palette.dark};
     padding: ${spacing.xs};
     cursor: pointer;
+    color: ${palette.black};
   `}
 `
 
