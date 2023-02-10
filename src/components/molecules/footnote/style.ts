@@ -49,6 +49,7 @@ export const FootnoteContent = styled(GridContainer)`
     position: absolute;
     left: 0px;
     right: 0px;
+    z-index: 1;
 
     @media ${devices.desktop} {
       justify-content: center;
