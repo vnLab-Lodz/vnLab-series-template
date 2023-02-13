@@ -12,4 +12,8 @@ export const TextSlideContainer = styled(Slide)`
 
   grid-template-rows: min-content;
   align-content: center;
+
+  &:has(.mdx-video:only-child) {
+    padding: 0;
+  }
 `

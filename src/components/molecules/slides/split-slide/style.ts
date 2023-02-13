@@ -30,6 +30,10 @@ export const HalfSlide = styled.section<{
   & ${TextSlideContainer} {
     @media ${devices.laptop} {
       grid-template-columns: repeat(15, 1fr);
+
+      .mdx-video:only-child {
+        grid-column: 1 / last-col;
+      }
     }
   }
 
