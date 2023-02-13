@@ -55,6 +55,11 @@ const marginRules = css`
       &.mdx-heading {
         margin-top: calc(${({ theme }) => theme.spacing.xxl} * 1.2);
       }
+
+      ul > li &.mdx-unordered-list,
+      ol > li &.mdx-ordered-list {
+        margin-top: 0;
+      }
     }
 
     p.mdx-paragraph + &.mdx-paragraph {
