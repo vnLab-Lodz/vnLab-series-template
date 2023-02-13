@@ -31,6 +31,7 @@ import SplitSlide from "~components/molecules/slides/split-slide"
 import CarouselSlide from "~components/molecules/slides/carousel-slide"
 import ViewportImageSlide from "~components/molecules/slides/viewport-image-slide"
 import SoundCloudPlayer from "~components/molecules/soundcloud-player"
+import VimeoIframe from "~components/molecules/viemo-iframe"
 import Video from "~components/molecules/video"
 
 interface Data {
@@ -59,6 +60,7 @@ export const slidesMdxComponents = {
   CarouselSlide,
   ViewportImageSlide,
   SoundCloudPlayer,
+  VimeoIframe,
   Video,
 }
 

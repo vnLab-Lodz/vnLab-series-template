@@ -31,7 +31,8 @@ export const HalfSlide = styled.section<{
     @media ${devices.laptop} {
       grid-template-columns: repeat(15, 1fr);
 
-      .mdx-video:only-child {
+      .mdx-video:only-child,
+      .mdx-vimeo:only-child {
         grid-column: 1 / last-col;
       }
     }
