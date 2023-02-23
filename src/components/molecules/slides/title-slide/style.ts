@@ -1,35 +1,34 @@
 import { mdxComponents } from "src/templates/chapter"
 import styled from "styled-components"
 import { gridConstraint } from "~components/mdx"
+import TextSlide from "../text-slide"
 
-export const TextContainer = styled.div`
+export const TextContainer = styled(TextSlide)`
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  text-align: center;
 
-  ${gridConstraint}
+  & > * {
+    margin-top: 0 !important;
+  }
+
+  & > h1 {
+    font-weight: lighter;
+    margin-top: ${({ theme }) => theme.spacing.xs} !important;
+  }
+
+  & > h2 {
+    font-family: ${({ theme }) => theme.typography.fonts.primary};
+    font-size: ${({ theme }) => theme.typography.md};
+    font-weight: bold;
+    margin-top: ${({ theme }) => theme.spacing.xxs} !important;
+  }
 `
 
 export const Label = styled(mdxComponents.h3)`
   font-weight: lighter;
   font-size: 15px;
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-`
-
-export const Title = styled(mdxComponents.h1)`
-  font-weight: lighter;
-  margin-top: 0 !important;
-`
-
-export const Subtitle = styled(mdxComponents.h2)`
-  font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: ${({ theme }) => theme.typography.md};
-  font-weight: bold;
-  margin-top: 0 !important;
 `
 
 export const ScrollButton = styled.button`
@@ -39,6 +38,13 @@ export const ScrollButton = styled.button`
   outline: none;
   border: none;
   cursor: pointer;
+
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  width: 5%;
+
+  ${gridConstraint}
 
   &:focus-visible {
     border-radius: 3px;

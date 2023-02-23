@@ -4,12 +4,15 @@ import { slidesMdxComponents } from "src/templates/slides"
 import * as Styled from "./style"
 
 interface Props {
-  background?: string
+  className?: string
 }
 
-const TextSlide: React.FC<PropsWithChildren<Props>> = ({ children }) => {
+const TextSlide: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  className,
+}) => {
   return (
-    <Styled.TextSlideContainer>
+    <Styled.TextSlideContainer className={className}>
       {typeof children === "string" ? (
         <ReactMarkdown components={slidesMdxComponents as any}>
           {children?.toString() ?? ""}
