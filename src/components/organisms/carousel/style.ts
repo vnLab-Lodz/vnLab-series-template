@@ -130,15 +130,10 @@ export const Expand = styled.button`
   border: none;
   grid-column: last-col;
   cursor: pointer;
-  display: none;
   margin-left: auto;
 
   img {
     vertical-align: middle;
-  }
-
-  @media ${devices.tablet} {
-    display: block;
   }
 `
 
