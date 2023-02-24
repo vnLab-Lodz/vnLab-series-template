@@ -68,7 +68,9 @@ const MiscTabs: React.FC<Props> = ({
           />
         </Styled.TabButton>
       )}
-      <HypothesisIconButton component={Styled.TabButton} small={aside} />
+      {!aside ? (
+        <HypothesisIconButton component={Styled.TabButton} small={aside} />
+      ) : null}
       <Styled.TabButton small={aside}>
         <LocalizedLink to="/search" language={locale}>
           <Styled.SearchImg
