@@ -6,6 +6,7 @@ import { THEME_MODES } from "src/context/theme-switcher-context"
 import * as Styled from "../style"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { NAV_MODES } from "../nav-menu-context"
+import { HypothesisIconButton } from "~components/molecules/hypothesis-btn"
 
 //@ts-ignore
 import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
@@ -67,9 +68,11 @@ const MiscTabs: React.FC<Props> = ({
           />
         </Styled.TabButton>
       )}
+      <HypothesisIconButton component={Styled.TabButton} small={aside} />
       <Styled.TabButton small={aside}>
         <LocalizedLink to="/search" language={locale}>
           <Styled.SearchImg
+            height={20}
             style={searchIconStyles}
             className="sizeable-icon"
             src={SearchSVG}

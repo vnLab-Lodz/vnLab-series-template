@@ -221,7 +221,7 @@ export const Tabs = styled.header<{ sticky?: boolean }>`
     }
 
     @media ${devices.desktop} {
-      padding: ${({ theme }) => theme.spacing.sm} 0px;
+      padding: ${({ theme }) => theme.spacing.sm} ${spacing.xs};
       height: fit-content;
     }
   `}
@@ -273,7 +273,7 @@ export const TabButton = styled.button<{ small?: boolean }>`
 
   @media ${devices.tablet} {
     padding: ${({ theme: { spacing }, small }) =>
-      !small ? `${spacing.md} ${spacing.xxs}` : `0px ${spacing.xxs}`};
+      !small ? `0px ${spacing.xxs}` : `0px ${spacing.xxs}`};
     height: 100%;
     text-align: center;
   }
@@ -294,9 +294,31 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
     letter-spacing: 0.55px;
     font-weight: bold;
 
+    max-width: min-content;
+    white-space: nowrap;
+    position: relative;
+
+    @media ${devices.tablet} {
+      max-width: initial;
+      white-space: initial;
+    }
+
+    @media screen and (min-width: 1024px) and (max-width: 1190px) {
+      max-width: min-content;
+    }
+
     ${active &&
     css`
-      text-decoration: underline;
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: -7px;
+        left: 0px;
+        right: 0px;
+        width: 100%;
+        height: 1px;
+        background-color: ${palette.white};
+      }
     `}
   `}
 `
