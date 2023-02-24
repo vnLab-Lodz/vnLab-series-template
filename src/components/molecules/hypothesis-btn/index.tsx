@@ -6,7 +6,7 @@ import * as Styled from "./style"
 import useHypothesis from "src/hooks/useHypothesis"
 import useIsClient from "src/hooks/useIsClient"
 import useIsMobile from "src/hooks/useIsMobile"
-import { AnimatePresence, motion, useSpring, useTransform } from "framer-motion"
+import { useSpring, useTransform } from "framer-motion"
 import { useTheme } from "styled-components"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
@@ -28,8 +28,37 @@ interface Props {
   invert?: boolean
 }
 
+export const HypothesisIconButton = ({ component, ...delegated }: any) => {
+  const { showHypothesis, hideHypothesis, isHidden } = useHypothesis()
+  const { themeMode } = useThemeSwitcherContext()
+
+  const handleIconBtnClick = () => {
+    isHidden() ? showHypothesis() : hideHypothesis()
+  }
+
+  const Button = component ? component : Styled.IconButton
+  const src =
+    themeMode === THEME_MODES.DARK ? HypothesisIcon : HypothesisIconInvert
+
+  return (
+    <Button
+      aria-label="Toggle Hypothesis"
+      type="button"
+      id="hypothesis-btn"
+      onClick={handleIconBtnClick}
+      {...delegated}
+    >
+      <img
+        height={20}
+        src={src}
+        alt="Hypothesis Icon"
+        className="sizeable-icon"
+      />
+    </Button>
+  )
+}
+
 const HypothesisBtn: React.FC<Props> = ({
-  left,
   hiddenOnMobile = false,
   invert = false,
 }) => {
@@ -37,7 +66,6 @@ const HypothesisBtn: React.FC<Props> = ({
   const { isClient } = useIsClient()
   const [hypothesisTutorialViewed, setHypothesisTutorialViewed] =
     useState(false)
-  const { showHypothesis, hideHypothesis, isHidden } = useHypothesis()
   const { locale, defaultLang, prefixDefault, localizedPath } =
     useLocalization()
   const isMobile = useIsMobile()
@@ -93,10 +121,6 @@ const HypothesisBtn: React.FC<Props> = ({
     )
   }
 
-  const handleIconBtnClick = () => {
-    isHidden() ? showHypothesis() : hideHypothesis()
-  }
-
   const closeAnnotateBtn = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
@@ -104,30 +128,10 @@ const HypothesisBtn: React.FC<Props> = ({
     setHypothesisTutorialViewedInLocalStorage()
   }
 
-  if (!isClient || (hiddenOnMobile && isMobile)) return <></>
+  if (!isClient || (hiddenOnMobile && isMobile) || hypothesisTutorialViewed)
+    return <></>
 
-  return hypothesisTutorialViewed ? (
-    <Styled.IconButton
-      id="hypothesis-btn"
-      onClick={handleIconBtnClick}
-      left={!!left && isMobile}
-    >
-      <AnimatePresence initial={false} exitBeforeEnter>
-        <motion.img
-          key={invert ? "inverted-icon" : "normal-icon"}
-          src={
-            invert || themeMode === THEME_MODES.DARK
-              ? HypothesisIconInvert
-              : HypothesisIcon
-          }
-          alt="Hypothesis Icon"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        />
-      </AnimatePresence>
-    </Styled.IconButton>
-  ) : (
+  return (
     <Styled.TextButton id="hypothesis-btn" style={{ backgroundColor }}>
       <Styled.VerticalText style={{ color }} onClick={handleTextBtnClick}>
         {t("hypothesis_btn")}

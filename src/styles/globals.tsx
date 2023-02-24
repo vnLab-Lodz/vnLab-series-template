@@ -81,7 +81,7 @@ export const Globals = createGlobalStyle`
   }
 
   .sizeable-icon {
-    @media ${devices.desktop} {
+    @media ${devices.desktop} and (min-height: 1100px) {
       width: auto !important;
       height: 32px !important;
       

@@ -15,11 +15,16 @@ export const CaptionButton = styled.button`
   top: 100vh;
   transform: ${({ theme }) => `translateY(calc(-100% - ${theme.spacing.md}))`};
   background: ${({ theme }) => theme.palette.black};
+  border-color: 1px solid ${({ theme }) => theme.palette.white};
   border-radius: 50%;
   height: 20px;
   width: 20px;
   text-align: center;
   cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 700;
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
 
   @media ${devices.laptop} {
     right: ${({ theme }) => theme.spacing.md};
@@ -50,6 +55,9 @@ export const Caption = styled(GridContainer).attrs({
     row-gap: ${spacing.xs};
     overflow-y: auto;
     overscroll-behavior: contain;
+
+    font-family: ${({ theme }) => theme.typography.fonts.primary};
+    font-weight: 700;
 
     @media ${devices.desktop} {
       justify-content: center;

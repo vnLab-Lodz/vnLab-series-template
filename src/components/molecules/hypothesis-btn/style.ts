@@ -50,7 +50,7 @@ export const VerticalText = styled(motion.p)`
   `};
 `
 
-export const IconButton = styled.button<{ left: boolean }>`
+export const IconButton = styled.button<{ left?: boolean }>`
   ${({ left, theme: { spacing } }) => css`
     z-index: 12;
     position: fixed;
