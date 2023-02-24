@@ -70,20 +70,8 @@ export const ImageWrapper = styled.div`
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-
-  width: calc(calc(100vw / 32) * 30);
-
-  @media ${devices.tablet} {
-    width: calc(calc(100vw / 32) * 23);
-  }
-
-  @media ${devices.laptop} {
-    width: calc(calc(100vw / 32) * 16);
-  }
-
-  @media ${devices.desktop} {
-    max-width: calc(3.125rem * 16);
-  }
+  width: 100%;
+  width: -webkit-fill-available;
 `
 
 export const Image = styled(GatsbyImage)`
