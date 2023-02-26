@@ -56,7 +56,7 @@ export const Slider = styled(Swiper)`
 
   overflow: visible;
 
-  max-height: calc(100vh - 30px - ${({ theme }) => theme.spacing.xs});
+  max-height: calc(100vh - 30px - 2 * ${({ theme }) => theme.spacing.xs});
 `
 
 export const Slide = styled.div`
