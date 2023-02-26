@@ -15,7 +15,7 @@ export const CaptionButton = styled.button`
   top: 100vh;
   transform: ${({ theme }) => `translateY(calc(-100% - ${theme.spacing.md}))`};
   background: ${({ theme }) => theme.palette.black};
-  border-color: 1px solid ${({ theme }) => theme.palette.white};
+  border: 2px solid ${({ theme }) => theme.palette.white};
   border-radius: 50%;
   height: 20px;
   width: 20px;
