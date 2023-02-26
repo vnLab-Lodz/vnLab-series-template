@@ -2,7 +2,10 @@ import styled from "styled-components"
 import { GridContainer } from "~styles/grid"
 import { devices } from "~styles/breakpoints"
 
-const Slide = styled(GridContainer).attrs({ as: "section" })`
+const Slide = styled(GridContainer).attrs({
+  as: "section",
+  className: "slide",
+})`
   background: ${({ theme: { palette } }) => palette.light};
   overflow: initial;
 

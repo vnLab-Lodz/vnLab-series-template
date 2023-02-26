@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useEffect, useMemo } from "react"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import HypothesisBtn from "~components/molecules/hypothesis-btn"
 import NavigationMenu from "~components/organisms/navigation-menu"
@@ -33,6 +33,7 @@ import ViewportImageSlide from "~components/molecules/slides/viewport-image-slid
 import SoundCloudPlayer from "~components/molecules/soundcloud-player"
 import VimeoIframe from "~components/molecules/viemo-iframe"
 import Video from "~components/molecules/video"
+import { flushSync } from "react-dom"
 
 interface Data {
   mdx: {
@@ -69,6 +70,66 @@ const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
   const { title, summary, menus } = mdx.frontmatter
   const images = mdx.frontmatter.embeddedImagesLocal
 
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined
+    let element: HTMLElement | undefined
+
+    const listener = () => {
+      if (timeout) window.clearTimeout(timeout)
+      timeout = setTimeout(() => {
+        flushSync(() => {
+          if (!element) return
+
+          const top = element.offsetTop
+          window.scrollTo({ top, behavior: "smooth" })
+        })
+      }, 66)
+    }
+
+    const keyboardListener = (e: KeyboardEvent) => {
+      if (!element) return
+      let sibling: Element | null = null
+
+      switch (e.key) {
+        case "ArrowUp":
+          sibling = element.previousElementSibling
+          break
+        case "ArrowDown":
+          sibling = element.nextElementSibling
+          break
+      }
+
+      if (!sibling) return
+      element = sibling as HTMLElement
+    }
+
+    const observer = new IntersectionObserver(
+      entries =>
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return
+
+          const node = entry.target as HTMLElement
+          if (node.offsetTop !== 0) return (element = node)
+
+          // Handling split slides
+          if (!node.parentElement?.parentElement) return
+          element = node.parentElement.parentElement
+        }),
+      { threshold: [0.1] }
+    )
+
+    const selector = '.slide:not([data-ignore-slide="true"])'
+    const nodes = document.querySelectorAll(selector)
+    nodes.forEach(node => observer.observe(node))
+    window.addEventListener("scroll", listener)
+    window.addEventListener("keydown", keyboardListener)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("scroll", listener)
+      window.removeEventListener("keydown", keyboardListener)
+    }
+  }, [])
+
   const { locale } = useLocalization()
 
   const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
@@ -85,6 +146,9 @@ const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
           />
           <HypothesisBtn />
           <GraphicalChapterGlobals color={darkTheme.palette.light} />
+          <noscript>
+            <style>{`html { scroll-snap-type: y mandatory; }`}</style>
+          </noscript>
           <MdxContext.Provider value={mdxContext}>
             <NavigationMenu
               currentPath={location.pathname}

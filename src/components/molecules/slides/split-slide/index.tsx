@@ -19,7 +19,7 @@ const SplitSlide: React.FC<Props> = ({ children, leftSticky, rightSticky }) => {
   }
 
   return (
-    <Styled.SplitSlideContainer>
+    <Styled.SplitSlideContainer data-ignore-slide={true}>
       <Styled.HalfSlide data-sticky={leftSticky} $left>
         {children[0]}
       </Styled.HalfSlide>
