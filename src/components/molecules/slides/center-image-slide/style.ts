@@ -29,7 +29,7 @@ export const SlideImageWrapper = styled.div<{
       margin: 0;
       max-height: 100vh;
       grid-column-end: last-col;
-      grid-column-start: first-col;
+      grid-column-start: 1;
 
       @media ${devices.tablet} {
         grid-column-start: 4;

@@ -16,7 +16,7 @@ export const VideoWrapper = styled.div`
   height: auto;
   margin: auto;
 
-  grid-column-start: first-col;
+  grid-column-start: 1;
   grid-column-end: last-col;
 
   @media ${devices.tablet} {

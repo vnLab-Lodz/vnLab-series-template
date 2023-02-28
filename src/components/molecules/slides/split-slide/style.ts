@@ -57,7 +57,7 @@ export const HalfSlide = styled.section<{
           grid-column-end: -2;
 
           &[data-fullscreen="true"] {
-            grid-column-start: first-col;
+            grid-column-start: 1;
             grid-column-end: last-col;
           }
         }
@@ -86,7 +86,7 @@ export const HalfSlide = styled.section<{
   ${({ $left: left = false }) =>
     left &&
     css`
-      grid-column-start: first-col;
+      grid-column-start: 1;
       grid-column-end: last-col;
 
       @media ${devices.laptop} {
@@ -106,7 +106,7 @@ export const HalfSlide = styled.section<{
   ${({ $right: right = false }) =>
     right &&
     css`
-      grid-column-start: first-col;
+      grid-column-start: 1;
       grid-column-end: last-col;
 
       @media ${devices.laptop} {

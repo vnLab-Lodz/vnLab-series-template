@@ -23,7 +23,7 @@ export const IframeWrapper = styled.div`
   aspect-ratio: 16 / 9;
   display: flex;
 
-  grid-column-start: first-col;
+  grid-column-start: 1;
   grid-column-end: last-col;
 
   @media ${devices.tablet} {
