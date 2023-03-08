@@ -10,19 +10,21 @@ import enhance, { NavVariantProps } from "../enhance"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 
-//@ts-ignore
 import HamburgerSVG from "../../../../images/icons/hamburger.svg"
-//@ts-ignore
 import CloseSVG from "../../../../images/icons/x.svg"
-//@ts-ignore
 import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
-//@ts-ignore
-import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
+import ExpandArrow from "src/images/icons/arrow_expand.svg"
+import { NAV_MODES } from "../nav-menu-context"
+import {
+  isMobileOrTablet,
+  isSafari,
+} from "~components/molecules/fullscreen-dialog"
 
 const NavigationMenu: React.FC<
   NavVariantProps<{
     disableProgressText?: boolean
     disableThemeSwitching?: boolean
+    enableFullscreen?: boolean
   }>
 > = ({
   currentPath,
@@ -38,8 +40,14 @@ const NavigationMenu: React.FC<
   const { t } = useTranslation(["common", "nav-menu"])
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
-  const { disableProgressText = false, disableThemeSwitching = false } =
-    renderProps
+  const {
+    disableProgressText = false,
+    disableThemeSwitching = false,
+    enableFullscreen = false,
+  } = renderProps
+
+  const hasFullscreenButton =
+    enableFullscreen && !isSafari() && isMobileOrTablet()
 
   const iconFilter = useMemo(() => {
     if (themeMode === THEME_MODES.DARK && open) return "invert(0)"
@@ -52,6 +60,14 @@ const NavigationMenu: React.FC<
     () => (themeMode === THEME_MODES.DARK ? "invert(1)" : "none"),
     [themeMode]
   )
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+    } else if (document.exitFullscreen) {
+      document.exitFullscreen()
+    }
+  }
 
   return (
     <>
@@ -100,7 +116,21 @@ const NavigationMenu: React.FC<
                   disableThemeSwitching={disableThemeSwitching}
                 />
               )}
-
+              {hasFullscreenButton ? (
+                <Styled.ToggleBtn
+                  style={{ marginLeft: "auto" }}
+                  mode={NAV_MODES.PERMANENT}
+                  open={false}
+                  onClick={toggleFullscreen}
+                >
+                  <img
+                    className="sizeable-icon"
+                    src={ExpandArrow}
+                    alt="Toggle Fullscreen"
+                    style={{ filter: "invert(1)" }}
+                  />
+                </Styled.ToggleBtn>
+              ) : null}
               <Styled.Logo
                 src={VnlabLogo}
                 alt="vnLab logo"
@@ -124,6 +154,7 @@ const NavigationMenu: React.FC<
 export default enhance<{
   disableProgressText?: boolean
   disableThemeSwitching?: boolean
+  enableFullscreen?: boolean
 }>({
   hideOnMobile: true,
 })(NavigationMenu)

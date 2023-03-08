@@ -32,6 +32,7 @@ import ViewportImageSlide from "~components/molecules/slides/viewport-image-slid
 import SoundCloudPlayer from "~components/molecules/soundcloud-player"
 import VimeoIframe from "~components/molecules/viemo-iframe"
 import Video from "~components/molecules/video"
+import FullscreenDialog from "~components/molecules/fullscreen-dialog"
 
 interface Data {
   mdx: {
@@ -87,7 +88,10 @@ const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
           <MdxContext.Provider value={mdxContext}>
             <NavigationMenu
               currentPath={location.pathname}
-              renderProps={{ disableThemeSwitching: true }}
+              renderProps={{
+                disableThemeSwitching: true,
+                enableFullscreen: true,
+              }}
               independentHiding
             />
             <FootnotesContext.Provider value={footnotes.nodes}>
@@ -100,6 +104,7 @@ const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
                     {mdx.body}
                   </MDXRenderer>
                 </MDXProvider>
+                <FullscreenDialog />
                 <ArticleFooterContainer className="slide">
                   <ArticleFooter currentPath={location.pathname} />
                 </ArticleFooterContainer>
