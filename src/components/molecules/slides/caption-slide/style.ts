@@ -16,7 +16,7 @@ export const CaptionButton = styled.button`
   transform: ${({ theme }) => `translateY(calc(-100% - ${theme.spacing.md}))`};
   background: ${({ theme }) => theme.palette.black};
   border: 2px solid ${({ theme }) => theme.palette.white};
-  border-radius: 50%;
+  border-radius: 9999px;
   height: 20px;
   width: 20px;
   text-align: center;
@@ -25,6 +25,7 @@ export const CaptionButton = styled.button`
   text-align: center;
   font-weight: 700;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
+  overflow: hidden;
 
   @media ${devices.laptop} {
     right: ${({ theme }) => theme.spacing.md};

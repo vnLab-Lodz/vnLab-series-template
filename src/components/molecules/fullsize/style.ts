@@ -39,11 +39,7 @@ export const ScrollableContainer = styled.div`
 
   overflow: visible;
   overscroll-behavior: contain;
-`
-
-export const Overflow = styled.div`
-  max-height: 100%;
-  max-width: 100%;
+  cursor: grab;
 `
 
 export const CloseButton = styled.button`

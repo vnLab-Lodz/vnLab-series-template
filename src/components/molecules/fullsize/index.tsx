@@ -19,9 +19,6 @@ const Fullsize: React.FC<Props> = ({ image, alt, close }) => {
     const instance = panzoom(node, {
       bounds: true,
       boundsPadding: 0.1,
-      onClick: e => {
-        console.log(e)
-      },
     })
     return () => instance.dispose()
   }, [])
