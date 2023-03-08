@@ -158,6 +158,7 @@ export const GraphicalChapterGlobals = createGlobalStyle<{
     height: 100vh;
     max-height: 100vh;
     overflow: auto;
-    // scroll snap is set in slides.tsx template for no js fallback
+    scroll-snap-type: y mandatory; 
+    scroll-behavior: smooth;
   }
 `
