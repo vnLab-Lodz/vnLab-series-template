@@ -16,8 +16,10 @@ import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
 import ExpandArrow from "src/images/icons/arrow_expand.svg"
 import { NAV_MODES } from "../nav-menu-context"
 import {
+  isFullscreen,
   isMobileOrTablet,
   isSafari,
+  isStandalone,
 } from "~components/molecules/fullscreen-dialog"
 
 const NavigationMenu: React.FC<
@@ -47,7 +49,7 @@ const NavigationMenu: React.FC<
   } = renderProps
 
   const hasFullscreenButton =
-    enableFullscreen && !isSafari() && isMobileOrTablet()
+    enableFullscreen && !isSafari() && isMobileOrTablet() && !isStandalone()
 
   const iconFilter = useMemo(() => {
     if (themeMode === THEME_MODES.DARK && open) return "invert(0)"

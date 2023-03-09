@@ -9,7 +9,8 @@ const FullscreenDialog: React.FC = () => {
   const { t } = useTranslation()
   const { pauseScroll, resumeScroll } = useScrollPause()
 
-  const displayDialog = isMobileOrTablet() && !isSafari()
+  const displayDialog =
+    isMobileOrTablet() && !isSafari() && !isStandalone() && !isFullscreen()
 
   const enableFullscreen = () => {
     document.documentElement.requestFullscreen()
@@ -58,6 +59,16 @@ const FullscreenDialog: React.FC = () => {
 }
 
 export default FullscreenDialog
+
+export const isFullscreen = () => {
+  if (typeof document === "undefined") return false
+  return !!document.fullscreenElement
+}
+
+export const isStandalone = () => {
+  if (typeof window === "undefined") return false
+  return window.matchMedia("(display-mode: standalone)").matches
+}
 
 export const isSafari = () => {
   if (typeof navigator === "undefined") return false
