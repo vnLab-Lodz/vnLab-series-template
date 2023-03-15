@@ -1,44 +1,55 @@
 import { GatsbyImage, IGatsbyImageData } from "gatsby-plugin-image"
 import React, { useEffect } from "react"
 import useScrollPause from "src/hooks/useScrollPause"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { THEME_MODES } from "src/context/theme-switcher-context"
+import { useRefEffect } from "src/hooks/useRefEffect"
+import panzoom from "panzoom"
 import * as Styled from "./style"
 
 import XSVG from "src/images/icons/x.svg"
-import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
-import { THEME_MODES } from "src/context/theme-switcher-context"
 
 type Props = { image: IGatsbyImageData; alt: string; close: () => void }
 
 const Fullsize: React.FC<Props> = ({ image, alt, close }) => {
   const { pauseScroll, resumeScroll } = useScrollPause()
-
   const { themeMode } = useThemeSwitcherContext()
+
+  const [_, setRef] = useRefEffect<HTMLDivElement>(node => {
+    const instance = panzoom(node, {
+      bounds: true,
+      boundsPadding: 0.1,
+    })
+    return () => instance.dispose()
+  }, [])
+
+  useEffect(() => pauseScroll(), [])
 
   const filter = themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
 
-  useEffect(() => {
-    pauseScroll()
-  }, [])
-
   return (
     <Styled.Fullscreen $noConstraint>
-      <Styled.ScrollableContainer>
-        <Styled.Overflow
+      <Styled.ScrollableContainer ref={setRef}>
+        <GatsbyImage
           style={{
             aspectRatio: `${image.width} / ${image.height}`,
-            height: image.height,
-            width: image.width,
+            maxHeight: "100vh",
+            objectFit: "contain",
           }}
-        >
-          <GatsbyImage
-            style={{ aspectRatio: `${image.width} / ${image.height}` }}
-            image={image}
-            alt={alt}
-          />
-        </Styled.Overflow>
+          imgStyle={{
+            aspectRatio: `${image.width} / ${image.height}`,
+            objectFit: "contain",
+          }}
+          image={image}
+          alt={alt}
+        />
       </Styled.ScrollableContainer>
       <Styled.CloseButton
-        onClick={() => {
+        onTouchEnd={() => {
+          close()
+          resumeScroll()
+        }}
+        onClick={e => {
           close()
           resumeScroll()
         }}

@@ -7,7 +7,7 @@ import ArrowDownSVG from "src/images/icons/arrow_down.svg"
 const TitleSlide: React.FC<PropsWithChildren<{}>> = ({ children }) => {
   const { t } = useTranslation("common")
 
-  const scroll = () => window.scrollBy({ top: 50 })
+  const scroll = () => window.scrollBy({ top: 300 })
 
   return (
     <Styled.TextContainer>

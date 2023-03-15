@@ -21,6 +21,11 @@ export const Fullscreen = styled(GridContainer)`
 
 export const ScrollableContainer = styled.div`
   height: 100%;
+  max-height: 100%;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   grid-column: 1 / last-col;
 
@@ -32,22 +37,16 @@ export const ScrollableContainer = styled.div`
     grid-column: 3 / last-col;
   }
 
-  overflow: scroll;
+  overflow: visible;
   overscroll-behavior: contain;
-`
-
-export const Overflow = styled.div`
-  min-height: 105%;
-  min-width: 105%;
-  display: flex;
-  justify-content: center;
+  cursor: grab;
 `
 
 export const CloseButton = styled.button`
   position: fixed;
   background: ${({ theme }) => theme.palette.white};
   border: 1px solid ${({ theme }) => theme.palette.black};
-  border-radius: 50%;
+  border-radius: 9999px;
   aspect-ratio: 1 / 1;
   padding: ${({ theme }) => theme.spacing.xxs};
 

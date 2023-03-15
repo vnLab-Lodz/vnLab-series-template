@@ -4,7 +4,7 @@ import { devices } from "~styles/breakpoints"
 
 const Slide = styled(GridContainer).attrs({
   as: "section",
-  className: "slide",
+  className: "slide" as string,
 })`
   background: ${({ theme: { palette } }) => palette.light};
   overflow: initial;
