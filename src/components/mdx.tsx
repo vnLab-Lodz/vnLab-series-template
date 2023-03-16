@@ -170,6 +170,9 @@ const Edition = styled(EditionMolecule).attrs({ className: "mdx-edition" })`
 `
 
 const Tag = styled.span`
+  font: inherit;
+  color: inherit;
+
   @media ${devices.tablet} {
     scroll-margin-top: 110px;
   }
