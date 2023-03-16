@@ -506,6 +506,11 @@ export const ChapterTitle = styled(atoms.h3)`
   margin-bottom: 4px;
   text-align: start;
   font-size: calc(${({ theme }) => theme.typography.sm} * 1.2);
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 export const BiogramLink = styled(atoms.p)`

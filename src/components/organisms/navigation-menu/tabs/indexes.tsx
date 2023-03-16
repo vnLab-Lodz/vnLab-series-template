@@ -54,7 +54,19 @@ const Indexes: React.FC = () => {
                       <React.Fragment
                         key={`${keyword.keyword}__${mdx.id}--${i}`}
                       >
-                        <Styled.ChapterTitle>{mdx.title}</Styled.ChapterTitle>
+                        <Styled.ChapterTitle
+                          tabIndex={0}
+                          role="link"
+                          data-href={mdx.link}
+                          onClick={() => navigate(`/${mdx.link.split("/")[0]}`)}
+                          onKeyDown={e => {
+                            if (e.key === "Enter") {
+                              navigate(`/${mdx.link.split("/")[0]}`)
+                            }
+                          }}
+                        >
+                          {mdx.title}
+                        </Styled.ChapterTitle>
                         <Styled.Mentions>
                           WYSTĄPIENIA: {anchors.length}
                         </Styled.Mentions>
@@ -62,13 +74,12 @@ const Indexes: React.FC = () => {
                           {anchors.map((anchor, j) => (
                             <React.Fragment key={anchor.id}>
                               <Styled.BiogramLink
+                                tabIndex={0}
                                 role="link"
                                 data-href={anchor.link}
                                 title={`${j} - ${anchor.mdx.frontmatter.title}`}
                                 onClick={() => {
-                                  flushSync(() => {
-                                    toggleNav()
-                                  })
+                                  flushSync(toggleNav)
                                   setTimeout(() => {
                                     const element = document.querySelector(
                                       `#${anchor.id}`
@@ -83,6 +94,25 @@ const Indexes: React.FC = () => {
                                       block: "start",
                                     })
                                   }, 0)
+                                }}
+                                onKeyDown={e => {
+                                  if (e.key === "Enter") {
+                                    flushSync(toggleNav)
+                                    setTimeout(() => {
+                                      const element = document.querySelector(
+                                        `#${anchor.id}`
+                                      )
+                                      if (!element) {
+                                        navigate(anchor.link)
+                                        return
+                                      }
+
+                                      element.scrollIntoView({
+                                        behavior: "smooth",
+                                        block: "start",
+                                      })
+                                    }, 0)
+                                  }
                                 }}
                               >
                                 {j + 1}
