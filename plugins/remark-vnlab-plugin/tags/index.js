@@ -89,7 +89,7 @@ const mergeArrWithMap = (target, array) => {
 const createNodesFromAnchors = async (tags, util) => {
   const promises = []
   for (const [category, keywords] of tags) {
-    const id = util.createNodeId(`TAGS__${category}`)
+    const id = util.createNodeId(`TAGS__${category}__${util.markdownNode.id}`)
     const tag = util.getNode(id) ?? { id, category, keywords: [] }
 
     for (const [keyword, anchors] of keywords) {

@@ -5,6 +5,7 @@ import { delocalizeSlug } from "~util/slug"
 import * as Styled from "../style"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { flushSync } from "react-dom"
+import * as _ from "lodash"
 
 const Indexes: React.FC = () => {
   const tags = useTags()
@@ -196,12 +197,38 @@ export const useTags = () => {
     [locale]
   )
 
-  const tags = useMemo(
-    () => data.allTags.nodes.reduce(filterByLocale, [] as LinkedTag[]),
-    [data, filterByLocale]
-  )
+  const tags = useMemo(() => {
+    const nodes = data.allTags.group.map(group =>
+      group.nodes.reduce((acc, curr) => {
+        if (_.isEmpty(acc)) return curr
+
+        for (const keyword of curr.keywords) {
+          const i = acc.keywords.findIndex(k => k.keyword === keyword.keyword)
+
+          if (i < 0) {
+            acc.keywords.push(keyword)
+            continue
+          }
+
+          acc.keywords[i].anchors = mergeArr(
+            acc.keywords[i].anchors,
+            keyword.anchors
+          )
+        }
+
+        return acc
+      }, {} as Tag)
+    ) as Tag[]
+
+    return nodes.reduce(filterByLocale, [] as LinkedTag[])
+  }, [data, filterByLocale])
 
   return tags
+}
+
+const mergeArr = (target: any[], array: any[]) => {
+  const joined = [...target, ...array]
+  return [...new Map(joined.map(item => [item.id, item])).values()]
 }
 
 interface LinkedTag {
@@ -224,7 +251,15 @@ interface LinkedAnchor extends Anchor {
   link: string
 }
 
-type Data = { allTags: { nodes: Tag[] } }
+type Data = {
+  allTags: {
+    group: Array<{
+      fieldValue: string
+      field: string
+      nodes: Tag[]
+    }>
+  }
+}
 type Tag = { id: string; category: string; keywords: Keyword[] }
 type Keyword = { keyword: string; anchors: Anchor[] }
 type Anchor = { id: string; mdx: Mdx }
@@ -234,19 +269,23 @@ type Frontmatter = { index: string; title: string }
 const query = graphql`
   {
     allTags {
-      nodes {
-        category
-        id
-        keywords {
-          keyword
-          anchors {
-            id
-            mdx {
+      group(field: category) {
+        field
+        fieldValue
+        nodes {
+          category
+          id
+          keywords {
+            keyword
+            anchors {
               id
-              slug
-              frontmatter {
-                title
-                index
+              mdx {
+                id
+                slug
+                frontmatter {
+                  title
+                  index
+                }
               }
             }
           }
