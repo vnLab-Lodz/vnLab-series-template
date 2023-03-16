@@ -81,19 +81,24 @@ const insertTag = (tags, { keyword, category, anchorId, util }) => {
   }
 }
 
+const mergeArrWithMap = (target, array) => {
+  const joined = target.concat(Array.from(array.values()))
+  return [...new Map(joined.map(item => [item.id, item])).values()]
+}
+
 const createNodesFromAnchors = async (tags, util) => {
   const promises = []
   for (const [category, keywords] of tags) {
-    const tag = { category, keywords: [] }
+    const id = util.createNodeId(`TAGS__${category}`)
+    const tag = util.getNode(id) ?? { id, category, keywords: [] }
 
     for (const [keyword, anchors] of keywords) {
-      tag.keywords.push({
-        keyword,
-        anchors: Array.from(anchors.values()),
-      })
+      const item = tag.keywords.find(k => k.keyword === keyword)
+      if (item) item.anchors = mergeArrWithMap(item.anchors, anchors)
+      else tag.keywords.push({ keyword, anchors: mergeArrWithMap([], anchors) })
     }
+
     const contentDigest = util.createContentDigest(tag)
-    tag.id = util.createNodeId(`TAGS__${tag.category}`)
     tag.internal = { type: "Tags", contentDigest }
     promises.push(util.actions.createNode(tag))
   }

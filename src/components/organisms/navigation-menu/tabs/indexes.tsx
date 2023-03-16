@@ -149,7 +149,7 @@ export const useTags = () => {
         }, [] as LinkedKeyword["anchors"])
         if (anchors.length === 0) return acc
 
-        const key = keyword.keyword[0]
+        const key = keyword.keyword[0].toUpperCase()
         if (!key) return acc
 
         const array = acc[key] ?? []
