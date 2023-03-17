@@ -41,7 +41,7 @@ function extractData(match, regexp, tags, util, index, marker) {
 
 function extractKeyword(string) {
   const [displayText, keyword] = string.split("|")
-  return { displayText, keyword: keyword || displayText }
+  return { displayText, keyword: keyword?.trim() || displayText.trim() }
 }
 
 function insertAnchorElement(string, match, anchorId, displayText) {
