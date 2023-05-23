@@ -107,7 +107,7 @@ export const Title = styled(LocalizedLink)`
   margin-left: ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.palette.black};
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
-
+  font-weight: 300;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
