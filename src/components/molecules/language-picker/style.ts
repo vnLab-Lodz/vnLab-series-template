@@ -11,7 +11,6 @@ export const LangButton = styled.button<{
   border: none;
   cursor: pointer;
   text-align: start;
-  position: relative;
   padding: ${({ theme: { spacing }, inMenu }) =>
     inMenu ? `${spacing.xs} ${spacing.xxs}` : `${spacing.xs} ${spacing.xxs}`};
 
@@ -43,6 +42,7 @@ export const LangButtonText = styled(atoms.p)<{
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
+    position: relative;
 
     ${dark &&
     css`
@@ -63,11 +63,11 @@ export const LangButtonText = styled(atoms.p)<{
 export const LanguagePopUp = styled.div<{ close: boolean }>`
   ${({ theme: { spacing, palette }, close }) => css`
     position: absolute;
-    top: ${close ? "100%" : "70%"};
-    right: 0px;
+    top: calc(100% + var(--space-xxs));
+    left: calc(var(--space-xxs) * -1 - 1px);
     background: ${palette.white};
     border: solid 1px ${palette.dark};
-    padding: ${spacing.xxs};
+    padding: calc(${spacing.xxs} / 2) 0px;
     display: flex;
     flex-direction: column;
     z-index: 8;
@@ -79,16 +79,19 @@ export const LangLink = styled(LocalizedLink)<{ inactive?: string }>`
   ${({ inactive, theme: { spacing, typography, palette } }) => css`
     text-align: left;
     text-decoration: none;
-    padding: ${spacing.xxs};
+    cursor: pointer;
     color: ${palette.black};
-    font-size: calc(${typography.md} * 0.9);
-    font-weight: 500;
+    padding: calc(${spacing.xxs} / 2) ${spacing.xxs};
+    font-size: calc(${typography.sm});
+    line-height: 150%;
+    font-weight: normal;
 
     ${inactive === "true" &&
     css`
+      font-weight: bold;
       pointer-events: none;
       cursor: default;
-      color: ${palette.medium};
+      color: ${palette.black};
     `};
   `}
 `
