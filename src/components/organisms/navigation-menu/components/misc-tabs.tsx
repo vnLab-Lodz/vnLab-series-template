@@ -94,7 +94,7 @@ const MiscTabs: React.FC<Props> = ({
         small={aside}
         tabIndex={0}
         role="link"
-        aria-href={searchPath}
+        data-href={searchPath}
         onClick={() => navigate(searchPath)}
         onKeyDown={e => {
           if (e.key === "Enter") navigate(searchPath)
