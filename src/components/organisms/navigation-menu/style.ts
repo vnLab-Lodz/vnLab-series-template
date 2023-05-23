@@ -366,11 +366,9 @@ export const TocHeader = styled(atoms.h3)`
 `
 
 export const Part = styled(atoms.h3)<{ first?: boolean }>`
-  margin: 0px 0px ${({ theme }) => theme.spacing.md} 0px;
+  margin: 80px 0px calc(80px - var(--space-xs)) 0px;
   text-align: start;
   grid-column: 2 / -2;
-  margin-bottom: 80px;
-  margin-top: 80px;
 
   ${({ first }) =>
     first &&
