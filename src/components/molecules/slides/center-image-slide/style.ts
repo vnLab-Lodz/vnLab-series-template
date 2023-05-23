@@ -7,6 +7,7 @@ export const SlideImageWrapper = styled.div<{
 }>`
   display: flex;
   justify-content: center;
+
   grid-column-end: -2;
   grid-column-start: 2;
 
@@ -20,14 +21,27 @@ export const SlideImageWrapper = styled.div<{
     grid-column-end: -5;
   }
 
-  margin: 80px 0;
-  max-height: calc(100vh - 2 * 80px);
-
   ${({ $fullscreen: fullscreen }) =>
     fullscreen &&
     css`
       margin: 0;
+      height: 100%;
       max-height: 100vh;
+
+      & ${Image} {
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        flex: 1 1 auto;
+        max-height: 100vh;
+
+        & > div {
+          height: 100%;
+          max-height: 100vh;
+          aspect-ratio: auto !important;
+        }
+      }
+
       grid-column-end: last-col;
       grid-column-start: 1;
 
@@ -41,4 +55,16 @@ export const SlideImageWrapper = styled.div<{
         grid-column-end: last-col;
       }
     `}
+`
+
+export const Image = styled.div`
+  position: relative;
+  margin: 80px 0;
+  height: fit-content;
+  width: fit-content;
+  max-height: calc(100vh - 2 * 80px);
+
+  & > div {
+    max-height: calc(100vh - 2 * 80px);
+  }
 `
