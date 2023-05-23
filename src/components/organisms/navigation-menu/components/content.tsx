@@ -75,7 +75,6 @@ const NavMenuContent: React.FC<Props> = ({
             <Styled.TabItems noFlex>
               <MiscTabs
                 currentPath={currentPath}
-                locale={locale}
                 disableThemeSwitching={disableThemeSwitching}
               />
             </Styled.TabItems>
