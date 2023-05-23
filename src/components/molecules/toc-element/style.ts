@@ -105,7 +105,9 @@ export const SummaryButton = styled.button`
 `
 
 export const Summary = styled(atoms.p)`
-  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.153)`};
+  // roughly 15px on desktop
+  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.37)`};
+  line-height: 150%;
   margin-top: ${({ theme }) => theme.spacing.xxs};
   grid-column: 4 / -3;
   overflow: hidden;
