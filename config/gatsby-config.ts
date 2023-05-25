@@ -31,11 +31,14 @@ export default {
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options: { name: `publication`, path: `${__dirname}/../publication` },
+      options: {
+        name: `publication`,
+        path: `${__dirname}/../publication/chapters`,
+      },
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options: { name: `meta`, path: `${__dirname}/../meta` },
+      options: { name: `meta`, path: `${__dirname}/../publication/meta` },
     },
     {
       resolve: `gatsby-theme-i18n`,
