@@ -15,6 +15,9 @@ import {
   ThemeSwitcherProvider,
   THEME_MODES,
 } from "src/context/theme-switcher-context"
+import { getPublicationMetadata } from "./util"
+
+const metadata = getPublicationMetadata()
 
 export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
   <ThemeSwitcherProvider>
@@ -44,9 +47,12 @@ export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
 export const onServiceWorkerUpdateReady = async (args: ServiceWorkerArgs) => {
   const permissionResponse = await Notification.requestPermission()
   if (permissionResponse === "granted") {
-    await args.serviceWorker.showNotification("Archive as project - update", {
-      body: "Publication has been updated to the newest release. Page reloaded to show the latest version.",
-    })
+    await args.serviceWorker.showNotification(
+      `${metadata.default.title} - update`,
+      {
+        body: "Publication has been updated to the newest release. Page reloaded to show the latest version.",
+      }
+    )
   }
   window.location.reload()
 }

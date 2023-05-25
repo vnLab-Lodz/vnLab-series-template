@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/product.schema.json",
+  "title": "Publication configuration file",
+  "description": "Set of possible configuration options that define a publication.",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "siteUrl": {
+      "type": "string",
+      "description": "Deployemnt url of the page",
+      "format": "uri"
+    },
+    "languages": {
+      "description": "List of locales for the publication. First language should be te default locale with 'startUrl' of '/'.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "Locale for the publication",
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[a-z]{2}$",
+            "description": "The ISO 3166-1 alpha-2 code which will be used for the path prefix, as a unique identifier"
+          },
+          "hrefLang": {
+            "type": "string",
+            "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+            "description": "The IETF language tag for the <html lang='xx-XX' /> attribute. Also used for og tags"
+          },
+          "startUrl": {
+            "type": "string",
+            "pattern": "(/[a-z]{2}/)|(^/$)"
+          },
+          "name": {
+            "type": "string",
+            "description": "The english name of the locale"
+          },
+          "localName": {
+            "type": "string",
+            "description": "The local name of the locale"
+          },
+          "langDir": {
+            "type": "string",
+            "description": "The direction of language (e.g. “ltr”, “rtl”)"
+          },
+          "dateFormat": {
+            "type": "string",
+            "description": "The tokens that Moment.js accepts for date formatting. This can be used for dates on GraphQL queries"
+          }
+        },
+        "required": [
+          "code",
+          "hrefLang",
+          "name",
+          "localName",
+          "langDir",
+          "dateFormat",
+          "startUrl"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "patternProperties": {
+    "^[a-z]{2}$": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the publication.",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description of the publication. For SEO reasons it's best for it to be at most 155-160 characters. Most social platforms cut off the description at 60-65 characters. This description should contain embeded keywords and be both targetted at humans and search engine robots.",
+          "maxLength": 160
+        },
+        "author": {
+          "type": "object",
+          "description": "Author of the publication. Will be displayed on the home page of the site.",
+          "properties": {
+            "value": { "type": "string" },
+            "editor": {
+              "type": "boolean",
+              "description": "Is the author of the book and editor?"
+            }
+          },
+          "required": ["value", "editor"]
+        },
+        "twitterHandle": {
+          "type": "string",
+          "pattern": "^@",
+          "description": "Twitter handle of the creator"
+        },
+        "sectionNames": {
+          "type": "object",
+          "patternProperties": {
+            "^(\\d+)$": {
+              "description": "Name of the section or 'false' in case section is unnamed. Enumeration starts with 1.",
+              "oneOf": [
+                { "type": "string", "minLength": 1 },
+                { "const": false }
+              ]
+            }
+          },
+          "unevaluatedProperties": false
+        }
+      },
+      "required": ["title", "description", "author"]
+    }
+  },
+  "required": ["$schema", "siteUrl", "languages"],
+  "unevaluatedProperties": false
+}

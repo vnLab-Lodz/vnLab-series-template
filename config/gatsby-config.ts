@@ -1,21 +1,12 @@
+import config from "../publication/publication.config.json"
+import { getPublicationMetadata } from "./util"
 import { GatsbyConfig } from "gatsby"
 const visit = require(`unist-util-visit`)
 
+const metadata = getPublicationMetadata()
+
 export default {
-  siteMetadata: {
-    siteUrl: "https://archive-as-project.vnlab.org",
-    en: {
-      title: `The Archive as Project`,
-      description: `This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.`,
-      author: `@vnLab1`,
-    },
-    pl: {
-      title: `Archiwum jako projekt`,
-      description:
-        "Projekt ten jest próbą ponownego przemyślenia archiwum w postsocjalistycznej Europie Środkowo-Wschodniej, która wciąż stoi przed koniecznością przepracowania swojej dwudziestowiecznej przeszłości.",
-      author: `@vnLab1`,
-    },
-  },
+  siteMetadata: { siteUrl: config.siteUrl },
   plugins: [
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-react-helmet`,
@@ -36,29 +27,20 @@ export default {
 
     {
       resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: `${__dirname}/../src/images`,
-      },
+      options: { name: `images`, path: `${__dirname}/../src/images` },
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `publication`,
-        path: `${__dirname}/../publication`,
-      },
+      options: { name: `publication`, path: `${__dirname}/../publication` },
     },
     {
       resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `meta`,
-        path: `${__dirname}/../meta`,
-      },
+      options: { name: `meta`, path: `${__dirname}/../meta` },
     },
     {
       resolve: `gatsby-theme-i18n`,
       options: {
-        defaultLang: `en`,
+        defaultLang: metadata.default.code,
         configPath: require.resolve(`../i18n/config.json`),
       },
     },
@@ -119,33 +101,30 @@ export default {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Archive as project`,
-        short_name: `Archive as project`,
-        description: `This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.`,
-        start_url: `/`,
+        name: metadata.default.title,
+        short_name: metadata.default.title,
+        description: metadata.default.description,
+        start_url: metadata.default.startUrl,
+        lang: metadata.default.code,
         background_color: `#ffffff`,
         theme_color: `#000000`,
         display: `standalone`,
         orientation: `portrait`,
         icon: `${__dirname}/../static/images/favicon3.png`,
         cache_busting_mode: `none`,
-        lang: "en",
-        localize: [
-          {
-            start_url: "/pl/",
-            lang: "pl",
-            name: "Archiwum jako projekt",
-            short_name: "Archiwum jako projekt",
-            description:
-              "Projekt ten jest próbą ponownego przemyślenia archiwum w postsocjalistycznej Europie Środkowo-Wschodniej, która wciąż stoi przed koniecznością przepracowania swojej dwudziestowiecznej przeszłości.",
-          },
-        ],
+        localize: metadata.localized.map(meta => ({
+          start_url: meta.startUrl,
+          lang: meta.code,
+          name: meta.title,
+          short_name: meta.title,
+          description: meta.description,
+        })),
       },
     },
     {
       resolve: `gatsby-plugin-offline`,
       options: {
-        precachePages: [`/*`, `/pl/*`],
+        precachePages: config.languages.map(lang => `${lang.startUrl}*`),
         workboxConfig: {
           globPatterns: [
             `**\/*.{js,css,html,svg,png,jpg,jpeg,webp,woff,woff2,ttf,eot}`,
@@ -167,7 +146,7 @@ export default {
           }
         }
       `,
-        resolveSiteUrl: () => `https://archive-as-project.vnlab.org`,
+        resolveSiteUrl: () => config.siteUrl,
         //@ts-ignore
         resolvePages: ({ allSitePage: { nodes: allPages } }) => allPages,
         //@ts-ignore
@@ -175,20 +154,16 @@ export default {
           url: path,
           lastmod: new Date().toLocaleDateString("sv"),
         }),
-        langs: [`en`, `pl`],
+        langs: config.languages.map(lang => lang.code),
       },
     },
     {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
-        host: `https://archive-as-project.vnlab.org`,
+        host: config.siteUrl,
         env: {
-          development: {
-            policy: [{ userAgent: "*", disallow: ["/"] }],
-          },
-          production: {
-            policy: [{ userAgent: "*", allow: "/" }],
-          },
+          development: { policy: [{ userAgent: "*", disallow: ["/"] }] },
+          production: { policy: [{ userAgent: "*", allow: "/" }] },
         },
       },
     },

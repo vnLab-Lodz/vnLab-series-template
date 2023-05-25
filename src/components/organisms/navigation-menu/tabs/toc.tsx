@@ -8,12 +8,8 @@ import { useTranslation } from "react-i18next"
 import { useLocalization } from "gatsby-theme-i18n"
 import { useLocation } from "@reach/router"
 
-import sectionNamesJSON from "../../../../../meta/section_names.json"
-
-const sectionNames = sectionNamesJSON as unknown as Record<
-  string,
-  Record<string, string | boolean>
->
+import config from "publication/publication.config.json"
+import { LangKey } from "~types/config"
 
 type GroupedPages = PublicationPage[][]
 
@@ -39,7 +35,9 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
       {groupedPages.map((group, i) => {
         const index = i + 1
         const sectionName: string | boolean =
-          sectionNames[locale]?.[index] ?? `${t("part")} ${index}`
+          // @ts-ignore
+          config[locale as LangKey].sectionNames[index] ??
+          `${t("part")} ${index}`
 
         const currentIndex: number | undefined = group.findIndex(
           el => el.path === pathname

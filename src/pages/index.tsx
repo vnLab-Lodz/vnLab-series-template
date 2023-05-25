@@ -14,13 +14,14 @@ import useNavMenuContext from "src/hooks/useNavMenuContext"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
+import { LangKey } from "~types/config"
+import config from "../../publication/publication.config.json"
 
 import Logo from "../images/icons/vnlab_logo.svg"
 import ArrowDownSVG from "../images/icons/arrow_down.svg"
 import HamburgerSVG from "../images/icons/hamburger.svg"
 import TitleEN from "../images/title_en.svg"
 import TitlePL from "../images/title_pl.svg"
-import { LangKey } from "~types/config"
 
 const titleSVG = { en: TitleEN, pl: TitlePL }
 
@@ -58,7 +59,8 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
     )
   })
 
-  const title = titleSVG[locale as "en" | "pl"]
+  const title = titleSVG[locale as LangKey]
+  const author = config[locale as LangKey].author
 
   const scrollToToC = () => {
     if (!ref || !ref.current) return
@@ -66,9 +68,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
     scrollTo({ top: ref.current.offsetTop, behavior: "smooth" })
   }
 
-  useEffect(() => {
-    hideHypothesis()
-  }, [hypothesis])
+  useEffect(() => hideHypothesis(), [hypothesis])
 
   return (
     <NavMenuProvider>
@@ -111,7 +111,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
             <Styled.Editorship>{t("home:editorship")}</Styled.Editorship>
             <Styled.Author type="primary">
               <Styled.BiogramLink to="/chapter_22" lang={locale}>
-                {t("home:author")}
+                {author.value}
               </Styled.BiogramLink>
             </Styled.Author>
             <Styled.WrappedEdition />

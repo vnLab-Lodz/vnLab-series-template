@@ -73,6 +73,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "prestart": "node scripts/prestart.js",
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean"
