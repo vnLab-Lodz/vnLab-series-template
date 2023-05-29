@@ -11,7 +11,6 @@ import Bibliography from "./menus/bibliography"
 import Content from "./menus/content"
 import Illustrations from "./menus/illustrations"
 import { useLocalization } from "gatsby-theme-i18n"
-import { SINGLE_AUTHOR_MODE } from "~util/constants"
 import * as Styled from "./style"
 import { MENUS } from "~types"
 import useBibliography from "src/hooks/useBibliography"
@@ -24,6 +23,8 @@ import useScrollDirection, {
 } from "src/hooks/useScrollDirection"
 import { useFootnotes } from "src/context/footnotes-context"
 import { useRefEffect } from "src/hooks/useRefEffect"
+
+import config from "publication/publication.config.json"
 
 interface Props {
   spaced?: boolean
@@ -263,7 +264,7 @@ const BibliographyButton: React.FC<{
   const { t } = useTranslation("common")
   const { locale } = useLocalization()
 
-  if (SINGLE_AUTHOR_MODE) {
+  if (config.singleAuthorMode) {
     return (
       <Styled.BibliographyLink language={locale} to="/bibliography">
         <Styled.Button onClick={() => {}}>

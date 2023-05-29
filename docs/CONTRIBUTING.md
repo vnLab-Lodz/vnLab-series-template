@@ -2,68 +2,154 @@
 
 This template supports both single and multi-author publications. The guidelines will point out the differences when necessary.
 
-Template is multi-lingual therefore all markdown files should have an file extension of `.[locale].mdx` with possible locales as of now being `en` and `pl`.
+## Publication checklist
 
-In case the need for support of other languages arises notify the developer to add them.
+Apart from compiling the contents of the publication in markdown files there are some additional things worth taking care of:
+
+- [ ] Define all the required field in `publication/publication.config.json`.
+- [ ] Add a customized favicon to `static/images` with `favicon3.png` name.
+- [ ] Provide images to be displayed as social media link covers under `static/images` with the name of `card_[locale].png` for each language used in the publication.
+
+> If your publication includes a theme change remember to provide the developer with the [theme_color](https://developer.mozilla.org/en-US/docs/Web/Manifest/theme_color) and [background_color](https://developer.mozilla.org/en-US/docs/Web/Manifest/background_color) to be included in the manifest.
 
 ## File structure
 
-The publication files should be stored in the `/publication` folder of the project.
+Template is multi-lingual therefore all markdown files should have an file extension of `.[locale].mdx`. You can configure available locales from withing the `publication/publication.config.json`.
 
-There are couple ways a publication can be structured:
+The publication files should be stored in the `publication` folder of the project. Most publications will have the following file structure.
 
-1. Chapters or articles are stored shallowly in the `/publication` folder as markdown files along with images and other asset files.
+```
+📦publication
+ ┣ 📂chapters - contents of chapters and articles
+ ┃ ┣ 📂chapter_1
+ ┃ ┃ ┣ 📂images
+ ┃ ┃ ┃ ┣ 📷0_image.jpeg
+ ┃ ┃ ┃ ┣ 📷1_image.jpeg
+ ┃ ┃ ┃ ┣ 📷2_image.jpeg
+ ┃ ┃ ┃ ┣ 📷3_image.jpeg
+ ┃ ┃ ┃ ┣ 📷4_image.jpeg
+ ┃ ┃ ┃ ┗ 📷5_image.jpeg
+ ┃ ┃ ┣ videos
+ ┃ ┃ ┃ ┣ 🎬0_video.mp4
+ ┃ ┃ ┃ ┗ 🎬1_video.mp4
+ ┃ ┃ ┣ 📜bibliography.en.mdx
+ ┃ ┃ ┣ 📜bibliography.pl.mdx
+ ┃ ┃ ┣ 📜index.en.mdx
+ ┃ ┃ ┗ 📜index.pl.mdx
+ ┣ 📂meta - contents of about section in menu and hypothesis tutorial page
+ ┃ ┣ 📜about_project.en.mdx
+ ┃ ┣ 📜about_project.pl.mdx
+ ┃ ┣ 📜hypothesis_tutorial.en.mdx
+ ┃ ┗ 📜hypothesis_tutorial.pl.mdx
+ ┣ 📜config.schema.json - configuration schema (do not alter)
+ ┗ 📜publication.config.json - configuration file for the publication
+```
+
+Folder structure of the publication can only be altered within the `chapters` folder. There are couple ways in which chapters can be structured:
+
+1. Chapters or articles are stored shallowly in the `publication/chapters` folder as markdown files along with images and other asset files.
 
    Therefore a folder can look like the following:
 
-   publication  
-   ┣ chapter_1.en.mdx  
-   ┣ chapter_1.pl.mdx  
-   ┣ chapter_2.en.mdx  
-   ┣ chapter_2.pl.mdx  
-   ┣ chapter_3.en.mdx  
-   ┣ chapter_3.pl.mdx  
-   ┣ bibliography.en.mdx  
-   ┣ bibliography.pl.mdx  
-   ┣ image_1.png  
-   ┗ image_2.jpg
+    <details>
+    <summary>See shallow folder structure</summary>
+    <p>
 
-   Assets could also be stored in s subfolders for the ease of distinction
+   ```
+   📦publication
+    ┣ 📂chapters - contents of chapters and articles
+    ┃ ┃ ┣ 📜chapter_1.en.mdx
+    ┃ ┃ ┣ 📜chapter_2.pl.mdx
+    ┃ ┃ ┣ 📜chapter_3.pl.mdx
+    ┃ ┃ ┣ 📜chapter_4.pl.mdx
+    ┃ ┃ ┣ 📷0_image.jpeg
+    ┃ ┃ ┣ 📷1_image.jpeg
+    ┃ ┃ ┣ 📷2_image.jpeg
+    ┃ ┃ ┣ 📷3_image.jpeg
+    ┃ ┃ ┣ 📷4_image.jpeg
+    ┃ ┃ ┣ 🎬0_video.mp4
+    ┃ ┃ ┣ 🎬1_video.mp4
+    ┃ ┃ ┣ 📜bibliography.en.mdx
+    ┃ ┃ ┣ 📜bibliography.pl.mdx
+   ```
 
-   publication  
-   ┣ chapter_1.en.mdx  
-   ┣ chapter_1.pl.mdx  
-   ┗ images  
-   ┃ ┣ example.png  
-   ┃ ┗ test.jpg
+    </p>
+    </details>
 
-   This folder structure however, only supports a **single** author publications because of the way the bibliography file is stored. More on bibliographies in the **Bibliogrpahy** section.
+   Assets could also be stored in subfolders for the ease of distinction
+
+    <details>
+    <summary>See shallow folder structure with assets in subfolders</summary>
+    <p>
+
+   ```
+   📦publication
+    ┣ 📂chapters - contents of chapters and articles
+    ┃ ┃ ┣ 📜chapter_1.en.mdx
+    ┃ ┃ ┣ 📜chapter_2.pl.mdx
+    ┃ ┃ ┣ 📜chapter_3.pl.mdx
+    ┃ ┃ ┣ 📜chapter_4.pl.mdx
+    ┃ ┣ 📂images
+    ┃ ┃ ┃ ┣ 📷0_image.jpeg
+    ┃ ┃ ┃ ┣ 📷1_image.jpeg
+    ┃ ┃ ┃ ┣ 📷2_image.jpeg
+    ┃ ┃ ┃ ┣ 📷3_image.jpeg
+    ┃ ┃ ┃ ┗ 📷4_image.jpeg
+    ┃ ┣ 📂videos
+    ┃ ┃ ┃ ┣ 🎬0_video.mp4
+    ┃ ┃ ┃ ┗ 🎬1_video.mp4
+    ┃ ┃ ┣ 📜bibliography.en.mdx
+    ┃ ┃ ┣ 📜bibliography.pl.mdx
+   ```
+
+    </p>
+    </details>
+
+> ⚠ This folder structure, only supports a **single** author publications because of the way the bibliography file is stored. More on bibliographies in the **Bibliogrpahy** section.
 
 2. Chapters or articles are stored in separate folders along with their assets and biliographies.
 
    Therefore a folder can look like the following:
 
-   publication  
-    ┣ chapter_1  
-    ┃ ┣ images  
-    ┃ ┃ ┣ image_1.png  
-    ┃ ┃ ┗ image_2.jpg  
-    ┃ ┣ bibliography.en.mdx  
-    ┃ ┣ bibliography.pl.mdx  
-    ┃ ┣ index.en.mdx  
-    ┃ ┗ index.pl.mdx  
-    ┣ chapter_2
-   ┃ ┣ images  
-    ┃ ┃ ┣ image_3.png  
-    ┃ ┃ ┗ image_4.jpg  
-    ┃ ┣ bibliography.en.mdx  
-    ┃ ┣ bibliography.pl.mdx  
-    ┃ ┣ index.en.mdx  
-    ┃ ┗ index.pl.mdx  
-    ┣ images  
-    ┃ ┗ reappearing_image.png
+     <details>
+     <summary>See shallow folder structure with assets in subfolders</summary>
+     <p>
 
-   This file configuration supports **single** and **multi** author publications. The name of the folder is the url to the chapter and the markdown context inside needs to be then named `index` in order for the app to render the pages properly. Bibliographies can be stored in the separate chapter/article folders if the publication is multi-author or like in the case of the point 1 at the root of the `/publication` folder. More on bibliographies in the **Bibliogrpahy** section.
+   ```
+   📦publication
+    ┣ 📂chapters - contents of chapters and articles
+    ┃ ┣ 📂chapter_1
+    ┃ ┃ ┣ 📂images
+    ┃ ┃ ┃ ┣ 📷0_image.jpeg
+    ┃ ┃ ┃ ┣ 📷1_image.jpeg
+    ┃ ┃ ┣ videos
+    ┃ ┃ ┃ ┣ 🎬0_video.mp4
+    ┃ ┃ ┃ ┗ 🎬1_video.mp4
+    ┃ ┃ ┣ 📜bibliography.en.mdx
+    ┃ ┃ ┣ 📜bibliography.pl.mdx
+    ┃ ┃ ┣ 📜index.en.mdx
+    ┃ ┃ ┗ 📜index.pl.mdx
+    ┃ ┣ 📂chapter_2
+    ┃ ┃ ┣ 📂images
+    ┃ ┃ ┃ ┣ 📷0_image.jpeg
+    ┃ ┃ ┃ ┣ 📷1_image.jpeg
+    ┃ ┃ ┣ videos
+    ┃ ┃ ┃ ┣ 🎬0_video.mp4
+    ┃ ┃ ┃ ┗ 🎬1_video.mp4
+    ┃ ┃ ┣ 📜bibliography.en.mdx
+    ┃ ┃ ┣ 📜bibliography.pl.mdx
+    ┃ ┃ ┣ 📜index.en.mdx
+    ┃ ┃ ┗ 📜index.pl.mdx
+    ┃ ┣ 📂images
+    ┃ ┃ ┃ ┣ 📷0_reappearing_image.jpeg
+   ```
+
+     </p>
+     </details>
+
+   This file configuration supports **single** and **multi** author publications. The name of the folder is the url to the chapter and the markdown context inside needs to be then named `index` in order for the app to render the pages properly.
+
+   Bibliographies can be stored in the separate chapter/article folders if the publication is multi-author or like in the case of the point 1 at the root of the `publication` folder. More on bibliographies in the **Bibliogrpahy** section.
 
 ## Chapter/article
 
@@ -90,9 +176,9 @@ author: [Author of the publication]
 summary: [A small description of the chapter/article].
 headerImage: [relative path to the header image file]
 embeddedImagesLocal:
-- [relative path to the header image file]
-- [relative path to the header image file]
-- [relative path to the header image file]
+- [relative path to the image file]
+- [relative path to the image file]
+- [relative path to the image file]
 ---
 ```
 
@@ -116,9 +202,9 @@ locale: [language of the file ("en" | "pl")]
 
 ### Single author bibliopgraphy
 
-The bibliography is stored in the root of the `/publication` folder named `bibliography.[locale].mdx`. It is possible to use all the same components that are available in the chapter/article files.
+The bibliography is stored in the root of the `publication/chapters` folder named `bibliography.[locale].mdx`. It is possible to use all the same components that are available in the chapter/article files.
 
-The developer needs to set the `SINGLE_AUTHOR_MODE` flag to `true`.
+The `singleAuthorMode` flag needs to be set to `true` in the `publication/publication.config.json`.
 
 ### Multi author bibliography
 
@@ -126,13 +212,24 @@ Thei bibliography is stored in the chapter/article folders named `bibliography.[
 
 ## Components
 
+All markdown syntax is supported within the chapter/article files and will show up in appropriately styled manner within the article. Look at the example article to see how things render.
+
+Below are additional componets and syntax that can be used within the chapter/article.
+
 ### Edition
 
-It's a self contained component that can be put in the article in case support for versioning is in place.
+It's a self contained component that can be put in the article in case support for versioning is in place. It will display the current version of the publication.
 
 #### **Preview**
 
+<details>
+<summary>See preview</summary>
+<p>
+
 ![Edition component](edition.png "Edition")
+
+</p>
+</details>
 
 #### **Usage snippet**
 
@@ -146,12 +243,25 @@ Can be used to display the author in a formatted way.
 
 #### **Preview**
 
+<details>
+<summary>See preview</summary>
+<p>
+
 ![Author component](author.png "Author")
+
+</p>
+</details>
 
 #### **Usage snippet**
 
 ```mdx
 <Author>Name of the author</Author>
+```
+
+or
+
+```mdx
+<Author link="/author_link">Name of the author</Author>
 ```
 
 ### Abstract
@@ -160,64 +270,75 @@ Can be used to display the abstract of a chapter/artcile in a standout way.
 
 #### **Preview**
 
+<details>
+<summary>See preview</summary>
+<p>
+
 ![Abstract component](abstract.png "Abstract")
 
-#### **Usage snippet**
-
-```mdx
-<Author>Name of the author</Author>
-```
-
-### Annotation
-
-Used to place an annotation in the text.
-
-#### **Preview**
-
-![Annotationo component](annotation.png "Annotation")
+</p>
+</details>
 
 #### **Usage snippet**
 
-Given the text
-
-```
-Part of text that I want to annotate.
-```
-
-and a desired annotation of **annotate** with **This is an example annotation content.**
-
-The component should be used like so.
-
 ```mdx
-Part of text I want to <Annotation target="annotate">This is an example annotation content.</Annotation>
+<Abstract>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+  in culpa qui officia deserunt mollit anim id est laborum.
+</Abstract>
 ```
 
 ### Quote
 
-Used to place quotes in the text.
+An additional way to render quotes alongside the normal markdown quote syntax.
 
 #### **Preview**
 
-![Quote component](quote.png "Quote")
+<details>
+<summary>See preview of Quote</summary>
+<p>
 
-#### **Usage snippet**
+![Abstract component](quote.png "Abstract")
 
-Given the qauthor **Agnes Vardy** and a quote **This is an example quote.** the compnent should be used like so:
+</p>
+</details>
 
-````mdx
-<Quote author="Agnes Vardy">This is an example quote.</Quote>
-```
-````
+<details>
+<summary>Compare with markdown syntax blockquote</summary>
+<p>
+
+![Abstract component](blockquote.png "Abstract")
+
+</p>
+</details>
 
 ### ViewportImage
 
-A picture that will span the eniterty of the viewport height. It is possible to give it a caption and a longer one to be shown after expansion.
+A picture that will span the eniterty of the viewport height. It is possible to give it a caption, which will cut off after 150 characters and show an `expand caption` button that will reveal full caption.
 
 #### **Preview**
 
+<details>
+<summary>See viewport image</summary>
+<p>
+
 ![ViewportImage component](viewportImage.png "ViewportImage")
 
+</p>
+</details>
+
+<details>
+<summary>See viewport image with expanded caption</summary>
+<p>
+
 ![ViewportImage component](viewportImageExp.png "ViewportImage")
+
+</p>
+</details>
 
 #### **Usage snippet**
 
@@ -230,12 +351,15 @@ embeddedImagesLocal:
 ---
 ```
 
-and short caption of **An example fig caption.** with the expanded version of **An example expanded caption** the usage sould look like the following.
+and caption of "_Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+incididunt ut labore et dolore magna aliqua._".
 
 ````mdx
-<ViewportImage image={props.localImages[0]} caption="An example fig caption">
-  An example expanded caption.
-</ViewportImage>
+<ViewportImage
+  image={props.localImages[0]}
+  caption="Lorem ipsum dolor sit amet, *consectetur adipiscing* elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua."
+/>
 ```
 ````
 
@@ -247,7 +371,14 @@ A picture that will span the eniterty of the viewport height. It is possible to 
 
 #### **Preview**
 
+<details>
+<summary>See preview</summary>
+<p>
+
 ![Carousel component](carousel.png "Carousel")
+
+</p>
+</details>
 
 #### **Usage snippet**
 
@@ -287,3 +418,56 @@ In order to add a header image to the chapter/article place a path to it in the 
 headerImage: images/example.png
 ---
 ```
+
+#### **Preview**
+
+<details>
+<summary>See preview</summary>
+<p>
+
+![Header image](header.png "Header image")
+
+</p>
+</details>
+
+## Syntax
+
+Publication supports some custom syntax alongisde custom components that can be used in the chapter/article to render footntoes or mark indexed words and phrases.
+
+---
+
+### Footnotes
+
+Footnotes can be added by appending the `:{{^number}}` to the end of the word in a markdown file and referencing it withing the footnores block at the end of the file with `{{^1}}:`
+
+Given the example of:
+
+```mdx
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse aliquam ante arcu, a maximus libero dignissim vitae. Sed consequat gravida tellus, sit amet ultricies mauris tempor non. Vivamus sodales pharetra porta. Nulla et lorem orci. Maecenas commodo nisl viverra felis feugiat semper. Fusce augue diam, egestas quis pulvinar eget, malesuada et turpis. Quisque tristique blandit faucibus. Donec in nibh ac nulla tincidunt faucibus. Sed tempus augue sit amet ligula iaculis interdum. Nullam facilisis mi sit amet vulputate auctor. Donec ante odio, commodo vitae bibendum at, laoreet id lorem. Cras ut laoreet augue.
+```
+
+adding a footnote would look like the following:
+
+````mdx
+Lorem ipsum dolor sit amet, consectetur:{{^1}} adipiscing elit. Suspendisse aliquam ante arcu, a maximus libero dignissim vitae. Sed consequat gravida tellus, sit amet ultricies mauris tempor non. Vivamus sodales pharetra porta. Nulla et lorem orci. Maecenas commodo nisl viverra felis feugiat semper. Fusce augue diam, egestas quis pulvinar eget, malesuada et turpis. Quisque tristique blandit faucibus:{{^2}}. Donec in nibh ac nulla tincidunt faucibus. Sed tempus augue sit amet ligula iaculis interdum. Nullam facilisis mi sit amet vulputate auctor. Donec ante odio, commodo vitae bibendum at, laoreet id lorem. Cras ut laoreet augue.
+
+```footnotes
+{{^1}}: Donec commodo odio eu molestie tincidunt.
+{{^2}}: Pellentesque ut mauris id nibh posuere tincidunt sit amet eu erat.
+```
+````
+
+### Indexes
+
+Indexing words and phrases in the publication can be done by wrapping the phrase in brackets `()` and appending `:{{#tag}}` to the end for example `(John Smith):{{#people}}`. In order to preserve the base form of the phrase in the indexes you can alias the displayed text by providing the alias after `|` like so `(John Smith's|John Smith):{{#people}}`. This will make sure that in the `people` tab of indexes all entries for `John Smith` are under the same form. Essentially the syntax is `(phrase|alias):{{#tag}}`.
+
+<details>
+<summary>See example in text</summary>
+<p>
+
+```mdx
+(John Smith):{{#people}} is a an exemplaty citizen of the world. (John Smith's|John Smith):{{#people}} first appearance on the show was in October. During his live performance, (John):{{#people}} stole the hearts of people in the audience.
+```
+
+</p>
+</details>

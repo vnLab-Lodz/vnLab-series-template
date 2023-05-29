@@ -1,6 +1,7 @@
 {
   "$schema": "./config.schema.json",
   "siteUrl": "https://archive-as-project.vnlab.org",
+  "singleAuthorMode": false,
   "languages": [
     {
       "code": "en",

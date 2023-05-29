@@ -1,6 +1,9 @@
 import config from "../publication/publication.config.json"
 
-type Config = Omit<typeof config, "$schema" | "languages" | "siteUrl">
+type Config = Omit<
+  typeof config,
+  "$schema" | "languages" | "siteUrl" | "singleAuthorMode"
+>
 type Key = keyof Config
 type Metadata = Extract<Config[Key], { title: string }> &
   typeof config["languages"][number]
