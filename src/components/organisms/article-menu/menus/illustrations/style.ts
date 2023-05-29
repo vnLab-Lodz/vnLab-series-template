@@ -6,3 +6,13 @@ export const IllustrationsWrapper = styled.div`
   row-gap: ${({ theme }) => theme.spacing.xxs};
   column-gap: ${({ theme }) => theme.spacing.xxs};
 `
+
+export const IllustrationButton = styled.button`
+  background: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  aspect-ratio: 1;
+  cursor: pointer;
+`

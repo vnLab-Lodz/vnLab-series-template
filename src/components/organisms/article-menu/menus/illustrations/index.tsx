@@ -12,22 +12,31 @@ const Illustrations: React.FC<Props> = ({ closeMenu, images }) => {
   return (
     <Styled.IllustrationsWrapper>
       {images.map(({ imageData, calculatePosition, scrollIntoView }, index) => (
-        <GatsbyImage
-          style={{ cursor: "pointer", aspectRatio: "1" }}
-          key={`article-menu__illustration--${index}`}
-          image={getImage(imageData) as IGatsbyImageData}
-          alt={`Article image ${index}`}
-          onClick={() => {
+        <Styled.IllustrationButton
+          onClick={e => {
+            console.log(e)
+            console.log("hello")
+
             closeMenu(() => {
               if (scrollIntoView) {
                 scrollIntoView()
                 return
               }
 
-              window.scrollTo({ top: calculatePosition(), behavior: "smooth" })
+              window.scrollTo({
+                top: calculatePosition(),
+                behavior: "smooth",
+              })
             })
           }}
-        />
+        >
+          <GatsbyImage
+            style={{ aspectRatio: "1" }}
+            key={`article-menu__illustration--${index}`}
+            image={getImage(imageData) as IGatsbyImageData}
+            alt={`Article image ${index}`}
+          />
+        </Styled.IllustrationButton>
       ))}
     </Styled.IllustrationsWrapper>
   )

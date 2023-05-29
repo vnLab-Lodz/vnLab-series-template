@@ -23,6 +23,7 @@ import useScrollDirection, {
 } from "src/hooks/useScrollDirection"
 import { useFootnotes } from "src/context/footnotes-context"
 import { useRefEffect } from "src/hooks/useRefEffect"
+import { flushSync } from "react-dom"
 
 import config from "publication/publication.config.json"
 
@@ -93,7 +94,7 @@ const ArticleMenu: React.FC<Props> = ({
 
   const closeMenu = (callback?: () => void) => {
     resumeScroll(() => {
-      setState(MENU_STATE.CLOSED)
+      flushSync(() => setState(MENU_STATE.CLOSED))
       if (callback) callback()
     })
   }
