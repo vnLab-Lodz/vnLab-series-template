@@ -6,7 +6,7 @@ This template supports both single and multi-author publications. The guidelines
 
 Apart from compiling the contents of the publication in markdown files there are some additional things worth taking care of:
 
-- [ ] Define all the required field in `publication/publication.config.json`.
+- [ ] Define all the required fields in `publication/publication.config.json`.
 - [ ] Add a customized favicon to `static/images` with `favicon3.png` name.
 - [ ] Provide images to be displayed as social media link covers under `static/images` with the name of `card_[locale].png` for each language used in the publication.
 
