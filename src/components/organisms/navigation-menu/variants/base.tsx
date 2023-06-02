@@ -16,7 +16,6 @@ import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
 import ExpandArrow from "src/images/icons/arrow_expand.svg"
 import { NAV_MODES } from "../nav-menu-context"
 import {
-  isFullscreen,
   isMobileOrTablet,
   isSafari,
   isStandalone,
@@ -113,7 +112,6 @@ const NavigationMenu: React.FC<
               ) : (
                 <MiscTabs
                   currentPath={currentPath}
-                  locale={locale}
                   aside={reduced}
                   disableThemeSwitching={disableThemeSwitching}
                 />

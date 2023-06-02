@@ -1,8 +1,10 @@
 import React, { DetailedHTMLProps, MetaHTMLAttributes, useMemo } from "react"
 import { Helmet } from "react-helmet"
-import { useStaticQuery, graphql, PageProps } from "gatsby"
-import { LangKey, SiteMetadata } from "../../../types/config"
+import { PageProps } from "gatsby"
+import { LangKey } from "../../../types/config"
 import { useTranslation } from "react-i18next"
+
+import config from "publication/publication.config.json"
 
 type Meta = DetailedHTMLProps<
   MetaHTMLAttributes<HTMLMetaElement>,
@@ -17,31 +19,6 @@ interface Props {
   url: PageProps["location"]["pathname"]
 }
 
-interface Query {
-  site: {
-    siteMetadata: SiteMetadata
-  }
-}
-
-const query = graphql`
-  query {
-    site {
-      siteMetadata {
-        en {
-          title
-          description
-          author
-        }
-        pl {
-          title
-          description
-          author
-        }
-      }
-    }
-  }
-`
-
 const SeoMeta: React.FC<Props> = ({
   description,
   url,
@@ -50,16 +27,20 @@ const SeoMeta: React.FC<Props> = ({
   lang = "en",
 }) => {
   const { t } = useTranslation("common")
-  const { site } = useStaticQuery<Query>(query)
-  const defaultTitle = t("title", site.siteMetadata[lang].title)
+  const configMeta = config[lang]
+  if (!configMeta) {
+    console.error(`Metadata for locale (${lang}) is not defined.`)
+  }
+
+  const defaultTitle = t("title", configMeta.title)
   const titleTemplate = defaultTitle ? `%s | ${defaultTitle}` : undefined
 
   const metaDescription = useMemo(
-    () => description ?? site.siteMetadata[lang].description,
-    [description, site.siteMetadata[lang].description]
+    () => description ?? configMeta.description,
+    [description, configMeta.description]
   )
 
-  const image = `https://archive-as-project.vnlab.org/images/card_${lang}.png`
+  const image = `${config.siteUrl}/images/card_${lang}.png`
 
   const metaData: Meta[] = useMemo(() => {
     return (
@@ -90,7 +71,7 @@ const SeoMeta: React.FC<Props> = ({
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata[lang].author || ``,
+          content: configMeta.twitterHandle || ``,
         },
         {
           name: `twitter:title`,

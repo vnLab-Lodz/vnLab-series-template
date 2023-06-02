@@ -7,28 +7,22 @@ import Slide from "../slide"
 
 export const CaptionSlideContainer = styled(Slide)`
   position: relative;
+  align-items: center;
 `
 
 export const CaptionButton = styled.button`
   position: absolute;
-  right: ${({ theme }) => theme.spacing.sm};
-  top: 100vh;
-  transform: ${({ theme }) => `translateY(calc(-100% - ${theme.spacing.md}))`};
-  background: ${({ theme }) => theme.palette.black};
-  border: 2px solid ${({ theme }) => theme.palette.white};
-  border-radius: 9999px;
-  height: 20px;
-  width: 20px;
-  text-align: center;
+  right: ${({ theme }) => theme.spacing.xs};
+  bottom: ${({ theme }) => theme.spacing.xs};
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 0;
+
   cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 700;
-  font-family: ${({ theme }) => theme.typography.fonts.primary};
-  overflow: hidden;
 
   @media ${devices.laptop} {
-    right: ${({ theme }) => theme.spacing.md};
+    right: ${({ theme }) => theme.spacing.xs};
   }
 `
 

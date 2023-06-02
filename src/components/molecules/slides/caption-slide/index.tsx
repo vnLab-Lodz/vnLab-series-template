@@ -1,10 +1,11 @@
-import React, { useState, PropsWithChildren } from "react"
+import React, { useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import * as Styled from "./style"
 
 import XSVG from "src/images/icons/x.svg"
+import ISVG from "src/images/icons/i.svg"
 
 export type CaptionProps = {
   caption?: string
@@ -23,7 +24,7 @@ interface Props extends CaptionProps {
 const hComponents = { ...mdxComponents, p: Styled.CaptionHeader } as any
 const pComponents = { ...mdxComponents, p: Styled.CaptionParagraph } as any
 
-const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
+const CaptionSlide: React.FC<Props> = ({
   extendedCaption,
   children,
   caption,
@@ -38,7 +39,9 @@ const CaptionSlide: React.FC<PropsWithChildren<Props>> = ({
   }
 
   const button = !!caption ? (
-    <Styled.CaptionButton onClick={toggle}>i</Styled.CaptionButton>
+    <Styled.CaptionButton onClick={toggle}>
+      <img src={ISVG} alt="Show caption" />
+    </Styled.CaptionButton>
   ) : null
 
   const captionComponent =

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { AnimatePresence } from "framer-motion"
 import { useLocalization } from "gatsby-theme-i18n"
 import { navigate } from "gatsby"
@@ -33,10 +33,18 @@ const NavMenuContent: React.FC<Props> = ({
 
   const tags = useTags()
 
+  useEffect(() => {
+    const el = document.getElementById("nav-menu-content")
+    if (!el) return
+
+    el.scrollTo({ top: 0, behavior: "auto" })
+  }, [navState])
+
   return (
     <AnimatePresence>
       {open && (
         <Styled.NavMenuContent
+          id="nav-menu-content"
           initial={{ translateX: -1500 }}
           animate={{ translateX: 0 }}
           exit={{ translateX: -1500 }}
@@ -75,7 +83,6 @@ const NavMenuContent: React.FC<Props> = ({
             <Styled.TabItems noFlex>
               <MiscTabs
                 currentPath={currentPath}
-                locale={locale}
                 disableThemeSwitching={disableThemeSwitching}
               />
             </Styled.TabItems>

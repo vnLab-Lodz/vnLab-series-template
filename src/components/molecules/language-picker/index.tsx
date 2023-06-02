@@ -50,21 +50,21 @@ const LanguagePicker: React.FC<Props> = ({
     >
       <Styled.LangButtonText dark={dark} alwaysDark={alwaysDark}>
         {locales}
+        {langPickerOpen && (
+          <Styled.LanguagePopUp close={compact}>
+            {languages.map(lang => (
+              <Styled.LangLink
+                key={lang.code}
+                inactive={(lang.code === locale).toString()}
+                to={currentPath.replace(`/${locale}/`, "/")}
+                language={lang.code}
+              >
+                {lang.name}
+              </Styled.LangLink>
+            ))}
+          </Styled.LanguagePopUp>
+        )}
       </Styled.LangButtonText>
-      {langPickerOpen && (
-        <Styled.LanguagePopUp close={compact}>
-          {languages.map(lang => (
-            <Styled.LangLink
-              key={lang.code}
-              inactive={(lang.code === locale).toString()}
-              to={currentPath.replace(`/${locale}/`, "/")}
-              language={lang.code}
-            >
-              {lang.name}
-            </Styled.LangLink>
-          ))}
-        </Styled.LanguagePopUp>
-      )}
     </Styled.LangButton>
   )
 }

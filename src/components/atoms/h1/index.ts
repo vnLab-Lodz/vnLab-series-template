@@ -7,7 +7,7 @@ export const h1 = styled.h1<StyledTypeProps>`
     font-family: ${typography.fonts[type ?? "secondary"]};
     font-size: ${typography.xl};
     font-style: normal;
-    font-weight: normal;
+    font-weight: 300;
     line-height: 109%;
     color: ${palette.black};
     margin-bottom: ${spacing.lg};

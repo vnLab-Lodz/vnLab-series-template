@@ -93,14 +93,6 @@ export const HalfSlide = styled.section<{
         grid-column-start: 3;
         grid-column-end: 18;
       }
-
-      & ${CaptionButton} {
-        @media ${devices.laptop} {
-          transform: ${({ theme }) =>
-            `translate(-50%, calc(-100% - ${theme.spacing.md}))`};
-          right: 50%;
-        }
-      }
     `};
 
   ${({ $right: right = false }) =>

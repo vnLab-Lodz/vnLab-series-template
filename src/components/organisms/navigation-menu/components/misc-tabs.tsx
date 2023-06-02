@@ -1,4 +1,4 @@
-import { LocalizedLink } from "gatsby-theme-i18n"
+import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
 import React, { useMemo } from "react"
 import LanguagePicker from "~components/molecules/language-picker"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
@@ -7,27 +7,26 @@ import * as Styled from "../style"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
 import { NAV_MODES } from "../nav-menu-context"
 import { HypothesisIconButton } from "~components/molecules/hypothesis-btn"
+import { navigate } from "gatsby"
 
-//@ts-ignore
 import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
-//@ts-ignore
 import ThemeMode from "../../../../images/icons/jasna_ciemna.svg"
 
 interface Props {
   currentPath: string
-  locale: string
   aside?: boolean
   disableThemeSwitching?: boolean
 }
 
 const MiscTabs: React.FC<Props> = ({
   currentPath,
-  locale,
   aside,
   disableThemeSwitching = false,
 }) => {
   const { themeMode, setThemeMode } = useThemeSwitcherContext()
   const { navMode } = useNavMenuContext()
+  const { locale, localizedPath, defaultLang, prefixDefault } =
+    useLocalization()
 
   const getIconStyles = (defaultInvert: number) => {
     let invert = defaultInvert
@@ -48,8 +47,22 @@ const MiscTabs: React.FC<Props> = ({
     )
   }
 
-  const themeIconStyles = useMemo(() => getIconStyles(1), [themeMode])
   const searchIconStyles = useMemo(() => getIconStyles(0), [themeMode])
+  const themeIconStyles = useMemo(
+    () => ({
+      ...getIconStyles(1),
+      objectPosition: "left top",
+      objectFit: "contain",
+    }),
+    [themeMode]
+  )
+
+  const searchPath = localizedPath({
+    locale,
+    prefixDefault,
+    defaultLang,
+    path: "/search",
+  })
 
   return (
     <>
@@ -61,7 +74,13 @@ const MiscTabs: React.FC<Props> = ({
       {navMode !== NAV_MODES.PERMANENT && !disableThemeSwitching && (
         <Styled.TabButton onClick={changeThemeMode}>
           <img
-            style={themeIconStyles}
+            height={20}
+            width={17}
+            style={{
+              ...themeIconStyles,
+              objectPosition: "left top",
+              objectFit: "contain",
+            }}
             className="sizeable-icon"
             src={ThemeMode}
             alt="Light/dark"
@@ -71,16 +90,23 @@ const MiscTabs: React.FC<Props> = ({
       {!aside ? (
         <HypothesisIconButton component={Styled.TabButton} small={aside} />
       ) : null}
-      <Styled.TabButton small={aside}>
-        <LocalizedLink to="/search" language={locale}>
-          <Styled.SearchImg
-            height={20}
-            style={searchIconStyles}
-            className="sizeable-icon"
-            src={SearchSVG}
-            alt="Magnifying glass"
-          />
-        </LocalizedLink>
+      <Styled.TabButton
+        small={aside}
+        tabIndex={0}
+        role="link"
+        data-href={searchPath}
+        onClick={() => navigate(searchPath)}
+        onKeyDown={e => {
+          if (e.key === "Enter") navigate(searchPath)
+        }}
+      >
+        <Styled.SearchImg
+          height={20}
+          style={searchIconStyles}
+          className="sizeable-icon"
+          src={SearchSVG}
+          alt="Magnifying glass"
+        />
       </Styled.TabButton>
     </>
   )
