@@ -8,193 +8,164 @@ slideshow: true
 ---
 ```
 
-> All other frontmatter properties for a normal chapter can still be applied
+> All other frontmatter properties (excluding `headerImage`) for a normal chapter can still be applied
 
 <br />
 
 Graphical chapter can compose of the following slides:
 
-| Slide&nbsp;Type  | Component              | Description                                                                                                          | Accepts caption |
-| ---------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
-| Title            | `TitleSlide`           | Slide that can accept simple markdown that will be centered. should only be used for the title slide with h1 and h3. | No              |
-| Text             | `TextSlide`            | Slide that can accept simple markdown text. If the text overflows the slide will become scrollable.                  | No              |
-| Center image     | `CenterImageSlide`     | Slide that accepts an image and renders it in the center of the slide.                                               | Yes             |
-| Fullscreen image | `FullscreenImageSlide` | Slide that accepts an image that will fill the slide container.                                                      | Yes             |
-| Two images       | `TwoImageSlide`        | Slide that accepts two images and a direction to display them in.                                                    | Yes             |
-| Vertical         | `VerticalSlides`       | Basic slide wrapper that can be used to compose a vertical slide layout                                              | No              |
+| Slide&nbsp;Type  | Component              | Description                                                                                                                                                                                                                                                            | Accepts caption                                               |
+| ---------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Title            | `TitleSlide`           | Slide that can accept simple markdown that will be centered. should only be used for the title slide with h1 and h3.                                                                                                                                                   | No                                                            |
+| Text             | `TextSlide`            | Slide that can accept markdown text. All syntax from normal chapter is supported (note this does not apply to components). If the text overflows the slide will expand and allow for normal scrolling till the end of the slide instead of snapping to the next slide. | No                                                            |
+| Center image     | `CenterImageSlide`     | Slide that accepts an image and renders it in the center of the slide.                                                                                                                                                                                                 | Yes                                                           |
+| Fullscreen image | `FullscreenImageSlide` | Slide that accepts an image that will fill the slide container.                                                                                                                                                                                                        | Yes                                                           |
+| Split slide      | `SplitSlide`           | Slide that accepts two other slides as children and allows to define either as sticky (if you want a long text slide and a sticky image for example). On mobile devices the slides render as separte ones one below the other.                                         | No                                                            |
+| Viewport image   | `ViewportImageSlide`   | A slide wrapper that allows to the use of `ViewportImage` component from normal chapters.                                                                                                                                                                              | No (provide caption to the `ViewportImage` component instead) |
+| Carousel         | `CarouselSlide`        | A slide wrapper that allows to the use of `Carousel` component from normal chapters.                                                                                                                                                                                   | No (provide captions to the `Carousel` component instead)     |
 
 <br />
 
 ## Example of a graphical chapter composition
 
-<br />
+<details>
+<summary>Expand example</summary>
+<p>
 
 ```mdx
 ---
-title: "Kisieland"
-author: Karol Radziszewski
+title: "Lorem Ipsum"
+author: Dolor sit amet
 index: 6.1
-date: "2021-07-29"
-summary: This is an example summary
+summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 slideshow: true
 embeddedImagesLocal:
-  - images/0_z_archiwum_Kisiela_1.jpeg
-  - images/1_z_archiwum_Kisiela_2.jpeg
-  - images/2_z_archiwum_Kisiela_3.jpeg
-  - images/3_z_archiwum_Kisiela_4.jpeg
-  - images/4_z_archiwum_Kisiela_5.jpeg
-  - images/5_z_archiwum_Kisiela_6.jpeg
-  - images/6_z_archiwum_Kisiela_7.jpeg
-  - images/7_z_archiwum_Kisiela_8.jpeg
+  - images/0_lorem.jpeg
+  - images/1_lorem.jpeg
+  - images/2_lorem.jpeg
+  - images/3_lorem.jpeg
+  - images/4_lorem.jpeg
+  - images/5_lorem.jpeg
+  - images/6_lorem.jpeg
+  - images/7_lorem.jpeg
 ---
 
-// This will render a slide with centered text. Most of the time should just use the
+// This will render a slide with centered text. Most of the time should just use the h1 and h2.
 // Note the empty lines.
 
 <TitleSlide>
 
-# Kisieland
+# Lorem Ipsum
 
-### Karol Radziszewski
+### Dolor sit amet
 
 </TitleSlide>
 
+// This will render a text slide
+
+<TextSlide>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+  in culpa qui officia deserunt mollit anim id est laborum.
+</TextSlide>
+
 // This will render a fullscreen image
 
-<FullscreenImageSlide image={props.localImages[0]} />
+<FullscreenImageSlide
+  image={props.localImages[0]}
+  caption="Nunc pretium eleifend libero."
+/>
 
-// This will render two text slides in the vertical layout
+// This will render two text slides next to each other
 
-<VerticalSlides>
-<TextSlide>
-  One day Ryszard pulled out a plastic bag full of carefully annotated boxes
-  containing almost 300 colour slides. As it turned out, these were documented
-  photographic sessions arranged by Kisiel and his friends in one of their
-  private apartments. The slides were made at the end of 1985 and the beginning
-  of 1986 as a direct reaction to the “Hyacinth” action (a large-scale operation
-  of Citizens’ Militia whose objective was to collect information about Polish
-  gays and their environment, and which resulted in the registering of around
-  11000 personal files). As Kisiel admits: “Once they started to uncover us,
-  there was no point in staying hidden any more. We had nothing to lose, so we
-  decided to do our own thing and not be bothered by anything.”
-</TextSlide>
+<SplitSlide rightSticky>
+  <TextSlide>
 
-<TextSlide>
+> Curabitur sit amet sagittis nisi. Mauris mi magna, mollis et tellus id, efficitur consequat libero. Curabitur tellus odio, convallis at maximus ut, commodo lacinia arcu. Aliquam turpis mi, blandit rhoncus purus sed, scelerisque pellentesque odio. Suspendisse dignissim mi nec risus porttitor, non dapibus sapien finibus.
 
-In 2008, I began work on a special issue of my self-published periodical, _DIK
-Fagazine_. It was entirely devoted to the life of homosexuals in Central and
-Eastern Europe before 1989. While I was digging into the subject and searching
-for resources, I met many different people whom I then interviewed. This is
-how I came across Ryszard Kisiel, among others.
+  </TextSlide>
+  <CenterImageSlide
+    image={props.localImages[1]}
+    caption="Curabitur dui sapien, pretium id nisl a, faucibus fringilla augue."
+  />
+</SplitSlide>
 
-<br />
-
-At first I only knew that in the 1980’s he had been publishing _Filo_, the
-first – half-legally distributed among friends – gay zine in this part of
-Europe. During subsequent meetings that took place at Kisiel’s home in **Gdańsk**,
-I had a chance to get acquainted with his extensive archive, which allowed me
-to discover new facts about the gay community of the period and learn about
-various aspects of his activities.
-
-</TextSlide>
-</VerticalSlides>
-
-<VerticalSlides>
-  <FullscreenImageSlide image={props.localImages[1]} />
-  <FullscreenImageSlide image={props.localImages[2]} />
-  <FullscreenImageSlide image={props.localImages[3]} />
-</VerticalSlides>
-
-// This will render a center image slide with a simple non-expandable caption
+// This will render a center image slide
 
 <CenterImageSlide
   image={props.localImages[5]}
   caption="Slides from the archive of Ryszard Kisiel"
 />
 
-// This will render center image slides in vertical layout and some will have an expandable caption
-// The `caption` and `extended` caption can also accept simple markdown
+// This will render a carousel like in text chapters
 
-<VerticalSlides>
-  <CenterImageSlide
-    image={props.localImages[6]}
-    caption="Slides from the archive of Ryszard Kisiel"
-    extendedCaption="Woah this is a caption"
+<CarouselSlide>
+  <Carousel
+    images={[
+      props.localImages[2],
+      props.localImages[3],
+      props.localImages[4],
+      props.localImages[5],
+      props.localImages[6],
+    ]}
+    captions={[
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+    ]}
   />
-  <CenterImageSlide
-    image={props.localImages[1]}
-    caption="możliwy opis zdjęcia zawierające takie informacje jak tytuł, nazwisko autora itp."
-    extendedCaption="Woah this is a caption"
+</CarouselSlide>
+
+// This will render a viewport image line in text chapters
+
+<ViewportImageSlide>
+  <ViewportImage
+    image={props.localImages[7]}
+    caption="Donec id maximus enim."
   />
-  <CenterImageSlide image={props.localImages[7]} />
-  <CenterImageSlide image={props.localImages[8]} />
-  <CenterImageSlide image={props.localImages[9]} />
-  <CenterImageSlide image={props.localImages[10]} />
-</VerticalSlides>
-
-// This will render a two image slide with expandable caption
-
-<TwoImageSlide
-  direction="column"
-  image1={props.localImages[12]}
-  image2={props.localImages[13]}
-  caption="możliwy opis zdjęcia zawierające takie informacje jak tytuł, nazwisko autora itp."
-  extendedCaption="Woah this is a caption"
-/>
-<TwoImageSlide
-  image1={props.localImages[12]}
-  image2={props.localImages[13]}
-  caption="możliwy opis zdjęcia zawierające takie informacje jak tytuł, nazwisko autora itp."
-  extendedCaption="Woah this is a caption"
-/>
+</ViewportImageSlide>
 ```
+
+</p>
+</details>
 
 ## Slide components
 
 <br />
 
-### 0. Slide
-
-This slide component can accept children slides. A `background` property can be specified to change the background color of the slide. This component is a base for other ones and provides them with the functionality of adding a background. **This component should not be used for anything.**
-
-```jsx
-<Slide background="#4f4f4f">// Not used for anything</Slide>
-```
-
-<br />
-
 ### 1. Title
 
-This slide component can accept basic form of markdown. It can be used to create a title slide for the chapter. Contents of input markdown will be centered on the slide. Just like the normal `Slide` component it can also accept the `background` property.
+This slide component can accept basic form of markdown. It can be used to create a title slide for the chapter. Contents of input markdown will be centered on the slide. Title slide also includes a downward-pointing arrow belowe the rendered text.
 
 ```mdx
-<Title background="#4f4f4f">
+<TitleSlide>
 
 # Title
 
 ### Subtitle/Author
 
-</Title>
+</TitleSlide>
 ```
 
 <br />
 
 ### 2. Text
 
-This slide component can accept basic form of markdown. If the text overflows it will become scrollable. Just like the normal `Slide` component it can also accept the `background` property.
+This slide component can accept markdown like in text chapters. If the text overflows the slide will expand and allow for normal scrolling till the end of the slide instead of snapping to the next slide.
 
 ```mdx
 <TextSlide>
-  One day Ryszard pulled out a plastic bag full of carefully annotated boxes
-  containing almost 300 colour slides. As it turned out, these were documented
-  photographic sessions arranged by Kisiel and his friends in one of their
-  private apartments. The slides were made at the end of 1985 and the beginning
-  of 1986 as a direct reaction to the “Hyacinth” action (a large-scale operation
-  of Citizens’ Militia whose objective was to collect information about Polish
-  gays and their environment, and which resulted in the registering of around
-  11000 personal files). As Kisiel admits: “Once they started to uncover us,
-  there was no point in staying hidden any more. We had nothing to lose, so we
-  decided to do our own thing and not be bothered by anything.”
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+  incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+  nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+  in culpa qui officia deserunt mollit anim id est laborum.
 </TextSlide>
 ```
 
@@ -202,77 +173,101 @@ This slide component can accept basic form of markdown. If the text overflows it
 
 ### 3. Center image
 
-This slide component accepts an `image` property similar to all other image components in the template. Just like the normal `Slide` component it can also accept the `background` property.
+This slide component accepts an `image` and `caption` properties similar to all other image components in the template.
 
 ```jsx
-<CenterImageSlide image={props.localImages[0]} />
+<CenterImageSlide
+  image={props.localImages[5]}
+  caption="Slides from the archive of Ryszard Kisiel"
+/>
 ```
 
 <br />
 
 ### 4. Fullscreen image
 
-This slide component accepts an `image` property similar to all other image components in the template. Just like the normal `Slide` component it can also accept the `background` property.
+This slide component accepts an `image` and `caption` properties similar to all other image components in the template.
 
 ```jsx
-<FullscreenImageSlide image={props.localImages[5]} />
+<FullscreenImageSlide
+  image={props.localImages[0]}
+  caption="Nunc pretium eleifend libero."
+/>
 ```
 
 <br />
 
-### 5. Two images
+### 5. Split slide
 
-This slide component accepts `image1`, `image2` and `direction` properties. The direction property can be set to `column` or `row` and it determines the layout of the slide. The `direction` prop is optional and does not need to be specified. The default value for the `direction` prop is `row`. Just like the normal `Slide` component it can also accept the `background` property.
+Slide that accepts two other slides as children and allows to define either as sticky (if you want a long text slide and a sticky image for example). On mobile devices the slides render as separte ones one below the other.
+
+You should use `TextSlide`, `CenterImageSlide` or `FullscreenImageSlide` as children.
 
 ```jsx
-<TwoImageSlide
-  image1={props.localImages[0]}
-  image2={props.localImages[1]}
-  direction="column"
-/>
-```
-
-## Vertical slides
-
-You can create a vertical slide that can be navigated up and down by wrapping desired slides in the `VerticalSlides` component, like in the example below.
-
-```mdx
-<VerticalSlides>
+<SplitSlide>
   <CenterImageSlide
-    image={props.localImages[6]}
-    caption="Slides from the archive of Ryszard Kisiel"
-    extendedCaption="Woah this is a caption"
+    image={props.localImages[0]}
+    caption="Curabitur dui sapien, pretium id nisl a, faucibus fringilla augue."
   />
   <CenterImageSlide
     image={props.localImages[1]}
-    caption="możliwy opis zdjęcia zawierające takie informacje jak tytuł, nazwisko autora itp."
-    extendedCaption="Woah this is a caption"
+    caption="Curabitur dui sapien, pretium id nisl a, faucibus fringilla augue."
   />
-  <CenterImageSlide image={props.localImages[7]} />
-  <CenterImageSlide image={props.localImages[8]} />
-  <CenterImageSlide image={props.localImages[9]} />
-  <CenterImageSlide image={props.localImages[10]} />
-</VerticalSlides>
+</SplitSlide>
 ```
 
-## Caption slides
+You can define the sticky slide by providing `rightSticky` or `leftSticky` as props to the `SplitSlide` component.
 
-All the slides that support captions accept `caption` and `extendedCaption` properties. You can provide only `caption` or both.
+```jsx
+<SplitSlide rightSticky>
+  <TextSlide>
+    > Curabitur sit amet sagittis nisi. Mauris mi magna, mollis et tellus id,
+    efficitur consequat libero. Curabitur tellus odio, convallis at maximus ut,
+    commodo lacinia arcu. Aliquam turpis mi, blandit rhoncus purus sed,
+    scelerisque pellentesque odio. Suspendisse dignissim mi nec risus porttitor,
+    non dapibus sapien finibus.
+  </TextSlide>
+  <CenterImageSlide
+    image={props.localImages[1]}
+    caption="Curabitur dui sapien, pretium id nisl a, faucibus fringilla augue."
+  />
+</SplitSlide>
+```
 
-```mdx
-// Provide only the basic caption
+## Viewport image
 
-<CenterImageSlide
-  image={props.localImages[5]}
-  caption="Slides from the archive of Ryszard Kisiel"
-/>
+A slide wrapper that allows to the use of `ViewportImage` component from normal text chapters.
 
-// Provide basic and extended captions.
+```jsx
+<ViewportImageSlide>
+  <ViewportImage
+    image={props.localImages[7]}
+    caption="Donec id maximus enim."
+  />
+</ViewportImageSlide>
+```
 
-<TwoImageSlide
-  image1={props.localImages[11]}
-  image2={props.localImages[18]}
-  caption="możliwy opis zdjęcia zawierające takie informacje jak tytuł, nazwisko autora itp."
-  extendedCaption="Woah this is a caption"
-/>
+## Carousel
+
+A slide wrapper that allows to the use of `Carousel` component from normal chapters.
+
+```jsx
+<CarouselSlide>
+  <Carousel
+    images={[
+      props.localImages[2],
+      props.localImages[3],
+      props.localImages[4],
+      props.localImages[5],
+      props.localImages[6],
+    ]}
+    captions={[
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+      "Cras sed mauris eget sapien commodo bibendum quis non dui.",
+    ]}
+  />
+</CarouselSlide>
 ```

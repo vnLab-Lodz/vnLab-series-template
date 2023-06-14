@@ -61,6 +61,10 @@
       },
       "minItems": 1,
       "uniqueItems": true
+    },
+    "singleAuthorMode": {
+      "type": "boolean",
+      "description": "This flag is responsible for defining if bibliography is article wide (dropdown) or publication wide (separate page)."
     }
   },
   "patternProperties": {
@@ -111,6 +115,6 @@
       "required": ["title", "description", "author"]
     }
   },
-  "required": ["$schema", "siteUrl", "languages"],
+  "required": ["$schema", "siteUrl", "languages", "singleAuthorMode"],
   "unevaluatedProperties": false
 }

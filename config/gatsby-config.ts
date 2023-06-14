@@ -12,7 +12,6 @@ export default {
     `gatsby-plugin-react-helmet`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-image`,
-    `gatsby-plugin-sass`,
     `gatsby-plugin-tsconfig-paths`,
     {
       resolve: `gatsby-plugin-sharp`,
