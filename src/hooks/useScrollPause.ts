@@ -1,5 +1,6 @@
 import { useRef } from "react"
 import useScrollContext from "./useScrollContext"
+import { isFirefox } from "~util/isFirefox"
 
 function getScrollbarWidth() {
   return window.innerWidth - document.body.clientWidth
@@ -30,39 +31,39 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
   }
 
   const pauseScroll = (callback?: () => void) => {
-    if (isPaused) return
+    if (!isPaused && !isFirefox()) {
+      setIsPaused(true)
+      setOriginalValues()
 
-    setIsPaused(true)
-    setOriginalValues()
+      const top = window.scrollY
+      const scrollbarWidth = getScrollbarWidth()
 
-    const top = window.scrollY
-    const scrollbarWidth = getScrollbarWidth()
+      if (options?.backgroundColor) {
+        document.body.style.backgroundColor = options?.backgroundColor
+      }
 
-    if (options?.backgroundColor) {
-      document.body.style.backgroundColor = options?.backgroundColor
+      document.body.style.position = "fixed"
+      document.body.style.top = `-${top}px`
+      document.body.style.paddingRight = `${scrollbarWidth}px`
     }
-
-    document.body.style.position = "fixed"
-    document.body.style.top = `-${top}px`
-    document.body.style.paddingRight = `${scrollbarWidth}px`
 
     if (callback) callback()
   }
 
   const resumeScroll = (callback?: () => void) => {
-    if (!isPaused) return
+    if (isPaused && !isFirefox()) {
+      setIsPaused(false)
 
-    setIsPaused(false)
+      const scrollY = document.body.style.top
+      document.body.style.position = originalValues.current?.position ?? ""
+      document.body.style.top = originalValues.current?.top ?? ""
+      document.body.style.paddingRight =
+        originalValues.current?.paddingRight ?? ""
+      document.body.style.backgroundColor =
+        originalValues.current?.backgroundColor ?? ""
 
-    const scrollY = document.body.style.top
-    document.body.style.position = originalValues.current?.position ?? ""
-    document.body.style.top = originalValues.current?.top ?? ""
-    document.body.style.paddingRight =
-      originalValues.current?.paddingRight ?? ""
-    document.body.style.backgroundColor =
-      originalValues.current?.backgroundColor ?? ""
-
-    window.scrollTo(0, parseInt(scrollY || "0") * -1)
+      window.scrollTo(0, parseInt(scrollY || "0") * -1)
+    }
 
     if (callback) setTimeout(() => callback(), 66)
   }
