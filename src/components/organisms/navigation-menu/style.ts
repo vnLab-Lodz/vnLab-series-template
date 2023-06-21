@@ -85,7 +85,9 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
           }
         }
 
-        & > * {
+        & > button,
+        & > a,
+        & > img {
           filter: brightness(10) !important;
         }
       }
