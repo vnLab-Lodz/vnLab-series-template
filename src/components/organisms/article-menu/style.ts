@@ -43,11 +43,12 @@ export const Layout = styled(BaseLayout)`
     grid-column: 1 / -1;
 
     @media ${devices.tablet} {
-      grid-column: 7 / 30;
+      grid-column: 4 / -1;
     }
 
     @media ${devices.laptop} {
-      grid-column: 9 / 25;
+      grid-column: 3 / -1;
+      padding-right: calc((100vw / 32) * 2);
     }
   }
 
