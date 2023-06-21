@@ -23,9 +23,9 @@
     }
   ],
   "en": {
-    "title": "Archive as project",
+    "title": "The Archive as Project",
     "description": "This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.",
-    "author": { "value": "Krzysztof Pijarski", "editor": true },
+    "author": { "caption": "edited by", "people": ["Krzysztof Pijarski"] },
     "twitterHandle": "@vnLab1",
     "sectionNames": {
       "1": false,
@@ -42,7 +42,10 @@
   "pl": {
     "title": "Archiwum jako projekt",
     "description": "Projekt ten jest próbą ponownego przemyślenia archiwum w postsocjalistycznej Europie Środkowo-Wschodniej, która wciąż stoi przed koniecznością przepracowania swojej dwudziestowiecznej przeszłości.",
-    "author": { "value": "Krzysztof Pijarski", "editor": true },
+    "author": {
+      "caption": "pod redakcją",
+      "people": ["Krzysztofa Pijarskiego"]
+    },
     "twitterHandle": "@vnLab1",
     "sectionNames": {
       "1": false,

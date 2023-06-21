@@ -2,6 +2,7 @@ import { LocalizedLink } from "gatsby-theme-i18n"
 import styled, { css } from "styled-components"
 import atoms from "~components/atoms"
 import { devices } from "~styles/breakpoints"
+import lightTheme from "~styles/theme"
 
 export const LangButton = styled.button<{
   inMenu?: boolean
@@ -32,36 +33,19 @@ export const LangButton = styled.button<{
   }
 `
 
-export const LangButtonText = styled(atoms.p)<{
-  dark?: boolean
-  alwaysDark?: boolean
-}>`
-  ${({ dark, alwaysDark, theme: { palette, typography } }) => css`
+export const LangButtonText = styled(atoms.p)`
+  ${({ theme: { typography } }) => css`
     text-underline-offset: 10px;
-    color: ${palette.white};
+    color: ${lightTheme.palette.white};
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     position: relative;
-
-    ${dark &&
-    css`
-      color: ${palette.white};
-
-      @media ${devices.tablet} {
-        color: ${palette.black};
-      }
-    `}
-
-    ${alwaysDark &&
-    css`
-      color: ${palette.black};
-    `}
   `}
 `
 
 export const LanguagePopUp = styled.div<{ close: boolean }>`
-  ${({ theme: { spacing, palette }, close }) => css`
+  ${({ theme: { spacing, palette } }) => css`
     position: absolute;
     top: calc(100% + var(--space-xxs));
     left: calc(var(--space-xxs) * -1 - 1px);

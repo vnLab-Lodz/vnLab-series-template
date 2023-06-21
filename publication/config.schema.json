@@ -85,13 +85,21 @@
           "type": "object",
           "description": "Author of the publication. Will be displayed on the home page of the site.",
           "properties": {
-            "value": { "type": "string" },
-            "editor": {
-              "type": "boolean",
-              "description": "Is the author of the book and editor?"
+            "caption": {
+              "type": "string",
+              "description": "Text before the list of authors/editors of the publication. Can signify if it's editors or authors etc."
+            },
+            "people": {
+              "type": "array",
+              "description": "List out authors/editors of the publication",
+              "items": {
+                "type": "string",
+                "minItems": 1,
+                "uniqueItems": true
+              }
             }
           },
-          "required": ["value", "editor"]
+          "required": ["caption", "people"]
         },
         "twitterHandle": {
           "type": "string",

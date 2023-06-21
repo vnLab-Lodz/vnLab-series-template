@@ -11,11 +11,8 @@ import { useTheme } from "styled-components"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 
-//@ts-ignore
 import HypothesisIcon from "../../../images/icons/hypothesis.svg"
-//@ts-ignore
 import HypothesisIconInvert from "../../../images/icons/hypothesis_rewers.svg"
-//@ts-ignore
 import XSVG from "../../../images/icons/x.svg"
 
 function getHypothesisTutorialStatus() {
@@ -28,7 +25,11 @@ interface Props {
   invert?: boolean
 }
 
-export const HypothesisIconButton = ({ component, ...delegated }: any) => {
+export const HypothesisIconButton = ({
+  component,
+  ignoreTheme,
+  ...delegated
+}: any) => {
   const { showHypothesis, hideHypothesis, isHidden } = useHypothesis()
   const { themeMode } = useThemeSwitcherContext()
 
@@ -38,7 +39,9 @@ export const HypothesisIconButton = ({ component, ...delegated }: any) => {
 
   const Button = component ? component : Styled.IconButton
   const src =
-    themeMode === THEME_MODES.DARK ? HypothesisIcon : HypothesisIconInvert
+    themeMode === THEME_MODES.DARK && !ignoreTheme
+      ? HypothesisIcon
+      : HypothesisIconInvert
 
   return (
     <Button

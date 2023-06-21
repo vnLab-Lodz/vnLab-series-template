@@ -6,6 +6,7 @@ import { breakpoints, devices } from "~styles/breakpoints"
 import { GridContainer } from "~styles/grid"
 import { NAV_MODES } from "./nav-menu-context"
 import ToC from "./tabs/toc"
+import lightTheme from "src/styles/theme"
 
 //#region Menu base
 
@@ -24,8 +25,8 @@ export const Aside = styled(GridContainer)<{ open?: boolean }>`
   }
 `
 
-export const Nav = styled.nav<{ mode: NAV_MODES }>`
-  ${({ mode, theme: { palette } }) => css`
+export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
+  ${({ mode, $open, theme: { palette } }) => css`
     background: ${mode !== NAV_MODES.DARK ? palette.white : palette.black};
     display: flex;
     align-items: center;
@@ -56,8 +57,68 @@ export const Nav = styled.nav<{ mode: NAV_MODES }>`
 
     ${mode === NAV_MODES.DARK &&
     css`
-      & > * {
+      & > button,
+      & > a,
+      & > img {
         filter: brightness(10);
+      }
+    `}
+
+    &:hover {
+      & > button {
+        background: ${palette.identity};
+
+        & > * {
+          filter: brightness(10) !important;
+        }
+      }
+
+      @media ${devices.tablet} {
+        border-right: solid 1px ${palette.identity};
+        background: ${palette.identity};
+
+        & > button {
+          background: transparent;
+
+          & > * {
+            filter: none;
+          }
+        }
+
+        & > * {
+          filter: brightness(10) !important;
+        }
+      }
+    }
+
+    ${$open &&
+    css`
+      border-bottom: solid 1px ${palette.identity};
+
+      & > button {
+        background: ${palette.identity};
+
+        & > * {
+          filter: brightness(10) !important;
+        }
+      }
+
+      @media ${devices.tablet} {
+        background: ${palette.identity};
+        border-right: solid 1px ${palette.identity};
+        border-bottom: none;
+
+        & > button {
+          background: transparent;
+
+          & > * {
+            filter: none;
+          }
+        }
+
+        & > * {
+          filter: brightness(10) !important;
+        }
       }
     `}
   `}
@@ -120,8 +181,8 @@ export const Title = styled(LocalizedLink)`
 `
 
 export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
-  background: ${({ open, theme }) => (!open ? "none" : theme.palette.black)};
   transition: background 0.2s ease-in;
+  background: transparent;
   border: none;
   cursor: pointer;
   height: 100%;
@@ -133,11 +194,11 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
     min-height: ${({ theme: { spacing } }) => `calc(${spacing.xs} * 2 + 25px)`};
   }
 
-  ${({ open, mode }) =>
+  ${({ open }) =>
     open &&
     css`
       & > * {
-        filter: brightness(${mode === NAV_MODES.DARK ? 0 : 10});
+        filter: brightness(10) !important;
       }
     `}
 
@@ -202,7 +263,7 @@ export const Tabs = styled.header<{ sticky?: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: ${palette.black};
+    background: ${palette.identity};
     grid-column: 1 / last-col;
     padding: ${spacing.xs} ${spacing.xxs};
 
@@ -285,9 +346,9 @@ export const TabButton = styled.button<{ small?: boolean }>`
 `
 
 export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
-  ${({ active, theme: { palette, typography } }) => css`
+  ${({ active, theme: { typography } }) => css`
     text-underline-offset: 10px;
-    color: ${palette.white};
+    color: ${lightTheme.palette.white};
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
@@ -317,7 +378,7 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
         right: 0px;
         width: 100%;
         height: 1px;
-        background-color: ${palette.white};
+        background-color: ${lightTheme.palette.white};
       }
     `}
   `}
@@ -424,8 +485,8 @@ export const IndexesWrapper = styled.article`
 `
 
 export const IndexesTabs = styled(Tabs)`
-  background: ${({ theme }) => theme.palette.dark};
-  border-top: solid 1px ${({ theme }) => theme.palette.white};
+  border-top: solid 1px ${({ theme }) => theme.palette.identityLight};);
+  background: ${({ theme }) => theme.palette.identityLight};);
 `
 
 export const ActiveTabWrapper = styled.article`
@@ -548,7 +609,7 @@ export const AnnotationsButton = styled.button`
 `
 
 export const NextTabButton = styled.button`
-  background: ${({ theme }) => theme.palette.dark};
+  background: ${({ theme }) => theme.palette.identity}};
   border: none;
   text-transform: uppercase;
   padding: ${({ theme }) => theme.spacing.md};
@@ -558,6 +619,6 @@ export const NextTabButton = styled.button`
   letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
-  color: ${({ theme }) => theme.palette.white};
+  color: ${lightTheme.palette.white};
   cursor: pointer;
 `

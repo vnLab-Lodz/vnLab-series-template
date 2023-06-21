@@ -14,6 +14,10 @@ export default {
     `gatsby-plugin-image`,
     `gatsby-plugin-tsconfig-paths`,
     {
+      resolve: "gatsby-plugin-react-svg",
+      options: { rule: { include: /\.inline\.svg$/ } },
+    },
+    {
       resolve: `gatsby-plugin-sharp`,
       options: {
         defaults: {

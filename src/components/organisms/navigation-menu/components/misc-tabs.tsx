@@ -23,39 +23,16 @@ const MiscTabs: React.FC<Props> = ({
   aside,
   disableThemeSwitching = false,
 }) => {
-  const { themeMode, setThemeMode } = useThemeSwitcherContext()
+  const { setThemeMode } = useThemeSwitcherContext()
   const { navMode } = useNavMenuContext()
   const { locale, localizedPath, defaultLang, prefixDefault } =
     useLocalization()
-
-  const getIconStyles = (defaultInvert: number) => {
-    let invert = defaultInvert
-    if (aside && themeMode === THEME_MODES.DARK) {
-      invert = !!defaultInvert ? 0 : 1
-    }
-
-    if (!aside && themeMode !== THEME_MODES.DARK) {
-      invert = !!defaultInvert ? 0 : 1
-    }
-
-    return { filter: `invert(${invert})` }
-  }
 
   const changeThemeMode = () => {
     setThemeMode(prev =>
       prev === THEME_MODES.LIGHT ? THEME_MODES.DARK : THEME_MODES.LIGHT
     )
   }
-
-  const searchIconStyles = useMemo(() => getIconStyles(0), [themeMode])
-  const themeIconStyles = useMemo(
-    () => ({
-      ...getIconStyles(1),
-      objectPosition: "left top",
-      objectFit: "contain",
-    }),
-    [themeMode]
-  )
 
   const searchPath = localizedPath({
     locale,
@@ -66,21 +43,13 @@ const MiscTabs: React.FC<Props> = ({
 
   return (
     <>
-      <LanguagePicker
-        alwaysDark={aside}
-        currentPath={currentPath}
-        compact={aside}
-      />
+      <LanguagePicker currentPath={currentPath} compact={aside} />
       {navMode !== NAV_MODES.PERMANENT && !disableThemeSwitching && (
         <Styled.TabButton onClick={changeThemeMode}>
           <img
             height={20}
             width={17}
-            style={{
-              ...themeIconStyles,
-              objectPosition: "left top",
-              objectFit: "contain",
-            }}
+            style={{ objectPosition: "left top", objectFit: "contain" }}
             className="sizeable-icon"
             src={ThemeMode}
             alt="Light/dark"
@@ -88,7 +57,11 @@ const MiscTabs: React.FC<Props> = ({
         </Styled.TabButton>
       )}
       {!aside ? (
-        <HypothesisIconButton component={Styled.TabButton} small={aside} />
+        <HypothesisIconButton
+          ignoreTheme
+          component={Styled.TabButton}
+          small={aside}
+        />
       ) : null}
       <Styled.TabButton
         small={aside}
@@ -102,7 +75,6 @@ const MiscTabs: React.FC<Props> = ({
       >
         <Styled.SearchImg
           height={20}
-          style={searchIconStyles}
           className="sizeable-icon"
           src={SearchSVG}
           alt="Magnifying glass"

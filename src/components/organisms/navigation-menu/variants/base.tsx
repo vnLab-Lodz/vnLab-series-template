@@ -23,13 +23,14 @@ import {
 
 const NavigationMenu: React.FC<
   NavVariantProps<{
+    disableProgress?: boolean
     disableProgressText?: boolean
     disableThemeSwitching?: boolean
     enableFullscreen?: boolean
+    constantColours?: boolean
   }>
 > = ({
   currentPath,
-  reduced,
   navState,
   progress,
   toggleMenu,
@@ -42,9 +43,11 @@ const NavigationMenu: React.FC<
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
   const {
+    disableProgress = false,
     disableProgressText = false,
     disableThemeSwitching = false,
     enableFullscreen = false,
+    constantColours = false,
   } = renderProps
 
   const hasFullscreenButton =
@@ -72,7 +75,9 @@ const NavigationMenu: React.FC<
 
   return (
     <>
-      <Styled.MobileProgress style={{ height: progress, width: progress }} />
+      {!disableProgress ? (
+        <Styled.MobileProgress style={{ height: progress, width: progress }} />
+      ) : null}
       <AnimatePresence initial={false} exitBeforeEnter>
         {isVisible && (
           <Styled.Aside
@@ -91,12 +96,22 @@ const NavigationMenu: React.FC<
               transition: { delay: 0.25, duration: 0.3, ease: "easeInOut" },
             }}
           >
-            <Styled.Nav mode={navMode} id="menu-nav">
-              <Styled.Progress style={{ height: progress, width: progress }} />
-              <ProgressText
-                progress={progress}
-                disableProgressText={disableProgressText}
-              />
+            <Styled.Nav
+              mode={navMode}
+              $open={open || constantColours}
+              id="menu-nav"
+            >
+              {!open ? (
+                <>
+                  <Styled.Progress
+                    style={{ height: progress, width: progress }}
+                  />
+                  <ProgressText
+                    progress={progress}
+                    disableProgressText={disableProgressText}
+                  />
+                </>
+              ) : null}
               <Styled.ToggleBtn mode={navMode} open={open} onClick={toggleMenu}>
                 <img
                   className="sizeable-icon"
@@ -105,17 +120,9 @@ const NavigationMenu: React.FC<
                   style={{ filter: iconFilter }}
                 />
               </Styled.ToggleBtn>
-              {!reduced ? (
-                <Styled.Title to="/" language={locale}>
-                  {t("common:title")}
-                </Styled.Title>
-              ) : (
-                <MiscTabs
-                  currentPath={currentPath}
-                  aside={reduced}
-                  disableThemeSwitching={disableThemeSwitching}
-                />
-              )}
+              <Styled.Title to="/" language={locale}>
+                {t("common:title")}
+              </Styled.Title>
               {hasFullscreenButton ? (
                 <Styled.ToggleBtn
                   style={{ marginLeft: "auto" }}
@@ -152,9 +159,11 @@ const NavigationMenu: React.FC<
 }
 
 export default enhance<{
+  disableProgress?: boolean
   disableProgressText?: boolean
   disableThemeSwitching?: boolean
   enableFullscreen?: boolean
+  constantColours?: boolean
 }>({
   hideOnMobile: true,
 })(NavigationMenu)

@@ -16,6 +16,8 @@ export const lightTheme = {
     accentDark: "rgba(107, 73, 5, 1)",
     transparentBlack: "rgba(0, 0, 0, 0)",
     transparentWhite: "rgba(255, 255, 255, 0)",
+    identity: "rgba(3, 66, 77, 1)",
+    identityLight: "rgba(3, 66, 77, 0.9)",
   },
   typography: {
     fonts: {
@@ -43,6 +45,8 @@ export const darkTheme = {
     accentDark: "rgba(107, 73, 5, 1)",
     transparentBlack: "rgba(0, 0, 0, 0)",
     transparentWhite: "rgba(255, 255, 255, 0)",
+    identity: "rgba(3, 66, 77, 1)",
+    identityLight: "rgba(3, 66, 77, 0.9)",
   },
 }
 
