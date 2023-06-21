@@ -1,4 +1,5 @@
 import React, { createContext, PropsWithChildren, useState } from "react"
+import { NAV_MENU_STATES } from "./types"
 
 export enum NAV_MODES {
   LIGHT,
@@ -9,7 +10,7 @@ export enum NAV_MODES {
 interface Context {
   navMode: NAV_MODES
   setNavMode: React.Dispatch<React.SetStateAction<NAV_MODES>>
-  toggleNav: () => void
+  toggleNav: (state?: NAV_MENU_STATES) => void
   setToggleNav: React.Dispatch<React.SetStateAction<() => void>>
   isVisible: boolean
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>
@@ -27,7 +28,7 @@ const NavMenuProvider: React.FC<NavMenuProviderProps> = ({
 }) => {
   const [mode, setMode] = useState<NAV_MODES>(defaultMode)
   const [isVisible, setIsVisible] = useState(true)
-  const [toggleNav, setToggleNav] = useState<() => void>(() => {})
+  const [toggleNav, setToggleNav] = useState<Context["toggleNav"]>(() => {})
 
   return (
     <NavMenuContext.Provider

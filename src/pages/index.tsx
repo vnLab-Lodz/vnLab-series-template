@@ -13,12 +13,13 @@ import NavMenuProvider, {
 } from "~components/organisms/navigation-menu/nav-menu-context"
 import { LangKey } from "~types/config"
 import config from "../../publication/publication.config.json"
+import styled from "styled-components"
+import { NAV_MENU_STATES } from "~components/organisms/navigation-menu/types"
 
 import Logo from "../images/icons/vnlab_logo.svg"
 import HamburgerSVG from "../images/icons/hamburger.svg"
 import TitleEN from "../images/title.en.inline.svg"
 import TitlePL from "../images/title.pl.inline.svg"
-import styled from "styled-components"
 
 const titleSVG = {
   en: styled(TitleEN)`
@@ -192,7 +193,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         <NavMenuContext.Consumer>
           {context => (
             <>
-              <Styled.NavBtn type="button" onClick={context!.toggleNav}>
+              <Styled.NavBtn type="button" onClick={() => context!.toggleNav()}>
                 <img
                   className="sizeable-icon"
                   src={HamburgerSVG}
@@ -200,7 +201,10 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
                 />
               </Styled.NavBtn>
               <Styled.Miscalaneous>
-                <Styled.TocButton type="button" onClick={context!.toggleNav}>
+                <Styled.TocButton
+                  type="button"
+                  onClick={() => context!.toggleNav(NAV_MENU_STATES.TOC)}
+                >
                   <p>{t("home:toc")}</p>
                 </Styled.TocButton>
                 <Styled.LanguagePicker
