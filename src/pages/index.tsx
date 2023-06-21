@@ -21,136 +21,6 @@ import HamburgerSVG from "../images/icons/hamburger.svg"
 import TitleEN from "../images/title.en.inline.svg"
 import TitlePL from "../images/title.pl.inline.svg"
 
-const titleSVG = {
-  en: styled(TitleEN)`
-    position: absolute;
-    bottom: -1.5%;
-    left: 0;
-    height: 103%;
-    z-index: -1;
-    pointer-events: none;
-
-    & > g > path {
-      fill: #fff;
-      opacity: 0.08;
-    }
-
-    animation: scroll-left-main 60s linear infinite;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-
-      & > g {
-        transform: translateX(-250px);
-      }
-    }
-
-    @keyframes scroll-left-main {
-      0% {
-        transform: translateX(0%);
-        -webkit-transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-        -webkit-transform: translateX(-100%);
-      }
-    }
-  `,
-  pl: styled(TitlePL)`
-    position: absolute;
-    bottom: -1.5%;
-    left: 0;
-    height: 103%;
-    z-index: -1;
-    pointer-events: none;
-
-    & > g > path {
-      fill: #fff;
-      opacity: 0.08;
-    }
-
-    animation: scroll-left-main 60s linear infinite;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-
-      & > g {
-        transform: translateX(-36px);
-      }
-    }
-
-    @keyframes scroll-left-main {
-      0% {
-        transform: translateX(0%);
-        -webkit-transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-100%);
-        -webkit-transform: translateX(-100%);
-      }
-    }
-  `,
-}
-
-const duplicatedTitle = {
-  en: styled(titleSVG.en)`
-    position: absolute;
-    bottom: -1.5%;
-    left: 0;
-    height: 103%;
-    z-index: -1;
-    pointer-events: none;
-
-    transform: translateX(100%);
-
-    animation: scrolling-left2 60s linear infinite;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      display: none;
-    }
-
-    @keyframes scrolling-left2 {
-      0% {
-        transform: translateX(100%);
-        -webkit-transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(0%);
-        -webkit-transform: translateX(0%);
-      }
-    }
-  `,
-  pl: styled(titleSVG.pl)`
-    position: absolute;
-    bottom: -1.5%;
-    left: 0;
-    height: 103%;
-    z-index: -1;
-    pointer-events: none;
-
-    transform: translateX(100%);
-
-    animation: scrolling-left2 60s linear infinite;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      display: none;
-    }
-
-    @keyframes scrolling-left2 {
-      0% {
-        transform: translateX(100%);
-        -webkit-transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(0%);
-        -webkit-transform: translateX(0%);
-      }
-    }
-  `,
-}
-
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const { hypothesis, hideHypothesis } = useHypothesis()
   const { t } = useTranslation(["common", "home"])
@@ -167,7 +37,6 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
   const properties = config[locale as LangKey]
   const { caption, people } = properties.author
   const SVG = titleSVG[locale as LangKey]
-  const DuplicateSVG = duplicatedTitle[locale as LangKey]
 
   useEffect(() => hideHypothesis(), [hypothesis])
 
@@ -224,10 +93,31 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         </Styled.People>
         <Styled.Logo src={Logo} alt="vnLab" />
         <SVG />
-        <DuplicateSVG />
+        <SVG data-duplicate />
       </Styled.Background>
     </NavMenuProvider>
   )
 }
 
 export default IndexPage
+
+const titleSVG = {
+  en: styled(TitleEN)`
+    ${Styled.backgroundTitleStyles}
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      & > g {
+        transform: translateX(-250px);
+      }
+    }
+  `,
+  pl: styled(TitlePL)`
+    ${Styled.backgroundTitleStyles}
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      & > g {
+        transform: translateX(-36px);
+      }
+    }
+  `,
+}

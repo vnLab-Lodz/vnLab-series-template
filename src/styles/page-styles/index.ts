@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 import LP from "~components/molecules/language-picker"
 import { GridContainer } from "~styles/grid"
@@ -210,5 +210,52 @@ export const Logo = styled.img`
   @media ${devices.laptop} {
     grid-row: 3 / 5;
     grid-column: 1 / 3;
+  }
+`
+
+export const backgroundTitleStyles = css`
+  position: absolute;
+  bottom: -1.5%;
+  left: 0;
+  height: 103%;
+  z-index: -1;
+  pointer-events: none;
+  animation: scroll-left-main 60s linear infinite;
+
+  & > g > path {
+    fill: #fff;
+    opacity: 0.08;
+  }
+
+  &[data-duplicate="true"] {
+    transform: translateX(100%);
+    animation: scrolling-left-duplicate 60s linear infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      display: none;
+    }
+  }
+
+  @keyframes scroll-left-main {
+    0% {
+      transform: translateX(0%);
+      -webkit-transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+      -webkit-transform: translateX(-100%);
+    }
+  }
+
+  @keyframes scrolling-left-duplicate {
+    0% {
+      transform: translateX(100%);
+      -webkit-transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+      -webkit-transform: translateX(0%);
+    }
   }
 `
