@@ -135,7 +135,7 @@ export const Title = styled.h1`
   padding-right: ${({ theme: { spacing } }) => spacing.xs};
 
   grid-row: 5;
-  grid-column: 2 / last-col;
+  grid-column: 1 / -1;
 
   @media ${devices.tablet} {
     margin-bottom: ${({ theme }) => theme.spacing.sm};
@@ -170,7 +170,7 @@ export const People = styled.div`
   align-self: end;
 
   grid-row: 6;
-  grid-column: 2 / -4;
+  grid-column: 1 / -4;
 
   @media ${devices.tablet} {
     padding-left: 0;
