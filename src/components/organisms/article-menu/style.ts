@@ -9,7 +9,6 @@ export const ArticleMenuContainer = styled.div<{ $spaced?: boolean }>`
   top: 65px;
   height: 75px;
   z-index: 7;
-  background: ${({ theme: { palette } }) => palette.light};
 
   @media ${devices.tablet} {
     top: 0px;
@@ -40,39 +39,59 @@ export const StickyWrapper = styled.div<{ sticky?: boolean }>`
 `
 
 export const Layout = styled(BaseLayout)`
+  & > div {
+    grid-column: 1 / -1;
+
+    @media ${devices.tablet} {
+      grid-column: 7 / 30;
+    }
+
+    @media ${devices.laptop} {
+      grid-column: 9 / 25;
+    }
+  }
+
   @media ${devices.desktop} {
     justify-content: center;
   }
 `
 
 export const MenuNav = styled.nav<{ open: boolean }>`
-  ${({ open, theme: { spacing, palette } }) => css`
-    background: ${open ? palette.white : "none"};
+  ${({ theme: { spacing } }) => css`
     display: flex;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: ${palette.dark};
-    padding: ${spacing.xxs};
+    justify-content: flex-start;
     position: relative;
     z-index: 3;
-    transition: background 0.5s ease-in-out;
-
-    filter: ${open
-      ? `drop-shadow(-10px 0px 0px ${palette.white})  drop-shadow(10px 0px 0px ${palette.white})`
-      : "none"};
-
     overflow-x: auto;
+    padding: ${spacing.md} calc(100vw / 32);
+
+    & > :not([hidden]) ~ :not([hidden]) {
+      margin-left: ${spacing.xs};
+    }
 
     @media ${devices.tablet} {
-      padding: ${spacing.sm};
+      justify-content: center;
+      align-items: center;
+
+      & > :not([hidden]) ~ :not([hidden]) {
+        margin-left: min(${spacing.lg}, 60px);
+      }
+
+      padding: ${spacing.sm} calc(100vw / 32);
+      height: 106px;
       max-height: 106px;
-      justify-content: space-evenly;
       overflow-x: hidden;
     }
 
     @media ${devices.desktop} {
-      max-height: 164px;
       height: 164px;
+      max-height: 164px;
+    }
+
+    @media ${devices.desktopL} {
+      & > :not([hidden]) ~ :not([hidden]) {
+        margin-left: ${spacing.xxl};
+      }
     }
 
     @media (min-width: 1024px) and (max-width: 1100px) {
@@ -93,15 +112,27 @@ export const ButtonText = styled.span`
   `}
 `
 
-export const Button = styled.button`
+export const Button = styled.button.attrs({
+  tabIndex: 0,
+  type: "button",
+})`
   ${({ theme: { spacing, palette } }) => css`
-    padding: ${spacing.xs};
-    background: none;
+    box-sizing: border-box;
+    padding: ${spacing.xxs} ${spacing.xs};
+    background: ${palette.white};
+    outline: solid 1px ${palette.dark};
+    border-radius: 9999px;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     color: ${palette.black};
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+      outline: solid 2px ${palette.dark};
+    }
   `}
 `
 
@@ -132,9 +163,25 @@ export const AnimatedContent = styled(motion.div).attrs({
   transition: { duration: 0.4, ease: "easeInOut" },
 })({})
 
-export const MenuLayout = styled(Layout)`
-  margin-top: ${({ theme: { spacing } }) => spacing.xxxl};
-  margin-bottom: ${({ theme: { spacing } }) => spacing.xl};
+export const MenuLayout = styled(BaseLayout)`
+  ${({ theme: { spacing } }) => css`
+    margin-top: calc(${spacing.md} * 2 + 35px);
+    margin-bottom: ${spacing.md};
+
+    @media ${devices.tablet} {
+      margin-top: 106px;
+      margin-bottom: ${spacing.sm};
+    }
+
+    @media ${devices.desktop} {
+      justify-content: center;
+    }
+
+    @media ${devices.desktopL} {
+      margin-top: 164px;
+      margin-bottom: ${spacing.md};
+    }
+  `};
 `
 
 export const BibliographyLink = styled(LocalizedLink)`

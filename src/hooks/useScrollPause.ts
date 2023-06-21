@@ -38,10 +38,6 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
       const top = window.scrollY
       const scrollbarWidth = getScrollbarWidth()
 
-      if (options?.backgroundColor) {
-        document.body.style.backgroundColor = options?.backgroundColor
-      }
-
       document.body.style.position = "fixed"
       document.body.style.top = `-${top}px`
       document.body.style.paddingRight = `${scrollbarWidth}px`
@@ -59,8 +55,6 @@ export default function useScrollPause(options?: ScrollPauseOptions) {
       document.body.style.top = originalValues.current?.top ?? ""
       document.body.style.paddingRight =
         originalValues.current?.paddingRight ?? ""
-      document.body.style.backgroundColor =
-        originalValues.current?.backgroundColor ?? ""
 
       window.scrollTo(0, parseInt(scrollY || "0") * -1)
     }
