@@ -110,8 +110,6 @@ export default function enhance<P = {}>(options: Options) {
       useEffect(
         () =>
           setToggleNav(() => (state?: NAV_MENU_STATES) => {
-            console.log("setToggleNav", state)
-
             if (typeof state !== "undefined") setNavState(state)
             toggleMenu()
           }),
