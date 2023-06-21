@@ -40,7 +40,7 @@ const titleSVG = {
       animation: none;
 
       & > g {
-        transform: translateX(-36px);
+        transform: translateX(-250px);
       }
     }
 
@@ -165,11 +165,10 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
 
   const properties = config[locale as LangKey]
   const { caption, people } = properties.author
-
-  useEffect(() => hideHypothesis(), [hypothesis])
-
   const SVG = titleSVG[locale as LangKey]
   const DuplicateSVG = duplicatedTitle[locale as LangKey]
+
+  useEffect(() => hideHypothesis(), [hypothesis])
 
   return (
     <NavMenuProvider>
