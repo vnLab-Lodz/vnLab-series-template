@@ -130,7 +130,7 @@ export const Title = styled.h1`
   font-size: ${({ theme }) => theme.typography.xl};
   color: ${lightTheme.palette.white};
 
-  margin-bottom: ${({ theme }) => theme.spacing.xxs};
+  margin-bottom: calc(${({ theme }) => theme.spacing.md} * 1.25);
   padding-left: ${({ theme: { spacing } }) => spacing.xs};
   padding-right: ${({ theme: { spacing } }) => spacing.xs};
 
@@ -196,6 +196,7 @@ export const Logo = styled.img`
   height: 60px;
   filter: invert(1) brightness(10);
 
+  padding-right: ${({ theme: { spacing } }) => spacing.xs};
   margin-bottom: ${({ theme }) => theme.spacing.md};
   align-self: end;
 
@@ -203,6 +204,7 @@ export const Logo = styled.img`
   grid-column: -4 / -1;
 
   @media ${devices.tablet} {
+    padding-right: 0;
     grid-row: 3 / 5;
     grid-column: 1 / 4;
   }
