@@ -140,9 +140,30 @@ const ol = styled(atoms.ol).attrs({ className: "mdx-ordered-list" })`
   ${marginRules}
 `
 
-const button = styled(atoms.button).attrs({ className: "mdx-button" })`
+const button = styled(atoms.button).attrs({
+  className: "mdx-button",
+  whileHover: undefined,
+  whileTap: undefined,
+})`
   ${gridConstraint}
   ${marginRules}
+
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  align-self: center;
+  width: fit-content !important;
+  border-radius: 9999px;
+  border: none;
+  outline: solid 1px ${({ theme }) => theme.palette.black};
+  padding: ${({ theme }) => theme.spacing.xxs}
+    ${({ theme }) => theme.spacing.xs};
+
+  &:hover,
+  &:active,
+  &:focus-visible {
+    outline: solid 2px ${({ theme }) => theme.palette.black};
+  }
 `
 
 const hr = styled.hr.attrs({ className: "mdx-hr" })`
