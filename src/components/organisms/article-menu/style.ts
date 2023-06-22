@@ -170,7 +170,7 @@ export const MenuLayout = styled(BaseLayout)`
     margin-bottom: ${spacing.md};
 
     @media ${devices.tablet} {
-      margin-top: 106px;
+      margin-top: calc(106px + ${spacing.sm});
       margin-bottom: ${spacing.sm};
     }
 
@@ -179,7 +179,7 @@ export const MenuLayout = styled(BaseLayout)`
     }
 
     @media ${devices.desktopL} {
-      margin-top: 164px;
+      margin-top: calc(164px + ${spacing.sm});
       margin-bottom: ${spacing.md};
     }
   `};
