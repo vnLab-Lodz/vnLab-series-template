@@ -125,7 +125,7 @@ export const Spacer = styled.div`
 export const Title = styled.h1`
   margin-top: auto;
 
-  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-family: ${({ theme }) => theme.typography.fonts.secondary};
   font-weight: 300;
   font-size: ${({ theme }) => theme.typography.xl};
   color: ${lightTheme.palette.white};
@@ -153,8 +153,8 @@ export const Title = styled.h1`
 `
 
 export const Role = styled.p`
-  font-family: ${({ theme }) => theme.typography.fonts.secondary};
-  font-weight: 300;
+  font-family: ${({ theme }) => theme.typography.fonts.primary};
+  font-weight: normal;
   font-size: ${({ theme }) => theme.typography.sm};
   color: ${lightTheme.palette.white};
 
