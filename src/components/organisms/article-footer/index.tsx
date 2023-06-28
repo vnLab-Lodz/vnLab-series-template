@@ -9,9 +9,7 @@ import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 import * as Styled from "./style"
 
-//@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
-//@ts-ignore
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 interface Props {
@@ -76,6 +74,8 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
     const factor = index - 1
     translationFactor.set(factor >= 0 ? factor : 0)
   }, [layoutMode])
+
+  if (pages.length <= 1) return null
 
   return (
     <Styled.FooterSpacer>
