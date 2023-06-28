@@ -37,6 +37,8 @@ const LanguagePicker: React.FC<Props> = ({
     return config.map(({ code, name }: Language) => ({ code, name }))
   }, [config])
 
+  if (languages.length === 1) return null
+
   return (
     <Styled.LangButton
       type="button"
