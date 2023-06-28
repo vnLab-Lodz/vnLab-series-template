@@ -1,6 +1,6 @@
 {
   "$schema": "./config.schema.json",
-  "siteUrl": "https://archive-as-project.vnlab.org",
+  "siteUrl": "https://lab-template.vnlab.org",
   "singleAuthorMode": false,
   "languages": [
     {
@@ -11,52 +11,16 @@
       "langDir": "ltr",
       "dateFormat": "MM/DD/YYYY",
       "startUrl": "/"
-    },
-    {
-      "code": "pl",
-      "hrefLang": "pl-PL",
-      "name": "Polish",
-      "localName": "Polski",
-      "langDir": "ltr",
-      "dateFormat": "DD.MM.YYYY",
-      "startUrl": "/pl/"
     }
   ],
   "en": {
-    "title": "The Archive as Project",
-    "description": "This project is an attempt at rethinking the archive in a post-socialist Central and Eastern Europe that is still facing the need to work though its 20th century past.",
-    "author": { "caption": "edited by", "people": ["Krzysztof Pijarski"] },
+    "title": "Lab Seties Template",
+    "description": "Description of the Lab Series Template instance.",
+    "author": { "caption": "edited by", "people": ["John Author"] },
     "twitterHandle": "@vnLab1",
     "sectionNames": {
       "1": false,
-      "2": "The Archive in Theory",
-      "3": "The Archive Looking Awry I: Archives of Disputed Histories",
-      "4": "The Archive Looking Awry II",
-      "5": "The Institutional Perspective",
-      "6": "The Archive Looking Awry III: Kisieland – Queering the Archive",
-      "7": "The Archive Looking Awry IV: Archives of the Everyday",
-      "8": "Roundtable",
-      "9": false
-    }
-  },
-  "pl": {
-    "title": "Archiwum jako projekt",
-    "description": "Projekt ten jest próbą ponownego przemyślenia archiwum w postsocjalistycznej Europie Środkowo-Wschodniej, która wciąż stoi przed koniecznością przepracowania swojej dwudziestowiecznej przeszłości.",
-    "author": {
-      "caption": "pod redakcją",
-      "people": ["Krzysztofa Pijarskiego"]
-    },
-    "twitterHandle": "@vnLab1",
-    "sectionNames": {
-      "1": false,
-      "2": "Archiwum w teorii",
-      "3": "Archiwum z ukosa I: Archiwa spornych historii",
-      "4": "Archiwum z ukosa II",
-      "5": "Perspektywa instytucjonalna",
-      "6": "Archiwum z ukosa III: Kisieland – squeerować archiwum",
-      "7": "Archiwum z ukosa IV: Archiwa codzienności",
-      "8": "Debata",
-      "9": false
+      "2": "ToC Section Title"
     }
   }
 }
