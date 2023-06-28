@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
 import useNavMenuContext from "src/hooks/useNavMenuContext"
-import { useTranslation } from "react-i18next"
 import * as Styled from "../style"
 import { useLocalization } from "gatsby-theme-i18n"
 import { AnimatePresence, motion, MotionValue } from "framer-motion"
@@ -8,17 +7,19 @@ import NavMenuContent from "../components/content"
 import enhance, { NavVariantProps } from "../enhance"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
-
-import HamburgerSVG from "../../../../images/icons/hamburger.svg"
-import CloseSVG from "../../../../images/icons/x.svg"
-import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
-import ExpandArrow from "src/images/icons/arrow_expand.svg"
+import config from "publication/publication.config.json"
 import { NAV_MODES } from "../nav-menu-context"
 import {
   isMobileOrTablet,
   isSafari,
   isStandalone,
 } from "~components/molecules/fullscreen-dialog"
+import { LangKey } from "~types/config"
+
+import HamburgerSVG from "../../../../images/icons/hamburger.svg"
+import CloseSVG from "../../../../images/icons/x.svg"
+import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
+import ExpandArrow from "src/images/icons/arrow_expand.svg"
 
 const NavigationMenu: React.FC<
   NavVariantProps<{
@@ -38,7 +39,6 @@ const NavigationMenu: React.FC<
   renderProps,
 }) => {
   const { locale } = useLocalization()
-  const { t } = useTranslation(["common", "nav-menu"])
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
   const {
@@ -120,7 +120,7 @@ const NavigationMenu: React.FC<
                 />
               </Styled.ToggleBtn>
               <Styled.Title to="/" language={locale}>
-                {t("common:title")}
+                {config[locale as LangKey].title}
               </Styled.Title>
               {hasFullscreenButton ? (
                 <Styled.ToggleBtn

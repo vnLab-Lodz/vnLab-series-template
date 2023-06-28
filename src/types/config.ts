@@ -1,4 +1,7 @@
-import { ElementType } from "."
+import config from "publication/publication.config.json"
 
-const keys = ["pl", "en"] as const
-export type LangKey = ElementType<typeof keys>
+type ConfigKeys = keyof typeof config
+export type LangKey = Exclude<
+  ConfigKeys,
+  "$schema" | "singleAuthorMode" | "languages" | "siteUrl"
+>
