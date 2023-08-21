@@ -1,9 +1,10 @@
+name: 🚀 Deploy to lab server
+
 on:
   push:
     branches:
       - main
 
-name: 🚀 Deploy to lab server
 jobs:
   ftp-deploy:
     name: 🎉 Deploy
