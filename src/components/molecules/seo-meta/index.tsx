@@ -2,7 +2,6 @@ import React, { DetailedHTMLProps, MetaHTMLAttributes, useMemo } from "react"
 import { Helmet } from "react-helmet"
 import { PageProps } from "gatsby"
 import { LangKey } from "../../../types/config"
-import { useTranslation } from "react-i18next"
 
 import config from "publication/publication.config.json"
 
@@ -26,13 +25,12 @@ const SeoMeta: React.FC<Props> = ({
   title,
   lang = "en",
 }) => {
-  const { t } = useTranslation("common")
   const configMeta = config[lang]
   if (!configMeta) {
     console.error(`Metadata for locale (${lang}) is not defined.`)
   }
 
-  const defaultTitle = t("title", configMeta.title)
+  const defaultTitle = configMeta.title
   const titleTemplate = defaultTitle ? `%s | ${defaultTitle}` : undefined
 
   const metaDescription = useMemo(
