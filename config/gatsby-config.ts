@@ -116,7 +116,7 @@ export default {
         theme_color: `#000000`,
         display: `standalone`,
         orientation: `portrait`,
-        icon: `${__dirname}/../static/images/favicon3.png`,
+        icon: `${__dirname}/../static/images/favicon3.svg`,
         cache_busting_mode: `none`,
         localize: metadata.localized.map(meta => ({
           start_url: meta.startUrl,
