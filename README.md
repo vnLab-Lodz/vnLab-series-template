@@ -13,6 +13,10 @@ Create your next online publication with this PaaW boilerplate. It ships with a 
 
 _If you're looking for a more complex publication take a look at the [collection of vnLab starters](https://github.com/vnLab-Lodz/vnLab-templates)._
 
+## Requirements
+
+Run this project with node version 14.
+
 ## 🚀 Quick start
 
 1.  **Create a Gatsby site.**
