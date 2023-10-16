@@ -299,7 +299,7 @@ An additional way to render quotes alongside the normal markdown quote syntax.
 #### **Preview**
 
 <details>
-<summary>See preview of Quote</summary>
+<summary>See preview of Quote </summary>
 <p>
 
 ![Abstract component](quote.png "Abstract")
@@ -308,7 +308,7 @@ An additional way to render quotes alongside the normal markdown quote syntax.
 </details>
 
 <details>
-<summary>Compare with markdown syntax blockquote</summary>
+<summary>Compare with markdown syntax blockquote (>)</summary>
 <p>
 
 ![Abstract component](blockquote.png "Abstract")
