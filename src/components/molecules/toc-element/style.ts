@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components"
-import { LocalizedLink } from "gatsby-theme-i18n"
 import atoms from "~components/atoms"
+import Link from "~components/atoms/Link"
 import { devices } from "~styles/breakpoints"
 
 export const TocContainer = styled.article<{ highlighted?: boolean }>`
@@ -41,7 +41,7 @@ export const SlidshowTitle = styled(atoms.p)`
   align-self: end;
 `
 
-export const ArticleTitle = styled(LocalizedLink)`
+export const ArticleTitle = styled(Link)`
   text-decoration: none;
   grid-column: 4 / -3;
   p {

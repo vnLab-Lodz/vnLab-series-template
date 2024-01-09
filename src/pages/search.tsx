@@ -15,6 +15,7 @@ import SearchResults from "~components/molecules/search-results"
 import visit from "unist-util-visit"
 import { toString } from "~util/toString"
 import { create, insert, search } from "@lyrasearch/lyra"
+import ServiceWorkerDialog from "~components/sw-dialog"
 
 interface SitePageNode {
   path: string
@@ -170,6 +171,7 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
             <SearchResults query={query} results={results} />
           </Styled.SearchLayout>
         </Styled.Wrapper>
+        <ServiceWorkerDialog />
       </ThemeProvider>
     </NavMenuProvider>
   )
