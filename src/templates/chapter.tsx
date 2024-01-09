@@ -24,6 +24,7 @@ import { BackgroundGlobals } from "~styles/globals"
 import { components } from "~components/mdx"
 import { MdxContext } from "src/context/mdx-provider"
 import { Footnote, FootnotesContext } from "src/context/footnotes-context"
+import ServiceWorkerDialog from "~components/sw-dialog"
 
 export const mdxComponents = {
   strong: atoms.strong,
@@ -126,6 +127,7 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
               </StyledLayout>
             </StyledArticle>
             <ArticleFooter currentPath={location.pathname} />
+            <ServiceWorkerDialog />
           </ImagesProvider>
         </FootnotesContext.Provider>
       </MdxContext.Provider>

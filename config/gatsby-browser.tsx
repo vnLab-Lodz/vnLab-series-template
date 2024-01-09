@@ -22,7 +22,7 @@ const metadata = getPublicationMetadata()
 export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
   <ThemeSwitcherProvider>
     {({ themeMode }: { themeMode: THEME_MODES }) => (
-      <>
+      <React.Fragment>
         <ThemeProvider
           theme={themeMode === THEME_MODES.LIGHT ? lightTheme : darkTheme}
         >
@@ -39,10 +39,15 @@ export const wrapPageElement = ({ element }: WrapPageElementBrowserArgs) => (
           src="https://hypothes.is/embed.js"
           strategy={ScriptStrategy.postHydrate}
         />
-      </>
+      </React.Fragment>
     )}
   </ThemeSwitcherProvider>
 )
+
+export const onServiceWorkerUpdateFound = async (_args: ServiceWorkerArgs) => {
+  const dialog = document.getElementById("sw-dialog")
+  if (dialog) dialog.dataset.visible = "true"
+}
 
 export const onServiceWorkerUpdateReady = async (args: ServiceWorkerArgs) => {
   const permissionResponse = await Notification.requestPermission()
@@ -54,5 +59,12 @@ export const onServiceWorkerUpdateReady = async (args: ServiceWorkerArgs) => {
       }
     )
   }
+  const dialog = document.getElementById("sw-dialog")
+  if (dialog) dialog.dataset.visible = "false"
   window.location.reload()
+}
+
+export const onServiceWorkerInstalled = async (_args: ServiceWorkerArgs) => {
+  const dialog = document.getElementById("sw-dialog")
+  if (dialog) dialog.dataset.visible = "false"
 }

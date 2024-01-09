@@ -20,6 +20,7 @@ import Logo from "../images/icons/vnlab_logo.svg"
 import HamburgerSVG from "../images/icons/hamburger.svg"
 import TitleEN from "../images/title.en.inline.svg"
 import TitlePL from "../images/title.pl.inline.svg"
+import ServiceWorkerDialog from "~components/sw-dialog"
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const { hypothesis, hideHypothesis } = useHypothesis()
@@ -95,6 +96,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         <SVG />
         <SVG data-duplicate />
       </Styled.Background>
+      <ServiceWorkerDialog />
     </NavMenuProvider>
   )
 }

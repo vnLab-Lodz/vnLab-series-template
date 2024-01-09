@@ -130,14 +130,9 @@ export default {
     {
       resolve: `gatsby-plugin-offline`,
       options: {
-        precachePages: config.languages.map(lang => `${lang.startUrl}*`),
-        workboxConfig: {
-          globPatterns: [
-            `**\/*.{js,css,html,svg,png,jpg,jpeg,webp,woff,woff2,ttf,eot}`,
-            `**/images/*`,
-            `**/icons/*`,
-          ],
-        },
+        precachePages: config.languages.map(
+          lang => `${lang.startUrl}index.html`
+        ),
       },
     },
     {

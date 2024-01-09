@@ -25,6 +25,7 @@ import { useLocalization } from "gatsby-theme-i18n"
 import { BackgroundGlobals } from "~styles/globals"
 import { MdxContext } from "src/context/mdx-provider"
 import { Footnote, FootnotesContext } from "src/context/footnotes-context"
+import ServiceWorkerDialog from "~components/sw-dialog"
 
 interface Data {
   mdx: {
@@ -101,6 +102,7 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
                   </MDXProvider>
                 </StyledLayout>
               </StyledArticle>
+              <ServiceWorkerDialog />
             </ThemeProvider>
           </ImagesProvider>
         </FootnotesContext.Provider>
