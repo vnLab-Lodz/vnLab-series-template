@@ -41,6 +41,7 @@ export const mdxComponents = {
   ol: components.ol,
   button: components.button,
   hr: components.hr,
+  table: components.table,
   // ---- ---- ---- ----
   Link: MdxLink,
   // ---------
