@@ -66,6 +66,10 @@ const marginRules = css`
       margin-top: ${({ theme }) => `clamp(0px, ${theme.spacing.xs}, 20px)`};
     }
 
+    table + p.mdx-paragraph + &.mdx-paragraph {
+      margin-top: ${({ theme }) => theme.spacing.lg};
+    }
+
     // ! If element above is a blockquote
     *.mdx-blockquote + & {
       margin-top: ${({ theme }) => theme.spacing.md};
@@ -203,6 +207,40 @@ const Tag = styled.span`
   }
 `
 
+const table = styled.table`
+  ${gridConstraint}
+  ${marginRules}
+
+  max-width: 100%;
+
+  & th,
+  & td {
+    padding: ${({ theme }) => theme.spacing.xxs};
+    border: solid 1px ${({ theme }) => theme.palette.black};
+  }
+
+  & + p {
+    ${({ theme: { typography, spacing } }) => css`
+      margin-top: ${spacing.xs} !important;
+      font-family: ${typography.fonts.primary};
+      font-size: ${typography.sm};
+      text-align: left;
+      font-weight: 300;
+    `}
+  }
+
+  & * {
+    min-width: 0;
+
+    ${({ theme: { typography, palette } }) => css`
+      font-family: ${typography.fonts.secondary};
+      font-size: ${typography.md};
+      line-height: 150%;
+      color: ${palette.black};
+    `}
+  }
+`
+
 export const components = {
   strong: atoms.strong,
   em: atoms.em,
@@ -218,6 +256,7 @@ export const components = {
   ol,
   button,
   hr,
+  table,
   Abstract,
   Author,
   Edition,
