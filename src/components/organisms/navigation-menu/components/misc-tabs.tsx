@@ -80,6 +80,28 @@ const MiscTabs: React.FC<Props> = ({
           alt="Magnifying glass"
         />
       </Styled.TabButton>
+      <Styled.TabButton
+        small={aside}
+        tabIndex={0}
+        // role="link"
+        // data-href={searchPath}
+        onClick={() => {
+          navigator.serviceWorker.controller?.postMessage({
+            type: "CACHE_PUBLICATION",
+          })
+        }}
+        // onKeyDown={e => {
+        //   if (e.key === "Enter") navigate(searchPath)
+        // }}
+      >
+        {/* <Styled.SearchImg
+          height={20}
+          className="sizeable-icon"
+          src={SearchSVG}
+          alt="Magnifying glass"
+        /> */}
+        DD
+      </Styled.TabButton>
     </>
   )
 }

@@ -128,11 +128,9 @@ export default {
       },
     },
     {
-      resolve: `gatsby-plugin-offline`,
+      resolve: `gatsby-plugin-sw`,
       options: {
-        precachePages: config.languages.map(
-          lang => `${lang.startUrl}index.html`
-        ),
+        precachePages: config.languages.map(lang => `${lang.startUrl}*`),
       },
     },
     {
