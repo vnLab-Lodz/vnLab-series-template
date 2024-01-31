@@ -39,6 +39,23 @@ const MiscTabs: React.FC<Props> = ({
 
   const downloadPublication = () => {
     if (confirm(t("common:sw_download"))) {
+      const dialog = document.getElementById("sw-dialog")
+      const messageChannel = new MessageChannel()
+
+      navigator.serviceWorker.controller?.postMessage({ type: "INIT_PORT" }, [
+        messageChannel.port2,
+      ])
+
+      messageChannel.port1.onmessage = event => {
+        console.log(event)
+
+        if (event.data?.type === "START_DOWNLOAD") {
+          if (dialog) dialog.dataset.visible = "true"
+        } else if (event.data?.type === "END_DOWNLOAD") {
+          if (dialog) dialog.dataset.visible = "false"
+        }
+      }
+
       navigator.serviceWorker.controller?.postMessage({
         type: "CACHE_PUBLICATION",
       })

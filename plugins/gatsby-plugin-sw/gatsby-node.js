@@ -46,8 +46,6 @@ function getAssetsForChunks(chunks) {
 }
 
 function getPrecachePages(globs, base) {
-  console.log("BASE: ", base)
-  console.log("GLOBS: ", globs)
   const precachePages = []
 
   globs.forEach(page => {
