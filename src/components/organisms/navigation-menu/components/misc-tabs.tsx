@@ -11,6 +11,8 @@ import { navigate } from "gatsby"
 
 import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
 import ThemeMode from "../../../../images/icons/jasna_ciemna.svg"
+import DownloadSVG from "../../../../images/icons/arrow_down.svg"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   currentPath: string
@@ -25,6 +27,7 @@ const MiscTabs: React.FC<Props> = ({
 }) => {
   const { setThemeMode } = useThemeSwitcherContext()
   const { navMode } = useNavMenuContext()
+  const { t } = useTranslation()
   const { locale, localizedPath, defaultLang, prefixDefault } =
     useLocalization()
 
@@ -32,6 +35,14 @@ const MiscTabs: React.FC<Props> = ({
     setThemeMode(prev =>
       prev === THEME_MODES.LIGHT ? THEME_MODES.DARK : THEME_MODES.LIGHT
     )
+  }
+
+  const downloadPublication = () => {
+    if (confirm(t("common:sw_download"))) {
+      navigator.serviceWorker.controller?.postMessage({
+        type: "CACHE_PUBLICATION",
+      })
+    }
   }
 
   const searchPath = localizedPath({
@@ -83,24 +94,17 @@ const MiscTabs: React.FC<Props> = ({
       <Styled.TabButton
         small={aside}
         tabIndex={0}
-        // role="link"
-        // data-href={searchPath}
-        onClick={() => {
-          navigator.serviceWorker.controller?.postMessage({
-            type: "CACHE_PUBLICATION",
-          })
+        onClick={downloadPublication}
+        onKeyDown={e => {
+          if (e.key === "Enter") downloadPublication()
         }}
-        // onKeyDown={e => {
-        //   if (e.key === "Enter") navigate(searchPath)
-        // }}
       >
-        {/* <Styled.SearchImg
+        <Styled.SearchImg
           height={20}
           className="sizeable-icon"
-          src={SearchSVG}
-          alt="Magnifying glass"
-        /> */}
-        DD
+          src={DownloadSVG}
+          alt="Download publication"
+        />
       </Styled.TabButton>
     </>
   )

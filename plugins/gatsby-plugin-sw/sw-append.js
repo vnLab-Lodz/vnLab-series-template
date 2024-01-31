@@ -125,10 +125,18 @@ workbox.routing.registerRoute(/\/.gatsby-plugin-offline:.+/, handleAPIRequest)
 // WARNING: Added `downloadPages and event listener to the original plugin
 // This will be replaced with pages that need to be precached
 const downloadPages = []
+let getVersionPort
 
 self.addEventListener("message", event => {
+  if (event.data && event.data.type === "INIT_PORT") {
+    getVersionPort = event.ports[0]
+  }
+
   if (event.data && event.data.type === "CACHE_PUBLICATION") {
-    console.log("SW: DOWNLOADING ALL PAGES FOR OFFLINE USE")
+    console.info("SW: DOWNLOADING ALL PAGES FOR OFFLINE USE")
+
+    getVersionPort.postMessage({ type: "START_DOWNLOAD" })
+
     event.waitUntil(
       (async () => {
         const cache = await caches.open(workbox.core.cacheNames.runtime)
@@ -160,8 +168,10 @@ self.addEventListener("message", event => {
               ]),
             })
           })
+        getVersionPort.postMessage({ type: "END_DOWNLOAD" })
+
+        console.info("SW: DOWNLOAD OF ALL PAGES FOR OFFLINE USE COMPLETE")
       })()
     )
-    console.log("SW: DOWNLOAD OF ALL PAGES FOR OFFLINE USE COMPLETE")
   }
 })
