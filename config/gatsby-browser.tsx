@@ -78,8 +78,6 @@ export const onServiceWorkerActive = async (_args: ServiceWorkerArgs) => {
   ])
 
   messageChannel.port1.onmessage = event => {
-    console.log(event)
-
     if (event.data?.type === "START_DOWNLOAD") {
       if (dialog) dialog.dataset.visible = "true"
     } else if (event.data?.type === "END_DOWNLOAD") {
