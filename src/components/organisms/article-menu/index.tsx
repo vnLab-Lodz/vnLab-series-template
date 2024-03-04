@@ -196,9 +196,11 @@ const ArticleMenu: React.FC<Props> = ({
     !menus ? !!footnotes && footnotes.length !== 0 : value
   )
 
-  const hasBibliography = hasMenu(MENUS.BIBLIOGRAPHY, value =>
-    !menus ? !noBibliography && !isUndefined(bibliography) : value
-  )
+  const hasBibliography = hasMenu(MENUS.BIBLIOGRAPHY, value => {
+    if (menus) return value
+    if (config.singleAuthorMode) return true
+    return !noBibliography && !isUndefined(bibliography)
+  })
 
   const content = getMenuContent()
 
@@ -269,7 +271,9 @@ const BibliographyButton: React.FC<{
     return (
       <Styled.BibliographyLink language={locale} to="/bibliography">
         <Styled.Button onClick={() => {}}>
-          <Styled.ButtonText>{t("bibliography")}</Styled.ButtonText>{" "}
+          <Styled.ButtonText style={{ marginRight: 0 }}>
+            {t("bibliography")}
+          </Styled.ButtonText>{" "}
         </Styled.Button>
       </Styled.BibliographyLink>
     )
