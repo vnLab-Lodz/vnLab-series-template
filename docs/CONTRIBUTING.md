@@ -204,7 +204,7 @@ locale: [language of the file ("en" | "pl")]
 
 The bibliography is stored in the root of the `publication/chapters` folder named `bibliography.[locale].mdx`. It is possible to use all the same components that are available in the chapter/article files.
 
-The `singleAuthorMode` flag needs to be set to `true` in the `publication/publication.config.json`.
+The `singleAuthorMode` flag needs to be set to `true` in the `publication/publication.config.json`. The bibiliography file should not contain the `meta: true` tag in the forntmatter in this mode.
 
 ### Multi author bibliography
 
