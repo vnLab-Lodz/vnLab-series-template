@@ -28,15 +28,14 @@
     "author": { "caption": "edited by", "people": ["Krzysztof Pijarski"] },
     "twitterHandle": "@vnLab1",
     "sectionNames": {
-      "1": false,
-      "2": "The Archive in Theory",
-      "3": "The Archive Looking Awry I: Archives of Disputed Histories",
-      "4": "The Archive Looking Awry II",
-      "5": "The Institutional Perspective",
-      "6": "The Archive Looking Awry III: Kisieland – Queering the Archive",
-      "7": "The Archive Looking Awry IV: Archives of the Everyday",
-      "8": "Roundtable",
-      "9": false
+      "0": false,
+      "1": "The Archive in Theory",
+      "2": "The Archive Looking Awry I: Archives of Disputed Histories",
+      "3": "The Archive Looking Awry II",
+      "4": "The Institutional Perspective",
+      "5": "The Archive Looking Awry III: Kisieland – Queering the Archive",
+      "6": "The Archive Looking Awry IV: Archives of the Everyday",
+      "7": "Roundtable"
     }
   },
   "pl": {
@@ -48,15 +47,14 @@
     },
     "twitterHandle": "@vnLab1",
     "sectionNames": {
-      "1": false,
-      "2": "Archiwum w teorii",
-      "3": "Archiwum z ukosa I: Archiwa spornych historii",
-      "4": "Archiwum z ukosa II",
-      "5": "Perspektywa instytucjonalna",
-      "6": "Archiwum z ukosa III: Kisieland – squeerować archiwum",
-      "7": "Archiwum z ukosa IV: Archiwa codzienności",
-      "8": "Debata",
-      "9": false
+      "0": false,
+      "1": "Archiwum w teorii",
+      "2": "Archiwum z ukosa I: Archiwa spornych historii",
+      "3": "Archiwum z ukosa II",
+      "4": "Perspektywa instytucjonalna",
+      "5": "Archiwum z ukosa III: Kisieland – squeerować archiwum",
+      "6": "Archiwum z ukosa IV: Archiwa codzienności",
+      "7": "Debata"
     }
   }
 }
