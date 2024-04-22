@@ -32,21 +32,17 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
       {!headless && (
         <Styled.TocHeader type="primary">{`${t("toc")}:`}</Styled.TocHeader>
       )}
-      {groupedPages.map((group, i) => {
-        const index = i + 1
+      {groupedPages.map((group, index) => {
+        const currentPageIndex = group.findIndex(el => el.path === pathname)
         const sectionName: string | boolean =
           // @ts-ignore
           config[locale as LangKey].sectionNames[index] ??
           `${t("part")} ${index}`
 
-        const currentIndex: number | undefined = group.findIndex(
-          el => el.path === pathname
-        )
-
         return (
-          <React.Fragment key={`toc-part__${uid}--${i}`}>
+          <React.Fragment key={`toc-part__${uid}--${index}`}>
             {!!sectionName && (
-              <Styled.Part type="primary" first={i === 0}>
+              <Styled.Part type="primary" first={index === 0}>
                 {sectionName}
               </Styled.Part>
             )}
@@ -54,9 +50,11 @@ const TableOfContents: React.FC<Props> = ({ className, headless }) => {
               <TocElement
                 key={`toc-element__${uid}--${j}`}
                 page={page}
-                last={group.length - 1 === j && groupedPages.length - 1 === i}
+                last={
+                  group.length - 1 === j && groupedPages.length - 1 === index
+                }
                 current={pathname === page.path}
-                hideDivider={currentIndex - 1 === j}
+                hideDivider={currentPageIndex - 1 === j}
               />
             ))}
           </React.Fragment>
@@ -71,7 +69,7 @@ function groupPages(pages: PublicationPage[]): GroupedPages {
     const part = getPartFromIndex(page.index ?? 0)
 
     let array = [...prev]
-    array[part - 1] = [...(array[part - 1] ?? []), page]
+    array[part] = [...(array[part] ?? []), page]
 
     return array
   }, [] as GroupedPages)
