@@ -1,6 +1,6 @@
 const graphQLTypes = `
 type Footnotes implements Node {
-  index: String!
+  index: Int!
   link: String!
   target: String!
   content: String
