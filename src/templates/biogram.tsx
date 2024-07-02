@@ -165,6 +165,7 @@ export const query = graphql`
       filter: {
         mdx: { fields: { locale: { eq: $locale } }, slug: { in: $slugs } }
       }
+      sort: { fields: index }
     ) {
       nodes {
         id

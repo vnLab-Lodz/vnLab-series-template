@@ -86,7 +86,7 @@ async function createNodesFromFootnotes(footnotes, util) {
   const promises = []
   footnotes.forEach(({ word, footnote, content: footnoteContent, uid }) => {
     const content = {
-      index: footnote,
+      index: Number(footnote),
       content: footnoteContent,
       target: word,
       link: `#footnote--${footnote}`,
