@@ -22,14 +22,14 @@ const ServiceWorkerDialog: React.FC = () => {
               transform="translate(29 39.5) rotate(45)"
               fill="none"
               stroke="#222"
-              stroke-width="1"
+              strokeWidth="1"
             />
             <line
               x2="30"
               transform="translate(29 60.713) rotate(-45)"
               fill="none"
               stroke="#222"
-              stroke-width="1"
+              strokeWidth="1"
             />
           </g>
         </svg>

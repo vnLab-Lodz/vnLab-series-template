@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useLayoutEffect } from "react"
 import { useTranslation } from "react-i18next"
 import usePublication from "src/hooks/usePublication"
@@ -9,9 +9,7 @@ import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
 import * as Styled from "./style"
 
-//@ts-ignore
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
-//@ts-ignore
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 interface Props {
@@ -19,63 +17,63 @@ interface Props {
 }
 
 const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
-  const pages = usePublication()
   const { t } = useTranslation("common")
   const { themeMode } = useThemeSwitcherContext()
+  const [layout, setLayoutMode] = useState<"base" | "compact">("base")
+  const prevLayout = useRef<"base" | "compact">("base")
 
+  const pages = usePublication()
   const currentPathIndex = getCurrentPathIndex(pages, currentPath)
-
-  const [layoutMode, setLayoutMode] = useState<"base" | "compact">("base")
   const [index, setIndex] = useState(currentPathIndex)
 
   const translationFactor = useSpring(currentPathIndex)
   const translateXBig = useMotionTemplate`calc(${translationFactor} * -50%)`
   const translateXSmall = useMotionTemplate`calc(${translationFactor} * -100%)`
-  const translateX = layoutMode === "base" ? translateXBig : translateXSmall
+  const translateX = layout === "base" ? translateXBig : translateXSmall
 
-  const rewindIndex = () => setIndex(prev => (prev === 0 ? prev : prev - 1))
+  const rewindIndex = () => setIndex(prev => Math.max(0, prev - 1))
 
-  const forwardIndex = () =>
+  const forwardIndex = () => {
     setIndex(prev => {
-      const isBase = layoutMode === "base"
-      const modifier = isBase ? 3 : 2
-      const validIndex = pages.length - modifier
-      const canGoForward = isBase ? validIndex < prev : validIndex <= prev
-      let nextIndex = canGoForward ? prev : prev + 1
-      if (isBase && prev === 0) nextIndex = 2
-
-      return nextIndex
+      const offset = layout === "base" ? 1 : 2
+      return Math.min(prev + 1, pages.length - offset)
     })
+  }
+
+  const getTranslationFactor = (i: number) => {
+    return layout === "base" ? i - 1 : i
+  }
 
   const determineLayoutMode = () => {
     const { clientWidth } = document.documentElement
-    setLayoutMode(clientWidth < 1024 ? "compact" : "base")
+    setLayoutMode(prev => {
+      prevLayout.current = prev
+      return clientWidth < 1024 ? "compact" : "base"
+    })
   }
-
-  useEffect(() => {
-    const offset = layoutMode === "base" ? 1 : 0
-    const factor = index - offset
-    translationFactor.set(factor >= 0 ? factor : 0)
-  }, [index])
 
   useLayoutEffect(() => {
     determineLayoutMode()
     window.addEventListener("resize", determineLayoutMode)
-
-    return () => {
-      window.removeEventListener("resize", determineLayoutMode)
-    }
+    return () => window.removeEventListener("resize", determineLayoutMode)
   }, [])
 
   useEffect(() => {
-    if (layoutMode === "compact") {
-      translationFactor.set(index)
-      return
+    if (prevLayout.current !== layout) {
+      if (layout === "compact" && index === pages.length - 1) {
+        setIndex(pages.length - 2)
+        return
+      }
+
+      if (layout === "base" && index === pages.length - 2) {
+        setIndex(pages.length - 1)
+        return
+      }
     }
 
-    const factor = index - 1
-    translationFactor.set(factor >= 0 ? factor : 0)
-  }, [layoutMode])
+    const factor = getTranslationFactor(index)
+    translationFactor.set(factor)
+  }, [index, layout])
 
   return (
     <Styled.FooterSpacer>
@@ -94,8 +92,9 @@ const ArticleFooter: React.FC<Props> = ({ currentPath }) => {
           <Styled.FooterPagesContainer>
             <Styled.FooterPages as={motion.div} style={{ translateX }}>
               {pages.map((page, i) => {
-                if (i === currentPathIndex)
+                if (i === currentPathIndex) {
                   return <React.Fragment key={page.id}></React.Fragment>
+                }
 
                 const header =
                   i > currentPathIndex
