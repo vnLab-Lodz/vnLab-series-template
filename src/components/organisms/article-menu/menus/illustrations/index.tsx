@@ -13,10 +13,7 @@ const Illustrations: React.FC<Props> = ({ closeMenu, images }) => {
     <Styled.IllustrationsWrapper>
       {images.map(({ imageData, calculatePosition, scrollIntoView }, index) => (
         <Styled.IllustrationButton
-          onClick={e => {
-            console.log(e)
-            console.log("hello")
-
+          onClick={() => {
             closeMenu(() => {
               if (scrollIntoView) {
                 scrollIntoView()
