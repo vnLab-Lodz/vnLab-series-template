@@ -109,7 +109,6 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
       data.allFootnotes.nodes.filter(node => node.mdx.fields.locale === locale),
     [data.allFootnotes]
   )
-  console.log(footnotes)
 
   const db = useMemo(() => {
     const database = create({
