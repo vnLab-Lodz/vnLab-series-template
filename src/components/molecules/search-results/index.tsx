@@ -2,6 +2,7 @@ import { RetrievedDoc } from "@lyrasearch/lyra"
 import React from "react"
 import TocElement from "../toc-element"
 import * as Styled from "./style"
+import { useTranslation } from "react-i18next"
 
 interface Props {
   query: string
@@ -12,6 +13,8 @@ interface Props {
       text: "string"
       isTitle: "boolean"
       pageId: "string"
+      isFootnote: "boolean"
+      footnoteIndex: "string"
     }>,
     {
       readonly path: string
@@ -27,6 +30,7 @@ interface Props {
 }
 
 const SearchResults: React.FC<Props> = ({ results, query }) => {
+  const { t } = useTranslation("common")
   const excerpt = query
     .replaceAll(/[\[\\\^\$\.\|\?\*\+\(\)]/g, m => `\\${m}`)
     .trim()
@@ -36,6 +40,11 @@ const SearchResults: React.FC<Props> = ({ results, query }) => {
       {results.map(([res, page], i) => (
         <React.Fragment key={`search-result__${res.id}`}>
           <TocElement page={page} last={results.length - 1 === i}>
+            {res.document.isFootnote ? (
+              <div>
+                {t("from_footnote", { number: res.document.footnoteIndex })}
+              </div>
+            ) : null}
             {!res.document.isTitle ? (
               <div
                 dangerouslySetInnerHTML={{
