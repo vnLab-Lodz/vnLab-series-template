@@ -17,5 +17,5 @@ export const useFootnotes = () => {
 }
 export const useFootnote = (index: string) => {
   const footnotes = useFootnotes()
-  return footnotes.find(f => f.index === index)
+  return footnotes.find(f => f.index == index)
 }

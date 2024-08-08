@@ -6,7 +6,7 @@ import { ThemeProvider } from "styled-components"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import { lightTheme } from "~styles/theme"
-import { isUndefined } from "~util"
+import { delocalizeSlug, isUndefined } from "~util"
 import * as Styled from "../styles/page-styles/search"
 import SearchInput from "~components/molecules/search-input"
 import SearchTabs from "~components/molecules/search-tabs"
@@ -16,6 +16,7 @@ import visit from "unist-util-visit"
 import { toString } from "~util/toString"
 import { create, insert, search } from "@lyrasearch/lyra"
 import ServiceWorkerDialog from "~components/sw-dialog"
+import { Footnote } from "src/context/footnotes-context"
 
 interface SitePageNode {
   path: string
@@ -47,6 +48,11 @@ interface QueryData {
   allSitePage: {
     nodes: SitePageNode[]
   }
+  allFootnotes: {
+    nodes: (Footnote & {
+      mdx: { id: string; slug: string; fields: { locale: string } }
+    })[]
+  }
 }
 
 export interface SearchNode extends PublicationPage {
@@ -56,6 +62,7 @@ export interface SearchNode extends PublicationPage {
 export enum TABS {
   TITLES,
   EVERYWHERE,
+  FOOTNOTES,
 }
 
 const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
@@ -97,6 +104,13 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
     [data]
   )
 
+  const footnotes = useMemo(
+    () =>
+      data.allFootnotes.nodes.filter(node => node.mdx.fields.locale === locale),
+    [data.allFootnotes]
+  )
+  console.log(footnotes)
+
   const db = useMemo(() => {
     const database = create({
       schema: {
@@ -105,6 +119,8 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
         text: "string",
         isTitle: "boolean",
         pageId: "string",
+        isFootnote: "boolean",
+        footnoteIndex: "string",
       },
     })
 
@@ -117,7 +133,15 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
         const link = `${page.path}#${uid}`
         const isTitle = false
         const pageId = page.id
-        insert(database, { uid, link, text, isTitle, pageId })
+        insert(database, {
+          uid,
+          link,
+          text,
+          isTitle,
+          pageId,
+          isFootnote: false,
+          footnoteIndex: "",
+        })
       })
 
       const text = page.title
@@ -125,11 +149,35 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
       const link = `/${page.path}`
       const isTitle = true
       const pageId = page.id
-      insert(database, { uid, link, text, isTitle, pageId })
+      insert(database, {
+        uid,
+        link,
+        text,
+        isTitle,
+        pageId,
+        isFootnote: false,
+        footnoteIndex: "",
+      })
+    }
+
+    for (const footnote of footnotes) {
+      const slug = delocalizeSlug(footnote.mdx.slug)
+      const path = slug.replace("index", "")
+      const link = `/${path}${footnote.link}`
+
+      insert(database, {
+        uid: footnote.id,
+        link: link,
+        text: footnote.content,
+        isTitle: false,
+        pageId: footnote.mdx.id,
+        isFootnote: true,
+        footnoteIndex: footnote.index.toString(),
+      })
     }
 
     return database
-  }, [pages])
+  }, [pages, footnotes])
 
   const results = useMemo(() => {
     const searchResults = search(db, {
@@ -141,6 +189,8 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
     const resultsForMapping =
       tab === TABS.TITLES
         ? searchResults.hits.filter(r => r.document.isTitle)
+        : tab === TABS.FOOTNOTES
+        ? searchResults.hits.filter(r => r.document.isFootnote)
         : searchResults.hits
 
     return resultsForMapping
@@ -203,6 +253,21 @@ export const query = graphql`
           slugs
         }
         path
+      }
+    }
+    allFootnotes {
+      nodes {
+        mdx {
+          id
+          slug
+          fields {
+            locale
+          }
+        }
+        id
+        link
+        index
+        content
       }
     }
   }
