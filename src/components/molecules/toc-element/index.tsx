@@ -40,7 +40,7 @@ const TocElement: React.FC<Props> = ({
   const chapter = getChapterFromIndex(page.index ?? 0)
 
   return (
-    <Styled.TocContainer highlighted={current}>
+    <Styled.TocContainer $highlighted={current} data-highlighted={current}>
       {chapter !== "00" && (
         <Styled.ArticleNumber>{chapter}</Styled.ArticleNumber>
       )}
