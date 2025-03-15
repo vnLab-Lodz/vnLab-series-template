@@ -56,7 +56,7 @@ export const TocContainer = styled.article<{ $highlighted?: boolean }>`
 
 export const SlidshowTitle = styled(atoms.p)`
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 1.1);
   font-weight: lighter;
   grid-column: 4 / -3;
   align-self: end;
@@ -127,7 +127,7 @@ export const SummaryButton = styled.button`
 
 export const Summary = styled(atoms.p)`
   // roughly 15px on desktop
-  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.37)`};
+  font-size: ${({ theme }) => `calc(${theme.typography.sm} * 1.5)`};
   line-height: 150%;
   margin-top: ${({ theme }) => theme.spacing.xxs};
   grid-column: 4 / -3;
