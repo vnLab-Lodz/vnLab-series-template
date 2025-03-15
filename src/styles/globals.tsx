@@ -110,7 +110,7 @@ export const Globals = createGlobalStyle`
     --text-xl: 32px;
     --text-lg: 22px;
     --text-md: 18px;
-    --text-sm: 11px;
+    --text-sm: 12px;
     
     @media ${devices.tablet} {
         --unit-base: 1.25rem;
@@ -119,7 +119,7 @@ export const Globals = createGlobalStyle`
         --text-xl: 60px;
         --text-lg: 25px;
         --text-md: 20px;
-        --text-sm: 11px;
+        --text-sm: 12px;
     }
 
     @media ${devices.desktop} and (min-height: 1100px) {
