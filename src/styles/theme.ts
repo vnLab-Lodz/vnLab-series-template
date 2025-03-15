@@ -3,10 +3,10 @@ import typography from "./typography"
 
 export const lightTheme = {
   palette: {
-    black: "rgba(34, 34, 34, 1)",
+    black: "rgba(17, 17, 17, 1)",
     dark: "rgba(51, 51, 51, 1)",
     medium: "rgba(188, 188, 188, 1)",
-    light: "rgba(248, 248, 248, 1)",
+    light: "rgba(251, 251, 251, 1)",
     white: "rgba(255, 255, 255, 1)",
     primary: "rgba(235, 248, 234, 1)",
     secondary: "rgba(234, 248, 248, 1)",
@@ -32,10 +32,10 @@ export const lightTheme = {
 export const darkTheme = {
   ...lightTheme,
   palette: {
-    white: "rgba(27, 27, 27, 1)",
-    light: "rgba(34, 34, 34, 1)",
+    white: "rgba(0, 0, 0, 1)",
+    light: "rgba(17, 17, 17, 1)",
     medium: "rgba(188, 188, 188, 1)",
-    dark: "rgba(248, 248, 248, 1)",
+    dark: "rgba(251, 251, 251, 1)",
     black: "rgba(255, 255, 255, 1)",
     primary: "rgba(235, 248, 234, 1)",
     secondary: "rgba(234, 248, 248, 1)",
