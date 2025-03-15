@@ -91,8 +91,8 @@ const HypothesisBtn: React.FC<Props> = ({
     invertFactor,
     themeMode !== THEME_MODES.DARK ? [0, 1] : [0, 1],
     themeMode !== THEME_MODES.DARK
-      ? ["brightness(0)", "brightness(10)"]
-      : ["brightness(10)", "brightness(0)"]
+      ? ["brightness(0)", "brightness(15)"]
+      : ["brightness(15)", "brightness(0)"]
   )
 
   useEffect(() => {
