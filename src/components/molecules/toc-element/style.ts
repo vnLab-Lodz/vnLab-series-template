@@ -3,7 +3,7 @@ import atoms from "~components/atoms"
 import Link from "~components/atoms/Link"
 import { devices } from "~styles/breakpoints"
 
-export const TocContainer = styled.article<{ highlighted?: boolean }>`
+export const TocContainer = styled.article<{ $highlighted?: boolean }>`
   position: relative;
   display: grid;
   grid-column: 1 / last-col;
@@ -13,16 +13,37 @@ export const TocContainer = styled.article<{ highlighted?: boolean }>`
   padding-top: ${({ theme }) => theme.spacing.xs};
   padding-bottom: ${({ theme }) => theme.spacing.xs};
   grid-template-columns: repeat(16, 1fr);
+  border-block: thin solid transparent;
+  border-top: thin solid transparent;
+  border-bottom: thin solid transparent;
 
-  ${({ highlighted, theme }) =>
-    highlighted &&
+  ${({ $highlighted, theme }) =>
+    $highlighted &&
     css`
       background: ${theme.palette.light};
-      border-block: 1px solid ${theme.palette.black};
+      border-block: thin solid ${theme.palette.black};
       /* old Safari does not handle block */
-      border-top: 1px solid ${theme.palette.black};
-      border-bottom: 1px solid ${theme.palette.black};
+      border-top: thin solid ${theme.palette.black};
+      border-bottom: thin solid ${theme.palette.black};
+
+      & + * {
+        border-top: thin solid transparent !important;
+      }
     `};
+
+  transition: background 0.2s ease-in-out;
+
+  &:has(+ &[data-highlighted="true"]) {
+    border-bottom: thin solid transparent !important;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.palette.light};
+    border-block: thin solid ${({ theme }) => theme.palette.black};
+    /* old Safari does not handle block */
+    border-top: thin solid ${({ theme }) => theme.palette.black};
+    border-bottom: thin solid ${({ theme }) => theme.palette.black};
+  }
 
   @media ${devices.tablet} {
     grid-template-columns: repeat(27, 1fr);
@@ -137,11 +158,19 @@ export const Divider = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  height: 1px;
-  background: ${({ theme }) => theme.palette.dark};
+  height: 0px;
+  border-bottom: thin solid ${({ theme }) => theme.palette.dark};
   grid-column: 2 / -3;
 
   @media ${devices.tablet} {
     grid-column: 3 / -3;
+  }
+
+  ${TocContainer}:has(+ ${TocContainer}:hover) & {
+    display: none;
+  }
+
+  ${TocContainer}:hover & {
+    display: none;
   }
 `
