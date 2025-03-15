@@ -22,7 +22,7 @@ export const FootnoteTarget = styled.span`
     & span:last-of-type {
       outline: 1px black solid;
       background: #fbfdbc;
-      color: #222222;
+      color: #111111;
     }
   }
 `
