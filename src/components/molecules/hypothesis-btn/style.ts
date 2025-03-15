@@ -81,7 +81,7 @@ export const IconButton = styled.button<{ left?: boolean }>`
 export const CloseBtn = styled(motion.img)`
   height: 11px;
   width: 11px;
-  filter: brightness(10);
+  filter: brightness(15);
   cursor: pointer;
   margin-right: ${({ theme }) => theme.spacing.xs};
 

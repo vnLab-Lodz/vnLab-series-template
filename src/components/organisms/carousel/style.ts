@@ -176,7 +176,7 @@ export const Fullscreen = styled(GridContainer)`
 `
 
 export const FullscreenArrow = styled(Arrow)`
-  filter: brightness(10);
+  filter: brightness(15);
   grid-row: 2;
   grid-column: ${({ side }) => (side === "left" ? "2 / 4" : "-2 / last-col")};
 
@@ -191,7 +191,7 @@ export const FullscreenArrow = styled(Arrow)`
 `
 
 export const CloseBtn = styled.button`
-  filter: brightness(10);
+  filter: brightness(15);
   cursor: pointer;
   padding: 0px;
   background: none;

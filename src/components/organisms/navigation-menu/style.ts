@@ -60,7 +60,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
       & > button,
       & > a,
       & > img {
-        filter: brightness(10);
+        filter: brightness(15);
       }
     `}
 
@@ -69,7 +69,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
         background: ${palette.identity};
 
         & > * {
-          filter: brightness(10) !important;
+          filter: brightness(15) !important;
         }
       }
 
@@ -88,7 +88,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
         & > button,
         & > a,
         & > img {
-          filter: brightness(10) !important;
+          filter: brightness(15) !important;
         }
       }
     }
@@ -101,7 +101,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
         background: ${palette.identity};
 
         & > * {
-          filter: brightness(10) !important;
+          filter: brightness(15) !important;
         }
       }
 
@@ -119,7 +119,7 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
         }
 
         & > * {
-          filter: brightness(10) !important;
+          filter: brightness(15) !important;
         }
       }
     `}
@@ -200,7 +200,7 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
     open &&
     css`
       & > * {
-        filter: brightness(10) !important;
+        filter: brightness(15) !important;
       }
     `}
 
@@ -387,7 +387,7 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
 `
 
 export const SearchImg = styled.img`
-  filter: brightness(10);
+  filter: brightness(15);
 `
 
 //#endregion
