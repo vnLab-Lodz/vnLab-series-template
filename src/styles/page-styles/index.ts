@@ -194,7 +194,7 @@ export const Person = styled.h2`
 export const Logo = styled.img`
   margin: auto;
   height: 60px;
-  filter: invert(1) brightness(10);
+  filter: invert(1) brightness(15);
 
   padding-right: ${({ theme: { spacing } }) => spacing.xs};
   margin-bottom: ${({ theme }) => theme.spacing.md};
