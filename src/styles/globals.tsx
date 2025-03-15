@@ -13,11 +13,11 @@ export const Globals = createGlobalStyle`
 
   *::selection {
     background: #fbfdbc; /* WebKit/Blink Browsers */
-    color: #222222;
+    color: #111111;
   }
   *::-moz-selection {
     background: #fbfdbc; /* Gecko Browsers */
-    color: #222222;
+    color: #111111;
   }
 
   html, body, div, span, applet, object, iframe,
