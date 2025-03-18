@@ -51,9 +51,14 @@ export const ArrowButton = styled.button<{ side: "left" | "right" }>`
     border: none;
     border-radius: 0px;
     outline: 1px solid ${palette.dark};
+    transition: background 0.2s ease-in-out;
 
     @media ${devices.tablet} {
       grid-column: ${side === "left" ? "1 / 3" : "-3 / last-col"};
+    }
+
+    &:hover {
+      background: ${palette.light};
     }
   `}
 `
