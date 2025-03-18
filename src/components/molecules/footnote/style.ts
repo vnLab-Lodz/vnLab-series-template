@@ -39,7 +39,7 @@ export const FootnoteIndex = styled.span`
 
 export const FootnoteContent = styled(GridContainer)`
   ${({ theme: { palette, typography, spacing } }) => css`
-    grid-template-rows: auto auto;
+    grid-template-rows: auto;
     background: ${palette.secondary};
     border-top: solid 1px ${palette.dark};
     border-bottom: solid 1px ${palette.dark};
@@ -60,7 +60,7 @@ export const FootnoteContent = styled(GridContainer)`
 
 export const FootnoteNumber = styled(atoms.p)`
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
 
   @media ${devices.tablet} {
     grid-column: 7;
@@ -72,15 +72,15 @@ export const FootnoteNumber = styled(atoms.p)`
 `
 
 export const FootnoteParagraph = styled(atoms.p)`
-  grid-column: 4 / 32;
-  grid-row: 2;
+  grid-column: 4 / 30;
+  grid-row: 1;
 
   @media ${devices.tablet} {
-    grid-column: 9 / 30;
+    grid-column: 9 / 28;
   }
 
   @media ${devices.laptop} {
-    grid-column: 10 / 25;
+    grid-column: 10 / 23;
   }
 `
 
@@ -93,6 +93,8 @@ export const CloseBtn = styled.button`
 
   grid-column: 31;
   grid-row: 1;
+  height: fit-content;
+  margin-top: 0.25em;
 
   @media ${devices.tablet} {
     grid-column: 29;
