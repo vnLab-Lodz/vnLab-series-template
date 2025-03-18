@@ -24,5 +24,12 @@
   "hypothesis_btn": "annotate, comment",
   "graphical": "Graphical chapter",
   "sw_update": "Updating to the latest release...",
-  "sw_download": "This action will download the latest release of the publication to your device. This will allow you to view the publication offline in its entirety. It may take a while. Do you want to continue?"
+  "sw_download": "This action will download the latest release of the publication to your device. This will allow you to view the publication offline in its entirety. It may take a while. Do you want to continue?",
+  "icons": {
+    "theme": "Change theme",
+    "hypothesis": "Enable annotations",
+    "download": "Download publication for offline reading",
+    "search": "Search",
+    "language": "Change language"
+  }
 }

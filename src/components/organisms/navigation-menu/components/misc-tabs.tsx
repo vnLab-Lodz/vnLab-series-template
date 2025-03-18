@@ -1,18 +1,18 @@
-import { LocalizedLink, useLocalization } from "gatsby-theme-i18n"
-import React, { useMemo } from "react"
-import LanguagePicker from "~components/molecules/language-picker"
-import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
-import { THEME_MODES } from "src/context/theme-switcher-context"
-import * as Styled from "../style"
-import useNavMenuContext from "src/hooks/useNavMenuContext"
-import { NAV_MODES } from "../nav-menu-context"
-import { HypothesisIconButton } from "~components/molecules/hypothesis-btn"
 import { navigate } from "gatsby"
+import { useLocalization } from "gatsby-theme-i18n"
+import React from "react"
+import { THEME_MODES } from "src/context/theme-switcher-context"
+import useNavMenuContext from "src/hooks/useNavMenuContext"
+import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
+import { HypothesisIconButton } from "~components/molecules/hypothesis-btn"
+import LanguagePicker from "~components/molecules/language-picker"
+import { NAV_MODES } from "../nav-menu-context"
+import * as Styled from "../style"
 
-import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
-import ThemeMode from "../../../../images/icons/jasna_ciemna.svg"
-import DownloadSVG from "../../../../images/icons/arrow_down.svg"
 import { useTranslation } from "react-i18next"
+import DownloadSVG from "../../../../images/icons/arrow_down.svg"
+import ThemeMode from "../../../../images/icons/jasna_ciemna.svg"
+import SearchSVG from "../../../../images/icons/magnifying_glass.svg"
 
 interface Props {
   currentPath: string
@@ -72,7 +72,10 @@ const MiscTabs: React.FC<Props> = ({
   return (
     <>
       {navMode !== NAV_MODES.PERMANENT && !disableThemeSwitching && (
-        <Styled.TabButton onClick={changeThemeMode}>
+        <Styled.TabButton
+          onClick={changeThemeMode}
+          title={t("common:icons.theme")}
+        >
           <img
             height={20}
             width={17}
@@ -91,6 +94,7 @@ const MiscTabs: React.FC<Props> = ({
         />
       ) : null}
       <Styled.TabButton
+        title={t("common:icons.search")}
         small={aside}
         tabIndex={0}
         role="link"
@@ -108,6 +112,7 @@ const MiscTabs: React.FC<Props> = ({
         />
       </Styled.TabButton>
       <Styled.TabButton
+        title={t("common:icons.download")}
         small={aside}
         tabIndex={0}
         onClick={downloadPublication}

@@ -1,6 +1,7 @@
 import { useLocalization } from "gatsby-theme-i18n"
 import React, { useMemo, useState } from "react"
 import * as Styled from "./style"
+import { useTranslation } from "react-i18next"
 
 interface Language {
   code: string
@@ -32,6 +33,7 @@ const LanguagePicker: React.FC<Props> = ({
   const [langPickerOpen, setLangPickerOpen] = useState(false)
 
   const { config, locale } = useLocalization()
+  const { t } = useTranslation()
   const locales = useMemo(() => getLocales(config, locale), [config, locale])
   const languages: Language[] = useMemo(() => {
     return config.map(({ code, name }: Language) => ({ code, name }))
@@ -39,6 +41,7 @@ const LanguagePicker: React.FC<Props> = ({
 
   return (
     <Styled.LangButton
+      title={t("common:icons.language")}
       type="button"
       compact={compact}
       inMenu={!standalone}
