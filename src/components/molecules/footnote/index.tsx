@@ -46,7 +46,7 @@ const FootnotePortal: React.FC<PropsWithChildren<PortalProps>> = ({
             toggle()
           }}
         >
-          <img src={XSVG} alt="Close" />
+          <img height={20} className="sizeable-icon" src={XSVG} alt="Close" />
         </Styled.CloseBtn>
         <Styled.FootnoteNumber>{index}</Styled.FootnoteNumber>
         <Styled.FootnoteParagraph as="div">{children}</Styled.FootnoteParagraph>
