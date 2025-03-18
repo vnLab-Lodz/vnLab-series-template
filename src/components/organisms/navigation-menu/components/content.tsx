@@ -80,12 +80,12 @@ const NavMenuContent: React.FC<Props> = ({
                 </Styled.TabButtonText>
               </Styled.TabButton>
             </Styled.TabItems>
-            <Styled.TabItems noFlex>
-              <MiscTabs
-                currentPath={currentPath}
-                disableThemeSwitching={disableThemeSwitching}
-              />
-            </Styled.TabItems>
+            <MiscTabs
+              Wrapper={Styled.TabItems}
+              wrapperProps={{ noFlex: true }}
+              currentPath={currentPath}
+              disableThemeSwitching={disableThemeSwitching}
+            />
           </Styled.Tabs>
           <ActiveTab navState={navState} />
           <NextTab navState={navState} setNavState={setNavState} />
