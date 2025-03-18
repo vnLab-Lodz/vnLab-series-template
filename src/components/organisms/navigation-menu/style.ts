@@ -268,6 +268,7 @@ export const Tabs = styled.header<{ sticky?: boolean }>`
     background: ${palette.identity};
     grid-column: 1 / last-col;
     padding: ${spacing.xs} ${spacing.xxs};
+    gap: ${spacing.xs};
 
     @media ${devices.tablet} {
       padding: 0px ${spacing.xs};
@@ -304,10 +305,6 @@ export const TabItems = styled.div<{ noFlex?: boolean }>`
     ${!noFlex &&
     css`
       justify-content: space-evenly;
-
-      @media ${devices.tablet} {
-        flex: 1;
-      }
     `}
 
     ${noFlex &&
@@ -317,6 +314,14 @@ export const TabItems = styled.div<{ noFlex?: boolean }>`
       justify-content: end;
     `}
   `}
+
+  & > *:first-of-type {
+    padding-left: 0;
+  }
+
+  & > *:last-of-type {
+    padding-right: 0;
+  }
 `
 
 export const TabButton = styled.button<{ small?: boolean }>`
