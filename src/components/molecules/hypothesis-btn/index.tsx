@@ -30,6 +30,7 @@ export const HypothesisIconButton = ({
   ignoreTheme,
   ...delegated
 }: any) => {
+  const { t } = useTranslation()
   const { showHypothesis, hideHypothesis, isHidden } = useHypothesis()
   const { themeMode } = useThemeSwitcherContext()
 
@@ -45,6 +46,7 @@ export const HypothesisIconButton = ({
 
   return (
     <Button
+      title={t("common:icons.hypothesis")}
       aria-label="Toggle Hypothesis"
       type="button"
       id="hypothesis-btn"
