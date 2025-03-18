@@ -375,12 +375,14 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
       &:after {
         content: "";
         position: absolute;
-        bottom: -7px;
+        bottom: -10px;
         left: 0px;
         right: 0px;
-        width: 100%;
-        height: 1px;
+        width: 4px;
+        height: 4px;
+        border-radius: 100%;
         background-color: ${lightTheme.palette.white};
+        margin-inline: auto;
       }
     `}
   `}
