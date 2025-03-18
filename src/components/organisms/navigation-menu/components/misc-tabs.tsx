@@ -71,7 +71,6 @@ const MiscTabs: React.FC<Props> = ({
 
   return (
     <>
-      <LanguagePicker currentPath={currentPath} compact={aside} />
       {navMode !== NAV_MODES.PERMANENT && !disableThemeSwitching && (
         <Styled.TabButton onClick={changeThemeMode}>
           <img
@@ -123,6 +122,7 @@ const MiscTabs: React.FC<Props> = ({
           alt="Download publication"
         />
       </Styled.TabButton>
+      <LanguagePicker currentPath={currentPath} compact={aside} />
     </>
   )
 }
