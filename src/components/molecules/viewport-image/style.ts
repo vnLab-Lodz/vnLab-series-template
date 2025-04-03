@@ -32,7 +32,10 @@ export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
   }
 `
 
-export const ImageWrapper = styled.div<{ $withVerticalPadding?: boolean }>`
+export const ImageWrapper = styled.div<{
+  $withVerticalPadding?: boolean
+  $verticalImage?: boolean
+}>`
   justify-content: center;
   overflow: hidden;
   display: flex;
@@ -54,6 +57,26 @@ export const ImageWrapper = styled.div<{ $withVerticalPadding?: boolean }>`
   @media ${devices.laptop} {
     grid-column: 3 / last-col;
   }
+
+  ${({ $verticalImage }) =>
+    $verticalImage &&
+    css`
+      justify-content: flex-start;
+      grid-column: 2 / 32;
+
+      @media ${devices.tablet} {
+        grid-column: 7 / 30;
+      }
+
+      @media ${devices.laptop} {
+        grid-column: 9 / 25;
+      }
+    `}
+`
+
+export const ImageCaptionTarget = styled.div`
+  position: relative;
+  width: auto;
 `
 
 export const Caption = styled(InnerGrid)`
@@ -94,6 +117,10 @@ export const CaptionText = styled(atoms.p)`
     font-size: ${typography.sm};
     text-align: left;
     font-weight: 300;
+
+    @media ${devices.laptop} {
+      grid-column: 1 / 9;
+    }
   `}
 `
 
@@ -176,13 +203,35 @@ export const CloseBtn = styled.button`
 `
 
 export const Expand = styled.button`
-  background: none;
+  position: absolute;
+  bottom: ${({ theme }) => theme.spacing.xs};
+  right: ${({ theme }) => theme.spacing.xs};
+
+  background: ${({ theme }) => theme.palette.white};
+  padding: calc(${({ theme }) => theme.spacing.xxs} / 2);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
   border: none;
   grid-column: last-col;
   cursor: pointer;
-  display: block;
 
-  grid-row: 1;
-  grid-column: last-col;
-  align-self: center;
+  & > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  transition: background 0.3s ease-in-out;
+  & * {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.palette.black};
+    
+    & * {
+      fill: ${({ theme }) => theme.palette.white};
+      stroke: ${({ theme }) => theme.palette.white};
+  }
 `
