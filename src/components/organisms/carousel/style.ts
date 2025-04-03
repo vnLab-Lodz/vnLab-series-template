@@ -116,8 +116,10 @@ export const Arrow = styled.button<{ side: "left" | "right" }>`
 
 export const Expand = styled.button`
   position: absolute;
-  top: calc((${({ theme }) => theme.spacing.xs} + ${({ theme }) =>
-  theme.spacing.xs}) * -1);
+  top: calc(
+    (${({ theme }) => theme.spacing.xs} + ${({ theme }) => theme.spacing.xs}) *
+      -1
+  );
   right: ${({ theme }) => theme.spacing.xs};
 
   background: ${({ theme }) => theme.palette.light};
@@ -134,18 +136,25 @@ export const Expand = styled.button`
     justify-content: center;
   }
 
-
   transition: background 0.3s ease-in-out;
   & * {
     transition: all 0.3s ease-in-out;
   }
 
+  background: ${({ theme }) => theme.palette.light};
+
+  & * {
+    fill: ${({ theme }) => theme.palette.black};
+    stroke: ${({ theme }) => theme.palette.black};
+  }
+
   &:hover {
     background: ${({ theme }) => theme.palette.dark};
-    
+
     & * {
       fill: ${({ theme }) => theme.palette.white};
       stroke: ${({ theme }) => theme.palette.white};
+    }
   }
 `
 
