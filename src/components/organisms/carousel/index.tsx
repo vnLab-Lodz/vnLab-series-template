@@ -14,7 +14,6 @@ import ReactDOM from "react-dom"
 import * as Styled from "./style"
 
 import LeftArrowSVG from "../../../images/icons/arrow_left.svg"
-import ExpandArrow from "src/images/icons/arrow_expand.svg"
 import RightArrowSVG from "../../../images/icons/arrow_right.svg"
 
 import { SwiperSlide } from "swiper/react"
@@ -181,8 +180,6 @@ const Image: React.FC<{
   carouselUid: string
 }> = ({ carouselUid, index, caption, image }) => {
   const [isFullsize, setIsFullsize] = useState(false)
-  const { themeMode } = useThemeSwitcherContext()
-  const filter = themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
 
   const img = getImage(image) as IGatsbyImageData
 
@@ -194,6 +191,7 @@ const Image: React.FC<{
           alt={`${caption} | Carousel image ${index}`}
           image={img}
         />
+
         <Styled.Caption>
           <ReactMarkdown
             components={{ ...mdxComponents, p: Styled.ImageCaption } as any}
@@ -201,11 +199,36 @@ const Image: React.FC<{
             {caption}
           </ReactMarkdown>
           <Styled.Expand onClick={() => setIsFullsize(true)}>
-            <img
-              src={ExpandArrow}
-              alt="Fullsize"
-              style={{ filter, height: 16, width: 16 }}
-            />
+            <span>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                className="sizeable-icon"
+              >
+                <path
+                  d="M9.21995 2.78003L6.69995 5.30003"
+                  stroke="#111111"
+                  stroke-miterlimit="10"
+                />
+                <path
+                  d="M7.17993 1.64L11.4999 0.5L10.3599 4.82L7.17993 1.64Z"
+                  fill="#111111"
+                  strokeWidth={0}
+                />
+                <path
+                  d="M2.78003 9.21995L5.30003 6.69995"
+                  stroke="#111111"
+                  stroke-miterlimit="10"
+                />
+                <path
+                  d="M4.82 10.3599L0.5 11.4999L1.64 7.17993L4.82 10.3599Z"
+                  fill="#111111"
+                  strokeWidth={0}
+                />
+              </svg>
+            </span>
           </Styled.Expand>
         </Styled.Caption>
       </Styled.ImageWrapper>
