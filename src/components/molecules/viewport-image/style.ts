@@ -207,7 +207,7 @@ export const Expand = styled.button`
   bottom: ${({ theme }) => theme.spacing.xs};
   right: ${({ theme }) => theme.spacing.xs};
 
-  background: ${({ theme }) => theme.palette.white};
+  background: ${({ theme }) => theme.palette.light};
   padding: calc(${({ theme }) => theme.spacing.xxs} / 2);
   border-radius: 50%;
   aspect-ratio: 1 / 1;
@@ -228,7 +228,7 @@ export const Expand = styled.button`
   }
 
   &:hover {
-    background: ${({ theme }) => theme.palette.black};
+    background: ${({ theme }) => theme.palette.dark};
     
     & * {
       fill: ${({ theme }) => theme.palette.white};
