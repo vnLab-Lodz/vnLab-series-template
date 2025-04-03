@@ -84,6 +84,7 @@ export const Caption = styled.article`
   flex: 0 0 auto;
   display: flex;
   align-items: baseline;
+  position: relative;
 `
 
 export const Controls = styled(GridConstraint)`
@@ -114,14 +115,37 @@ export const Arrow = styled.button<{ side: "left" | "right" }>`
 `
 
 export const Expand = styled.button`
-  background: none;
+  position: absolute;
+  top: calc((${({ theme }) => theme.spacing.xs} + ${({ theme }) =>
+  theme.spacing.xs}) * -1);
+  right: ${({ theme }) => theme.spacing.xs};
+
+  background: ${({ theme }) => theme.palette.light};
+  padding: calc(${({ theme }) => theme.spacing.xxs} / 2);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
   border: none;
   grid-column: last-col;
   cursor: pointer;
-  margin-left: auto;
 
-  img {
-    vertical-align: middle;
+  & > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  transition: background 0.3s ease-in-out;
+  & * {
+    transition: all 0.3s ease-in-out;
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.palette.dark};
+    
+    & * {
+      fill: ${({ theme }) => theme.palette.white};
+      stroke: ${({ theme }) => theme.palette.white};
   }
 `
 
@@ -149,7 +173,7 @@ export const ImageCaption = styled(atoms.p)`
     font-family: ${typography.fonts.primary};
     font-size: ${typography.sm};
     margin-top: ${spacing.xs};
-    width: 90%;
+    width: 50%;
     white-space: break-spaces;
   `}
 `
