@@ -1,10 +1,6 @@
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
-import {
-  Caption,
-  CaptionButton,
-  CaptionSlideContainer,
-} from "../caption-slide/style"
+import { Caption, CaptionSlideContainer } from "../caption-slide/style"
 import { SlideImageWrapper } from "../center-image-slide/style"
 import Slide from "../slide"
 import { TextSlideContainer } from "../text-slide/style"
