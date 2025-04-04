@@ -6,7 +6,8 @@ import AbstractMolecule from "./molecules/abstract"
 import AuthorMolecule from "./molecules/author"
 import EditionMolecule from "./molecules/edition"
 import Quote, { BlockQuote } from "./molecules/quote"
-import { HalfSlide } from "./molecules/slides/split-slide/style"
+import { HalfSlide as SlidesHalfSlide } from "./molecules/slides/split-slide/style"
+import { HalfSlide as GraphicalHalfSlide } from "./molecules/graphical-components/split-slide/style"
 
 export const gridConstraint = css`
   max-width: -moz-available;
@@ -20,7 +21,8 @@ export const gridConstraint = css`
     grid-column: 9 / 25;
   }
 
-  ${HalfSlide} & {
+  ${SlidesHalfSlide} &,
+  ${GraphicalHalfSlide} & {
     @media ${devices.laptop} {
       grid-column: 3 / -3;
     }
