@@ -25,6 +25,7 @@ interface Props {
       readonly index?: number | undefined
       readonly author?: string | undefined
       readonly slideshow: boolean
+      readonly graphical: boolean
     }
   ])[]
 }
