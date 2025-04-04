@@ -210,7 +210,7 @@ const Image: React.FC<{
                 <path
                   d="M9.21995 2.78003L6.69995 5.30003"
                   stroke="#111111"
-                  stroke-miterlimit="10"
+                  strokeMiterlimit="10"
                 />
                 <path
                   d="M7.17993 1.64L11.4999 0.5L10.3599 4.82L7.17993 1.64Z"
@@ -220,7 +220,7 @@ const Image: React.FC<{
                 <path
                   d="M2.78003 9.21995L5.30003 6.69995"
                   stroke="#111111"
-                  stroke-miterlimit="10"
+                  strokeMiterlimit="10"
                 />
                 <path
                   d="M4.82 10.3599L0.5 11.4999L1.64 7.17993L4.82 10.3599Z"
