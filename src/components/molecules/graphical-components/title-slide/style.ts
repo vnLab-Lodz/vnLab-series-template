@@ -8,6 +8,7 @@ export const TextContainer = styled(TextSlide)`
   width: 100%;
   position: relative;
   text-align: center;
+  min-height: 100vh;
 
   & > * {
     margin-top: 0 !important;
