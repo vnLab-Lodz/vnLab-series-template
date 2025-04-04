@@ -100,7 +100,7 @@ const MiscTabs: React.FC<Props> = ({
             <path
               d="M8.46002 0.5V9.13999"
               stroke="white"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
             />
             <path
               d="M5.90002 7.05999L8.46002 11.38L11.02 7.05999H5.98002H5.90002Z"
@@ -109,17 +109,17 @@ const MiscTabs: React.FC<Props> = ({
             <path
               d="M1.17999 16.02H15.74"
               stroke="white"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
             />
             <path
               d="M1.42004 16.5V12.82"
               stroke="white"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
             />
             <path
               d="M15.2599 16.5V12.82"
               stroke="white"
-              stroke-miterlimit="10"
+              strokeMiterlimit="10"
             />
           </svg>
         </Styled.TabButton>
