@@ -145,7 +145,7 @@ export const BackgroundGlobals = createGlobalStyle<{
   }
 `
 
-export const GraphicalChapterGlobals = createGlobalStyle<{
+export const SlideshowChapterGlobals = createGlobalStyle<{
   color: CSSProperties["backgroundColor"]
 }>`
   html, body {
@@ -159,6 +159,22 @@ export const GraphicalChapterGlobals = createGlobalStyle<{
     max-height: 100vh;
     overflow: auto;
     scroll-snap-type: y mandatory; 
+    scroll-behavior: smooth;
+  }
+`
+export const GraphicalChapterGlobals = createGlobalStyle<{
+  color: CSSProperties["backgroundColor"]
+}>`
+  html, body {
+    background-color: ${({ color }) => color};
+  }
+
+  html {
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
+    overflow: auto;
     scroll-behavior: smooth;
   }
 `

@@ -42,6 +42,7 @@ interface QueryData {
         summary: string
         index: number
         slideshow: boolean
+        graphical: boolean
       }
     }>
   }
@@ -98,6 +99,7 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
                 index: mdx.frontmatter.index,
                 mdxAST: mdx.mdxAST,
                 slideshow: mdx.frontmatter.slideshow,
+                graphical: mdx.frontmatter.graphical,
               },
             ]
       }, []),
@@ -109,7 +111,6 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
       data.allFootnotes.nodes.filter(node => node.mdx.fields.locale === locale),
     [data.allFootnotes]
   )
-  console.log(footnotes)
 
   const db = useMemo(() => {
     const database = create({
@@ -243,6 +244,7 @@ export const query = graphql`
           summary
           index
           slideshow
+          graphical
         }
       }
     }
