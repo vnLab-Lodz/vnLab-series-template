@@ -42,6 +42,7 @@ interface QueryData {
         summary: string
         index: number
         slideshow: boolean
+        graphical: boolean
       }
     }>
   }
@@ -98,6 +99,7 @@ const Search: React.FC<PageProps<QueryData>> = ({ location, data }) => {
                 index: mdx.frontmatter.index,
                 mdxAST: mdx.mdxAST,
                 slideshow: mdx.frontmatter.slideshow,
+                graphical: mdx.frontmatter.graphical,
               },
             ]
       }, []),
@@ -242,6 +244,7 @@ export const query = graphql`
           summary
           index
           slideshow
+          graphical
         }
       }
     }

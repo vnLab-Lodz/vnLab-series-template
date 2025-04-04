@@ -9,7 +9,8 @@ interface Node {
   frontmatter: {
     title: string
     date: string
-    slideshow: boolean
+    slideshow?: boolean
+    graphical?: boolean
   }
 }
 
@@ -22,14 +23,15 @@ interface Data {
 function chaptersFilter(node: Node) {
   const {
     slug,
-    frontmatter: { slideshow },
+    frontmatter: { slideshow, graphical },
   } = node
 
   return (
     !slug.includes("bibliography") &&
     !slug.includes("biograms") &&
     !slug.includes("hypothesis_tutorial") &&
-    !slideshow
+    !slideshow &&
+    !graphical
   )
 }
 
@@ -43,6 +45,10 @@ function biogramsFilter(node: Node) {
 
 function slideshowFilter(node: Node) {
   return !!node.frontmatter.slideshow
+}
+
+function graphicalFilter(node: Node) {
+  return !!node.frontmatter.graphical
 }
 
 function hypothesisFilter(node: Node) {
@@ -78,6 +84,7 @@ export const createPages = async ({
             title
             date
             slideshow
+            graphical
           }
           slug
         }
@@ -107,6 +114,14 @@ export const createPages = async ({
     .forEach(node =>
       createPage(
         composePageOptions(node, { template: "slides", isPublication: true })
+      )
+    )
+
+  nodes
+    .filter(graphicalFilter)
+    .forEach(node =>
+      createPage(
+        composePageOptions(node, { template: "graphical", isPublication: true })
       )
     )
 
@@ -158,6 +173,7 @@ export const createSchemaCustomization = ({
       locale: String
       menus: [MENUS]
       slideshow: Boolean
+      graphical: Boolean
     }
     enum MENUS {
       CONTENT

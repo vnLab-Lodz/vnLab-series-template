@@ -45,6 +45,9 @@ const TocElement: React.FC<Props> = ({
         <Styled.ArticleNumber>{chapter}</Styled.ArticleNumber>
       )}
       {page.slideshow ? (
+        <Styled.SlidshowTitle>{t("slideshow")}</Styled.SlidshowTitle>
+      ) : null}
+      {page.graphical ? (
         <Styled.SlidshowTitle>{t("graphical")}</Styled.SlidshowTitle>
       ) : null}
       <Styled.ArticleTitle to={page.path} language={locale}>

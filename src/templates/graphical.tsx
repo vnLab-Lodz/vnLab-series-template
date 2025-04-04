@@ -21,7 +21,7 @@ import {
 } from "src/context/theme-switcher-context"
 import { useLocalization } from "gatsby-theme-i18n"
 import { MdxContext } from "src/context/mdx-provider"
-import { SlideshowChapterGlobals } from "~styles/globals"
+import { GraphicalChapterGlobals } from "~styles/globals"
 import { Footnote, FootnotesContext } from "src/context/footnotes-context"
 import { LangKey, MENUS } from "~types/index"
 import ImagesProvider from "src/context/illustrations-context"
@@ -64,9 +64,9 @@ export const slidesMdxComponents = {
   Video,
 }
 
-const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
+const Graphical: React.FC<PageProps<Data>> = ({ data, location }) => {
   const { mdx, footnotes } = data
-  const { title, summary, menus } = mdx.frontmatter
+  const { title, summary } = mdx.frontmatter
   const images = mdx.frontmatter.embeddedImagesLocal
 
   const { locale } = useLocalization()
@@ -83,8 +83,8 @@ const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {
             description={summary}
             url={location.pathname}
           />
+          <GraphicalChapterGlobals color={darkTheme.palette.light} />
           <HypothesisBtn />
-          <SlideshowChapterGlobals color={darkTheme.palette.light} />
           <MdxContext.Provider value={mdxContext}>
             <NavigationMenu
               currentPath={location.pathname}
@@ -153,10 +153,9 @@ export const query = graphql`
   }
 `
 
-export default Slides
+export default Graphical
 
 const ArticleFooterContainer = styled.div`
   background: ${({ theme: { palette } }) => palette.light};
   width: 100%;
-  scroll-snap-align: end;
 `
