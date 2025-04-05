@@ -14,15 +14,44 @@ export const CaptionButton = styled.button`
   position: absolute;
   right: ${({ theme }) => theme.spacing.xs};
   bottom: ${({ theme }) => theme.spacing.xs};
-  background: transparent;
-  outline: none;
-  border: none;
-  padding: 0;
-
-  cursor: pointer;
 
   @media ${devices.laptop} {
     right: ${({ theme }) => theme.spacing.xs};
+  }
+
+  background: ${({ theme }) => theme.palette.light};
+  padding: calc(${({ theme }) => theme.spacing.xxs} / 2);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  border: none;
+  cursor: pointer;
+
+  & > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  transition: background 0.3s ease-in-out;
+
+  & * {
+    transition: all 0.3s ease-in-out;
+  }
+
+  background: ${({ theme }) => theme.palette.light};
+
+  & > span > svg > path {
+    fill: ${({ theme }) => theme.palette.black};
+    stroke: ${({ theme }) => theme.palette.black};
+  }
+
+  &:hover {
+    background: ${({ theme }) => theme.palette.dark};
+
+    & > span > svg > path {
+      fill: ${({ theme }) => theme.palette.white};
+      stroke: ${({ theme }) => theme.palette.white};
+    }
   }
 `
 
