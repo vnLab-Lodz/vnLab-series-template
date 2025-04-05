@@ -20,7 +20,6 @@ export const CaptionButton = styled.button`
   }
 
   background: ${({ theme }) => theme.palette.light};
-  padding: calc(${({ theme }) => theme.spacing.xxs} / 2);
   border-radius: 50%;
   aspect-ratio: 1 / 1;
   border: none;
@@ -40,17 +39,17 @@ export const CaptionButton = styled.button`
 
   background: ${({ theme }) => theme.palette.light};
 
-  & > span > svg > path {
+  & > span > svg > g > g > path {
     fill: ${({ theme }) => theme.palette.black};
-    stroke: ${({ theme }) => theme.palette.black};
+    // stroke: ${({ theme }) => theme.palette.black};
   }
 
   &:hover {
     background: ${({ theme }) => theme.palette.dark};
 
-    & > span > svg > path {
+    & > span > svg > g > g > path {
       fill: ${({ theme }) => theme.palette.white};
-      stroke: ${({ theme }) => theme.palette.white};
+      // stroke: ${({ theme }) => theme.palette.white};
     }
   }
 `
