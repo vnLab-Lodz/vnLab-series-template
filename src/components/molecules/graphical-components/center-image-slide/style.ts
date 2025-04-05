@@ -24,9 +24,13 @@ export const SlideImageWrapper = styled.div<{
   ${({ $fullscreen: fullscreen }) =>
     fullscreen &&
     css`
+      position: sticky;
+      top: 0;
+
       margin: 0;
       height: 100%;
       max-height: 100vh;
+      min-height: 100vh;
 
       & ${Image} {
         margin: 0;
