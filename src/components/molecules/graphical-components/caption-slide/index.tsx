@@ -40,7 +40,36 @@ const CaptionSlide: React.FC<Props> = ({
 
   const button = !!caption ? (
     <Styled.CaptionButton onClick={toggle}>
-      <img src={ISVG} alt="Show caption" />
+      <span>
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          className="sizeable-icon"
+        >
+          <path
+            d="M9.21995 2.78003L6.69995 5.30003"
+            stroke="#111111"
+            strokeMiterlimit="10"
+          />
+          <path
+            d="M7.17993 1.64L11.4999 0.5L10.3599 4.82L7.17993 1.64Z"
+            fill="#111111"
+            strokeWidth={0}
+          />
+          <path
+            d="M2.78003 9.21995L5.30003 6.69995"
+            stroke="#111111"
+            strokeMiterlimit="10"
+          />
+          <path
+            d="M4.82 10.3599L0.5 11.4999L1.64 7.17993L4.82 10.3599Z"
+            fill="#111111"
+            strokeWidth={0}
+          />
+        </svg>
+      </span>
     </Styled.CaptionButton>
   ) : null
 
