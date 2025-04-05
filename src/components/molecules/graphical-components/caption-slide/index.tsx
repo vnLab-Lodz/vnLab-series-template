@@ -5,7 +5,6 @@ import { mdxComponents } from "src/templates/chapter"
 import * as Styled from "./style"
 
 import XSVG from "src/images/icons/x.svg"
-import ISVG from "src/images/icons/i.svg"
 
 export type CaptionProps = {
   caption?: string
@@ -42,32 +41,20 @@ const CaptionSlide: React.FC<Props> = ({
     <Styled.CaptionButton onClick={toggle}>
       <span>
         <svg
-          width="12"
-          height="12"
-          viewBox="0 0 12 12"
-          fill="none"
-          className="sizeable-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
         >
-          <path
-            d="M9.21995 2.78003L6.69995 5.30003"
-            stroke="#111111"
-            strokeMiterlimit="10"
-          />
-          <path
-            d="M7.17993 1.64L11.4999 0.5L10.3599 4.82L7.17993 1.64Z"
-            fill="#111111"
-            strokeWidth={0}
-          />
-          <path
-            d="M2.78003 9.21995L5.30003 6.69995"
-            stroke="#111111"
-            strokeMiterlimit="10"
-          />
-          <path
-            d="M4.82 10.3599L0.5 11.4999L1.64 7.17993L4.82 10.3599Z"
-            fill="#111111"
-            strokeWidth={0}
-          />
+          <g id="i" transform="translate(-55.5 -93.9)">
+            <g id="Group_152" data-name="Group 152">
+              <path
+                id="Path_60"
+                data-name="Path 60"
+                d="M62.8,98.1h1.4v1.2H62.8V98.1Zm.1,2.2h1.3v5.4H62.9v-5.4Z"
+              />
+            </g>
+          </g>
         </svg>
       </span>
     </Styled.CaptionButton>
