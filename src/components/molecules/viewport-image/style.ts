@@ -221,17 +221,22 @@ export const Expand = styled.button`
     justify-content: center;
   }
 
-
   transition: background 0.3s ease-in-out;
   & * {
     transition: all 0.3s ease-in-out;
   }
 
+  & > span > svg > path {
+    fill: ${({ theme }) => theme.palette.black};
+    stroke: ${({ theme }) => theme.palette.black};
+  }
+
   &:hover {
     background: ${({ theme }) => theme.palette.dark};
-    
-    & * {
+
+    & > span > svg > path {
       fill: ${({ theme }) => theme.palette.white};
       stroke: ${({ theme }) => theme.palette.white};
+    }
   }
 `
