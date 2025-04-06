@@ -33,6 +33,14 @@ import SoundCloudPlayer from "~components/molecules/soundcloud-player"
 import VimeoIframe from "~components/molecules/viemo-iframe"
 import Video from "~components/molecules/video"
 import FullscreenDialog from "~components/molecules/fullscreen-dialog"
+import {
+  Grid,
+  GridRow,
+  GridColumn,
+  FullscreenGridColumn,
+  FullWidthGridColumn,
+  GridImage,
+} from "~components/molecules/graphical-components/image-grid"
 
 interface Data {
   mdx: {
@@ -62,6 +70,12 @@ export const slidesMdxComponents = {
   SoundCloudPlayer,
   VimeoIframe,
   Video,
+  Grid,
+  GridRow,
+  GridColumn,
+  FullscreenGridColumn,
+  FullWidthGridColumn,
+  GridImage,
 }
 
 const Graphical: React.FC<PageProps<Data>> = ({ data, location }) => {

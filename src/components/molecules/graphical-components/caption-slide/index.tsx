@@ -60,22 +60,25 @@ const CaptionSlide: React.FC<Props> = ({
     </Styled.CaptionButton>
   ) : null
 
-  const captionComponent =
-    open && !!caption ? (
-      <Styled.Caption>
-        <Styled.CaptionHeader as="div">
-          {renderMarkdown(hComponents, caption)}
-        </Styled.CaptionHeader>
-        <Styled.CloseBtn onClick={toggle}>
-          <img src={XSVG} alt="Close" />
-        </Styled.CloseBtn>
-        {!!extendedCaption ? (
-          <Styled.CaptionParagraph as="div" $padded={!!children}>
-            {renderMarkdown(pComponents, extendedCaption)}
-          </Styled.CaptionParagraph>
-        ) : null}
-      </Styled.Caption>
-    ) : null
+  const captionComponent = (
+    <AnimatePresence>
+      {open && !!caption ? (
+        <Styled.Caption>
+          <Styled.CaptionHeader as="div">
+            {renderMarkdown(hComponents, caption)}
+          </Styled.CaptionHeader>
+          <Styled.CloseBtn onClick={toggle}>
+            <img src={XSVG} alt="Close" />
+          </Styled.CloseBtn>
+          {!!extendedCaption ? (
+            <Styled.CaptionParagraph as="div" $padded={!!children}>
+              {renderMarkdown(pComponents, extendedCaption)}
+            </Styled.CaptionParagraph>
+          ) : null}
+        </Styled.Caption>
+      ) : null}
+    </AnimatePresence>
+  )
 
   return (
     <Styled.CaptionSlideContainer $noConstraint>
@@ -85,9 +88,9 @@ const CaptionSlide: React.FC<Props> = ({
         <>
           {children}
           {button}
+          {captionComponent}
         </>
       )}
-      <AnimatePresence>{captionComponent}</AnimatePresence>
     </Styled.CaptionSlideContainer>
   )
 }
