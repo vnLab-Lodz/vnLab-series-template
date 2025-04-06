@@ -38,7 +38,7 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
 
   return (
     <CaptionSlide caption={caption} extendedCaption={extendedCaption}>
-      {({ button }) => (
+      {({ button, caption }) => (
         <>
           <Styled.SlideImageWrapper
             ref={ref}
@@ -55,6 +55,7 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
               />
               {button}
             </Styled.Image>
+            {caption}
           </Styled.SlideImageWrapper>
           {isFullscreen && <div style={{ height: "100px" }} />}
         </>
