@@ -3,10 +3,12 @@ import React, { useContext, useEffect, useRef } from "react"
 import { ImagesContext } from "src/context/illustrations-context"
 import CaptionSlide, { CaptionProps } from "../caption-slide"
 import * as Styled from "./style"
+import ArrowDownSVG from "src/images/icons/arrow_down.svg"
 
 interface Props {
   image: IGatsbyImageData
   fit?: "cover" | "contain"
+  arrow?: boolean
 }
 
 const CenterImageSlide: React.FC<Props & CaptionProps> = ({
@@ -14,6 +16,7 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
   fit = "contain",
   caption,
   extendedCaption,
+  arrow,
 }) => {
   const img = getImage(image) as IGatsbyImageData
   const isFullscreen = fit === "cover"
@@ -36,6 +39,8 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
     return () => clearTimeout(timeout)
   }, [ref])
 
+  const scroll = () => window.scrollBy({ top: window.innerHeight })
+
   return (
     <CaptionSlide caption={caption} extendedCaption={extendedCaption}>
       {({ button, caption }) => (
@@ -57,6 +62,11 @@ const CenterImageSlide: React.FC<Props & CaptionProps> = ({
             </Styled.Image>
             {caption}
           </Styled.SlideImageWrapper>
+          {arrow ? (
+            <Styled.ScrollButton onClick={scroll}>
+              <img src={ArrowDownSVG} alt="Arrow down" />
+            </Styled.ScrollButton>
+          ) : null}
           {isFullscreen && <div style={{ height: "100px" }} />}
         </>
       )}

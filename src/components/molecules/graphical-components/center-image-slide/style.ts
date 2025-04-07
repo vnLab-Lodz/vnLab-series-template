@@ -1,6 +1,36 @@
 import styled, { css } from "styled-components"
 import { devices } from "~styles/breakpoints"
 
+export const ScrollButton = styled.button`
+  bottom: ${({ theme }) => theme.spacing.md};
+  position: absolute;
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  left: 50%;
+  right: 50%;
+  transform: translateX(-50%);
+  width: 5%;
+
+  max-width: -moz-available;
+  grid-column: 2 / 32;
+
+  @media ${devices.tablet} {
+    grid-column: 7 / 30;
+  }
+
+  @media ${devices.laptop} {
+    grid-column: 9 / 25;
+  }
+
+  &:focus-visible {
+    border-radius: 3px;
+    outline: 1px solid white;
+  }
+`
+
 export const SlideImageWrapper = styled.div<{
   $fullscreen?: boolean
   $withCaption?: boolean
