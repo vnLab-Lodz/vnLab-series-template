@@ -29,7 +29,7 @@ const MiscTabs: React.FC<Props> = ({
   const { setThemeMode } = useThemeSwitcherContext()
   const { navMode } = useNavMenuContext()
   const { t } = useTranslation()
-  const { locale, localizedPath, defaultLang, prefixDefault } =
+  const { locale, localizedPath, defaultLang, prefixDefault, config } =
     useLocalization()
 
   const changeThemeMode = () => {
@@ -176,9 +176,11 @@ const MiscTabs: React.FC<Props> = ({
           </svg>
         </Styled.TabButton>
       </Wrapper>
-      <Wrapper {...wrapperProps}>
-        <LanguagePicker currentPath={currentPath} compact={aside} />
-      </Wrapper>
+      {config.length > 1 && (
+        <Wrapper {...wrapperProps}>
+          <LanguagePicker currentPath={currentPath} compact={aside} />
+        </Wrapper>
+      )}
     </>
   )
 }
