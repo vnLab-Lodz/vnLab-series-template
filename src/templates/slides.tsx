@@ -33,7 +33,7 @@ import SoundCloudPlayer from "~components/molecules/soundcloud-player"
 import VimeoIframe from "~components/molecules/viemo-iframe"
 import Video from "~components/molecules/video"
 import FullscreenDialog from "~components/molecules/fullscreen-dialog"
-
+import { AudioPlayer } from "~components/molecules/audio-player"
 interface Data {
   mdx: {
     id: string
@@ -62,6 +62,7 @@ export const slidesMdxComponents = {
   SoundCloudPlayer,
   VimeoIframe,
   Video,
+  AudioPlayer,
 }
 
 const Slides: React.FC<PageProps<Data>> = ({ data, location }) => {

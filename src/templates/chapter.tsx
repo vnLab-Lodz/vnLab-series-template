@@ -25,6 +25,12 @@ import { components } from "~components/mdx"
 import { MdxContext } from "src/context/mdx-provider"
 import { Footnote, FootnotesContext } from "src/context/footnotes-context"
 import ServiceWorkerDialog from "~components/sw-dialog"
+import {
+  AudioPlayer,
+  GlobalAudioPlayer,
+} from "~components/molecules/audio-player"
+import { AudioPlayerProvider } from "~components/molecules/audio-player/context"
+import { FileSystemNode } from "gatsby-source-filesystem"
 
 export const mdxComponents = {
   strong: atoms.strong,
@@ -57,6 +63,7 @@ export const mdxComponents = {
   FootnoteTarget: FootnoteTarget,
   FootnoteIndex: FootnoteIndex,
   Tag: components.Tag,
+  AudioPlayer,
 }
 
 interface Data {
@@ -66,6 +73,11 @@ interface Data {
     frontmatter: {
       title: string
       embeddedImagesLocal: ImageDataLike[]
+      embeddedAudioLocal: {
+        src: FileSystemNode
+        title: string
+        author?: string
+      }[]
       headerImage?: ImageDataLike
       menus?: MENUS[]
       summary?: string
@@ -78,7 +90,8 @@ interface Data {
 
 const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
   const { mdx, footnotes } = data
-  const { embeddedImagesLocal, headerImage, title, menus } = mdx.frontmatter
+  const { embeddedImagesLocal, embeddedAudioLocal, headerImage, title, menus } =
+    mdx.frontmatter
   const { locale } = useLocalization()
   const theme = useTheme()
 
@@ -95,6 +108,16 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
 
   const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
 
+  const tracks = useMemo(() => {
+    if (!embeddedAudioLocal) return []
+
+    return embeddedAudioLocal.map(audio => ({
+      src: audio.src.publicURL as string,
+      title: audio.title,
+      author: audio.author,
+    }))
+  }, [embeddedAudioLocal])
+
   return (
     <NavMenuProvider>
       <BackgroundGlobals color={theme.palette.light} />
@@ -103,32 +126,36 @@ const Section: React.FC<PageProps<Data>> = ({ data, location }) => {
         <NavigationMenu currentPath={location.pathname} />
         <FootnotesContext.Provider value={footnotes.nodes}>
           <ImagesProvider initialImages={getInitialImages()}>
-            {headerImage && <HeaderImage image={headerImage} />}
-            <ArticleMenu
-              currentPath={location.pathname}
-              menus={menus}
-              spaced={!headerImage}
-            />
-            <StyledArticle>
-              <StyledLayout $flexible className="mdx-section">
-                <MDXProvider components={mdxComponents}>
-                  <SeoMeta
-                    title={title}
-                    lang={locale as LangKey}
-                    description={mdx.frontmatter.summary}
-                    url={location.pathname}
-                  />
-                  <MDXRenderer
-                    frontmatter={mdx.frontmatter}
-                    localImages={embeddedImagesLocal}
-                  >
-                    {mdx.body}
-                  </MDXRenderer>
-                </MDXProvider>
-              </StyledLayout>
-            </StyledArticle>
-            <ArticleFooter currentPath={location.pathname} />
-            <ServiceWorkerDialog />
+            <AudioPlayerProvider tracks={tracks}>
+              {headerImage && <HeaderImage image={headerImage} />}
+              <ArticleMenu
+                currentPath={location.pathname}
+                menus={menus}
+                spaced={!headerImage}
+              />
+              <StyledArticle>
+                <StyledLayout $flexible className="mdx-section">
+                  <MDXProvider components={mdxComponents}>
+                    <SeoMeta
+                      title={title}
+                      lang={locale as LangKey}
+                      description={mdx.frontmatter.summary}
+                      url={location.pathname}
+                    />
+                    <MDXRenderer
+                      frontmatter={mdx.frontmatter}
+                      localImages={embeddedImagesLocal}
+                      localAudio={embeddedAudioLocal}
+                    >
+                      {mdx.body}
+                    </MDXRenderer>
+                  </MDXProvider>
+                </StyledLayout>
+              </StyledArticle>
+              <ArticleFooter currentPath={location.pathname} />
+              <GlobalAudioPlayer />
+              <ServiceWorkerDialog />
+            </AudioPlayerProvider>
           </ImagesProvider>
         </FootnotesContext.Provider>
       </MdxContext.Provider>
@@ -156,6 +183,13 @@ export const query = graphql`
           childImageSharp {
             gatsbyImageData(layout: CONSTRAINED)
           }
+        }
+        embeddedAudioLocal {
+          src {
+            publicURL
+          }
+          title
+          author
         }
       }
     }
