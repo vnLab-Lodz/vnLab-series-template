@@ -160,6 +160,11 @@ export const createSchemaCustomization = ({
     type Mdx implements Node {
       frontmatter: Frontmatter
     }
+    type AudioTrack {
+      src: File @fileByRelativePath
+      title: String!
+      author: String
+    }
     type Frontmatter @dontInfer {
       title: String!
       author: String
@@ -168,6 +173,7 @@ export const createSchemaCustomization = ({
       date: Date
       headerImage: File @fileByRelativePath
       embeddedImagesLocal: [File] @fileByRelativePath
+      embeddedAudioLocal: [AudioTrack]
       meta: Boolean
       meta_type: String
       locale: String

@@ -41,6 +41,12 @@ import {
   FullWidthGridColumn,
   GridImage,
 } from "~components/molecules/graphical-components/image-grid"
+import {
+  AudioPlayer,
+  GlobalAudioPlayer,
+} from "~components/molecules/audio-player"
+import { AudioPlayerProvider } from "~components/molecules/audio-player/context"
+import { FileSystemNode } from "gatsby-source-filesystem"
 
 interface Data {
   mdx: {
@@ -49,6 +55,11 @@ interface Data {
     frontmatter: {
       title: string
       embeddedImagesLocal: ImageDataLike[]
+      embeddedAudioLocal: {
+        src: FileSystemNode
+        title: string
+        author?: string
+      }[]
       headerImage?: ImageDataLike
       menus?: MENUS[]
       summary?: string
@@ -76,16 +87,27 @@ export const slidesMdxComponents = {
   FullscreenGridColumn,
   FullWidthGridColumn,
   GridImage,
+  AudioPlayer,
 }
 
 const Graphical: React.FC<PageProps<Data>> = ({ data, location }) => {
   const { mdx, footnotes } = data
-  const { title, summary } = mdx.frontmatter
+  const { title, summary, embeddedAudioLocal } = mdx.frontmatter
   const images = mdx.frontmatter.embeddedImagesLocal
 
   const { locale } = useLocalization()
 
   const mdxContext = useMemo(() => ({ id: mdx.id }), [mdx.id])
+
+  const tracks = useMemo(() => {
+    if (!embeddedAudioLocal) return []
+
+    return embeddedAudioLocal.map(audio => ({
+      src: audio.src.publicURL as string,
+      title: audio.title,
+      author: audio.author,
+    }))
+  }, [embeddedAudioLocal])
 
   return (
     <ThemeSwitcherProvider defaultMode={THEME_MODES.DARK}>
@@ -110,18 +132,22 @@ const Graphical: React.FC<PageProps<Data>> = ({ data, location }) => {
             />
             <FootnotesContext.Provider value={footnotes.nodes}>
               <ImagesProvider>
-                <MDXProvider components={slidesMdxComponents}>
-                  <MDXRenderer
-                    frontmatter={mdx.frontmatter}
-                    localImages={images}
-                  >
-                    {mdx.body}
-                  </MDXRenderer>
-                </MDXProvider>
-                <FullscreenDialog />
-                <ArticleFooterContainer className="slide">
-                  <ArticleFooter currentPath={location.pathname} />
-                </ArticleFooterContainer>
+                <AudioPlayerProvider tracks={tracks}>
+                  <MDXProvider components={slidesMdxComponents}>
+                    <MDXRenderer
+                      frontmatter={mdx.frontmatter}
+                      localImages={images}
+                      localAudio={embeddedAudioLocal}
+                    >
+                      {mdx.body}
+                    </MDXRenderer>
+                  </MDXProvider>
+                  <FullscreenDialog />
+                  <ArticleFooterContainer className="slide">
+                    <ArticleFooter currentPath={location.pathname} />
+                  </ArticleFooterContainer>
+                  <GlobalAudioPlayer />
+                </AudioPlayerProvider>
               </ImagesProvider>
             </FootnotesContext.Provider>
           </MdxContext.Provider>
@@ -148,6 +174,13 @@ export const query = graphql`
               transformOptions: { cropFocus: ATTENTION }
             )
           }
+        }
+        embeddedAudioLocal {
+          src {
+            publicURL
+          }
+          title
+          author
         }
       }
     }
