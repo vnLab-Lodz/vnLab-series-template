@@ -471,3 +471,11 @@ Indexing words and phrases in the publication can be done by wrapping the phrase
 
 </p>
 </details>
+
+## Internationalization
+
+In order to change a language of the publication you need to define it in the `languages` field of the `publication/publication.config.json` and provide necessary metadata under a key that matches the locale key. You will see an example of a configuration when you open the file.
+
+> Note: Default locale needs have it's `startUrl` defined as `/`
+
+You also need to make similar adjustments to the locales in the `i18n/config.json` file.
