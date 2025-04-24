@@ -1,4 +1,5 @@
-import React, { createContext, useState, PropsWithChildren } from "react"
+import config from "publication/publication.config.json"
+import React, { createContext, useState } from "react"
 
 export enum THEME_MODES {
   LIGHT = "light",
@@ -25,9 +26,11 @@ type Component = React.FC<{
   defaultMode?: THEME_MODES
 }>
 
+const DEFAULT_THEME = getDefaultTheme()
+
 export const ThemeSwitcherProvider: Component = ({
   children,
-  defaultMode = THEME_MODES.LIGHT,
+  defaultMode = DEFAULT_THEME,
 }) => {
   const [themeMode, setThemeMode] = useState(defaultMode)
 
@@ -38,4 +41,9 @@ export const ThemeSwitcherProvider: Component = ({
         : children}
     </ThemeSwitcherContext.Provider>
   )
+}
+
+function getDefaultTheme() {
+  if (!config.theme) return THEME_MODES.LIGHT
+  return config.theme === "light" ? THEME_MODES.LIGHT : THEME_MODES.DARK
 }
