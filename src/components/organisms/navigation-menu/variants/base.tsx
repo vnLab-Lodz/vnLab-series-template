@@ -8,7 +8,7 @@ import NavMenuContent from "../components/content"
 import enhance, { NavVariantProps } from "../enhance"
 import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
 import { THEME_MODES } from "src/context/theme-switcher-context"
-
+import config from "publication/publication.config.json"
 import HamburgerSVG from "../../../../images/icons/hamburger.svg"
 import CloseSVG from "../../../../images/icons/x.svg"
 import VnlabLogo from "../../../../images/icons/vnlab_logo.svg"
