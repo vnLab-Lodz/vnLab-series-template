@@ -180,8 +180,11 @@ embeddedImagesLocal:
 - [relative path to the image file]
 - [relative path to the image file]
 embeddedAudioLocal:
-- [relative path to the audio file]
-- [relative path to the audio file]
+  - {
+      src: [relative path to the image file],
+      title: "Dłuższy lub krótszy tytuł",
+      author: "Osoba autorska",
+    }
 ---
 ```
 
@@ -445,8 +448,11 @@ Given the frontmatter from below
 ```mdx
 ---
 embeddedAudioLocal:
-  - audio/audio_1.mp3
-  - audio/audio_2.mp3
+  - {
+      src: "./sample-3s.mp3",
+      title: "Dłuższy lub krótszy tytuł",
+      author: "Osoba autorska",
+    }
 ---
 ```
 
