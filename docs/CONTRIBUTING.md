@@ -179,11 +179,15 @@ embeddedImagesLocal:
 - [relative path to the image file]
 - [relative path to the image file]
 - [relative path to the image file]
+embeddedAudioLocal:
+- [relative path to the audio file]
+- [relative path to the audio file]
 ---
 ```
 
 - `headerImage` - inclusion of this field will render a header image for the chapter/article
 - `embeddedImagesLocal` - include this field with the list of images for further use with components displaying pictures
+- `embeddedAudioLocal` - include this field with the list of audio files for further use with components displaying audio
 
 ## Bibliography
 
@@ -429,6 +433,30 @@ headerImage: images/example.png
 
 </p>
 </details>
+
+### Audio
+
+Audio component can be used to display an audio file.
+
+#### **Usage snippet**
+
+Given the frontmatter from below
+
+```mdx
+---
+embeddedAudioLocal:
+  - audio/audio_1.mp3
+  - audio/audio_2.mp3
+---
+```
+
+the usage sould look like the following.
+
+```mdx
+<Audio audio={props.localAudio[0]} />
+```
+
+Pick audio from the list of audio files by counting indexes from 0 and place them in the square brackets one after the other separated by commas.
 
 ## Syntax
 
