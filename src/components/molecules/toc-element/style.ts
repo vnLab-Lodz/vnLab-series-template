@@ -21,14 +21,11 @@ export const TocContainer = styled.article<{ $highlighted?: boolean }>`
     $highlighted &&
     css`
       background: ${theme.palette.light};
-      border-block: thin solid ${theme.palette.black};
+      border-block: 1px solid transparent;
       /* old Safari does not handle block */
-      border-top: thin solid ${theme.palette.black};
-      border-bottom: thin solid ${theme.palette.black};
-
-      & + * {
-        border-top: thin solid transparent !important;
-      }
+      border-top: 1px solid transparent;
+      border-bottom: 1px solid transparent;
+      box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
     `};
 
   transition: background 0.2s ease-in-out;
@@ -39,10 +36,11 @@ export const TocContainer = styled.article<{ $highlighted?: boolean }>`
 
   &:hover {
     background: ${({ theme }) => theme.palette.light};
-    border-block: thin solid ${({ theme }) => theme.palette.black};
+    border-block: thin solid transparent;
     /* old Safari does not handle block */
-    border-top: thin solid ${({ theme }) => theme.palette.black};
-    border-bottom: thin solid ${({ theme }) => theme.palette.black};
+    border-top: thin solid transparent;
+    border-bottom: thin solid transparent;
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   }
 
   @media ${devices.tablet} {

@@ -17,8 +17,9 @@ export const FooterSpacer = styled.div`
 export const FooterGrid = styled(GridContainer)`
   ${({ theme: { palette } }) => css`
     background: ${palette.white};
-    border-top: solid 1px ${palette.dark};
-    border-bottom: solid 1px ${palette.dark};
+    border-top: solid 1px transparent;
+    border-bottom: solid 1px transparent;
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
     width: 100%;
   `}
 `
@@ -50,8 +51,21 @@ export const ArrowButton = styled.button<{ side: "left" | "right" }>`
     background: none;
     border: none;
     border-radius: 0px;
-    outline: 1px solid ${palette.dark};
+    outline: 1px solid transparent;
     transition: background 0.2s ease-in-out;
+
+    position: relative;
+
+    &:before {
+      position: absolute;
+      content: "";
+      top: 30px;
+      bottom: 30px;
+      right: ${side === "left" ? "1px" : "auto"};
+      left: ${side === "left" ? "auto" : "-1px"};
+      width: 1px;
+      background: ${({ theme }) => theme.palette.medium};
+    }
 
     @media ${devices.tablet} {
       grid-column: ${side === "left" ? "1 / 3" : "-3 / last-col"};

@@ -21,7 +21,7 @@ export const lightTheme = {
   },
   typography: {
     fonts: {
-      primary: "'HK-Grotesk', sans-serif",
+      primary: "'Poppins', sans-serif",
       secondary: "'Crimson Pro', serif",
     },
     ...typography,

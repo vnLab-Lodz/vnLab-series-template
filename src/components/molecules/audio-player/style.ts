@@ -29,6 +29,7 @@ export const Button = styled.button`
   width: 60px;
   border-radius: 100%;
   border: none;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   background-color: ${({ theme }) => theme.palette.accent};
   cursor: pointer;
 
@@ -94,7 +95,8 @@ export const GlobalAudioPlayerContainer = styled(GridConstraint)`
   position: relative;
   background: ${({ theme }) => theme.palette.accent};
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.palette.black};
+  border: 1px solid transparent;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -269,7 +271,8 @@ export const TrackContainer = styled(GridContainer)`
   right: 0;
   background: ${({ theme }) => theme.palette.light};
   min-height: 100px;
-  border-top: 1px solid ${({ theme }) => theme.palette.black};
+  border-top: 1px solid transparent;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   z-index: 1;
 `
 

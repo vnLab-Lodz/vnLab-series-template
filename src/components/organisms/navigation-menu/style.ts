@@ -39,12 +39,13 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
     height: fit-content;
     z-index: 9;
 
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
+
     @media ${devices.tablet} {
       height: 100%;
       height: -webkit-fill-available;
       border-bottom: none;
-      border-right: solid 1px
-        ${mode !== NAV_MODES.DARK ? palette.black : palette.white};
+      border-right: none;
       padding: 0px;
       grid-column: 1 / 4;
       flex-direction: column;
@@ -221,7 +222,7 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
 
 export const Logo = styled.img`
   display: none;
-  height: 60px;
+  height: 30px;
 
   @media ${devices.tablet} {
     display: block;
@@ -229,7 +230,7 @@ export const Logo = styled.img`
   }
 
   @media ${devices.desktop} {
-    height: 128px;
+    height: 30px;
     width: auto;
   }
 `
@@ -238,7 +239,8 @@ export const NavMenuContent = styled(motion.div)`
   ${({ theme: { palette } }) => css`
     pointer-events: all;
     background: ${palette.white};
-    border-right: solid 1px ${palette.dark};
+    border-right: none;
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
     height: 100%;
     z-index: 8;
     display: grid;

@@ -10,11 +10,11 @@ export const ElementWrapper = styled.article`
   &:before {
     position: absolute;
     content: "";
-    top: 0;
-    bottom: 0;
+    top: 30px;
+    bottom: 30px;
     left: -1px;
     width: 1px;
-    background: ${({ theme }) => theme.palette.black};
+    background: ${({ theme }) => theme.palette.medium};
   }
 
   ${({ theme: { spacing } }) => css`

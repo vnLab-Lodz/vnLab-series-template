@@ -121,18 +121,21 @@ export const Button = styled.button.attrs({
     box-sizing: border-box;
     padding: ${spacing.xxs} ${spacing.xs};
     background: ${palette.white};
-    outline: solid 1px ${palette.dark};
+    outline: solid 1px transparent;
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
     border-radius: 9999px;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     color: ${palette.black};
+    transition: box-shadow 0.1s ease-in-out;
 
     &:hover,
     &:active,
     &:focus-visible {
-      outline: solid 2px ${palette.dark};
+      outline: solid 2px transparent;
+      box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.1);
     }
   `}
 `
@@ -150,7 +153,8 @@ export const MenuContent = styled(motion.div).attrs({
     top: 0px;
     z-index: 2;
     background-color: ${palette.white};
-    border-bottom: solid 1px ${palette.dark};
+    border-bottom: solid 1px transparent;
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
     overflow-y: scroll;
     max-height: ${maxHeight};
     overscroll-behavior: contain;
