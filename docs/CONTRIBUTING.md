@@ -479,3 +479,51 @@ In order to change a language of the publication you need to define it in the `l
 > Note: Default locale needs have it's `startUrl` defined as `/`
 
 You also need to make similar adjustments to the locales in the `i18n/config.json` file.
+
+## Themeing
+
+You can customize the theme of the project by adjusting properties in the `src/styles/theme.ts` file.
+
+You can select publication to follow only one theme by setting the `theme` property in `publication.config.json`
+
+### Fonts
+
+In order to add new fonts to the project you can adjust the `gatsby-plugin-web-font-loader` plugin in `gatsby-config.ts` file.
+
+#### Google Fonts
+
+You can use any fonts from Google Fonts by passing in a name and fonts variants after a column. See example below:
+
+```ts
+{
+  resolve: "gatsby-plugin-web-font-loader",
+  options: {
+    google: {
+      families: [`Crimson Pro:300,400,500,600,700,800,900&display=swap`],
+    },
+  },
+},
+```
+
+#### Custom Fonts
+
+In order to add custom fonts you need to do several things.
+
+1. Add them to the `static/fonts` folder.
+2. Define all variants in the `static/fonts/fonts.css` file
+3. Add the font definition to the `gatsby-plugin-web-font-loader` plugin in `gatsby-config.ts` file. See example below.
+4. Change the fonts definitions in `src/styles/theme.ts` under `theme.typography.fonts` key.
+
+```ts
+{
+  resolve: "gatsby-plugin-web-font-loader",
+  options: {
+    custom: {
+      families: [`HK-Grotesk:n3,n4,n5,n7`],
+      urls: [`/fonts/fonts.css`],
+    },
+  },
+},
+```
+
+> Note: The url to the font should be defined as if you were treating `static` folder as root.

@@ -11,6 +11,11 @@
       "description": "Deployemnt url of the page",
       "format": "uri"
     },
+    "theme": {
+      "type": "string",
+      "description": "Theme of the publication. Can be either 'light' or 'dark'",
+      "enum": ["light", "dark"]
+    },
     "languages": {
       "description": "List of locales for the publication. First language should be te default locale with 'startUrl' of '/'.",
       "type": "array",

@@ -41,10 +41,11 @@ const NavigationMenu: React.FC<
   const { locale } = useLocalization()
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
+  const isThemeDefinedInConfig = config.theme ? true : false
   const {
     disableProgress = false,
     disableProgressText = false,
-    disableThemeSwitching = false,
+    disableThemeSwitching = isThemeDefinedInConfig,
     enableFullscreen = false,
     constantColours = false,
   } = renderProps
