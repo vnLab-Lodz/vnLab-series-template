@@ -1,57 +1,81 @@
 import React from "react"
 import SeoMeta from "~components/molecules/seo-meta"
-import { useTranslation } from "react-i18next"
 import NavigationMenu from "~components/organisms/navigation-menu"
 import { PageProps } from "gatsby"
 import { useLocalization } from "gatsby-theme-i18n"
 import useHypothesis from "src/hooks/useHypothesis"
 import { useEffect } from "react"
 import * as Styled from "../styles/page-styles/index"
-import useIsMobile from "src/hooks/useIsMobile"
-import NavMenuProvider, {
-  NavMenuContext,
-} from "~components/organisms/navigation-menu/nav-menu-context"
+import NavMenuProvider from "~components/organisms/navigation-menu/nav-menu-context"
 import { LangKey } from "~types/config"
 import config from "../../publication/publication.config.json"
-import styled from "styled-components"
 import { NAV_MENU_STATES } from "~components/organisms/navigation-menu/types"
 
-import Logo from "../images/icons/vnlab_logo.svg"
-import HamburgerSVG from "../images/icons/hamburger.svg"
-import TitleEN from "../images/title.en.inline.svg"
-import TitlePL from "../images/title.pl.inline.svg"
 import ServiceWorkerDialog from "~components/sw-dialog"
+import NavMenuContent from "~components/organisms/navigation-menu/components/content"
+import useIsMobile from "src/hooks/useIsMobile"
 
 const IndexPage: React.FC<PageProps> = ({ location }) => {
   const { hypothesis, hideHypothesis } = useHypothesis()
-  const { t } = useTranslation(["common", "home"])
   const { locale } = useLocalization()
-
-  const isMobile = useIsMobile(() => {
-    const scrollbarWidth = window.innerWidth - document.body.clientWidth
-    document.documentElement.style.setProperty(
-      "--scrollbarWidth",
-      `${scrollbarWidth}px`
-    )
-  })
-
   const properties = config[locale as LangKey]
   const { caption, people } = properties.author
-  const SVG = titleSVG[locale as LangKey]
+
+  const isMobile = useIsMobile()
 
   useEffect(() => hideHypothesis(), [hypothesis])
 
   return (
     <NavMenuProvider>
+      {properties.cover.type === "image" && (
+        <Styled.FixedFullScreenImage src={properties.cover.url} />
+      )}
+      {properties.cover.type === "video" && (
+        <Styled.FixedFullScreenVideo
+          src={properties.cover.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      )}
+      <Styled.FloatingContainer>
+        <Styled.FloatingContainerInner>
+          <Styled.Title>{properties.title}</Styled.Title>
+          <Styled.Caption>{caption}</Styled.Caption>
+          <Styled.Author>{people}</Styled.Author>
+          <FilmschoolLogo />
+        </Styled.FloatingContainerInner>
+        <Styled.FloatingContainerArrow>
+          <ArrowDown />
+        </Styled.FloatingContainerArrow>
+      </Styled.FloatingContainer>
+      <Styled.FloatingSpacer />
+
+      <Styled.TableOfContentsInner>
+        <Styled.TableOfContentsContainer>
+          <NavMenuContent
+            open={true}
+            navState={NAV_MENU_STATES.TOC}
+            setNavState={() => {}}
+            currentPath={location.pathname}
+            disableThemeSwitching={false}
+            bg={true}
+          />
+        </Styled.TableOfContentsContainer>
+      </Styled.TableOfContentsInner>
       <NavigationMenu
         independentHiding
         ignoreHypothesis
-        reduced={isMobile}
         currentPath={location.pathname}
         renderProps={{
           disableProgress: true,
           disableProgressText: true,
           constantColours: true,
+          alwaysVisible: true,
+          nonFixed: isMobile,
+          identityColours: isMobile,
+          noTitle: isMobile,
         }}
       />
       <SeoMeta
@@ -59,43 +83,7 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
         lang={locale as LangKey}
         url={location.pathname}
       />
-      <Styled.Background $noConstraint>
-        <NavMenuContext.Consumer>
-          {context => (
-            <>
-              <Styled.NavBtn type="button" onClick={() => context!.toggleNav()}>
-                <img
-                  className="sizeable-icon"
-                  src={HamburgerSVG}
-                  alt="Toggle Menu Button"
-                />
-              </Styled.NavBtn>
-              <Styled.Miscalaneous>
-                <Styled.TocButton
-                  type="button"
-                  onClick={() => context!.toggleNav(NAV_MENU_STATES.TOC)}
-                >
-                  <p>{t("home:toc")}</p>
-                </Styled.TocButton>
-                <Styled.LanguagePicker
-                  standalone
-                  currentPath={location.pathname}
-                />
-              </Styled.Miscalaneous>
-            </>
-          )}
-        </NavMenuContext.Consumer>
-        <Styled.Title>{properties.title}</Styled.Title>
-        <Styled.People>
-          <Styled.Role>{caption}</Styled.Role>
-          {people.map((person, index) => (
-            <Styled.Person key={index}>{person}</Styled.Person>
-          ))}
-        </Styled.People>
-        <Styled.Logo src={Logo} alt="vnLab" />
-        <SVG />
-        <SVG data-duplicate />
-      </Styled.Background>
+
       <ServiceWorkerDialog />
     </NavMenuProvider>
   )
@@ -103,23 +91,22 @@ const IndexPage: React.FC<PageProps> = ({ location }) => {
 
 export default IndexPage
 
-const titleSVG = {
-  en: styled(TitleEN)`
-    ${Styled.backgroundTitleStyles}
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      & > g {
-        transform: translateX(-250px);
-      }
-    }
-  `,
-  pl: styled(TitlePL)`
-    ${Styled.backgroundTitleStyles}
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      & > g {
-        transform: translateX(-36px);
-      }
-    }
-  `,
+function FilmschoolLogo() {
+  return (
+    <svg width="101" height="45" viewBox="0 0 101 45" fill="none">
+      <path
+        d="M64.4608 0L56.0037 8.45702V45H92.5467L101.004 36.543V0H64.4608ZM65.3978 2.23438H97.1837L91.6097 7.80833H59.8238L65.3978 2.23438ZM85.3871 29.4074V17.1783L90.961 11.6044V34.9092H66.0705V17.827H71.5964V29.4074H85.4111H85.3871ZM73.8067 27.173V17.851H83.1287V27.173H73.8067ZM58.2381 10.0427H89.3513L83.7774 15.6167H63.788V35.606L58.2141 41.1799V10.0667H58.2381V10.0427ZM91.6097 42.7416H59.8238L65.3978 37.1676H97.1837L91.6097 42.7416ZM98.7694 34.9333H93.1954V9.36999L98.7694 3.79605V34.9092V34.9333ZM11.9648 12.7336C11.1719 12.7336 10.4992 12.0849 10.2349 11.3401L9.03364 12.5173C9.68233 13.6225 10.6674 14.3913 11.9648 14.3913C13.9108 14.3913 15.1121 13.0459 15.1121 11.1239C15.1121 7.92845 11.3161 8.60117 11.3161 6.99145C11.3161 5.38173 11.8927 5.9103 12.4933 5.9103C13.094 5.9103 13.5745 6.22264 13.9349 6.70315L14.7998 5.40577C14.2232 4.75707 13.0459 4.34863 12.181 4.34863C10.5713 4.34863 9.39402 5.622 9.39402 7.20769C9.39402 8.79338 10.283 9.32194 11.5083 9.82648C12.2531 10.1148 13.166 10.4031 13.166 11.3881C13.166 12.3732 12.6855 12.7816 11.9407 12.7816V12.7336H11.9648ZM9.4661 27.4853H11.244V17.6348L9.4661 19.4127V27.4853ZM21.6231 14.1271V12.6375H18.6679L21.8153 7.90443H16.1933V9.39401H18.8841L15.7128 14.1271H21.6231ZM32.3865 14.3433C34.3326 14.3433 35.654 12.9498 35.654 11.0278C35.654 9.10571 34.3086 7.71222 32.3865 7.71222C30.4645 7.71222 29.1191 9.10571 29.1191 11.0278C29.1191 12.9498 30.4405 14.3433 32.3865 14.3433ZM32.3865 9.27389C33.2995 9.27389 33.8521 10.1628 33.8521 11.0278C33.8521 11.8927 33.2995 12.7576 32.3865 12.7576C31.4736 12.7576 30.921 11.8687 30.921 11.0278C30.921 10.1869 31.4736 9.27389 32.3865 9.27389ZM43.126 14.3433C43.7747 14.3433 44.4234 14.055 44.8078 13.5745V14.1511H46.5617V7.92846H44.8078V8.50507C44.3753 8.00053 43.7266 7.71222 43.0779 7.71222C41.3001 7.71222 40.2429 9.34597 40.2429 11.0037C40.2429 12.6615 41.276 14.3433 43.102 14.3433H43.126ZM43.5344 9.27389C44.4474 9.27389 45.024 10.1628 45.024 11.0037C45.024 11.8446 44.4474 12.7576 43.5344 12.7576C42.6215 12.7576 42.0689 11.8446 42.0689 11.0037C42.0689 10.1628 42.6215 9.27389 43.5344 9.27389ZM37.0715 14.1271H38.8494V9.27389L39.7864 8.64923V7.30379L38.8494 7.92846V4.27656L37.0715 6.05445V9.05766L36.1346 9.68232V11.0278L37.0715 10.4031V14.1271ZM24.5542 11.4842L26.5964 14.1271H28.9269L26.0918 10.6433L28.7106 7.90443H26.4042L24.5542 10.1869V4.30059L22.7763 6.07848V14.1511H24.5542V11.5083V11.4842ZM35.0534 35.4858C34.669 34.9813 33.9963 34.717 33.3476 34.717C31.5697 34.717 30.5125 36.3508 30.5125 38.0085C30.5125 39.6663 31.5457 41.3481 33.3716 41.3481C35.1976 41.3481 34.669 41.0598 35.0534 40.5553V41.1319H36.8313V31.1612L35.0534 32.9391V35.4618V35.4858ZM33.756 39.7624C32.843 39.7624 32.2905 38.8494 32.2905 38.0085C32.2905 37.1676 32.843 36.2787 33.756 36.2787C34.669 36.2787 35.2216 37.1676 35.2216 38.0085C35.2216 38.8494 34.669 39.7624 33.756 39.7624ZM38.2488 34.9092V36.3988H40.9397L37.7683 41.1319H43.6786V39.6423H40.7234L43.8708 34.9092H38.2488ZM38.1527 21.2627L36.8313 24.9146L35.2937 21.0705H34.4528L32.9391 24.8665L31.6418 21.2867H29.6957L32.5547 27.6295H33.4677L34.9573 23.8334L36.2787 27.6295H37.1676L40.0507 21.2867H38.1287L38.1527 21.2627ZM44.9279 21.8633C44.4955 21.3588 43.8468 21.0705 43.1981 21.0705C41.4202 21.0705 40.3631 22.7042 40.3631 24.362C40.3631 26.0198 41.3962 27.7015 43.2221 27.7015C45.0481 27.7015 44.5195 27.4132 44.9039 26.9327V27.5093H46.6578V21.2867H44.9039V21.8633H44.9279ZM43.6306 26.1159C42.7176 26.1159 42.165 25.2029 42.165 24.362C42.165 23.5211 42.7176 22.6321 43.6306 22.6321C44.5435 22.6321 45.1201 23.5211 45.1201 24.362C45.1201 25.2029 44.5435 26.1159 43.6306 26.1159ZM20.1815 36.9034L21.527 35.9904V34.4047L20.1815 35.3417V31.6177L18.3316 33.4677V36.567L17.4186 37.1917V38.7533L18.3316 38.1287V41.1559H22.8243V39.5222H20.1815V36.9034ZM9.89856 38.5611L8.36092 34.717H7.52003L6.00641 38.5131L4.70902 34.9333H2.78697L5.64602 41.276H6.559L8.04858 37.48L9.37 41.276H10.283L13.166 34.9333H11.244L9.92259 38.5611H9.89856ZM16.3855 27.4853H18.1634V24.4341C18.1634 23.7854 18.1634 22.488 19.1244 22.488C20.0854 22.488 19.9653 23.6172 19.9653 24.2178V27.4853H21.7432V23.6172C21.7432 22.2718 21.3588 21.0705 19.7731 21.0705C18.1874 21.0705 18.3316 21.4309 17.9471 22.0555C17.5387 21.3828 16.9381 21.0705 16.1693 21.0705C15.4004 21.0705 14.992 21.3348 14.6556 21.8393H14.6316V21.2867H12.8537V27.5093H14.6316V24.4581C14.6316 23.8094 14.5836 22.512 15.5686 22.512C16.5537 22.512 16.4095 23.7613 16.4095 24.362V27.5093H16.3855V27.4853ZM4.54085 21.6711H1.84998V19.5569H4.73305V17.9231H0V27.4853H1.874V23.2808H4.56487V21.6471L4.54085 21.6711ZM26.1399 27.7015C28.086 27.7015 29.4074 26.3321 29.4074 24.386C29.4074 22.4399 28.086 21.0705 26.1399 21.0705C24.1938 21.0705 22.8724 22.464 22.8724 24.386C22.8724 26.3081 24.1938 27.7015 26.1399 27.7015ZM26.1399 22.6321C27.0529 22.6321 27.6055 23.5211 27.6055 24.386C27.6055 25.2509 27.0529 26.1159 26.1399 26.1159C25.2269 26.1159 24.6743 25.2029 24.6743 24.386C24.6743 23.5691 25.2269 22.6321 26.1399 22.6321ZM26.5003 34.717C24.5542 34.717 23.2328 36.1105 23.2328 38.0326C23.2328 39.9546 24.5542 41.3481 26.5003 41.3481C28.4463 41.3481 29.7678 39.9546 29.7678 38.0326C29.7678 36.1105 28.4463 34.717 26.5003 34.717ZM26.5003 39.7624C25.5873 39.7624 25.0347 38.8735 25.0347 38.0326C25.0347 37.1917 25.5873 36.2787 26.5003 36.2787C27.4132 36.2787 27.9658 37.1676 27.9658 38.0326C27.9658 38.8975 27.4132 39.7624 26.5003 39.7624ZM7.80833 21.0945L6.03043 22.8724V27.5093H7.80833V21.0945ZM7.80833 17.9231H6.03043V19.701H7.80833V17.9231ZM46.6818 34.7411L44.9039 36.519V41.1559H46.6818V34.7411ZM46.6818 31.5697H44.9039V33.3476H46.6818V31.5697Z"
+        fill="white"
+      />
+    </svg>
+  )
+}
+
+function ArrowDown() {
+  return (
+    <svg width="11" height="30" viewBox="0 0 11 30" fill="none">
+      <line x1="5.75" x2="5.75" y2="29.268" stroke="white" />
+      <path d="M0.75 23.708L5.75 30.0006L10.75 23.708H0.75Z" fill="white" />
+    </svg>
+  )
 }

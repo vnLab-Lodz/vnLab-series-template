@@ -27,6 +27,10 @@ const NavigationMenu: React.FC<
     disableThemeSwitching?: boolean
     enableFullscreen?: boolean
     constantColours?: boolean
+    identityColours?: boolean
+    alwaysVisible?: boolean
+    nonFixed?: boolean
+    noTitle?: boolean
   }>
 > = ({
   currentPath,
@@ -49,6 +53,10 @@ const NavigationMenu: React.FC<
     disableThemeSwitching = isThemeDefinedInConfig,
     enableFullscreen = false,
     constantColours = false,
+    identityColours = false,
+    alwaysVisible = false,
+    nonFixed = false,
+    noTitle = false,
   } = renderProps
 
   const hasFullscreenButton =
@@ -80,8 +88,9 @@ const NavigationMenu: React.FC<
         <Styled.MobileProgress style={{ height: progress, width: progress }} />
       ) : null}
       <AnimatePresence initial={false} exitBeforeEnter>
-        {isVisible && (
+        {isVisible || alwaysVisible ? (
           <Styled.Aside
+            $nonFixed={nonFixed}
             $noConstraint
             open={open}
             as={motion.div}
@@ -100,9 +109,10 @@ const NavigationMenu: React.FC<
             <Styled.Nav
               mode={navMode}
               $open={open || constantColours}
+              $identity={identityColours}
               id="menu-nav"
             >
-              {!open ? (
+              {!open && !disableProgress ? (
                 <>
                   <Styled.Progress
                     style={{ height: progress, width: progress }}
@@ -121,9 +131,11 @@ const NavigationMenu: React.FC<
                   style={{ filter: iconFilter }}
                 />
               </Styled.ToggleBtn>
-              <Styled.Title to="/" language={locale}>
-                {t("common:title")}
-              </Styled.Title>
+              {!noTitle && (
+                <Styled.Title to="/" language={locale}>
+                  {t("common:title")}
+                </Styled.Title>
+              )}
               {hasFullscreenButton ? (
                 <Styled.ToggleBtn
                   style={{ marginLeft: "auto" }}
@@ -153,7 +165,7 @@ const NavigationMenu: React.FC<
               disableThemeSwitching={disableThemeSwitching}
             />
           </Styled.Aside>
-        )}
+        ) : null}
       </AnimatePresence>
     </>
   )
@@ -165,6 +177,10 @@ export default enhance<{
   disableThemeSwitching?: boolean
   enableFullscreen?: boolean
   constantColours?: boolean
+  identityColours?: boolean
+  alwaysVisible?: boolean
+  nonFixed?: boolean
+  noTitle?: boolean
 }>({
   hideOnMobile: true,
 })(NavigationMenu)

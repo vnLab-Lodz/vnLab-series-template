@@ -23,6 +23,14 @@
         "type": "object",
         "description": "Locale for the publication",
         "properties": {
+          "cover": {
+            "type": "object",
+            "properties": {
+              "type": { "enum": ["image", "video"] },
+              "url": { "type": "string" }
+            },
+            "required": ["type", "url"]
+          },
           "code": {
             "type": "string",
             "pattern": "^[a-z]{2}$",
@@ -61,7 +69,8 @@
           "localName",
           "langDir",
           "dateFormat",
-          "startUrl"
+          "startUrl",
+          "cover"
         ]
       },
       "minItems": 1,

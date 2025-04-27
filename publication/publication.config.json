@@ -23,6 +23,7 @@
     }
   ],
   "en": {
+    "cover": { "type": "image", "url": "/images/card_en.png" },
     "title": "The Archive as Project",
     "description": "“The Archive as Project” is an attempt to rethink the photographic archives in Central and Eastern Europe. A digital re-edition of the 2011 paper book.",
     "author": { "caption": "edited by", "people": ["Krzysztof Pijarski"] },
@@ -39,6 +40,7 @@
     }
   },
   "pl": {
+    "cover": { "type": "image", "url": "/images/card_pl.png" },
     "title": "Archiwum jako projekt",
     "description": "„Archiwum jako projekt” jest próbą przemyślenia kwestii archiwów fotograficznych w Europie Środkowej i Wschodniej. Cyfrowa reedycja papierowej książki z 2011 r.",
     "author": {

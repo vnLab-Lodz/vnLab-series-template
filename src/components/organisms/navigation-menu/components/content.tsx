@@ -18,6 +18,7 @@ interface Props {
   navState: NAV_MENU_STATES
   setNavState: React.Dispatch<React.SetStateAction<NAV_MENU_STATES>>
   disableThemeSwitching?: boolean
+  bg?: boolean
 }
 
 const NavMenuContent: React.FC<Props> = ({
@@ -26,6 +27,7 @@ const NavMenuContent: React.FC<Props> = ({
   navState,
   setNavState,
   disableThemeSwitching = false,
+  bg = false,
 }) => {
   const { t } = useTranslation(["common", "nav-menu"])
   const { locale, localizedPath, defaultLang, prefixDefault } =

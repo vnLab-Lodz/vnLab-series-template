@@ -10,8 +10,11 @@ import lightTheme from "src/styles/theme"
 
 //#region Menu base
 
-export const Aside = styled(GridContainer)<{ open?: boolean }>`
-  position: fixed;
+export const Aside = styled(GridContainer)<{
+  open?: boolean
+  $nonFixed?: boolean
+}>`
+  position: ${({ $nonFixed }) => ($nonFixed ? "absolute" : "fixed")};
   top: 0;
   left: 0;
   right: 0;
@@ -25,9 +28,17 @@ export const Aside = styled(GridContainer)<{ open?: boolean }>`
   }
 `
 
-export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
-  ${({ mode, $open, theme: { palette } }) => css`
+export const Nav = styled.nav<{
+  mode: NAV_MODES
+  $open?: boolean
+  $identity?: boolean
+}>`
+  ${({ mode, $open, $identity, theme: { palette } }) => css`
     background: ${mode !== NAV_MODES.DARK ? palette.white : palette.black};
+    ${$identity &&
+    css`
+      background: ${palette.identity};
+    `}
     display: flex;
     align-items: center;
     pointer-events: all;
