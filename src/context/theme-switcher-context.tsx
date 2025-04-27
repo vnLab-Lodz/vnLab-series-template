@@ -44,6 +44,8 @@ export const ThemeSwitcherProvider: Component = ({
 }
 
 function getDefaultTheme() {
+  // @ts-ignore theme is an optional field in the json schema
   if (!config.theme) return THEME_MODES.LIGHT
+  // @ts-ignore theme is an optional field in the json schema
   return config.theme === "light" ? THEME_MODES.LIGHT : THEME_MODES.DARK
 }
