@@ -48,7 +48,7 @@ export const LanguagePopUp = styled.div<{ close: boolean }>`
   ${({ theme: { spacing, palette } }) => css`
     position: absolute;
     top: calc(100% + var(--space-xxs));
-    left: calc(var(--space-xxs) * -1 - 1px);
+    right: calc(var(--space-xxs) * -1 - 1px);
     background: ${palette.white};
     border: solid 1px ${palette.dark};
     padding: calc(${spacing.xxs} / 2) 0px;
