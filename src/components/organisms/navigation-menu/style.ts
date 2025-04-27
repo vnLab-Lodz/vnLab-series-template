@@ -10,8 +10,11 @@ import lightTheme from "src/styles/theme"
 
 //#region Menu base
 
-export const Aside = styled(GridContainer)<{ open?: boolean }>`
-  position: fixed;
+export const Aside = styled(GridContainer)<{
+  open?: boolean
+  $nonFixed?: boolean
+}>`
+  position: ${({ $nonFixed }) => ($nonFixed ? "absolute" : "fixed")};
   top: 0;
   left: 0;
   right: 0;
@@ -25,9 +28,17 @@ export const Aside = styled(GridContainer)<{ open?: boolean }>`
   }
 `
 
-export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
-  ${({ mode, $open, theme: { palette } }) => css`
+export const Nav = styled.nav<{
+  mode: NAV_MODES
+  $open?: boolean
+  $identity?: boolean
+}>`
+  ${({ mode, $open, $identity, theme: { palette } }) => css`
     background: ${mode !== NAV_MODES.DARK ? palette.white : palette.black};
+    ${$identity &&
+    css`
+      background: ${palette.identity};
+    `}
     display: flex;
     align-items: center;
     pointer-events: all;
@@ -39,12 +50,13 @@ export const Nav = styled.nav<{ mode: NAV_MODES; $open?: boolean }>`
     height: fit-content;
     z-index: 9;
 
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
+
     @media ${devices.tablet} {
       height: 100%;
       height: -webkit-fill-available;
       border-bottom: none;
-      border-right: solid 1px
-        ${mode !== NAV_MODES.DARK ? palette.black : palette.white};
+      border-right: none;
       padding: 0px;
       grid-column: 1 / 4;
       flex-direction: column;
@@ -148,7 +160,7 @@ export const ProgressText = styled(motion.span)<{ $light?: boolean }>`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   color: ${({ theme, $light: light = false }) =>
     light ? theme.palette.white : theme.palette.black};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   transform: translateY(-100%);
 `
 
@@ -221,7 +233,7 @@ export const ToggleBtn = styled.button<{ open: boolean; mode: NAV_MODES }>`
 
 export const Logo = styled.img`
   display: none;
-  height: 60px;
+  height: 30px;
 
   @media ${devices.tablet} {
     display: block;
@@ -229,7 +241,7 @@ export const Logo = styled.img`
   }
 
   @media ${devices.desktop} {
-    height: 128px;
+    height: 30px;
     width: auto;
   }
 `
@@ -238,7 +250,8 @@ export const NavMenuContent = styled(motion.div)`
   ${({ theme: { palette } }) => css`
     pointer-events: all;
     background: ${palette.white};
-    border-right: solid 1px ${palette.dark};
+    border-right: none;
+    box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
     height: 100%;
     z-index: 8;
     display: grid;
@@ -359,7 +372,7 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
     color: ${lightTheme.palette.white};
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     letter-spacing: 0.55px;
     font-weight: bold;
 
@@ -518,6 +531,7 @@ export const IndexLetter = styled(atoms.p)`
   ${({ theme: { typography, spacing } }) => css`
     align-self: center;
     font-family: ${typography.fonts.primary};
+    font-size: calc(${typography.sm} * 0.8);
     font-weight: bold;
     grid-column: 2;
     align-self: start;
@@ -530,7 +544,7 @@ export const IndexLetter = styled(atoms.p)`
 
     span {
       display: block;
-      font-size: ${typography.sm};
+      font-size: calc(${typography.sm} * 0.8);
       line-height: 110%;
     }
 
@@ -545,7 +559,7 @@ export const Keyword = styled(atoms.p)`
 `
 
 export const Mentions = styled(atoms.p)`
-  font-size: calc(${({ theme }) => theme.typography.sm});
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   font-weight: normal;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: 500;
@@ -610,7 +624,7 @@ export const AnnotationsButton = styled.button`
   text-transform: uppercase;
   padding: ${({ theme }) => theme.spacing.md};
   grid-column: 1 / last-col;
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
@@ -625,7 +639,7 @@ export const NextTabButton = styled.button`
   padding: ${({ theme }) => theme.spacing.md};
   grid-column: 1 / last-col;
   margin-top: ${({ theme }) => theme.spacing.md};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;

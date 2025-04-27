@@ -95,7 +95,7 @@ export const ExpandCaptionBtn = styled.button`
     }
 
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     font-weight: 500;
     text-transform: lowercase;
     line-height: 115%;
@@ -114,7 +114,7 @@ export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     grid-column: 1 / -4;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     text-align: left;
     font-weight: 300;
 

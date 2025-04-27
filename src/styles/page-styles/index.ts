@@ -1,60 +1,56 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { devices } from "~styles/breakpoints"
-import LP from "~components/molecules/language-picker"
 import { GridContainer } from "~styles/grid"
 import lightTheme from "~styles/theme"
 
-export const Background = styled(GridContainer)`
-  background-color: ${({ theme }) => theme.palette.identity};
+export const FloatingContainer = styled(GridContainer)`
   height: 100vh;
-  z-index: 8; // nav shows below 8
+  pointer-events: none;
+  z-index: 10;
   position: absolute;
-  inset: 0;
-
-  grid-auto-rows: min-content min-content min-content 1fr min-content
-    min-content;
+  top: 66px;
+  left: 0;
+  right: 0;
 
   @media ${devices.tablet} {
-    grid-auto-rows: min-content 1fr min-content min-content;
+    top: 0;
   }
 `
 
-export const Miscalaneous = styled.div`
-  display: flex;
-  flex-direction: column;
-  grid-row: 2;
+export const FloatingContainerInner = styled.div`
+  background-color: ${({ theme }) => theme.palette.identity};
   grid-column: 1 / -1;
+  padding-left: calc((100vw / 32) * 2);
+  padding-right: calc((100vw / 32) * 2);
+  margin-bottom: calc(66px + 50vh);
+  padding-top: ${({ theme }) => theme.spacing.xl};
 
   @media ${devices.tablet} {
-    flex-direction: row;
-    min-height: 106px;
-    grid-row: 1;
-    grid-column: 6 / -1;
+    grid-column: 3 / 31;
+    margin-bottom: calc((100vw / 32) * 2);
+    padding-left: calc((100vw / 32) * 1);
+    padding-right: calc((100vw / 32) * 1);
+    padding-top: ${({ theme }) => theme.spacing.xxxl};
   }
 
   @media ${devices.laptop} {
-    grid-column: 4 / -1;
+    grid-column: 3 / 17;
+    margin-bottom: 20vh;
   }
-`
-
-export const NavBtn = styled.button`
-  border: none;
-  cursor: pointer;
-  border-radius: 0px;
-  background: none;
-
-  height: fit-content;
-
-  text-align: left;
-  padding: ${({ theme: { spacing } }) => spacing.xs};
 
   grid-row: 1;
-  grid-column: 1 / 5;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`
+
+export const FloatingContainerArrow = styled.div`
+  background-color: ${({ theme }) => theme.palette.identity};
+  display: none;
 
   @media ${devices.tablet} {
-    text-align: center;
-    min-height: 106px;
-    grid-row: 1;
+    display: flex !important;
     grid-column: 1 / 4;
   }
 
@@ -62,202 +58,100 @@ export const NavBtn = styled.button`
     grid-column: 1 / 3;
   }
 
-  filter: invert(1);
+  grid-column: 1 / 3;
+  grid-row: 1;
+  align-self: end;
+  justify-content: center;
+  align-items: flex-end;
+  height: 90vh;
+  width: 100%;
+  padding-bottom: ${({ theme }) => theme.spacing.md};
 `
 
-export const TocButton = styled.button`
-  border: none;
-  cursor: pointer;
-  border-radius: 0px;
-  background: none;
-  padding: 0;
-  text-align: left;
-  white-space: nowrap;
-
-  height: fit-content;
-  margin-top: ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-  padding-left: ${({ theme: { spacing } }) => spacing.xs};
+export const FloatingSpacer = styled.div`
+  height: calc(150vh);
 
   @media ${devices.tablet} {
-    margin: 0;
-    padding-left: 0;
+    height: calc(190vh + calc((100vw / 32) * 2));
   }
 
-  p {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: ${({ theme }) => theme.typography.sm};
-    color: ${lightTheme.palette.white};
-    line-height: 150%;
-    letter-spacing: 0.55px;
-  }
-
-  @media ${devices.tablet} {
-    min-height: 106px;
+  @media ${devices.laptop} {
+    height: 190vh;
   }
 `
 
-export const LanguagePicker = styled(LP)<{ flex?: boolean }>`
-  grid-row: 3;
-  grid-column: 1 / 8;
-  padding-left: ${({ theme: { spacing } }) => spacing.xs};
+export const TableOfContentsContainer = styled(GridContainer)`
+  display: contents;
 
-  @media ${devices.tablet} {
-    margin-left: ${({ theme }) => theme.spacing.md};
-    padding-left: ${({ theme: { spacing } }) => spacing.xxs};
-    height: 106px;
+  & > * {
+    display: contents;
   }
 
-  & > p {
-    color: ${lightTheme.palette.white} !important;
+  & > * > * {
+    width: 100%;
   }
 `
 
-export const Spacer = styled.div`
-  grid-row: 4;
+export const TableOfContentsInner = styled.div`
+  background: ${({ theme }) => theme.palette.white} !important;
+  width: 100vw;
 
   @media ${devices.tablet} {
-    grid-row: 2;
+    width: calc(calc((100vw / 32) * 30) - calc((100vw / 32) * 3));
+    margin-left: calc((100vw / 32) * 3);
+  }
+
+  @media ${devices.laptop} {
+    width: calc(50vw - calc((100vw / 32) * 2));
+    margin-left: calc((100vw / 32) * 2);
   }
 `
 
 export const Title = styled.h1`
-  margin-top: auto;
-
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
   font-weight: 300;
   font-size: ${({ theme }) => theme.typography.xl};
+  text-wrap: balance;
   color: ${lightTheme.palette.white};
-
-  margin-bottom: calc(${({ theme }) => theme.spacing.md} * 1.25);
-  padding-left: ${({ theme: { spacing } }) => spacing.xs};
-  padding-right: ${({ theme: { spacing } }) => spacing.xs};
-
-  grid-row: 5;
-  grid-column: 1 / -1;
-
-  @media ${devices.tablet} {
-    margin-bottom: ${({ theme }) => theme.spacing.sm};
-    padding-left: 0;
-    padding-right: 0;
-
-    grid-row: 3;
-    grid-column: 6 / last-col;
-  }
-
-  @media ${devices.laptop} {
-    grid-row: 3;
-    grid-column: 4 / last-col;
-  }
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 `
 
-export const Role = styled.p`
+export const Caption = styled.p`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: normal;
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   color: ${lightTheme.palette.white};
-
   margin-bottom: ${({ theme }) => theme.spacing.xxs};
 `
 
-export const People = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  padding-left: ${({ theme: { spacing } }) => spacing.xs};
-  align-self: end;
-
-  grid-row: 6;
-  grid-column: 1 / -4;
-
-  @media ${devices.tablet} {
-    padding-left: 0;
-    grid-row: 4;
-    grid-column: 6 / last-col;
-  }
-
-  @media ${devices.laptop} {
-    grid-row: 4;
-    grid-column: 4 / last-col;
-  }
-`
-
-export const Person = styled.h2`
+export const Author = styled.h2`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
-  font-size: ${({ theme }) => theme.typography.md};
+  font-size: calc(${({ theme }) => theme.typography.md} * 0.8);
   color: ${lightTheme.palette.white};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 `
 
-export const Logo = styled.img`
-  margin: auto;
-  height: 60px;
-  filter: invert(1) brightness(15);
-
-  padding-right: ${({ theme: { spacing } }) => spacing.xs};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  align-self: end;
-
-  grid-row: 6 / 7;
-  grid-column: -4 / -1;
-
-  @media ${devices.tablet} {
-    padding-right: 0;
-    grid-row: 3 / 5;
-    grid-column: 1 / 4;
-  }
-
-  @media ${devices.laptop} {
-    grid-row: 3 / 5;
-    grid-column: 1 / 3;
-  }
-`
-
-export const backgroundTitleStyles = css`
-  position: absolute;
-  bottom: -1.5%;
+export const FixedFullScreenImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
   left: 0;
-  height: 103%;
-  z-index: -1;
-  pointer-events: none;
-  animation: scroll-left-main 60s linear infinite;
+  right: 0;
+  bottom: 0;
+  z-index: -1000;
+`
 
-  & > g > path {
-    fill: #fff;
-    opacity: 0.08;
-  }
-
-  &[data-duplicate="true"] {
-    transform: translateX(100%);
-    animation: scrolling-left-duplicate 60s linear infinite;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      display: none;
-    }
-  }
-
-  @keyframes scroll-left-main {
-    0% {
-      transform: translateX(0%);
-      -webkit-transform: translateX(0%);
-    }
-    100% {
-      transform: translateX(-100%);
-      -webkit-transform: translateX(-100%);
-    }
-  }
-
-  @keyframes scrolling-left-duplicate {
-    0% {
-      transform: translateX(100%);
-      -webkit-transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(0%);
-      -webkit-transform: translateX(0%);
-    }
-  }
+export const FixedFullScreenVideo = styled.video`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1000;
 `

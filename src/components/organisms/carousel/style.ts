@@ -161,7 +161,7 @@ export const Expand = styled.button`
 export const ImageCount = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     font-weight: bold;
     text-align: center;
     grid-column: 13 / 17;
@@ -180,7 +180,7 @@ export const ImageCount = styled(atoms.p)`
 export const ImageCaption = styled(atoms.p)`
   ${({ theme: { spacing, typography } }) => css`
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     margin-top: ${spacing.xs};
     width: 50%;
     white-space: break-spaces;
@@ -253,7 +253,7 @@ export const FullscreenCaption = styled(atoms.p)`
   ${({ theme: { palette, typography } }) => css`
     color: ${palette.black};
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     grid-row: 3;
 
     @media ${devices.tablet} {

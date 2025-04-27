@@ -15,6 +15,7 @@ export const DialogOverlay = styled.div`
       ${spacing.xxs};
 
     font-family: ${({ theme }) => theme.typography.fonts.primary};
+    font-size: calc(${({ theme }) => theme.typography.md} * 0.8);
     font-weight: 700;
 
     display: flex;

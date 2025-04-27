@@ -29,6 +29,7 @@ export const Button = styled.button`
   width: 60px;
   border-radius: 100%;
   border: none;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   background-color: ${({ theme }) => theme.palette.accent};
   cursor: pointer;
 
@@ -62,20 +63,20 @@ export const Title = styled(atoms.h3)`
   margin-bottom: calc(${({ theme }) => theme.spacing.xxs} / 2.5) !important;
   font-weight: 700;
   margin-bottom: 0;
-  font-size: calc(${({ theme }) => theme.typography.md} * 0.9);
+  font-size: calc(calc(${({ theme }) => theme.typography.md} * 0.9) * 0.8);
 `
 
 export const Description = styled(atoms.p)`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   margin-top: 0 !important;
   margin-bottom: ${({ theme }) => theme.spacing.xxs} !important;
-  font-size: calc(${({ theme }) => theme.typography.md} * 0.75);
+  font-size: calc(calc(${({ theme }) => theme.typography.md} * 0.75) * 0.8);
 `
 
 export const Time = styled(atoms.p)`
   margin-top: 0 !important;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
 `
 
 /// --- global audio player --- ///
@@ -94,7 +95,8 @@ export const GlobalAudioPlayerContainer = styled(GridConstraint)`
   position: relative;
   background: ${({ theme }) => theme.palette.accent};
   border-radius: 20px;
-  border: 1px solid ${({ theme }) => theme.palette.black};
+  border: 1px solid transparent;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -222,19 +224,19 @@ export const TimeContainer = styled.div`
 
 export const TimeElapsed = styled(atoms.p)`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
 `
 
 export const TimeDuration = styled(atoms.p)`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   font-weight: 700;
   color: ${({ theme }) => theme.palette.black};
 `
 
 export const TrackTitle = styled(atoms.p)`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   font-weight: 700;
   text-align: right;
   margin-left: ${({ theme }) => theme.spacing.xxs};
@@ -246,7 +248,7 @@ export const TrackTitle = styled(atoms.p)`
 
 export const TrackArtist = styled(atoms.p)`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   color: ${({ theme }) => theme.palette.black};
 
   display: none;
@@ -269,7 +271,8 @@ export const TrackContainer = styled(GridContainer)`
   right: 0;
   background: ${({ theme }) => theme.palette.light};
   min-height: 100px;
-  border-top: 1px solid ${({ theme }) => theme.palette.black};
+  border-top: 1px solid transparent;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.05);
   z-index: 1;
 `
 

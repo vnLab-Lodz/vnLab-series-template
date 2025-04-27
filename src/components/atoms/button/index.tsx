@@ -7,7 +7,7 @@ import { ExtendStyledProps } from "~types"
 const StyledButton = styled(motion.button)`
   ${({ theme: { typography, spacing } }) => css`
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     letter-spacing: 0.55px;
     font-weight: 600;
     text-transform: uppercase;

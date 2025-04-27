@@ -38,7 +38,7 @@ export const Globals = createGlobalStyle`
     border: 0;
     font: inherit;
     vertical-align: baseline;
-    font-size: ${({ theme }) => theme.typography.md};
+    font-size: calc(${({ theme }) => theme.typography.md} * 0.8);
     font-family: ${({ theme: { typography } }) => typography.fonts.primary};
   }
   /* HTML5 display-role reset for older browsers */

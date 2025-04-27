@@ -70,7 +70,7 @@ export const BlockQuoteText = styled(atoms.p).attrs({ as: "div" })`
 export const BlockQuoteAuthor = styled(atoms.h3)`
   margin-top: ${({ theme: { spacing } }) => spacing.xxs};
   font-family: ${({ theme }) => theme.typography.fonts.primary};
-  font-size: 13px;
+  font-size: calc(13px * 0.8);
   line-height: 15px;
   text-align: end;
   margin-bottom: 0px;
@@ -80,7 +80,7 @@ export const BlockQuoteAuthor = styled(atoms.h3)`
     grid-column: 2 / last-col;
     margin-top: ${({ theme: { spacing } }) => spacing.xs};
 
-    font-size: 15px;
+    font-size: calc(15px * 0.8);
     line-height: 18px;
   }
 `
