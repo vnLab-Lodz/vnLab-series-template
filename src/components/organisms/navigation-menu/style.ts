@@ -299,6 +299,7 @@ export const TabItems = styled.div<{ noFlex?: boolean }>`
     height: 100%;
     flex-direction: column;
     justify-content: start;
+    align-items: flex-start;
 
     @media ${devices.tablet} {
       flex-direction: row;
