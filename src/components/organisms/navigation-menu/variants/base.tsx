@@ -19,6 +19,7 @@ import {
   isStandalone,
 } from "~components/molecules/fullscreen-dialog"
 import { LangKey } from "~types/config"
+import { useTranslation } from "react-i18next"
 
 const NavigationMenu: React.FC<
   NavVariantProps<{
@@ -41,6 +42,7 @@ const NavigationMenu: React.FC<
   setNavState,
   renderProps,
 }) => {
+  const { t } = useTranslation()
   const { locale } = useLocalization()
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
