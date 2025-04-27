@@ -41,6 +41,7 @@ const NavigationMenu: React.FC<
   const { t } = useTranslation(["common", "nav-menu"])
   const { isVisible, navMode } = useNavMenuContext()
   const { themeMode } = useThemeSwitcherContext()
+  // @ts-ignore - it's an optional property on json schema
   const isThemeDefinedInConfig = config.theme ? true : false
   const {
     disableProgress = false,
