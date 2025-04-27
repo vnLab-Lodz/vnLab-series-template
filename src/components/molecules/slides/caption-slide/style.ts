@@ -81,6 +81,7 @@ export const Caption = styled(GridContainer).attrs({
     overscroll-behavior: contain;
 
     font-family: ${({ theme }) => theme.typography.fonts.primary};
+    font-size: calc(${typography.md} * 0.8);
     font-weight: 700;
 
     @media ${devices.desktop} {
@@ -94,7 +95,7 @@ export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     grid-column: 1 / -6;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     text-align: left;
     font-weight: 300;
   `}

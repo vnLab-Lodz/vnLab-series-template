@@ -105,7 +105,7 @@ export const ButtonText = styled.span`
   ${({ theme: { spacing, typography, palette } }) => css`
     margin-right: ${spacing.xxs};
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     letter-spacing: 0.55px;
     font-weight: bold;
     text-transform: uppercase;

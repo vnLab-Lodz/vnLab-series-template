@@ -30,7 +30,7 @@ export const Input = styled.input`
     font-weight: bold;
 
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     color: ${palette.black};
 
     &:focus-visible {

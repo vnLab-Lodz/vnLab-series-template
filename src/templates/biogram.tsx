@@ -60,14 +60,14 @@ const StyledH1 = styled(atoms.h1)`
     text-align: center;
     font-weight: bold;
 
-    font-size: 32px;
+    font-size: calc(32px * 0.8);
 
     @media ${devices.tablet} {
-      font-size: 45px;
+      font-size: calc(45px * 0.8);
     }
 
     @media ${devices.desktop} {
-      font-size: 80px;
+      font-size: calc(80px * 0.8);
     }
   `};
 `

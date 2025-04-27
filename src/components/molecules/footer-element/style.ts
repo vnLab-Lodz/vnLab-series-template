@@ -52,7 +52,7 @@ export const ArticleTitle = styled(LocalizedLink)`
 export const ArticleNumber = styled(atoms.p)`
   ${({ theme: { spacing, typography } }) => css`
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     font-weight: bold;
     margin-bottom: ${spacing.xxs};
   `}
@@ -63,14 +63,14 @@ export const ArticleAuthor = styled(atoms.h3)`
     margin: ${spacing.xs} 0px;
     text-align: left;
 
-    font-size: calc(${typography.sm} * 1.2);
+    font-size: calc(calc(${typography.sm} * 1.2) * 0.8);
 
     @media ${devices.tablet} {
-      font-size: calc(${typography.sm} * 1.4);
+      font-size: calc(calc(${typography.sm} * 1.4) * 0.8);
     }
 
     @media ${devices.desktop} {
-      font-size: calc(${typography.sm} * 1.1);
+      font-size: calc(calc(${typography.sm} * 1.1) * 0.8);
     }
   `}
 `
@@ -87,7 +87,7 @@ export const SummaryButton = styled.button`
     span {
       color: ${palette.black};
       font-family: ${typography.fonts.primary};
-      font-size: ${typography.sm};
+      font-size: calc(${typography.sm} * 0.8);
       font-weight: normal;
       text-transform: lowercase;
       line-height: 115%;

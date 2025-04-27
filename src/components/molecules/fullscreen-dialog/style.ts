@@ -40,6 +40,7 @@ export const DialogContent = styled(GridContainer).attrs({
     overscroll-behavior: contain;
 
     font-family: ${({ theme }) => theme.typography.fonts.primary};
+    font-size: calc(${typography.md} * 0.8);
     font-weight: 700;
 
     @media ${devices.desktop} {

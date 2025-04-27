@@ -39,7 +39,7 @@ export const LangButtonText = styled(atoms.p)`
     color: ${lightTheme.palette.white};
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     position: relative;
   `}
 `

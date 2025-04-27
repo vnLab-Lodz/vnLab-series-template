@@ -19,7 +19,7 @@ export const FoundItems = styled(atoms.p)`
   ${({ theme: { spacing, typography, palette } }) => css`
   margin-top: ${spacing.md};
   font-family: ${typography.fonts.primary};
-  font-size: ${typography.sm};
+  font-size: calc(${typography.sm} * 0.8);
   text-transform: uppercase;
   grid-column: 2 / last-col;
   

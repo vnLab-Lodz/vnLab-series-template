@@ -160,7 +160,7 @@ export const ProgressText = styled(motion.span)<{ $light?: boolean }>`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   color: ${({ theme, $light: light = false }) =>
     light ? theme.palette.white : theme.palette.black};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   transform: translateY(-100%);
 `
 
@@ -372,7 +372,7 @@ export const TabButtonText = styled(atoms.p)<{ active?: boolean }>`
     color: ${lightTheme.palette.white};
     text-transform: uppercase;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     letter-spacing: 0.55px;
     font-weight: bold;
 
@@ -531,6 +531,7 @@ export const IndexLetter = styled(atoms.p)`
   ${({ theme: { typography, spacing } }) => css`
     align-self: center;
     font-family: ${typography.fonts.primary};
+    font-size: calc(${typography.sm} * 0.8);
     font-weight: bold;
     grid-column: 2;
     align-self: start;
@@ -543,7 +544,7 @@ export const IndexLetter = styled(atoms.p)`
 
     span {
       display: block;
-      font-size: ${typography.sm};
+      font-size: calc(${typography.sm} * 0.8);
       line-height: 110%;
     }
 
@@ -558,7 +559,7 @@ export const Keyword = styled(atoms.p)`
 `
 
 export const Mentions = styled(atoms.p)`
-  font-size: calc(${({ theme }) => theme.typography.sm});
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   font-weight: normal;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: 500;
@@ -623,7 +624,7 @@ export const AnnotationsButton = styled.button`
   text-transform: uppercase;
   padding: ${({ theme }) => theme.spacing.md};
   grid-column: 1 / last-col;
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
@@ -638,7 +639,7 @@ export const NextTabButton = styled.button`
   padding: ${({ theme }) => theme.spacing.md};
   grid-column: 1 / last-col;
   margin-top: ${({ theme }) => theme.spacing.md};
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   letter-spacing: 0.55px;
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;

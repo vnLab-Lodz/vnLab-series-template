@@ -73,7 +73,7 @@ export const ArticleNumber = styled(atoms.p)`
     padding-top: 0.35rem;
     grid-row: 1;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     font-weight: bold;
     grid-column: 2;
 
@@ -88,14 +88,14 @@ export const ArticleAuthor = styled(atoms.h3)`
     margin: ${spacing.xs} 0px;
     text-align: left;
     font-weight: normal;
-    font-size: calc(${typography.sm} * 1.2);
+    font-size: calc(calc(${typography.sm} * 1.2) * 0.8);
 
     @media ${devices.tablet} {
-      font-size: calc(${typography.sm} * 1.4);
+      font-size: calc(calc(${typography.sm} * 1.4) * 0.8);
     }
 
     @media ${devices.desktop} {
-      font-size: calc(${typography.sm} * 1.1);
+      font-size: calc(calc(${typography.sm} * 1.1) * 0.8);
     }
   `}
 `
@@ -113,7 +113,7 @@ export const SummaryButton = styled.button`
     span {
       color: ${palette.black};
       font-family: ${typography.fonts.primary};
-      font-size: ${typography.sm};
+      font-size: calc(${typography.sm} * 0.8);
       letter-spacing: 0.55px;
       font-weight: normal;
       text-transform: lowercase;

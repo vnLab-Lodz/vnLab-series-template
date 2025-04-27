@@ -32,7 +32,7 @@ export const TextButton = styled(motion.div)`
 export const VerticalText = styled(motion.p)`
   ${({ theme: { spacing, typography } }) => css`
     font-weight: 500;
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     letter-spacing: 0.55px;
     font-family: ${typography.fonts.primary};
     padding: ${spacing.xxs};

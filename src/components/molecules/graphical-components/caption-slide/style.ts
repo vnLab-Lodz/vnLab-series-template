@@ -80,6 +80,7 @@ export const Caption = styled(GridContainer).attrs({
     overscroll-behavior: contain;
 
     font-family: ${({ theme }) => theme.typography.fonts.primary};
+    font-size: calc(${typography.md} * 0.8);
     font-weight: 700;
 
     @media ${devices.desktop} {
@@ -93,7 +94,7 @@ export const CaptionText = styled(atoms.p)`
   ${({ theme: { typography } }) => css`
     grid-column: 1 / -6;
     font-family: ${typography.fonts.primary};
-    font-size: ${typography.sm};
+    font-size: calc(${typography.sm} * 0.8);
     text-align: left;
     font-weight: 300;
   `}
@@ -102,7 +103,7 @@ export const CaptionText = styled(atoms.p)`
 export const CaptionHeader = styled(CaptionText)`
   grid-column: 3 / 30;
   grid-row: 1;
-  font-size: ${({ theme: { typography } }) => typography.md};
+  font-size: calc(${({ theme: { typography } }) => typography.md} * 0.8);
   font-family: ${({ theme }) => theme.typography.fonts.secondary};
   font-weight: 300;
 

@@ -225,7 +225,7 @@ const table = styled.table`
     ${({ theme: { typography, spacing } }) => css`
       margin-top: ${spacing.xs} !important;
       font-family: ${typography.fonts.primary};
-      font-size: ${typography.sm};
+      font-size: calc(${typography.sm} * 0.8);
       text-align: left;
       font-weight: 300;
     `}

@@ -20,7 +20,7 @@ export const TextContainer = styled(TextSlide)`
 
   & > h2 {
     font-family: ${({ theme }) => theme.typography.fonts.primary};
-    font-size: ${({ theme }) => theme.typography.md};
+    font-size: calc(${({ theme }) => theme.typography.md} * 0.8);
     font-weight: bold;
     margin-top: ${({ theme }) => theme.spacing.xxs} !important;
   }

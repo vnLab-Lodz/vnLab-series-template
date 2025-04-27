@@ -119,7 +119,7 @@ export const Title = styled.h1`
 export const Caption = styled.p`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: normal;
-  font-size: ${({ theme }) => theme.typography.sm};
+  font-size: calc(${({ theme }) => theme.typography.sm} * 0.8);
   color: ${lightTheme.palette.white};
   margin-bottom: ${({ theme }) => theme.spacing.xxs};
 `
@@ -127,7 +127,7 @@ export const Caption = styled.p`
 export const Author = styled.h2`
   font-family: ${({ theme }) => theme.typography.fonts.primary};
   font-weight: bold;
-  font-size: ${({ theme }) => theme.typography.md};
+  font-size: calc(${({ theme }) => theme.typography.md} * 0.8);
   color: ${lightTheme.palette.white};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
 `
