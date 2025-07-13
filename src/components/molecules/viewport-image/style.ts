@@ -35,6 +35,7 @@ export const Absolute = styled(GridContainer)<{ sticky: boolean }>`
 export const ImageWrapper = styled.div<{
   $withVerticalPadding?: boolean
   $verticalImage?: boolean
+  $isTextColumnBound?: boolean
 }>`
   justify-content: center;
   overflow: hidden;
@@ -58,8 +59,8 @@ export const ImageWrapper = styled.div<{
     grid-column: 3 / last-col;
   }
 
-  ${({ $verticalImage }) =>
-    $verticalImage &&
+  ${({ $verticalImage, $isTextColumnBound }) =>
+    ($verticalImage || $isTextColumnBound) &&
     css`
       justify-content: flex-start;
       grid-column: 2 / 32;
@@ -71,6 +72,12 @@ export const ImageWrapper = styled.div<{
       @media ${devices.laptop} {
         grid-column: 9 / 25;
       }
+    `}
+
+  ${({ $isTextColumnBound }) =>
+    $isTextColumnBound &&
+    css`
+      justify-content: center;
     `}
 `
 
