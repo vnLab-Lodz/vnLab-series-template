@@ -17,18 +17,17 @@ import ReactMarkdown from "react-markdown"
 import { mdxComponents } from "src/templates/chapter"
 import { MDXProvider } from "@mdx-js/react"
 import { GatsbyImage } from "gatsby-plugin-image"
-import { ThemeProvider, useTheme } from "styled-components"
+import { ThemeProvider } from "styled-components"
 import lightTheme from "~styles/theme"
 
 import XSVG from "../../../images/icons/x.svg"
-import ExpandArrow from "src/images/icons/arrow_expand.svg"
-import useThemeSwitcherContext from "src/hooks/useThemeSwitcherContext"
-import { THEME_MODES } from "src/context/theme-switcher-context"
 import Fullsize from "../fullsize"
 
 interface Props {
   image: IGatsbyImageData
   caption: string
+  alt?: string
+  isTextColumnBound?: boolean
 }
 
 interface PortalProps {
@@ -90,9 +89,11 @@ export const CaptionPortal: React.FC<PropsWithChildren<PortalProps>> = ({
 }
 
 const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
+  alt,
   image,
   children,
   caption,
+  isTextColumnBound = false,
 }) => {
   const captionRef = useRef<HTMLDivElement | null>(null)
   const ref = useRef<HTMLDivElement | null>(null)
@@ -102,8 +103,6 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
   const [open, setOpen] = useState<boolean | undefined>(undefined)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [sticky, setSticky] = useState(false)
-
-  const { themeMode } = useThemeSwitcherContext()
 
   const controls = useAnimation()
 
@@ -176,8 +175,6 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
 
   const img = getImage(image) as IGatsbyImageData
 
-  const filter = themeMode === THEME_MODES.DARK ? "invert(1)" : "none"
-
   return (
     <>
       <Styled.ViewportConstraint
@@ -189,6 +186,7 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
           <Styled.ImageWrapper
             $withVerticalPadding={!caption}
             $verticalImage={img.height > img.width}
+            $isTextColumnBound={isTextColumnBound}
           >
             <Styled.ImageCaptionTarget
               style={{ aspectRatio: img.width / img.height }}
@@ -200,7 +198,7 @@ const ViewportImage: React.FC<PropsWithChildren<Props>> = ({
                 }}
                 objectFit="contain"
                 image={img}
-                alt={caption ?? "Viewport image without a caption"}
+                alt={alt ?? caption ?? "Viewport image without a caption"}
               />
               <Styled.Expand onClick={() => setIsFullscreen(true)}>
                 <span>
